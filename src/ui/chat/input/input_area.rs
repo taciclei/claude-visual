@@ -51,7 +51,7 @@ impl ChatInput {
                 div()
                     .text_sm()
                     .text_color(theme.colors.text_muted)
-                    .child("Claude is responding...")
+                    .child("Waiting for response...")
             } else if text_is_empty {
                 // Show placeholder with cursor when focused
                 if is_focused {
@@ -76,37 +76,17 @@ impl ChatInput {
 
     /// Render placeholder text
     fn render_placeholder(&self, theme: &Theme) -> Div {
-        let has_commands = !self.available_commands.is_empty();
-        let has_history = !self.input_history.is_empty();
-
+        // Keep placeholder simple - hints are shown in footer
         div()
             .text_sm()
             .text_color(theme.colors.text_muted)
-            .child(if has_commands && has_history {
-                "Ask anything... (/ commands, @file, ↑ history)"
-            } else if has_commands {
-                "Ask anything... (/ commands, @file to attach)"
-            } else if has_history {
-                "Ask anything... (@file, ↑ history)"
-            } else {
-                "Ask anything... (@file:path to attach files)"
-            })
+            .child("Ask anything...")
     }
 
     /// Render placeholder with blinking cursor when focused
     fn render_placeholder_with_cursor(&self, theme: &Theme) -> Div {
-        let has_commands = !self.available_commands.is_empty();
-        let has_history = !self.input_history.is_empty();
-
-        let placeholder = if has_commands && has_history {
-            "Ask anything... (/ commands, @file, ↑ history)"
-        } else if has_commands {
-            "Ask anything... (/ commands, @file to attach)"
-        } else if has_history {
-            "Ask anything... (@file, ↑ history)"
-        } else {
-            "Ask anything... (@file:path to attach files)"
-        };
+        // Keep placeholder simple - hints are shown in footer
+        let placeholder = "Ask anything...";
 
         div()
             .flex()

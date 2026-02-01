@@ -147,7 +147,7 @@ impl ChatView {
                                     .child(if palette_query.is_empty() {
                                         div()
                                             .text_color(theme.colors.text_muted)
-                                            .child("Type a command...")
+                                            .child("Search skills, commands, or actions...")
                                     } else {
                                         div().child(palette_query)
                                     }),

@@ -16,7 +16,7 @@ impl ChatView {
         let current_index = self.current_result_index();
         let query = self.search.query.clone();
         let query_display = if query.is_empty() {
-            "(type to search)".to_string()
+            "Search messages...".to_string()
         } else {
             query.clone()
         };
@@ -185,7 +185,7 @@ impl ChatView {
                                 theme.colors.text_muted
                             })
                             .child(if result_count == 0 && !query.is_empty() {
-                                "No results".to_string()
+                                "No matches found".to_string()
                             } else if result_count > 0 {
                                 format!("{}/{}", current_index, result_count)
                             } else {
