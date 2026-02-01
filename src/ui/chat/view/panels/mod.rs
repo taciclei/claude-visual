@@ -23,7 +23,6 @@
 //! - **tasks** - Active tasks panel
 //! - **file_picker** - File picker panel
 //! - **session_details** - Session details panel
-
 pub mod commands;
 pub mod context;
 pub mod error_bar;

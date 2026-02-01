@@ -132,6 +132,13 @@ impl ChatView {
         let view = self.create_message_view(message.clone(), cx);
         self.message_views.push(view);
         self.messages.push(message);
+
+        // Auto-scroll to show new message if enabled
+        if self.auto_scroll {
+            self.show_scroll_to_bottom = false;
+            self.unread_count = 0;
+        }
+
         cx.notify();
     }
 

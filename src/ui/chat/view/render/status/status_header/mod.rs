@@ -139,7 +139,26 @@ impl ChatView {
                     .when(self.stats.cost > 0.0, |d| {
                         let cost = self.stats.cost;
                         d.child(self.render_cost_indicator(cost, theme, cx))
-                    }),
+                    })
+                    // Help button (keyboard shortcuts)
+                    .child(
+                        div()
+                            .id("help-button")
+                            .px_2()
+                            .py_1()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted)
+                            .hover(|s| {
+                                s.bg(theme.colors.surface_hover)
+                                    .text_color(theme.colors.text)
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_shortcuts_help(cx);
+                            }))
+                            .child("?"),
+                    ),
             )
     }
 
