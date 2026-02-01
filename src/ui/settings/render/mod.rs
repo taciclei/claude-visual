@@ -1,14 +1,14 @@
 //! Settings modal rendering
 
-mod header;
-mod sidebar;
 mod content;
 mod footer;
+mod header;
+mod sidebar;
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::core::SettingsModal;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for SettingsModal {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -54,8 +54,7 @@ impl Render for SettingsModal {
                     .flex()
                     .flex_col()
                     // Prevent clicks from closing modal
-                    .on_mouse_down(MouseButton::Left, |_, _window, _cx| {
-                    })
+                    .on_mouse_down(MouseButton::Left, |_, _window, _cx| {})
                     // Header
                     .child(self.render_header(&theme, cx))
                     // Content area
@@ -75,15 +74,11 @@ impl Render for SettingsModal {
             )
             // Reset confirmation dialog
             .when(self.show_reset_confirmation, |this| {
-                this.child(
-                    self.render_reset_confirmation_dialog(&theme, cx)
-                )
+                this.child(self.render_reset_confirmation_dialog(&theme, cx))
             })
             // Import/Export dialog
             .when(self.show_import_export, |this| {
-                this.child(
-                    self.render_import_export_dialog(&theme, cx)
-                )
+                this.child(self.render_import_export_dialog(&theme, cx))
             })
     }
 }

@@ -1,8 +1,8 @@
 //! Highlighted text span component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Highlighted text span
 #[derive(Clone)]
@@ -62,21 +62,14 @@ impl RenderOnce for Highlight {
         let bg = self.color.background();
         let border_color = self.color.border();
 
-        let mut el = div()
-            .text_color(text_color)
-            .child(self.text);
+        let mut el = div().text_color(text_color).child(self.text);
 
         match self.style {
             TextHighlightStyle::Background => {
-                el = el
-                    .px_1()
-                    .rounded(px(2.0))
-                    .bg(bg);
+                el = el.px_1().rounded(px(2.0)).bg(bg);
             }
             TextHighlightStyle::Underline => {
-                el = el
-                    .border_b_2()
-                    .border_color(border_color);
+                el = el.border_b_2().border_color(border_color);
             }
             TextHighlightStyle::Border => {
                 el = el
@@ -86,11 +79,7 @@ impl RenderOnce for Highlight {
                     .rounded(px(2.0));
             }
             TextHighlightStyle::Glow => {
-                el = el
-                    .px_1()
-                    .rounded(px(2.0))
-                    .bg(bg)
-                    .shadow_sm();
+                el = el.px_1().rounded(px(2.0)).bg(bg).shadow_sm();
             }
         }
 

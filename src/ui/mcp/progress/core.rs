@@ -5,8 +5,8 @@ use std::sync::Arc;
 
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::{ActiveExecution, ExecutionPhase};
+use crate::app::state::AppState;
 
 /// Panel for displaying active tool executions
 pub struct ToolProgressPanel {
@@ -112,7 +112,10 @@ impl ToolProgressPanel {
 
     /// Get count of active executions
     pub fn active_count(&self) -> usize {
-        self.executions.values().filter(|e| e.phase.is_active()).count()
+        self.executions
+            .values()
+            .filter(|e| e.phase.is_active())
+            .count()
     }
 
     /// Check if there are any executions to show

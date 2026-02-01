@@ -1,7 +1,7 @@
 //! MetricTrend component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Metric with trend
 #[derive(Clone)]
@@ -43,12 +43,7 @@ impl RenderOnce for MetricTrend {
             .flex_col()
             .gap_1()
             .when_some(self.label, |d, label| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(text_muted)
-                        .child(label)
-                )
+                d.child(div().text_xs().text_color(text_muted).child(label))
             })
             .child(
                 div()
@@ -60,7 +55,7 @@ impl RenderOnce for MetricTrend {
                             .text_2xl()
                             .font_weight(FontWeight::BOLD)
                             .text_color(text)
-                            .child(self.value)
+                            .child(self.value),
                     )
                     .child(
                         div()
@@ -70,8 +65,8 @@ impl RenderOnce for MetricTrend {
                             .text_sm()
                             .text_color(trend_color)
                             .child(trend_icon)
-                            .child(self.change)
-                    )
+                            .child(self.change),
+                    ),
             )
     }
 }

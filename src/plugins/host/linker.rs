@@ -33,7 +33,9 @@ pub(super) fn create_linker(engine: &Engine) -> Result<Linker<HostState>> {
                         _ => NotificationLevel::Error,
                     };
 
-                    api.read().ui.show_notification(&ext_id, &title, None, level);
+                    api.read()
+                        .ui
+                        .show_notification(&ext_id, &title, None, level);
                     return 0i32;
                 }
             }
@@ -108,8 +110,11 @@ pub(super) fn create_linker(engine: &Engine) -> Result<Linker<HostState>> {
         "claude_visual",
         "settings_set",
         |mut caller: Caller<'_, HostState>,
-         key_ptr: i32, key_len: i32,
-         value_ptr: i32, value_len: i32| -> i32 {
+         key_ptr: i32,
+         key_len: i32,
+         value_ptr: i32,
+         value_len: i32|
+         -> i32 {
             let memory = caller.get_export("memory").and_then(|e| e.into_memory());
             if let Some(memory) = memory {
                 let data = memory.data(&caller);

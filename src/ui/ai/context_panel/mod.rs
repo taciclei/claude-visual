@@ -2,13 +2,13 @@
 //!
 //! UI component for managing attached context items (files, snippets, etc.).
 
-mod types;
 mod core;
-mod render;
 mod item_render;
+mod render;
+mod types;
 
-pub use types::ContextPanelEvent;
 pub use core::ContextPanel;
+pub use types::ContextPanelEvent;
 
 #[cfg(test)]
 mod tests {

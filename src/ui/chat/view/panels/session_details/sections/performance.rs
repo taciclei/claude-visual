@@ -1,7 +1,7 @@
 //! Performance section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -20,7 +20,7 @@ impl ChatView {
                     .text_xs()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text_muted)
-                    .child("PERFORMANCE")
+                    .child("PERFORMANCE"),
             )
             .child(
                 div()
@@ -31,11 +31,23 @@ impl ChatView {
                     .flex()
                     .flex_col()
                     .gap_1()
-                    .child(self.render_detail_row("Last Speed", &self.format_streaming_speed(), &theme))
-                    .child(self.render_detail_row("Peak Speed", &format!("{:.1} tok/s", self.streaming.peak_speed), &theme))
+                    .child(self.render_detail_row(
+                        "Last Speed",
+                        &self.format_streaming_speed(),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Peak Speed",
+                        &format!("{:.1} tok/s", self.streaming.peak_speed),
+                        &theme,
+                    ))
                     .when_some(self.streaming.last_response_time_ms, |d, ms| {
-                        d.child(self.render_detail_row("Last Response", &format!("{} ms", ms), &theme))
-                    })
+                        d.child(self.render_detail_row(
+                            "Last Response",
+                            &format!("{} ms", ms),
+                            &theme,
+                        ))
+                    }),
             )
     }
 }

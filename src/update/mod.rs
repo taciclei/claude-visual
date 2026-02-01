@@ -6,4 +6,4 @@ mod checker;
 mod installer;
 
 pub use checker::{UpdateChecker, UpdateInfo, UpdateStatus};
-pub use installer::{UpdateInstaller, InstallProgress};
+pub use installer::{InstallProgress, UpdateInstaller};

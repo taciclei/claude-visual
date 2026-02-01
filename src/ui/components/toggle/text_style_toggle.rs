@@ -1,8 +1,8 @@
 //! Text style toggle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Bold/Italic/Underline style toggle
 #[derive(IntoElement)]
@@ -82,7 +82,7 @@ impl RenderOnce for TextStyleToggle {
                     gpui::FontWeight::MEDIUM
                 })
                 .text_color(color)
-                .child(icon)
+                .child(icon),
         )
     }
 }

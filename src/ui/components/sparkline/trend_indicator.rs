@@ -1,8 +1,8 @@
 //! Trend indicator component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Trend indicator component
 #[derive(IntoElement)]
@@ -66,15 +66,9 @@ impl RenderOnce for TrendIndicator {
             .text_size(px(font_size))
             .text_color(color)
             .when(self.show_icon, |el| el.child(icon))
-            .when_some(self.value, |el, val| {
-                el.child(format!("{:.1}%", val.abs()))
-            })
+            .when_some(self.value, |el, val| el.child(format!("{:.1}%", val.abs())))
             .when_some(self.label, |el, label| {
-                el.child(
-                    div()
-                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child(label)
-                )
+                el.child(div().text_color(hsla(0.0, 0.0, 0.5, 1.0)).child(label))
             })
     }
 }

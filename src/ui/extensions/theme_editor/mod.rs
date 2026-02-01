@@ -2,14 +2,14 @@
 //!
 //! Provides a visual editor for creating, editing, and exporting themes.
 
-mod types;
-mod core;
 mod color_methods;
-mod export;
 mod components;
-mod tabs;
-mod render;
+mod core;
+mod export;
 mod helpers;
+mod render;
+mod tabs;
+mod types;
 
-pub use types::ThemeEditorEvent;
 pub use core::ThemeEditor;
+pub use types::ThemeEditorEvent;

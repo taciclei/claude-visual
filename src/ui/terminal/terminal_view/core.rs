@@ -1,8 +1,8 @@
 //! Core terminal view implementation
 
-use gpui::*;
-use crate::terminal::{AnsiEvent, AnsiParser, Pty, PtyConfig, PtyEvent};
 use super::types::*;
+use crate::terminal::{AnsiEvent, AnsiParser, Pty, PtyConfig, PtyEvent};
+use gpui::*;
 
 /// Terminal view state
 pub struct TerminalView {
@@ -76,11 +76,12 @@ impl TerminalView {
             let mut pty_instance = pty;
             match pty_instance.start().await {
                 Ok(mut rx) => {
-                    let _ = this.update(cx, |this, cx| {
-                        this.is_running = true;
-                        cx.notify();
-                    })
-                    .ok();
+                    let _ = this
+                        .update(cx, |this, cx| {
+                            this.is_running = true;
+                            cx.notify();
+                        })
+                        .ok();
 
                     // Process events
                     while let Some(event) = rx.recv().await {

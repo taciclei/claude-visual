@@ -98,10 +98,7 @@ pub(crate) fn severity_icon(severity: Option<DiagnosticSeverity>) -> &'static st
 }
 
 /// Get severity color
-pub(crate) fn severity_color(
-    severity: Option<DiagnosticSeverity>,
-    colors: &SimpleColors,
-) -> Hsla {
+pub(crate) fn severity_color(severity: Option<DiagnosticSeverity>, colors: &SimpleColors) -> Hsla {
     match severity {
         Some(DiagnosticSeverity::Error) => colors.error,
         Some(DiagnosticSeverity::Warning) => colors.warning,

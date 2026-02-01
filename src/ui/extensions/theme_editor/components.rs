@@ -1,11 +1,11 @@
 //! Reusable rendering components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::{Theme, ThemeVariant};
-use crate::ui::extensions::theme_editor::ThemeEditor;
 use crate::ui::extensions::theme_editor::types::EditingColor;
+use crate::ui::extensions::theme_editor::ThemeEditor;
 
 impl ThemeEditor {
     /// Render a variant button
@@ -34,7 +34,11 @@ impl ThemeEditor {
                     .hover(|s| s.bg(theme.colors.surface_hover))
             })
             .text_sm()
-            .font_weight(if is_selected { FontWeight::SEMIBOLD } else { FontWeight::NORMAL })
+            .font_weight(if is_selected {
+                FontWeight::SEMIBOLD
+            } else {
+                FontWeight::NORMAL
+            })
             .child(label)
             .on_click(cx.listener(move |this, _, _window, cx| {
                 this.set_variant(variant, cx);
@@ -62,13 +66,11 @@ impl ThemeEditor {
                     .child(title),
             )
             .child(
-                div()
-                    .flex()
-                    .flex_wrap()
-                    .gap_2()
-                    .children(colors.iter().map(|&color| {
-                        self.render_color_swatch(color, theme, cx)
-                    })),
+                div().flex().flex_wrap().gap_2().children(
+                    colors
+                        .iter()
+                        .map(|&color| self.render_color_swatch(color, theme, cx)),
+                ),
             )
     }
 
@@ -118,7 +120,12 @@ impl ThemeEditor {
     }
 
     /// Render color picker (shown when a color is selected)
-    pub(crate) fn render_color_picker(&self, color: EditingColor, theme: &Theme, _cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_color_picker(
+        &self,
+        color: EditingColor,
+        theme: &Theme,
+        _cx: &Context<Self>,
+    ) -> impl IntoElement {
         let value = self.get_color_value(color);
         let hex = self.get_color_hex(color);
 

@@ -1,7 +1,7 @@
 //! Pull to refresh component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Pull to refresh indicator
 #[derive(IntoElement)]

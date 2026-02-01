@@ -57,8 +57,7 @@ mod tests {
 
     #[test]
     fn test_file_change_badge() {
-        let badge = FileChangeBadge::new("fcb-1", "src/lib.rs")
-            .change_type(FileChangeType::Added);
+        let badge = FileChangeBadge::new("fcb-1", "src/lib.rs").change_type(FileChangeType::Added);
         assert_eq!(badge.change_type, FileChangeType::Added);
     }
 

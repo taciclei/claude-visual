@@ -1,7 +1,7 @@
 //! Tag management functionality for ChatView
 
-use gpui::*;
 use super::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Toggle tags editor
@@ -40,7 +40,9 @@ impl ChatView {
         let mut suggestions = Vec::new();
 
         // Analyze messages to suggest tags
-        let content: String = self.messages.iter()
+        let content: String = self
+            .messages
+            .iter()
             .map(|m| m.content.to_lowercase())
             .collect::<Vec<_>>()
             .join(" ");
@@ -51,7 +53,8 @@ impl ChatView {
         if content.contains("feature") || content.contains("implement") || content.contains("add") {
             suggestions.push("feature");
         }
-        if content.contains("refactor") || content.contains("clean") || content.contains("improve") {
+        if content.contains("refactor") || content.contains("clean") || content.contains("improve")
+        {
             suggestions.push("refactor");
         }
         if content.contains("test") || content.contains("spec") {
@@ -60,7 +63,8 @@ impl ChatView {
         if content.contains("doc") || content.contains("readme") || content.contains("comment") {
             suggestions.push("documentation");
         }
-        if content.contains("review") || content.contains("pr") || content.contains("pull request") {
+        if content.contains("review") || content.contains("pr") || content.contains("pull request")
+        {
             suggestions.push("code-review");
         }
         if content.contains("deploy") || content.contains("ci") || content.contains("cd") {
@@ -69,10 +73,16 @@ impl ChatView {
         if content.contains("debug") || content.contains("investigate") {
             suggestions.push("debugging");
         }
-        if content.contains("design") || content.contains("architect") || content.contains("pattern") {
+        if content.contains("design")
+            || content.contains("architect")
+            || content.contains("pattern")
+        {
             suggestions.push("architecture");
         }
-        if content.contains("learn") || content.contains("explain") || content.contains("understand") {
+        if content.contains("learn")
+            || content.contains("explain")
+            || content.contains("understand")
+        {
             suggestions.push("learning");
         }
 

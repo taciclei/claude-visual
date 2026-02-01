@@ -1,7 +1,7 @@
 //! Fieldset - group of related fields with border
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct Fieldset {
@@ -66,7 +66,7 @@ impl RenderOnce for Fieldset {
                         .text_size(px(14.0))
                         .font_weight(gpui::FontWeight::MEDIUM)
                         .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                        .child(self.legend.unwrap_or_default())
+                        .child(self.legend.unwrap_or_default()),
                 )
             })
             .children(self.children)

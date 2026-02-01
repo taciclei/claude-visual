@@ -67,7 +67,7 @@ impl Summarizer {
              3. Current state and any pending tasks\n\
              4. Context needed for continuing the conversation\n\n\
              Keep the summary concise but comprehensive.\n\n\
-             Conversation to summarize:\n\n"
+             Conversation to summarize:\n\n",
         );
 
         for msg in to_summarize {

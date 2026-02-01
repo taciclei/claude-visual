@@ -3,9 +3,7 @@
 use super::super::types::*;
 
 /// Register general built-in commands (help, clear, export, theme, project, model)
-pub(crate) fn register_general_commands(
-    register: impl Fn(SlashCommand, CommandHandler),
-) {
+pub(crate) fn register_general_commands(register: impl Fn(SlashCommand, CommandHandler)) {
     // /help - Show available commands
     register(
         SlashCommand {
@@ -52,14 +50,14 @@ pub(crate) fn register_general_commands(
         SlashCommand {
             name: "clear".to_string(),
             description: "Clear current conversation".to_string(),
-            help: Some("Usage: /clear\n\nClears all messages from the current conversation.".to_string()),
+            help: Some(
+                "Usage: /clear\n\nClears all messages from the current conversation.".to_string(),
+            ),
             extension_id: None,
             is_builtin: true,
             args: vec![],
         },
-        Box::new(|_args, _ctx| {
-            CommandResult::Silent
-        }),
+        Box::new(|_args, _ctx| CommandResult::Silent),
     );
 
     // /export - Export conversation
@@ -112,7 +110,10 @@ pub(crate) fn register_general_commands(
         SlashCommand {
             name: "project".to_string(),
             description: "Switch to a different project".to_string(),
-            help: Some("Usage: /project [path]\n\nSwitch the working directory to a different project.".to_string()),
+            help: Some(
+                "Usage: /project [path]\n\nSwitch the working directory to a different project."
+                    .to_string(),
+            ),
             extension_id: None,
             is_builtin: true,
             args: vec![CommandArg {

@@ -1,7 +1,7 @@
 //! Simple accordion for stateless rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::SimpleAccordionItem;
 
@@ -70,27 +70,16 @@ impl RenderOnce for SimpleAccordion {
                             .bg(surface)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .when_some(item.icon, |d, icon| {
-                                d.child(
-                                    div()
-                                        .text_sm()
-                                        .child(icon)
-                                )
-                            })
+                            .when_some(item.icon, |d, icon| d.child(div().text_sm().child(icon)))
                             .child(
                                 div()
                                     .flex_1()
                                     .text_sm()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(text)
-                                    .child(item.title)
+                                    .child(item.title),
                             )
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child(chevron)
-                            )
+                            .child(div().text_xs().text_color(text_muted).child(chevron)),
                     )
                     // Content
                     .when(is_open, |d| {
@@ -102,7 +91,7 @@ impl RenderOnce for SimpleAccordion {
                                 .border_color(border)
                                 .text_sm()
                                 .text_color(text_muted)
-                                .child(item.content)
+                                .child(item.content),
                         )
                     })
             }))

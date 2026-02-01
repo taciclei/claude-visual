@@ -1,8 +1,8 @@
 //! Input and event handlers
 
-use gpui::*;
 use super::core::TerminalView;
 use super::types::*;
+use gpui::*;
 
 impl TerminalView {
     /// Send input to terminal

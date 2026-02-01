@@ -1,15 +1,19 @@
 //! Context Panel Item Rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ai::context::ContextItem;
 
 use super::core::ContextPanel;
-use super::types::{SimpleColors, ContextPanelEvent};
+use super::types::{ContextPanelEvent, SimpleColors};
 
 impl ContextPanel {
-    pub(crate) fn render_content(&self, theme: &SimpleColors, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_content(
+        &self,
+        theme: &SimpleColors,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let items = self.context.items();
 
         div()
@@ -83,41 +87,17 @@ impl ContextPanel {
                     }),
             )
             .when(items.is_empty(), |el| {
-                el.child(
-                    // Empty state
-                    div()
-                        .flex()
-                        .flex_col()
-                        .items_center()
-                        .justify_center()
-                        .py_8()
-                        .gap_2()
-                        .child(
-                            div()
-                                .text_2xl()
-                                .text_color(theme.text_muted)
-                                .child("📎"),
-                        )
-                        .child(
-                            div()
-                                .text_sm()
-                                .text_color(theme.text_muted)
-                                .child("No context attached"),
-                        )
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(theme.text_muted)
-                                .child("Use @file or drag files to add context"),
-                        ),
-                )
+                el.child(self.render_empty_state(theme, cx))
             })
-            .children(items.iter().map(|item| {
-                self.render_item(item, &theme, cx)
-            }))
+            .children(items.iter().map(|item| self.render_item(item, &theme, cx)))
     }
 
-    pub(crate) fn render_item(&self, item: &ContextItem, theme: &SimpleColors, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_item(
+        &self,
+        item: &ContextItem,
+        theme: &SimpleColors,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let item_id = item.id.clone();
         let item_id_for_pin = item.id.clone();
         let item_id_for_remove = item.id.clone();
@@ -150,9 +130,7 @@ impl ContextPanel {
             }))
             .child(
                 // Type icon
-                div()
-                    .text_sm()
-                    .child(Self::icon_for_type(&item.item_type)),
+                div().text_sm().child(Self::icon_for_type(&item.item_type)),
             )
             .child(
                 div()
@@ -173,12 +151,7 @@ impl ContextPanel {
                                     .child(item.name.clone()),
                             )
                             .when(is_pinned, |el| {
-                                el.child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.warning)
-                                        .child("📌"),
-                                )
+                                el.child(div().text_xs().text_color(theme.warning).child("📌"))
                             }),
                     )
                     .child(
@@ -221,6 +194,105 @@ impl ContextPanel {
                         this.remove_item(&item_id_for_remove, cx);
                     }))
                     .child("✕"),
+            )
+    }
+
+    /// Render empty state with skill suggestions
+    fn render_empty_state(
+        &self,
+        theme: &SimpleColors,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
+        div()
+            .flex()
+            .flex_col()
+            .items_center()
+            .justify_center()
+            .py_6()
+            .gap_3()
+            .child(div().text_2xl().text_color(theme.text_muted).child("📎"))
+            .child(
+                div()
+                    .text_sm()
+                    .text_color(theme.text_muted)
+                    .child("No context attached"),
+            )
+            .child(
+                div()
+                    .text_xs()
+                    .text_color(theme.text_muted)
+                    .text_center()
+                    .child("Use @file or drag files to add context"),
+            )
+            // Quick skill suggestions
+            .child(
+                div()
+                    .pt_2()
+                    .flex()
+                    .flex_col()
+                    .items_center()
+                    .gap_2()
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.text_muted)
+                            .child("Or start with:"),
+                    )
+                    .child(
+                        div()
+                            .flex()
+                            .flex_wrap()
+                            .justify_center()
+                            .gap_2()
+                            // Explore codebase - auto-adds context
+                            .child(
+                                div()
+                                    .id("context-empty-explore")
+                                    .px_2()
+                                    .py_1()
+                                    .rounded_md()
+                                    .cursor_pointer()
+                                    .bg(theme.accent.opacity(0.15))
+                                    .border_1()
+                                    .border_color(theme.accent.opacity(0.3))
+                                    .text_xs()
+                                    .text_color(theme.accent)
+                                    .hover(|s| {
+                                        s.bg(theme.accent.opacity(0.25))
+                                            .border_color(theme.accent.opacity(0.5))
+                                    })
+                                    .on_click(cx.listener(|_this, _, _window, cx| {
+                                        cx.emit(ContextPanelEvent::SendSkillCommand(
+                                            "/explore".to_string(),
+                                        ));
+                                    }))
+                                    .child("🔍 Explore"),
+                            )
+                            // Add @codebase
+                            .child(
+                                div()
+                                    .id("context-empty-codebase")
+                                    .px_2()
+                                    .py_1()
+                                    .rounded_md()
+                                    .cursor_pointer()
+                                    .bg(theme.success.opacity(0.15))
+                                    .border_1()
+                                    .border_color(theme.success.opacity(0.3))
+                                    .text_xs()
+                                    .text_color(theme.success)
+                                    .hover(|s| {
+                                        s.bg(theme.success.opacity(0.25))
+                                            .border_color(theme.success.opacity(0.5))
+                                    })
+                                    .on_click(cx.listener(|_this, _, _window, cx| {
+                                        cx.emit(ContextPanelEvent::SendSkillCommand(
+                                            "@codebase".to_string(),
+                                        ));
+                                    }))
+                                    .child("📚 @codebase"),
+                            ),
+                    ),
             )
     }
 }

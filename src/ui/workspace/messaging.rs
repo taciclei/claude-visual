@@ -1,10 +1,10 @@
 //! Claude messaging functionality
 
-use gpui::*;
-use tokio::sync::mpsc;
+use super::core::Workspace;
 use crate::claude::client::PromptOptions;
 use crate::claude::message::{ClaudeEvent, ClaudeMessage};
-use super::core::Workspace;
+use gpui::*;
+use tokio::sync::mpsc;
 
 impl Workspace {
     /// Cancel the current streaming request
@@ -17,15 +17,22 @@ impl Workspace {
         // Reset chat view streaming state
         if let Some(chat_view) = self.chat_views.get(self.active_chat_index) {
             chat_view.update(cx, |chat, cx| {
-                chat.handle_claude_event(ClaudeEvent::Error {
-                    message: "Response cancelled by user".to_string(),
-                }, cx);
+                chat.handle_claude_event(
+                    ClaudeEvent::Error {
+                        message: "Response cancelled by user".to_string(),
+                    },
+                    cx,
+                );
             });
         }
     }
 
     /// Send a message to Claude
-    pub(in crate::ui::workspace) fn send_message(&mut self, message: String, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn send_message(
+        &mut self,
+        message: String,
+        cx: &mut Context<Self>,
+    ) {
         tracing::info!("Workspace::send_message called with: '{}'", message);
         let cwd = self.app_state.current_directory();
         tracing::info!("Using cwd: {:?}", cwd);
@@ -40,7 +47,9 @@ impl Workspace {
         self.cancel_sender = Some(cancel_tx);
 
         // Get prompt options from chat view (think mode, model, session ID)
-        let prompt_options = self.chat_views.get(self.active_chat_index)
+        let prompt_options = self
+            .chat_views
+            .get(self.active_chat_index)
             .map(|view| {
                 let chat = view.read(cx);
                 PromptOptions {
@@ -90,7 +99,10 @@ impl Workspace {
         let client = self.claude_client.clone();
         let active_index = self.active_chat_index;
         cx.spawn(async move |this, cx| {
-            match client.send_prompt_with_options(&message, cwd.as_deref(), prompt_options).await {
+            match client
+                .send_prompt_with_options(&message, cwd.as_deref(), prompt_options)
+                .await
+            {
                 Ok(mut stream) => {
                     use futures::StreamExt;
                     // Use futures::select instead of tokio::select for GPUI compatibility
@@ -109,9 +121,13 @@ impl Workspace {
                         match stream.next().await {
                             Some(event) => {
                                 tracing::info!("Workspace received Claude event: {:?}", event);
-                                let should_break = matches!(event, ClaudeEvent::AssistantEnd | ClaudeEvent::Error { .. });
+                                let should_break = matches!(
+                                    event,
+                                    ClaudeEvent::AssistantEnd | ClaudeEvent::Error { .. }
+                                );
                                 let _ = this.update(cx, |workspace, cx| {
-                                    if let Some(chat_view) = workspace.chat_views.get(active_index) {
+                                    if let Some(chat_view) = workspace.chat_views.get(active_index)
+                                    {
                                         chat_view.update(cx, |chat, cx| {
                                             chat.handle_claude_event(event, cx);
                                         });
@@ -136,10 +152,7 @@ impl Workspace {
                         workspace.cancel_sender = None;
                         if let Some(chat_view) = workspace.chat_views.get(active_index) {
                             chat_view.update(cx, |chat, cx| {
-                                chat.add_message(
-                                    ClaudeMessage::error(format!("Error: {}", e)),
-                                    cx,
-                                );
+                                chat.add_message(ClaudeMessage::error(format!("Error: {}", e)), cx);
                             });
                         }
                         // Update status bar (streaming ended with error)

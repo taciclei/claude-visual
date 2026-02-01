@@ -1,12 +1,12 @@
 //! Split view layout management
 
-mod types;
 mod node;
-mod view;
 mod render;
+mod types;
+mod view;
 
-pub use types::{SplitDirection, SplitViewEvent};
 pub use node::SplitNode;
+pub use types::{SplitDirection, SplitViewEvent};
 pub use view::SplitView;
 
 #[cfg(test)]

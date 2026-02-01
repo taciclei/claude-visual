@@ -1,6 +1,6 @@
-use gpui::*;
+use super::types::{HeatMapCell, HeatMapScale};
 use gpui::prelude::*;
-use super::types::{HeatMapScale, HeatMapCell};
+use gpui::*;
 
 /// GitHub-style contribution heat map
 #[derive(IntoElement)]
@@ -121,7 +121,10 @@ impl HeatMap {
 
     fn get_color(&self, level: usize) -> gpui::Hsla {
         if let Some(ref colors) = self.custom_colors {
-            return colors.get(level.min(colors.len() - 1)).copied().unwrap_or(colors[0]);
+            return colors
+                .get(level.min(colors.len() - 1))
+                .copied()
+                .unwrap_or(colors[0]);
         }
         self.scale.color_for_level(level)
     }
@@ -141,11 +144,8 @@ impl RenderOnce for HeatMap {
             .bg(self.background)
             .child(
                 // Grid container
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap(px(self.cell_gap))
-                    .children(self.data.iter().enumerate().map(|(row_idx, row)| {
+                div().flex().flex_col().gap(px(self.cell_gap)).children(
+                    self.data.iter().enumerate().map(|(row_idx, row)| {
                         div()
                             .flex()
                             .gap(px(self.cell_gap))
@@ -168,7 +168,8 @@ impl RenderOnce for HeatMap {
                                     .bg(color)
                                     .cursor_pointer()
                             }))
-                    })),
+                    }),
+                ),
             )
             .when(self.show_legend, |d| {
                 d.child(
@@ -177,24 +178,14 @@ impl RenderOnce for HeatMap {
                         .items_center()
                         .gap_1()
                         .mt_2()
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(rgba(0x888888ff))
-                                .child("Less"),
-                        )
+                        .child(div().text_xs().text_color(rgba(0x888888ff)).child("Less"))
                         .children((0..self.levels).map(|level| {
                             div()
                                 .size(px(self.cell_size))
                                 .rounded(px(2.0))
                                 .bg(self.get_color(level))
                         }))
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(rgba(0x888888ff))
-                                .child("More"),
-                        ),
+                        .child(div().text_xs().text_color(rgba(0x888888ff)).child("More")),
                 )
             })
     }

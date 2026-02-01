@@ -63,7 +63,11 @@ impl AgentTask {
     }
 
     /// Create a subtask
-    pub fn subtask(parent_id: &str, title: impl Into<String>, description: impl Into<String>) -> Self {
+    pub fn subtask(
+        parent_id: &str,
+        title: impl Into<String>,
+        description: impl Into<String>,
+    ) -> Self {
         let mut task = Self::new(title, description);
         task.parent_id = Some(parent_id.to_string());
         task
@@ -76,7 +80,12 @@ impl AgentTask {
     }
 
     /// Add a tool call
-    pub fn add_tool_call(&mut self, name: impl Into<String>, arguments: serde_json::Value, requires_approval: bool) {
+    pub fn add_tool_call(
+        &mut self,
+        name: impl Into<String>,
+        arguments: serde_json::Value,
+        requires_approval: bool,
+    ) {
         self.tool_calls.push(ToolCall {
             name: name.into(),
             arguments,

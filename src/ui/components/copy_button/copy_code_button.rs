@@ -1,8 +1,8 @@
 //! Copy code block button component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Copy code block button - designed for code blocks
 #[derive(IntoElement)]
@@ -46,18 +46,34 @@ impl RenderOnce for CopyCodeButton {
         div()
             .id(self.id)
             .absolute()
-            .when(matches!(self.position, CopyCodePosition::TopRight | CopyCodePosition::BottomRight), |el| {
-                el.right(px(8.0))
-            })
-            .when(matches!(self.position, CopyCodePosition::TopLeft | CopyCodePosition::BottomLeft), |el| {
-                el.left(px(8.0))
-            })
-            .when(matches!(self.position, CopyCodePosition::TopRight | CopyCodePosition::TopLeft), |el| {
-                el.top(px(8.0))
-            })
-            .when(matches!(self.position, CopyCodePosition::BottomRight | CopyCodePosition::BottomLeft), |el| {
-                el.bottom(px(8.0))
-            })
+            .when(
+                matches!(
+                    self.position,
+                    CopyCodePosition::TopRight | CopyCodePosition::BottomRight
+                ),
+                |el| el.right(px(8.0)),
+            )
+            .when(
+                matches!(
+                    self.position,
+                    CopyCodePosition::TopLeft | CopyCodePosition::BottomLeft
+                ),
+                |el| el.left(px(8.0)),
+            )
+            .when(
+                matches!(
+                    self.position,
+                    CopyCodePosition::TopRight | CopyCodePosition::TopLeft
+                ),
+                |el| el.top(px(8.0)),
+            )
+            .when(
+                matches!(
+                    self.position,
+                    CopyCodePosition::BottomRight | CopyCodePosition::BottomLeft
+                ),
+                |el| el.bottom(px(8.0)),
+            )
             .px(px(8.0))
             .py(px(4.0))
             .flex()
@@ -67,17 +83,7 @@ impl RenderOnce for CopyCodeButton {
             .bg(hsla(0.0, 0.0, 0.0, 0.6))
             .cursor_pointer()
             .hover(|style| style.bg(hsla(0.0, 0.0, 0.0, 0.8)))
-            .child(
-                div()
-                    .text_size(px(12.0))
-                    .text_color(color)
-                    .child(icon)
-            )
-            .child(
-                div()
-                    .text_size(px(11.0))
-                    .text_color(color)
-                    .child(text)
-            )
+            .child(div().text_size(px(12.0)).text_color(color).child(icon))
+            .child(div().text_size(px(11.0)).text_color(color).child(text))
     }
 }

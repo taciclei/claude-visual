@@ -2,19 +2,19 @@
 //!
 //! Provides audio playback controls and visualization.
 
-mod types;
-mod player;
-mod render;
 mod audio_player_impl;
-mod voice_message;
-mod record_button;
+mod player;
 mod podcast_player;
+mod record_button;
+mod render;
+mod types;
+mod voice_message;
 
-pub use types::{PlaybackState, AudioPlayerSize, AudioPlayerVariant};
 pub use player::AudioPlayer;
-pub use voice_message::VoiceMessage;
-pub use record_button::AudioRecordButton;
 pub use podcast_player::PodcastPlayer;
+pub use record_button::AudioRecordButton;
+pub use types::{AudioPlayerSize, AudioPlayerVariant, PlaybackState};
+pub use voice_message::VoiceMessage;
 
 #[cfg(test)]
 mod tests {

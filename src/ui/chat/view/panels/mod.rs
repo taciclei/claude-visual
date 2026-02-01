@@ -24,22 +24,22 @@
 //! - **file_picker** - File picker panel
 //! - **session_details** - Session details panel
 
-pub mod suggestions;
-pub mod error_bar;
-pub mod session_history;
-pub mod permissions;
-pub mod mcp;
 pub mod commands;
-pub mod templates;  // Now a directory with submodules
 pub mod context;
+pub mod error_bar;
 pub mod export;
-pub mod notes;
 pub mod favorites;
-pub mod recent_files;
+pub mod file_picker;
+pub mod mcp;
+pub mod notes;
+pub mod permissions;
 pub mod pinned;
-pub mod stats;
 pub mod quick_settings;
+pub mod recent_files;
+pub mod session_details;
+pub mod session_history;
+pub mod stats;
+pub mod suggestions;
 pub mod tags;
 pub mod tasks;
-pub mod file_picker;
-pub mod session_details;
+pub mod templates; // Now a directory with submodules

@@ -1,8 +1,8 @@
 //! File system API for extensions
 
+use parking_lot::RwLock;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use parking_lot::RwLock;
 
 use super::types::ApiResult;
 

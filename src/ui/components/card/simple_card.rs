@@ -1,7 +1,7 @@
 //! Simple stateless card wrapper
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple stateless card wrapper
 #[derive(Clone)]

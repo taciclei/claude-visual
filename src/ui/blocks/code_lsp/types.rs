@@ -1,7 +1,7 @@
 //! Type definitions for code block LSP integration
 
+use crate::lsp::protocol::{Location, Position, Range};
 use std::path::PathBuf;
-use crate::lsp::protocol::{Position, Location, Range};
 
 /// Events emitted by code block LSP features
 #[derive(Debug, Clone)]
@@ -70,7 +70,10 @@ impl TokenType {
 
     /// Check if token type supports hover
     pub fn supports_hover(&self) -> bool {
-        matches!(self, TokenType::Identifier | TokenType::Type | TokenType::Keyword)
+        matches!(
+            self,
+            TokenType::Identifier | TokenType::Type | TokenType::Keyword
+        )
     }
 }
 

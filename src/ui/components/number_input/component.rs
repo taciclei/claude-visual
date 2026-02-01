@@ -5,8 +5,8 @@ use std::sync::Arc;
 use gpui::prelude::*;
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Number input with increment/decrement buttons
 pub struct NumberInput {

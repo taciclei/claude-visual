@@ -1,7 +1,7 @@
 //! Mini bar chart component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Mini bar chart component
 #[derive(IntoElement)]
@@ -69,7 +69,12 @@ impl MiniBarChart {
 impl RenderOnce for MiniBarChart {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let color = self.color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0));
-        let max_val = self.data.iter().copied().fold(f64::NEG_INFINITY, f64::max).max(0.001);
+        let max_val = self
+            .data
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max)
+            .max(0.001);
 
         div()
             .id(self.id)
@@ -91,7 +96,7 @@ impl RenderOnce for MiniBarChart {
                             .h(px(bar_height))
                             .bg(color)
                             .rounded(px(2.0))
-                    }))
+                    })),
             )
             .when(self.show_labels && !self.labels.is_empty(), |el| {
                 el.child(
@@ -104,7 +109,7 @@ impl RenderOnce for MiniBarChart {
                                 .text_size(px(10.0))
                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                                 .child(label.clone())
-                        }))
+                        })),
                 )
             })
     }

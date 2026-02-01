@@ -1,9 +1,9 @@
 //! Stepper component implementation
 
-use std::sync::Arc;
-use gpui::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::*;
+use std::sync::Arc;
 
 /// Stepper component
 pub struct Stepper {
@@ -47,7 +47,10 @@ impl Stepper {
         let old = self.current;
         self.current = index.min(self.steps.len().saturating_sub(1));
         if old != self.current {
-            cx.emit(StepperEvent::StepChanged { from: old, to: self.current });
+            cx.emit(StepperEvent::StepChanged {
+                from: old,
+                to: self.current,
+            });
             self.update_statuses(cx);
         }
         cx.notify();

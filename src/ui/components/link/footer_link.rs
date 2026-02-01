@@ -1,7 +1,7 @@
 //! Footer link component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::LinkSize;
 

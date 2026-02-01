@@ -1,12 +1,12 @@
 //! Syntax highlighted code block component
 
+mod code_view;
+mod diff_view;
+mod header;
+mod render;
+mod search_bar;
 mod types;
 mod view;
-mod header;
-mod search_bar;
-mod diff_view;
-mod code_view;
-mod render;
 
 pub use types::*;
 pub use view::CodeBlockView;
@@ -42,7 +42,9 @@ mod tests {
         let new = "line1\nline2\nline3";
         let diff = CodeBlockView::compute_diff(old, new);
         assert_eq!(diff.len(), 3);
-        assert!(diff.iter().all(|l| l.change_type == LineChangeType::Context));
+        assert!(diff
+            .iter()
+            .all(|l| l.change_type == LineChangeType::Context));
     }
 
     #[test]
@@ -51,9 +53,15 @@ mod tests {
         let new = "line1\nline2\nline3";
         let diff = CodeBlockView::compute_diff(old, new);
 
-        let added_count = diff.iter().filter(|l| {
-            matches!(l.change_type, LineChangeType::Added | LineChangeType::ModifiedNew)
-        }).count();
+        let added_count = diff
+            .iter()
+            .filter(|l| {
+                matches!(
+                    l.change_type,
+                    LineChangeType::Added | LineChangeType::ModifiedNew
+                )
+            })
+            .count();
         assert!(added_count >= 1);
     }
 
@@ -63,9 +71,15 @@ mod tests {
         let new = "line1\nline3";
         let diff = CodeBlockView::compute_diff(old, new);
 
-        let removed_count = diff.iter().filter(|l| {
-            matches!(l.change_type, LineChangeType::Removed | LineChangeType::ModifiedOld)
-        }).count();
+        let removed_count = diff
+            .iter()
+            .filter(|l| {
+                matches!(
+                    l.change_type,
+                    LineChangeType::Removed | LineChangeType::ModifiedOld
+                )
+            })
+            .count();
         assert!(removed_count >= 1);
     }
 
@@ -76,8 +90,12 @@ mod tests {
         let diff = CodeBlockView::compute_diff(old, new);
 
         // Should have old and new versions
-        let has_old = diff.iter().any(|l| l.change_type == LineChangeType::ModifiedOld);
-        let has_new = diff.iter().any(|l| l.change_type == LineChangeType::ModifiedNew);
+        let has_old = diff
+            .iter()
+            .any(|l| l.change_type == LineChangeType::ModifiedOld);
+        let has_new = diff
+            .iter()
+            .any(|l| l.change_type == LineChangeType::ModifiedNew);
         assert!(has_old && has_new);
     }
 
@@ -126,8 +144,7 @@ mod tests {
 
     #[test]
     fn test_highlighted_range_with_label() {
-        let range = HighlightedRange::single(1, HighlightStyle::Info)
-            .with_label("Error location");
+        let range = HighlightedRange::single(1, HighlightStyle::Info).with_label("Error location");
         assert_eq!(range.label, Some("Error location".to_string()));
     }
 

@@ -1,7 +1,7 @@
 //! Dropdown render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::state::Dropdown;
 
@@ -12,7 +12,8 @@ impl Render for Dropdown {
         let font_size = self.size.font_size();
         let padding_x = self.size.padding_x();
 
-        let selected_label = self.selected_option()
+        let selected_label = self
+            .selected_option()
             .map(|o| o.label.clone())
             .unwrap_or_else(|| self.placeholder.clone());
 
@@ -52,7 +53,7 @@ impl Render for Dropdown {
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(text_color)
                         .mb_1()
-                        .child(label)
+                        .child(label),
                 )
             })
             // Dropdown trigger
@@ -85,17 +86,21 @@ impl Render for Dropdown {
                                 div()
                                     .flex_1()
                                     .text_size(px(font_size))
-                                    .text_color(if self.selected.is_some() { text_color } else { text_muted })
+                                    .text_color(if self.selected.is_some() {
+                                        text_color
+                                    } else {
+                                        text_muted
+                                    })
                                     .truncate()
-                                    .child(selected_label)
+                                    .child(selected_label),
                             )
                             // Chevron icon
                             .child(
                                 div()
                                     .text_color(text_muted)
                                     .text_size(px(10.0))
-                                    .child(if self.is_open { "▲" } else { "▼" })
-                            )
+                                    .child(if self.is_open { "▲" } else { "▼" }),
+                            ),
                     )
                     // Dropdown menu
                     .when(self.is_open, |d| {
@@ -121,9 +126,10 @@ impl Render for Dropdown {
                                     let option_id = option.id.clone();
 
                                     // Extract listener before div chain
-                                    let select_listener = cx.listener(move |this, _, _window, cx| {
-                                        this.select(option_id.clone(), cx);
-                                    });
+                                    let select_listener =
+                                        cx.listener(move |this, _, _window, cx| {
+                                            this.select(option_id.clone(), cx);
+                                        });
 
                                     div()
                                         .id(SharedString::from(format!("option-{}", i)))
@@ -134,20 +140,13 @@ impl Render for Dropdown {
                                         .gap_2()
                                         .when(is_selected, |d| d.bg(accent_color.opacity(0.15)))
                                         .when(!option.disabled, |d| {
-                                            d.cursor_pointer()
-                                                .hover(|s| s.bg(surface_hover))
+                                            d.cursor_pointer().hover(|s| s.bg(surface_hover))
                                         })
                                         .when(option.disabled, |d| d.opacity(0.5))
-                                        .when(!option.disabled, |d| {
-                                            d.on_click(select_listener)
-                                        })
+                                        .when(!option.disabled, |d| d.on_click(select_listener))
                                         // Icon
                                         .when_some(option.icon.clone(), |d, icon| {
-                                            d.child(
-                                                div()
-                                                    .text_sm()
-                                                    .child(icon)
-                                            )
+                                            d.child(div().text_sm().child(icon))
                                         })
                                         // Label and description
                                         .child(
@@ -159,24 +158,23 @@ impl Render for Dropdown {
                                                     div()
                                                         .text_size(px(font_size))
                                                         .text_color(text_color)
-                                                        .child(option.label.clone())
+                                                        .child(option.label.clone()),
                                                 )
-                                                .when_some(option.description.clone(), |d, desc| {
-                                                    d.child(
-                                                        div()
-                                                            .text_xs()
-                                                            .text_color(text_muted)
-                                                            .child(desc)
-                                                    )
-                                                })
+                                                .when_some(
+                                                    option.description.clone(),
+                                                    |d, desc| {
+                                                        d.child(
+                                                            div()
+                                                                .text_xs()
+                                                                .text_color(text_muted)
+                                                                .child(desc),
+                                                        )
+                                                    },
+                                                ),
                                         )
                                         // Checkmark for selected
                                         .when(is_selected, |d| {
-                                            d.child(
-                                                div()
-                                                    .text_color(accent_color)
-                                                    .child("✓")
-                                            )
+                                            d.child(div().text_color(accent_color).child("✓"))
                                         })
                                 }))
                                 // Empty state
@@ -188,20 +186,15 @@ impl Render for Dropdown {
                                             .text_sm()
                                             .text_color(text_muted)
                                             .text_center()
-                                            .child("No options")
+                                            .child("No options"),
                                     )
-                                })
+                                }),
                         )
-                    })
+                    }),
             )
             // Error message
             .when_some(self.error.clone(), |d, error| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(error_color)
-                        .child(error)
-                )
+                d.child(div().text_xs().text_color(error_color).child(error))
             })
     }
 }

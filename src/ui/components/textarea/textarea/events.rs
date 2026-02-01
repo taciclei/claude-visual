@@ -1,12 +1,17 @@
 //! Textarea event handlers
 
-use gpui::*;
-use crate::ui::components::textarea::types::*;
 use super::state::Textarea;
+use crate::ui::components::textarea::types::*;
+use gpui::*;
 
 impl Textarea {
     /// Handle key input
-    pub(super) fn handle_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if self.disabled || self.readonly {
             return;
         }
@@ -38,7 +43,12 @@ impl Textarea {
     }
 
     /// Handle text input
-    pub(super) fn handle_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if self.disabled || self.readonly {
             return;
         }

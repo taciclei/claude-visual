@@ -43,7 +43,9 @@ impl MessageFilter {
             MessageFilter::All => true,
             MessageFilter::UserOnly => matches!(role, MessageRole::User),
             MessageFilter::AssistantOnly => matches!(role, MessageRole::Assistant),
-            MessageFilter::ToolsOnly => matches!(role, MessageRole::ToolUse | MessageRole::ToolResult),
+            MessageFilter::ToolsOnly => {
+                matches!(role, MessageRole::ToolUse | MessageRole::ToolResult)
+            }
         }
     }
 

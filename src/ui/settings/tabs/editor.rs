@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::super::SettingsModal;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render the editor tab
@@ -12,67 +12,71 @@ impl SettingsModal {
             .flex_col()
             .gap_4()
             // Code font settings
-            .child(self.render_section(
-                "Code Font",
-                "Font used for code blocks and input",
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap_2()
-                    .child(self.render_font_select(
-                        "Font family",
-                        &self.pending.editor.code_font_family,
-                        &["JetBrains Mono", "Fira Code", "SF Mono", "Menlo", "Monaco"],
-                        |this, value, cx| {
-                            this.pending.editor.code_font_family = value.to_string();
-                            this.mark_changed(cx);
-                        },
-                        cx,
-                    ))
-                    .child(self.render_slider(
-                        "Font size",
-                        self.pending.editor.code_font_size,
-                        10.0,
-                        24.0,
-                        |this, value, cx| {
-                            this.pending.editor.code_font_size = value;
-                            this.mark_changed(cx);
-                        },
-                        cx,
-                    )),
-                cx,
-            ))
+            .child(
+                self.render_section(
+                    "Code Font",
+                    "Font used for code blocks and input",
+                    div()
+                        .flex()
+                        .flex_col()
+                        .gap_2()
+                        .child(self.render_font_select(
+                            "Font family",
+                            &self.pending.editor.code_font_family,
+                            &["JetBrains Mono", "Fira Code", "SF Mono", "Menlo", "Monaco"],
+                            |this, value, cx| {
+                                this.pending.editor.code_font_family = value.to_string();
+                                this.mark_changed(cx);
+                            },
+                            cx,
+                        ))
+                        .child(self.render_slider(
+                            "Font size",
+                            self.pending.editor.code_font_size,
+                            10.0,
+                            24.0,
+                            |this, value, cx| {
+                                this.pending.editor.code_font_size = value;
+                                this.mark_changed(cx);
+                            },
+                            cx,
+                        )),
+                    cx,
+                ),
+            )
             // UI font settings
-            .child(self.render_section(
-                "UI Font",
-                "Font used for interface elements",
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap_2()
-                    .child(self.render_font_select(
-                        "Font family",
-                        &self.pending.ui.ui_font_family,
-                        &["Inter", "SF Pro", "Helvetica Neue", "System"],
-                        |this, value, cx| {
-                            this.pending.ui.ui_font_family = value.to_string();
-                            this.mark_changed(cx);
-                        },
-                        cx,
-                    ))
-                    .child(self.render_slider(
-                        "Font size",
-                        self.pending.ui.ui_font_size,
-                        10.0,
-                        20.0,
-                        |this, value, cx| {
-                            this.pending.ui.ui_font_size = value;
-                            this.mark_changed(cx);
-                        },
-                        cx,
-                    )),
-                cx,
-            ))
+            .child(
+                self.render_section(
+                    "UI Font",
+                    "Font used for interface elements",
+                    div()
+                        .flex()
+                        .flex_col()
+                        .gap_2()
+                        .child(self.render_font_select(
+                            "Font family",
+                            &self.pending.ui.ui_font_family,
+                            &["Inter", "SF Pro", "Helvetica Neue", "System"],
+                            |this, value, cx| {
+                                this.pending.ui.ui_font_family = value.to_string();
+                                this.mark_changed(cx);
+                            },
+                            cx,
+                        ))
+                        .child(self.render_slider(
+                            "Font size",
+                            self.pending.ui.ui_font_size,
+                            10.0,
+                            20.0,
+                            |this, value, cx| {
+                                this.pending.ui.ui_font_size = value;
+                                this.mark_changed(cx);
+                            },
+                            cx,
+                        )),
+                    cx,
+                ),
+            )
             // Vim mode
             .child(self.render_section(
                 "Keybindings",

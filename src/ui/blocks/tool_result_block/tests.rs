@@ -1,7 +1,7 @@
 //! Tests for tool result blocks
 
+use super::types::{ToolExecutionStatus, ToolResult};
 use std::time::Duration;
-use super::types::{ToolResult, ToolExecutionStatus};
 
 #[test]
 fn test_tool_result_success() {

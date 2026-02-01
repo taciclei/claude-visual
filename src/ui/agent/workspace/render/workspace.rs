@@ -1,10 +1,10 @@
 //! Main workspace rendering implementation
 
-use gpui::*;
-use gpui::prelude::*;
-use super::super::types::*;
 use super::super::state::AgentWorkspace;
-use super::{render_approval_prompt, header, controls, logs};
+use super::super::types::*;
+use super::{controls, header, logs, render_approval_prompt};
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for AgentWorkspace {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

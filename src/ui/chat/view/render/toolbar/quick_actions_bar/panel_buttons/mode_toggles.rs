@@ -1,8 +1,8 @@
 //! Mode toggle buttons - focus mode
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render focus mode toggle button (🎯/○)
@@ -31,7 +31,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.focus_mode { text_color_active } else { text_color_inactive })
+            .text_color(if self.focus_mode {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .when(self.focus_mode, move |d| d.bg(accent_bg))
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)

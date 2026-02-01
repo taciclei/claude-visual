@@ -1,9 +1,9 @@
 //! Tooltip component
 
+use gpui::prelude::*;
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 /// Tooltip position
 #[derive(Debug, Clone, Copy, Default)]
@@ -83,7 +83,7 @@ impl RenderOnce for Tooltip {
                         .text_xs()
                         .text_color(shortcut_color)
                         .font_family("monospace")
-                        .child(shortcut)
+                        .child(shortcut),
                 )
             })
     }

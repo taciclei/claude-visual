@@ -1,9 +1,9 @@
 //! Context indicator state management
 
-use gpui::*;
 use super::colors::SimpleColors;
-use super::usage::ContextUsage;
 use super::events::ContextIndicatorEvent;
+use super::usage::ContextUsage;
+use gpui::*;
 
 /// Context window indicator component
 pub struct ContextIndicator {

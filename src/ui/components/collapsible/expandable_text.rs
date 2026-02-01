@@ -1,7 +1,7 @@
 //! Expandable text that shows "Show more" / "Show less"
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Expandable text that shows "Show more" / "Show less"
 #[derive(IntoElement)]
@@ -85,8 +85,7 @@ impl RenderOnce for ExpandableText {
             .text_color(text_color)
             .line_height(px(20.0))
             .when(!self.expanded, |d| {
-                d.max_h(px(20.0 * self.max_lines as f32))
-                    .overflow_hidden()
+                d.max_h(px(20.0 * self.max_lines as f32)).overflow_hidden()
             })
             .child(self.text);
 

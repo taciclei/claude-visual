@@ -1,8 +1,8 @@
 //! Trait implementations
 
-use gpui::*;
 use super::core::TerminalView;
 use super::types::TerminalViewEvent;
+use gpui::*;
 
 impl EventEmitter<TerminalViewEvent> for TerminalView {}
 

@@ -1,7 +1,7 @@
 //! Spacer component for flex layouts
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Spacer component for flex layouts
 #[derive(IntoElement)]

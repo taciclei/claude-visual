@@ -18,10 +18,7 @@ pub(crate) struct SimpleColors {
 #[derive(Clone, Debug)]
 pub enum ModelSelectorEvent {
     /// Model selected
-    ModelSelected {
-        provider: String,
-        model_id: String,
-    },
+    ModelSelected { provider: String, model_id: String },
     /// Provider configuration changed
     ProviderConfigChanged {
         provider: String,

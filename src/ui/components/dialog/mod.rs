@@ -1,23 +1,17 @@
 //! Dialog components for confirmations and alerts
 
-mod types;
-mod dialog;
-mod confirm_dialog;
 mod alert_dialog;
+mod confirm_dialog;
+mod dialog;
 mod input_dialog;
+mod types;
 
 // Re-export all public items
-pub use types::{
-    DialogSize,
-    DialogButtonStyle,
-    DialogButton,
-    DialogEvent,
-    AlertType,
-};
+pub use types::{AlertType, DialogButton, DialogButtonStyle, DialogEvent, DialogSize};
 
-pub use dialog::Dialog;
-pub use confirm_dialog::ConfirmDialog;
 pub use alert_dialog::AlertDialog;
+pub use confirm_dialog::ConfirmDialog;
+pub use dialog::Dialog;
 pub use input_dialog::InputDialog;
 
 #[cfg(test)]
@@ -26,8 +20,7 @@ mod tests {
 
     #[test]
     fn test_dialog_button() {
-        let btn = DialogButton::primary("save", "Save Changes")
-            .loading();
+        let btn = DialogButton::primary("save", "Save Changes").loading();
 
         assert_eq!(btn.id, "save");
         assert!(btn.loading);

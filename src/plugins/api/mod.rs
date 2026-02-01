@@ -4,28 +4,23 @@
 //! with Claude Visual. It provides host functions that are exposed to
 //! WASM modules through the wasmtime linker.
 
-mod types;
-mod ui;
+mod core;
+mod events;
 mod fs;
 mod settings;
-mod events;
-mod core;
+mod types;
+mod ui;
 
 // Re-export all public types and functions
 pub use types::{
-    ExtensionContext,
-    ApiResult,
-    Notification,
-    NotificationLevel,
-    StatusItem,
-    EventSubscription,
+    ApiResult, EventSubscription, ExtensionContext, Notification, NotificationLevel, StatusItem,
 };
 
-pub use ui::UiApi;
+pub use core::{ExtensionApi, API_VERSION};
+pub use events::EventApi;
 pub use fs::FileSystemApi;
 pub use settings::SettingsApi;
-pub use events::EventApi;
-pub use core::{API_VERSION, ExtensionApi};
+pub use ui::UiApi;
 
 /// Available events that extensions can subscribe to
 pub mod event_names {
@@ -41,7 +36,8 @@ mod tests {
         let ui = UiApi::new();
 
         // Show a notification
-        let result = ui.show_notification("test-ext", "Test", Some("Body"), NotificationLevel::Info);
+        let result =
+            ui.show_notification("test-ext", "Test", Some("Body"), NotificationLevel::Info);
         assert!(result.is_ok());
 
         // Check notifications exist
@@ -122,8 +118,10 @@ mod tests {
         let api = ExtensionApi::new();
 
         // Add some resources
-        api.ui.show_notification("test-ext", "Test", None, NotificationLevel::Info);
-        api.ui.set_status_item("test-ext", "status-1", "Hello", None);
+        api.ui
+            .show_notification("test-ext", "Test", None, NotificationLevel::Info);
+        api.ui
+            .set_status_item("test-ext", "status-1", "Hello", None);
         api.events.subscribe("test-ext", "test.event", 0);
 
         // Cleanup

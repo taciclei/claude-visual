@@ -6,7 +6,10 @@ use crate::ui::debug::debug_panel::DebugPanel;
 
 impl DebugPanel {
     /// Render console output
-    pub(in crate::ui::debug::debug_panel) fn render_console(&self, theme: &crate::app::theme::Theme) -> impl IntoElement {
+    pub(in crate::ui::debug::debug_panel) fn render_console(
+        &self,
+        theme: &crate::app::theme::Theme,
+    ) -> impl IntoElement {
         // Copy theme colors for move closures
         let background_color = theme.colors.background;
         let text_color = theme.colors.text;

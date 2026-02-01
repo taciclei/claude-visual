@@ -1,8 +1,8 @@
 //! Verification code input component with resend functionality
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct VerificationInput {
@@ -103,14 +103,9 @@ impl RenderOnce for VerificationInput {
                                 el.child(char_at.unwrap().to_string())
                             })
                             .when(is_current && self.state == OtpState::Focused, |el| {
-                                el.child(
-                                    div()
-                                        .w(px(2.0))
-                                        .h(px(24.0))
-                                        .bg(hsla(0.6, 0.7, 0.5, 1.0))
-                                )
+                                el.child(div().w(px(2.0)).h(px(24.0)).bg(hsla(0.6, 0.7, 0.5, 1.0)))
                             })
-                    }))
+                    })),
             )
             .when(self.error_message.is_some(), |el| {
                 el.child(
@@ -118,7 +113,7 @@ impl RenderOnce for VerificationInput {
                         .text_size(px(13.0))
                         .text_color(hsla(0.0, 0.7, 0.5, 1.0))
                         .text_center()
-                        .child(self.error_message.unwrap_or_default())
+                        .child(self.error_message.unwrap_or_default()),
                 )
             })
             .child(
@@ -132,7 +127,7 @@ impl RenderOnce for VerificationInput {
                         div()
                             .text_size(px(13.0))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child("Didn't receive the code?")
+                            .child("Didn't receive the code?"),
                     )
                     .child(
                         div()
@@ -144,13 +139,12 @@ impl RenderOnce for VerificationInput {
                                     .child("Resend")
                             })
                             .when(!self.resend_available, |el| {
-                                el.text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                    .child(format!(
-                                        "Resend in {}s",
-                                        self.resend_countdown.unwrap_or(0)
-                                    ))
-                            })
-                    )
+                                el.text_color(hsla(0.0, 0.0, 0.4, 1.0)).child(format!(
+                                    "Resend in {}s",
+                                    self.resend_countdown.unwrap_or(0)
+                                ))
+                            }),
+                    ),
             )
     }
 }

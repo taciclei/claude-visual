@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use super::CodeBlockView;
 use super::super::types::{DiffLine, LineChangeType};
+use super::CodeBlockView;
 
 impl CodeBlockView {
     /// Compute diff between old and new code
@@ -31,8 +31,12 @@ impl CodeBlockView {
                 } else {
                     // Lines differ - check if it's modification or add/remove
                     // Look ahead to see if the old line appears later in new code
-                    let old_in_new = new_lines[new_idx..].iter().position(|&l| l == old_lines[old_idx]);
-                    let new_in_old = old_lines[old_idx..].iter().position(|&l| l == new_lines[new_idx]);
+                    let old_in_new = new_lines[new_idx..]
+                        .iter()
+                        .position(|&l| l == old_lines[old_idx]);
+                    let new_in_old = old_lines[old_idx..]
+                        .iter()
+                        .position(|&l| l == new_lines[new_idx]);
 
                     match (old_in_new, new_in_old) {
                         (Some(offset), _) if offset < 3 => {
@@ -104,26 +108,52 @@ impl CodeBlockView {
 
     /// Get diff statistics
     pub fn diff_stats(&self) -> (usize, usize) {
-        let added = self.diff_lines.iter().filter(|l| {
-            matches!(l.change_type, LineChangeType::Added | LineChangeType::ModifiedNew)
-        }).count();
-        let removed = self.diff_lines.iter().filter(|l| {
-            matches!(l.change_type, LineChangeType::Removed | LineChangeType::ModifiedOld)
-        }).count();
+        let added = self
+            .diff_lines
+            .iter()
+            .filter(|l| {
+                matches!(
+                    l.change_type,
+                    LineChangeType::Added | LineChangeType::ModifiedNew
+                )
+            })
+            .count();
+        let removed = self
+            .diff_lines
+            .iter()
+            .filter(|l| {
+                matches!(
+                    l.change_type,
+                    LineChangeType::Removed | LineChangeType::ModifiedOld
+                )
+            })
+            .count();
         (added, removed)
     }
 
     /// Get background color for a diff line
-    pub(crate) fn diff_line_bg(&self, change_type: LineChangeType, theme: &crate::app::theme::Theme) -> Hsla {
+    pub(crate) fn diff_line_bg(
+        &self,
+        change_type: LineChangeType,
+        theme: &crate::app::theme::Theme,
+    ) -> Hsla {
         match change_type {
             LineChangeType::Context => gpui::transparent_black(),
-            LineChangeType::Added | LineChangeType::ModifiedNew => theme.colors.success.opacity(0.15),
-            LineChangeType::Removed | LineChangeType::ModifiedOld => theme.colors.error.opacity(0.15),
+            LineChangeType::Added | LineChangeType::ModifiedNew => {
+                theme.colors.success.opacity(0.15)
+            }
+            LineChangeType::Removed | LineChangeType::ModifiedOld => {
+                theme.colors.error.opacity(0.15)
+            }
         }
     }
 
     /// Get text color for a diff line prefix
-    pub(crate) fn diff_prefix_color(&self, change_type: LineChangeType, theme: &crate::app::theme::Theme) -> Hsla {
+    pub(crate) fn diff_prefix_color(
+        &self,
+        change_type: LineChangeType,
+        theme: &crate::app::theme::Theme,
+    ) -> Hsla {
         match change_type {
             LineChangeType::Context => theme.colors.text_muted,
             LineChangeType::Added | LineChangeType::ModifiedNew => theme.colors.success,

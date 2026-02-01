@@ -2,19 +2,19 @@
 //!
 //! Provides marquee and scrolling text components.
 
-mod types;
-mod marquee;
-mod text_marquee;
 mod logo_carousel;
-mod ticker;
+mod marquee;
 mod news_ticker;
+mod text_marquee;
+mod ticker;
+mod types;
 
-pub use types::*;
-pub use marquee::Marquee;
-pub use text_marquee::TextMarquee;
 pub use logo_carousel::LogoCarousel;
-pub use ticker::Ticker;
+pub use marquee::Marquee;
 pub use news_ticker::NewsTicker;
+pub use text_marquee::TextMarquee;
+pub use ticker::Ticker;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

@@ -1,7 +1,7 @@
 //! Search match highlight component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Search match highlight
 #[derive(Clone)]
@@ -90,20 +90,18 @@ impl RenderOnce for SearchMatch {
             .flex()
             .flex_wrap()
             .text_color(text_color)
-            .children(
-                segments.into_iter().map(|(text, is_match)| {
-                    if is_match {
-                        div()
-                            .px(px(1.0))
-                            .rounded(px(2.0))
-                            .bg(highlight_bg)
-                            .child(text)
-                            .into_any_element()
-                    } else {
-                        div().child(text).into_any_element()
-                    }
-                })
-            )
+            .children(segments.into_iter().map(|(text, is_match)| {
+                if is_match {
+                    div()
+                        .px(px(1.0))
+                        .rounded(px(2.0))
+                        .bg(highlight_bg)
+                        .child(text)
+                        .into_any_element()
+                } else {
+                    div().child(text).into_any_element()
+                }
+            }))
             .into_any_element()
     }
 }

@@ -54,8 +54,7 @@ impl ModelInfo {
     pub fn from_short_name(name: &str) -> Option<ModelInfo> {
         let name_lower = name.to_lowercase();
         Self::available_models().into_iter().find(|m| {
-            m.name.to_lowercase().contains(&name_lower) ||
-            m.id.to_lowercase().contains(&name_lower)
+            m.name.to_lowercase().contains(&name_lower) || m.id.to_lowercase().contains(&name_lower)
         })
     }
 }

@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::{avatar::Avatar, types::*};
 use crate::app::state::AppState;
-use super::{types::*, avatar::Avatar};
 
 #[derive(Clone)]
 pub struct AvatarGroupItem {
@@ -120,7 +120,7 @@ impl Render for AvatarGroup {
                         .text_color(theme.colors.text_muted)
                         .text_size(px(self.size.font_size() * 0.8))
                         .font_weight(FontWeight::MEDIUM)
-                        .child(format!("+{}", overflow))
+                        .child(format!("+{}", overflow)),
                 )
             })
     }

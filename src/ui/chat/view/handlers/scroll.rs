@@ -1,7 +1,7 @@
 //! Scroll event handlers
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Mark as scrolled away from bottom (shows scroll-to-bottom button)
@@ -29,7 +29,8 @@ impl ChatView {
                 if current != message_index {
                     // Truncate forward history if we're not at the end
                     if self.navigation_history_position < self.navigation_history.len() {
-                        self.navigation_history.truncate(self.navigation_history_position);
+                        self.navigation_history
+                            .truncate(self.navigation_history_position);
                     }
                     self.navigation_history.push(current);
                     self.navigation_history_position = self.navigation_history.len();

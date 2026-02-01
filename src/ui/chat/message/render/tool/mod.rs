@@ -1,20 +1,24 @@
 //! Tool message rendering
 
-mod types;
-mod parser;
 mod content;
 mod header;
+mod parser;
+mod types;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::super::utils::{tool_description, tool_icon};
+use super::super::view::MessageView;
 use crate::app::theme::Theme;
 use crate::claude::message::MessageRole;
-use super::super::view::MessageView;
-use super::super::utils::{tool_icon, tool_description};
 
 impl MessageView {
-    pub(in crate::ui::chat::message) fn render_tool_content(&self, theme: &Theme, cx: &mut Context<Self>) -> Div {
+    pub(in crate::ui::chat::message) fn render_tool_content(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let content = self.message.content.clone();
         let is_tool_result = self.message.role == MessageRole::ToolResult;
         let is_error = self.message.is_error;
@@ -33,7 +37,10 @@ impl MessageView {
         };
 
         // Get tool description
-        let tool_desc = tool_name.as_ref().map(|n| tool_description(n)).unwrap_or("");
+        let tool_desc = tool_name
+            .as_ref()
+            .map(|n| tool_description(n))
+            .unwrap_or("");
 
         // Border color based on tool result status
         let border_color = if is_error {
@@ -64,14 +71,7 @@ impl MessageView {
         );
 
         // Render action buttons
-        let actions = header::render_actions(
-            file_path,
-            command,
-            pattern_str,
-            &content,
-            theme,
-            cx,
-        );
+        let actions = header::render_actions(file_path, command, pattern_str, &content, theme, cx);
 
         div().child(
             div()
@@ -92,10 +92,10 @@ impl MessageView {
                         .justify_between()
                         .mb_1()
                         .child(header_left)
-                        .child(actions)
+                        .child(actions),
                 )
                 // Content
-                .child(content_element)
+                .child(content_element),
         )
     }
 }

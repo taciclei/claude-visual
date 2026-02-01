@@ -62,7 +62,9 @@ impl RenderOnce for NotificationBanner {
             BannerType::Success => (hsla(0.38, 0.7, 0.45, 0.15), hsla(0.38, 0.7, 0.45, 1.0), "✓"),
             BannerType::Warning => (hsla(0.12, 0.9, 0.5, 0.15), hsla(0.12, 0.9, 0.5, 1.0), "⚠️"),
             BannerType::Error => (hsla(0.0, 0.7, 0.5, 0.15), hsla(0.0, 0.7, 0.5, 1.0), "✕"),
-            BannerType::Announcement => (hsla(0.75, 0.7, 0.5, 0.15), hsla(0.75, 0.7, 0.5, 1.0), "📢"),
+            BannerType::Announcement => {
+                (hsla(0.75, 0.7, 0.5, 0.15), hsla(0.75, 0.7, 0.5, 1.0), "📢")
+            }
         };
 
         div()
@@ -73,18 +75,13 @@ impl RenderOnce for NotificationBanner {
             .flex()
             .items_center()
             .gap_3()
-            .child(
-                div()
-                    .text_base()
-                    .text_color(icon_color)
-                    .child(icon)
-            )
+            .child(div().text_base().text_color(icon_color).child(icon))
             .child(
                 div()
                     .flex_1()
                     .text_sm()
                     .text_color(text)
-                    .child(self.message)
+                    .child(self.message),
             )
             .when(self.dismissible, |d| {
                 d.child(
@@ -97,7 +94,7 @@ impl RenderOnce for NotificationBanner {
                         .text_sm()
                         .text_color(text_muted)
                         .cursor_pointer()
-                        .child("×")
+                        .child("×"),
                 )
             })
     }

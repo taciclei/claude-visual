@@ -1,8 +1,8 @@
 //! Simple toggle checkbox component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Simple toggle checkbox (without label text)
 #[derive(IntoElement)]

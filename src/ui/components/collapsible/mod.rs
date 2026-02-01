@@ -1,20 +1,20 @@
 //! Collapsible/expandable content components
 
-mod types;
 mod collapsible;
-mod trigger;
-mod group;
 mod details;
 mod expandable_text;
 mod faq;
+mod group;
+mod trigger;
+mod types;
 
-pub use types::CollapsibleAnimation;
 pub use collapsible::Collapsible;
-pub use trigger::CollapsibleTrigger;
-pub use group::CollapsibleGroup;
 pub use details::Details;
 pub use expandable_text::ExpandableText;
 pub use faq::{FaqItem, FaqSection};
+pub use group::CollapsibleGroup;
+pub use trigger::CollapsibleTrigger;
+pub use types::CollapsibleAnimation;
 
 #[cfg(test)]
 mod tests {
@@ -44,9 +44,7 @@ mod tests {
 
     #[test]
     fn test_details() {
-        let details = Details::new("Summary")
-            .open(true)
-            .border_bottom(true);
+        let details = Details::new("Summary").open(true).border_bottom(true);
         assert!(details.open);
         assert!(details.border_bottom);
     }
@@ -62,8 +60,7 @@ mod tests {
 
     #[test]
     fn test_faq_item() {
-        let faq = FaqItem::new("Question?", "Answer.")
-            .open(true);
+        let faq = FaqItem::new("Question?", "Answer.").open(true);
         assert!(faq.open);
         assert_eq!(faq.question.as_ref(), "Question?");
         assert_eq!(faq.answer.as_ref(), "Answer.");

@@ -1,8 +1,8 @@
 //! Main toolbar component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Toolbar component
 #[derive(IntoElement)]
@@ -81,30 +81,19 @@ impl RenderOnce for Toolbar {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.1, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.2, 1.0));
 
-        let is_vertical = matches!(self.position, ToolbarPosition::Left | ToolbarPosition::Right);
+        let is_vertical = matches!(
+            self.position,
+            ToolbarPosition::Left | ToolbarPosition::Right
+        );
 
         let mut toolbar = div().id(self.id);
 
         // Apply variant styles
         toolbar = match self.variant {
-            ToolbarVariant::Default => {
-                toolbar
-                    .bg(bg)
-                    .border_1()
-                    .border_color(border)
-            }
-            ToolbarVariant::Floating => {
-                toolbar
-                    .bg(bg)
-                    .rounded(px(8.0))
-                    .shadow_lg()
-            }
-            ToolbarVariant::Attached => {
-                toolbar.bg(bg)
-            }
-            ToolbarVariant::Minimal => {
-                toolbar
-            }
+            ToolbarVariant::Default => toolbar.bg(bg).border_1().border_color(border),
+            ToolbarVariant::Floating => toolbar.bg(bg).rounded(px(8.0)).shadow_lg(),
+            ToolbarVariant::Attached => toolbar.bg(bg),
+            ToolbarVariant::Minimal => toolbar,
         };
 
         // Apply position-based layout
@@ -155,14 +144,14 @@ impl RenderOnce for Toolbar {
                         } else {
                             hsla(0.0, 0.0, 0.7, 1.0)
                         })
-                        .child(item.icon.clone())
+                        .child(item.icon.clone()),
                 )
                 .when(self.show_labels && item.label.is_some(), |el| {
                     el.child(
                         div()
                             .text_size(px(10.0))
                             .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                            .child(item.label.unwrap_or_default())
+                            .child(item.label.unwrap_or_default()),
                     )
                 })
         }))

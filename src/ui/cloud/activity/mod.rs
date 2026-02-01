@@ -2,9 +2,9 @@
 //!
 //! Panel for displaying team activity feed.
 
+mod entry;
 mod events;
 mod filters;
-mod entry;
 mod render;
 
 use std::sync::Arc;

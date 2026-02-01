@@ -1,7 +1,7 @@
 //! Field rendering for server configuration
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::mcp::server_config::core::ServerConfigEditor;

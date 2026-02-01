@@ -1,7 +1,7 @@
 //! File path display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// File path display
 #[derive(Clone)]
@@ -76,17 +76,9 @@ impl RenderOnce for FilePath {
         }
 
         if self.show_icon {
-            container = container.child(
-                div()
-                    .text_sm()
-                    .child(icon)
-            );
+            container = container.child(div().text_sm().child(icon));
         }
 
-        container.child(
-            div()
-                .text_color(text)
-                .child(self.path)
-        )
+        container.child(div().text_color(text).child(self.path))
     }
 }

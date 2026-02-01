@@ -2,12 +2,12 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::types::{AnalyticsPanelEvent, AnalyticsViewMode};
 use crate::app::state::AppState;
 use crate::cloud::team::{AnalyticsPeriod, UsageAnalytics};
-use super::types::{AnalyticsPanelEvent, AnalyticsViewMode};
 
 impl EventEmitter<AnalyticsPanelEvent> for AnalyticsPanel {}
 

@@ -1,8 +1,8 @@
 //! Utility panel buttons - tips and history
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render suggestions toggle button (💡 Tips)
@@ -30,7 +30,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.show_suggestions { text_color_active } else { text_color_inactive })
+            .text_color(if self.show_suggestions {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover))
             .on_click(on_click)
             .child("💡")

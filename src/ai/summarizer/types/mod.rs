@@ -2,10 +2,10 @@
 
 mod config;
 mod message;
-mod summary;
 mod request;
+mod summary;
 
 pub use config::SummarizationConfig;
 pub use message::{ConversationMessage, MessageRole};
-pub use summary::ConversationSummary;
 pub use request::{SummarizationRequest, SummarizationStats};
+pub use summary::ConversationSummary;

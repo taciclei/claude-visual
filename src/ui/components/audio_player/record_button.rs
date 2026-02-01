@@ -1,7 +1,7 @@
 //! Audio recording button component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Audio recording button
 #[derive(IntoElement)]
@@ -65,8 +65,8 @@ impl RenderOnce for AudioRecordButton {
                         div()
                             .text_size(px(self.size * 0.4))
                             .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                            .child(if self.is_recording { "⏹" } else { "🎤" })
-                    )
+                            .child(if self.is_recording { "⏹" } else { "🎤" }),
+                    ),
             )
             .when(self.is_recording, |el| {
                 el.child(
@@ -79,7 +79,7 @@ impl RenderOnce for AudioRecordButton {
                                 .w(px(8.0))
                                 .h(px(8.0))
                                 .rounded_full()
-                                .bg(hsla(0.0, 0.8, 0.5, 1.0))
+                                .bg(hsla(0.0, 0.8, 0.5, 1.0)),
                         )
                         .child(
                             div()
@@ -90,8 +90,8 @@ impl RenderOnce for AudioRecordButton {
                                     "{}:{:02}",
                                     (self.recording_time / 60.0).floor() as i32,
                                     (self.recording_time % 60.0).floor() as i32
-                                ))
-                        )
+                                )),
+                        ),
                 )
             })
     }

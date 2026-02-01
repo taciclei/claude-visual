@@ -1,13 +1,18 @@
 //! Key handling for different Vim modes
 
-use gpui::*;
+use super::super::{VimAction, VimEvent};
 use super::vim_state::VimState;
 use super::VimMode;
-use super::super::{VimAction, VimEvent};
+use gpui::*;
 
 impl VimState {
     /// Handle a key event
-    pub fn handle_key(&mut self, key: &str, window: &mut Window, cx: &mut Context<Self>) -> Option<VimAction> {
+    pub fn handle_key(
+        &mut self,
+        key: &str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Option<VimAction> {
         if !self.enabled {
             return None;
         }
@@ -24,7 +29,12 @@ impl VimState {
     }
 
     /// Handle key in normal mode
-    pub(super) fn handle_normal_key(&mut self, key: &str, _window: &mut Window, cx: &mut Context<Self>) -> Option<VimAction> {
+    pub(super) fn handle_normal_key(
+        &mut self,
+        key: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Option<VimAction> {
         // Check for count prefix (0-9)
         if let Some(digit) = key.chars().next().filter(|c| c.is_ascii_digit()) {
             if digit != '0' || self.count.is_some() {
@@ -35,7 +45,9 @@ impl VimState {
         }
 
         let count = self.count.take().unwrap_or(1);
-        let action = self.key_handler.handle_normal(key, count, self.pending_operator);
+        let action = self
+            .key_handler
+            .handle_normal(key, count, self.pending_operator);
 
         if let Some(ref a) = action {
             match a {
@@ -88,7 +100,12 @@ impl VimState {
     }
 
     /// Handle key in insert mode
-    pub(super) fn handle_insert_key(&mut self, key: &str, _window: &mut Window, cx: &mut Context<Self>) -> Option<VimAction> {
+    pub(super) fn handle_insert_key(
+        &mut self,
+        key: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Option<VimAction> {
         if key == "escape" {
             self.set_mode(VimMode::Normal, cx);
             Some(VimAction::ExitInsertMode)
@@ -99,7 +116,12 @@ impl VimState {
     }
 
     /// Handle key in visual mode
-    pub(super) fn handle_visual_key(&mut self, key: &str, _window: &mut Window, cx: &mut Context<Self>) -> Option<VimAction> {
+    pub(super) fn handle_visual_key(
+        &mut self,
+        key: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Option<VimAction> {
         if key == "escape" {
             self.set_mode(VimMode::Normal, cx);
             return Some(VimAction::ExitVisualMode);
@@ -122,7 +144,12 @@ impl VimState {
     }
 
     /// Handle key in command mode
-    pub(super) fn handle_command_key(&mut self, key: &str, _window: &mut Window, cx: &mut Context<Self>) -> Option<VimAction> {
+    pub(super) fn handle_command_key(
+        &mut self,
+        key: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Option<VimAction> {
         match key {
             "escape" => {
                 self.set_mode(VimMode::Normal, cx);
@@ -149,7 +176,12 @@ impl VimState {
     }
 
     /// Handle key in search mode
-    pub(super) fn handle_search_key(&mut self, key: &str, _window: &mut Window, cx: &mut Context<Self>) -> Option<VimAction> {
+    pub(super) fn handle_search_key(
+        &mut self,
+        key: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Option<VimAction> {
         match key {
             "escape" => {
                 self.set_mode(VimMode::Normal, cx);

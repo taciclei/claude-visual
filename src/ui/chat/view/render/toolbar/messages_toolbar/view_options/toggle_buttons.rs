@@ -1,7 +1,7 @@
 //! Individual toggle button renderers
 
-use gpui::*;
 use super::theme_colors::ThemeColors;
+use gpui::*;
 
 /// Configuration for a toggle button
 pub struct ToggleButtonConfig {
@@ -47,7 +47,7 @@ pub fn render_toggle_button(
             div()
                 .text_color(text_muted.opacity(0.5))
                 .ml_1()
-                .child(shortcut)
+                .child(shortcut),
         );
     }
 
@@ -247,12 +247,7 @@ pub fn render_command_palette_toggle(
         .hover(move |s| s.bg(accent.opacity(0.1)).text_color(accent))
         .on_click(on_click)
         .child("⌘")
-        .child(
-            div()
-                .text_color(text_muted.opacity(0.5))
-                .ml_1()
-                .child("⌘K")
-        )
+        .child(div().text_color(text_muted.opacity(0.5)).ml_1().child("⌘K"))
 }
 
 /// Render shortcuts help toggle button

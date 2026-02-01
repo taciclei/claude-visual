@@ -2,21 +2,21 @@
 //!
 //! Provides toggle button components that can be pressed/unpressed.
 
-mod types;
-mod toggle;
-mod icon_toggle;
-mod text_style_toggle;
-mod favorite_toggle;
-mod like_toggle;
 mod bookmark_toggle;
+mod favorite_toggle;
+mod icon_toggle;
+mod like_toggle;
+mod text_style_toggle;
+mod toggle;
+mod types;
 
-pub use types::*;
-pub use toggle::Toggle;
-pub use icon_toggle::IconToggle;
-pub use text_style_toggle::TextStyleToggle;
-pub use favorite_toggle::FavoriteToggle;
-pub use like_toggle::LikeToggle;
 pub use bookmark_toggle::BookmarkToggle;
+pub use favorite_toggle::FavoriteToggle;
+pub use icon_toggle::IconToggle;
+pub use like_toggle::LikeToggle;
+pub use text_style_toggle::TextStyleToggle;
+pub use toggle::Toggle;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

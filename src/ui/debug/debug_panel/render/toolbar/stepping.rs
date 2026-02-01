@@ -1,7 +1,7 @@
 //! Debug stepping controls
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::debug::debug_panel::{DebugPanel, DebugPanelEvent};
 
@@ -32,15 +32,8 @@ impl DebugPanel {
                     .hover(|s| s.bg(success_color.opacity(0.3)))
                     .on_click(on_continue)
             })
-            .when(!is_stopped, |d| {
-                d.opacity(0.5)
-            })
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(success_color)
-                    .child("▶▶"),
-            )
+            .when(!is_stopped, |d| d.opacity(0.5))
+            .child(div().text_sm().text_color(success_color).child("▶▶"))
     }
 
     /// Render pause button
@@ -69,15 +62,8 @@ impl DebugPanel {
                     .hover(|s| s.bg(warning_color.opacity(0.3)))
                     .on_click(on_pause)
             })
-            .when(!is_running, |d| {
-                d.opacity(0.5)
-            })
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(warning_color)
-                    .child("⏸"),
-            )
+            .when(!is_running, |d| d.opacity(0.5))
+            .child(div().text_sm().text_color(warning_color).child("⏸"))
     }
 
     /// Render step over button
@@ -108,15 +94,8 @@ impl DebugPanel {
                     .hover(|s| s.bg(border_color))
                     .on_click(on_step_over)
             })
-            .when(!is_stopped, |d| {
-                d.opacity(0.5)
-            })
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(text_color)
-                    .child("⤵"),
-            )
+            .when(!is_stopped, |d| d.opacity(0.5))
+            .child(div().text_xs().text_color(text_color).child("⤵"))
     }
 
     /// Render step into button
@@ -147,15 +126,8 @@ impl DebugPanel {
                     .hover(|s| s.bg(border_color))
                     .on_click(on_step_into)
             })
-            .when(!is_stopped, |d| {
-                d.opacity(0.5)
-            })
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(text_color)
-                    .child("↓"),
-            )
+            .when(!is_stopped, |d| d.opacity(0.5))
+            .child(div().text_xs().text_color(text_color).child("↓"))
     }
 
     /// Render step out button
@@ -186,14 +158,7 @@ impl DebugPanel {
                     .hover(|s| s.bg(border_color))
                     .on_click(on_step_out)
             })
-            .when(!is_stopped, |d| {
-                d.opacity(0.5)
-            })
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(text_color)
-                    .child("↑"),
-            )
+            .when(!is_stopped, |d| d.opacity(0.5))
+            .child(div().text_xs().text_color(text_color).child("↑"))
     }
 }

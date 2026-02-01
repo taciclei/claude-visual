@@ -1,7 +1,7 @@
 //! Table type definitions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Table column alignment
 #[derive(Debug, Clone, Copy, Default, PartialEq)]

@@ -32,7 +32,12 @@ impl IconTheme {
     pub fn get_folder_icon(&self, folder_name: &str, expanded: bool) -> Option<PathBuf> {
         // Try exact folder name match
         if expanded {
-            if let Some(icon_id) = self.manifest.file_icons.folder_names_expanded.get(folder_name) {
+            if let Some(icon_id) = self
+                .manifest
+                .file_icons
+                .folder_names_expanded
+                .get(folder_name)
+            {
                 return self.resolve_icon(icon_id);
             }
         }

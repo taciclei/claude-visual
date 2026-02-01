@@ -1,7 +1,7 @@
 //! Header rendering for server configuration editor
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::mcp::server_config::core::ServerConfigEditor;
@@ -27,21 +27,17 @@ impl ServerConfigEditor {
             .border_b_1()
             .border_color(border_color)
             .child(
-                div()
-                    .flex()
-                    .items_center()
-                    .gap_2()
-                    .child(
-                        div()
-                            .text_lg()
-                            .font_weight(FontWeight::SEMIBOLD)
-                            .text_color(text_color)
-                            .child(if is_new {
-                                "Add MCP Server"
-                            } else {
-                                "Configure Server"
-                            }),
-                    ),
+                div().flex().items_center().gap_2().child(
+                    div()
+                        .text_lg()
+                        .font_weight(FontWeight::SEMIBOLD)
+                        .text_color(text_color)
+                        .child(if is_new {
+                            "Add MCP Server"
+                        } else {
+                            "Configure Server"
+                        }),
+                ),
             )
             .child(
                 div()

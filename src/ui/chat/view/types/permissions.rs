@@ -84,7 +84,10 @@ impl PermissionRisk {
         let action_lower = action.to_lowercase();
 
         // High risk: destructive file operations, shell commands with dangerous patterns
-        if tool_lower.contains("bash") || tool_lower.contains("shell") || tool_lower.contains("exec") {
+        if tool_lower.contains("bash")
+            || tool_lower.contains("shell")
+            || tool_lower.contains("exec")
+        {
             // Check for dangerous commands
             if action_lower.contains("rm -rf")
                 || action_lower.contains("sudo")

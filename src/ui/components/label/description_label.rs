@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Description list label
 #[derive(IntoElement)]

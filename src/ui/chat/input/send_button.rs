@@ -1,7 +1,7 @@
 //! Send button rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
@@ -9,7 +9,12 @@ use super::ChatInput;
 
 impl ChatInput {
     /// Render send button with keyboard hint
-    pub(super) fn render_send_button(&self, theme: &Theme, can_submit: bool, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_send_button(
+        &self,
+        theme: &Theme,
+        can_submit: bool,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .flex()
             .flex_col()

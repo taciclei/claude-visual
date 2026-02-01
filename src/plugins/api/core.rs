@@ -1,9 +1,9 @@
 //! Core extension API that combines all sub-APIs
 
-use super::ui::UiApi;
+use super::events::EventApi;
 use super::fs::FileSystemApi;
 use super::settings::SettingsApi;
-use super::events::EventApi;
+use super::ui::UiApi;
 
 /// Version of the extension API
 pub const API_VERSION: &str = "0.1.0";
@@ -40,8 +40,14 @@ impl ExtensionApi {
     /// Clean up resources for an extension
     pub fn cleanup_extension(&self, extension_id: &str) {
         // Remove UI elements
-        self.ui.status_items.write().retain(|_, item| item.extension_id != extension_id);
-        self.ui.notifications.write().retain(|n| n.extension_id != extension_id);
+        self.ui
+            .status_items
+            .write()
+            .retain(|_, item| item.extension_id != extension_id);
+        self.ui
+            .notifications
+            .write()
+            .retain(|n| n.extension_id != extension_id);
 
         // Remove event subscriptions
         self.events.remove_extension_subscriptions(extension_id);

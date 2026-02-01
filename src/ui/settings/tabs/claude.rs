@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::super::SettingsModal;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render the claude tab
@@ -19,7 +19,8 @@ impl SettingsModal {
                     "Auto-save conversations",
                     self.pending.auto_save_conversations,
                     |this, cx| {
-                        this.pending.auto_save_conversations = !this.pending.auto_save_conversations;
+                        this.pending.auto_save_conversations =
+                            !this.pending.auto_save_conversations;
                         this.mark_changed(cx);
                     },
                     cx,
@@ -27,14 +28,11 @@ impl SettingsModal {
                 cx,
             ))
             // CLI path
-            .child(self.render_section(
-                "Claude CLI",
-                "Path to the Claude Code CLI (leave empty to use PATH)",
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap_2()
-                    .child(
+            .child(
+                self.render_section(
+                    "Claude CLI",
+                    "Path to the Claude Code CLI (leave empty to use PATH)",
+                    div().flex().flex_col().gap_2().child(
                         div()
                             .w_full()
                             .px_3()
@@ -57,63 +55,81 @@ impl SettingsModal {
                                     .unwrap_or_else(|| "Using system PATH".to_string()),
                             ),
                     ),
-                cx,
-            ))
+                    cx,
+                ),
+            )
             // Claude Code Skills section
-            .child(self.render_section(
-                "Claude Code Skills",
-                "Popular skills for quick access",
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap_2()
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(theme.colors.text_muted)
-                            .mb_1()
-                            .child("Frequently used skills appear in the quick actions bar:")
-                    )
-                    .child(
-                        div()
-                            .flex()
-                            .flex_wrap()
-                            .gap_1()
-                            .child(self.render_skill_badge("/apex", "Implementation workflow", &theme))
-                            .child(self.render_skill_badge("/explore", "Codebase exploration", &theme))
-                            .child(self.render_skill_badge("/debug", "Error debugging", &theme))
-                            .child(self.render_skill_badge("/commit", "Smart commits", &theme))
-                            .child(self.render_skill_badge("/review", "Code review", &theme))
-                            .child(self.render_skill_badge("/brainstorm", "Research", &theme))
-                    ),
-                cx,
-            ))
+            .child(
+                self.render_section(
+                    "Claude Code Skills",
+                    "Popular skills for quick access",
+                    div()
+                        .flex()
+                        .flex_col()
+                        .gap_2()
+                        .child(
+                            div()
+                                .text_xs()
+                                .text_color(theme.colors.text_muted)
+                                .mb_1()
+                                .child("Frequently used skills appear in the quick actions bar:"),
+                        )
+                        .child(
+                            div()
+                                .flex()
+                                .flex_wrap()
+                                .gap_1()
+                                .child(self.render_skill_badge(
+                                    "/apex",
+                                    "Implementation workflow",
+                                    &theme,
+                                ))
+                                .child(self.render_skill_badge(
+                                    "/explore",
+                                    "Codebase exploration",
+                                    &theme,
+                                ))
+                                .child(self.render_skill_badge("/debug", "Error debugging", &theme))
+                                .child(self.render_skill_badge("/commit", "Smart commits", &theme))
+                                .child(self.render_skill_badge("/review", "Code review", &theme))
+                                .child(self.render_skill_badge("/brainstorm", "Research", &theme)),
+                        ),
+                    cx,
+                ),
+            )
             // Context management
-            .child(self.render_section(
-                "Context Management",
-                "Automatic context compaction and warnings",
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap_2()
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(theme.colors.text_muted)
-                            .child("Context warning at 70% usage, urgent at 85%")
-                    )
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(theme.colors.accent)
-                            .child("Use /compact to free up context space")
-                    ),
-                cx,
-            ))
+            .child(
+                self.render_section(
+                    "Context Management",
+                    "Automatic context compaction and warnings",
+                    div()
+                        .flex()
+                        .flex_col()
+                        .gap_2()
+                        .child(
+                            div()
+                                .text_xs()
+                                .text_color(theme.colors.text_muted)
+                                .child("Context warning at 70% usage, urgent at 85%"),
+                        )
+                        .child(
+                            div()
+                                .text_xs()
+                                .text_color(theme.colors.accent)
+                                .child("Use /compact to free up context space"),
+                        ),
+                    cx,
+                ),
+            )
     }
 
     /// Render a skill badge
-    fn render_skill_badge(&self, skill: &'static str, desc: &'static str, theme: &crate::app::theme::Theme) -> impl IntoElement {
+    fn render_skill_badge(
+        &self,
+        skill: &'static str,
+        desc: &'static str,
+        theme: &crate::app::theme::Theme,
+    ) -> impl IntoElement {
         div()
             .px_2()
             .py_1()
@@ -128,13 +144,13 @@ impl SettingsModal {
                     .text_xs()
                     .font_weight(FontWeight::MEDIUM)
                     .text_color(theme.colors.accent)
-                    .child(skill)
+                    .child(skill),
             )
             .child(
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child(desc)
+                    .child(desc),
             )
     }
 }

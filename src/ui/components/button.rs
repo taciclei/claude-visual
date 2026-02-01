@@ -1,9 +1,9 @@
 //! Button component
 
+use gpui::prelude::*;
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 /// Button variant styles
 #[derive(Debug, Clone, Copy, Default)]
@@ -112,9 +112,7 @@ impl RenderOnce for Button {
             .gap_2();
 
         if !self.disabled {
-            element = element
-                .hover(|style| style.bg(bg_hover))
-                .cursor_pointer();
+            element = element.hover(|style| style.bg(bg_hover)).cursor_pointer();
         } else {
             element = element.opacity(0.5);
         }

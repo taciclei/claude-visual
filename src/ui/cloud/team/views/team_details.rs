@@ -1,10 +1,10 @@
 //! Team details view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::Team;
 use super::super::{TeamPanel, TeamViewMode};
+use crate::cloud::team::Team;
 
 impl TeamPanel {
     /// Render team details
@@ -91,18 +91,19 @@ impl TeamPanel {
                                             div()
                                                 .text_sm()
                                                 .text_color(theme.colors.text_muted)
-                                                .child(team.description.clone().unwrap_or_default()),
+                                                .child(
+                                                    team.description.clone().unwrap_or_default(),
+                                                ),
                                         )
                                     })
                                     .child(
-                                        div()
-                                            .text_xs()
-                                            .text_color(theme.colors.text_muted)
-                                            .child(format!(
+                                        div().text_xs().text_color(theme.colors.text_muted).child(
+                                            format!(
                                                 "{} members · {} projects",
                                                 team.active_member_count(),
                                                 team.project_ids.len()
-                                            )),
+                                            ),
+                                        ),
                                     ),
                             ),
                     ),

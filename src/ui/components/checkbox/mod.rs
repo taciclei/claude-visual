@@ -1,24 +1,20 @@
 //! Checkbox and checkbox group components
 
-mod types;
+mod card_group;
 mod checkbox;
 mod group;
-mod card_group;
-mod toggle;
 #[cfg(test)]
 mod tests;
+mod toggle;
+mod types;
 
 // Re-export public types
 pub use types::{
-    CheckboxSize,
-    CheckboxState,
-    CheckboxOption,
-    CheckboxGroupOrientation,
-    CheckboxCardOption,
+    CheckboxCardOption, CheckboxGroupOrientation, CheckboxOption, CheckboxSize, CheckboxState,
 };
 
 // Re-export public components
+pub use card_group::CheckboxCardGroup;
 pub use checkbox::Checkbox;
 pub use group::CheckboxGroup;
-pub use card_group::CheckboxCardGroup;
 pub use toggle::CheckboxToggle;

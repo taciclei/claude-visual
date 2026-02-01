@@ -1,8 +1,8 @@
 //! Collapse/expand buttons render functions
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Renders collapse and expand all buttons
@@ -35,7 +35,10 @@ impl ChatView {
                     } else {
                         theme.colors.text_muted
                     })
-                    .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                    .hover(|s| {
+                        s.bg(theme.colors.surface_hover)
+                            .text_color(theme.colors.text)
+                    })
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.collapse_all(cx);
                     }))
@@ -45,8 +48,8 @@ impl ChatView {
                         div()
                             .text_color(theme.colors.text_muted.opacity(0.5))
                             .ml_1()
-                            .child("⌘[")
-                    )
+                            .child("⌘["),
+                    ),
             )
             // Expand all button
             .child(
@@ -65,7 +68,10 @@ impl ChatView {
                     } else {
                         theme.colors.text_muted
                     })
-                    .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                    .hover(|s| {
+                        s.bg(theme.colors.surface_hover)
+                            .text_color(theme.colors.text)
+                    })
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.expand_all(cx);
                     }))
@@ -75,8 +81,8 @@ impl ChatView {
                         div()
                             .text_color(theme.colors.text_muted.opacity(0.5))
                             .ml_1()
-                            .child("⌘]")
-                    )
+                            .child("⌘]"),
+                    ),
             )
     }
 }

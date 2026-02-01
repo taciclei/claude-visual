@@ -1,19 +1,19 @@
 //! Rendering implementation for MCP server configuration editor
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::ServerConfigEditor;
 
-mod field;
-mod header;
 mod content;
+mod field;
 mod footer;
+mod header;
 
-pub(crate) use field::*;
-pub(crate) use header::*;
 pub(crate) use content::*;
+pub(crate) use field::*;
 pub(crate) use footer::*;
+pub(crate) use header::*;
 
 impl Render for ServerConfigEditor {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

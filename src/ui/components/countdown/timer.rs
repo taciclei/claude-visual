@@ -1,8 +1,8 @@
 //! Simple timer display
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Simple timer display
 #[derive(IntoElement)]
@@ -75,14 +75,14 @@ impl RenderOnce for Timer {
                         hsla(0.0, 0.0, 0.8, 1.0)
                     })
                     .font_family("monospace")
-                    .child(time_str)
+                    .child(time_str),
             )
             .when(self.running, |el| {
                 el.child(
                     div()
                         .size(px(8.0))
                         .rounded_full()
-                        .bg(hsla(0.0, 0.8, 0.5, 1.0))
+                        .bg(hsla(0.0, 0.8, 0.5, 1.0)),
                 )
             })
     }

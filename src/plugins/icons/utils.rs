@@ -37,7 +37,12 @@ pub(crate) fn parse_hex_color(hex: &str) -> Option<Hsla> {
     let l = (max + min) / 2.0;
 
     if (max - min).abs() < f32::EPSILON {
-        return Some(Hsla { h: 0.0, s: 0.0, l, a });
+        return Some(Hsla {
+            h: 0.0,
+            s: 0.0,
+            l,
+            a,
+        });
     }
 
     let d = max - min;

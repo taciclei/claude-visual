@@ -2,8 +2,8 @@
 
 use gpui::*;
 
+use super::super::types::{HighlightStyle, HighlightedRange};
 use super::CodeBlockView;
-use super::super::types::{HighlightedRange, HighlightStyle};
 
 impl CodeBlockView {
     /// Add a highlighted range
@@ -14,13 +14,21 @@ impl CodeBlockView {
 
     /// Highlight a single line
     pub fn highlight_line(&mut self, line: usize, style: HighlightStyle, cx: &mut Context<Self>) {
-        self.highlighted_ranges.push(HighlightedRange::single(line, style));
+        self.highlighted_ranges
+            .push(HighlightedRange::single(line, style));
         cx.notify();
     }
 
     /// Highlight a range of lines
-    pub fn highlight_range(&mut self, start: usize, end: usize, style: HighlightStyle, cx: &mut Context<Self>) {
-        self.highlighted_ranges.push(HighlightedRange::range(start, end, style));
+    pub fn highlight_range(
+        &mut self,
+        start: usize,
+        end: usize,
+        style: HighlightStyle,
+        cx: &mut Context<Self>,
+    ) {
+        self.highlighted_ranges
+            .push(HighlightedRange::range(start, end, style));
         cx.notify();
     }
 
@@ -47,7 +55,11 @@ impl CodeBlockView {
     }
 
     /// Get background color for a highlight style
-    pub(crate) fn highlight_bg_color(&self, style: HighlightStyle, theme: &crate::app::theme::Theme) -> Hsla {
+    pub(crate) fn highlight_bg_color(
+        &self,
+        style: HighlightStyle,
+        theme: &crate::app::theme::Theme,
+    ) -> Hsla {
         use HighlightStyle as HS;
         match style {
             HS::Reference => theme.colors.accent.opacity(0.15),
@@ -60,7 +72,11 @@ impl CodeBlockView {
     }
 
     /// Get border color for a highlight style (for gutter indicator)
-    pub(crate) fn highlight_border_color(&self, style: HighlightStyle, theme: &crate::app::theme::Theme) -> Hsla {
+    pub(crate) fn highlight_border_color(
+        &self,
+        style: HighlightStyle,
+        theme: &crate::app::theme::Theme,
+    ) -> Hsla {
         use HighlightStyle as HS;
         match style {
             HS::Reference => theme.colors.accent,

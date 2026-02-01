@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Accordion component
 pub struct Accordion {
@@ -137,7 +137,10 @@ impl Render for Accordion {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
-        let show_outer_border = matches!(self.style, AccordionStyle::Default | AccordionStyle::Separated);
+        let show_outer_border = matches!(
+            self.style,
+            AccordionStyle::Default | AccordionStyle::Separated
+        );
         let show_dividers = matches!(self.style, AccordionStyle::Default | AccordionStyle::Flush);
         let separated = matches!(self.style, AccordionStyle::Separated);
 
@@ -172,8 +175,7 @@ impl Render for Accordion {
                             .overflow_hidden()
                     })
                     .when(!separated && show_dividers && !is_first, |d| {
-                        d.border_t_1()
-                            .border_color(theme.colors.border)
+                        d.border_t_1().border_color(theme.colors.border)
                     })
                     // Header
                     .child(
@@ -195,11 +197,7 @@ impl Render for Accordion {
                             })
                             // Icon
                             .when_some(item.icon.clone(), |d, icon| {
-                                d.child(
-                                    div()
-                                        .text_base()
-                                        .child(icon)
-                                )
+                                d.child(div().text_base().child(icon))
                             })
                             // Title and subtitle
                             .child(
@@ -213,24 +211,24 @@ impl Render for Accordion {
                                             .text_sm()
                                             .font_weight(FontWeight::MEDIUM)
                                             .text_color(theme.colors.text)
-                                            .child(item.title.clone())
+                                            .child(item.title.clone()),
                                     )
                                     .when_some(item.subtitle.clone(), |d, subtitle| {
                                         d.child(
                                             div()
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
-                                                .child(subtitle)
+                                                .child(subtitle),
                                         )
-                                    })
+                                    }),
                             )
                             // Chevron
                             .child(
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child(chevron)
-                            )
+                                    .child(chevron),
+                            ),
                     )
                     // Content (when expanded)
                     .when(is_expanded, |d| {
@@ -244,7 +242,7 @@ impl Render for Accordion {
                                 .border_color(theme.colors.border)
                                 .text_sm()
                                 .text_color(theme.colors.text_muted)
-                                .child("Accordion content placeholder")
+                                .child("Accordion content placeholder"),
                         )
                     })
             }))

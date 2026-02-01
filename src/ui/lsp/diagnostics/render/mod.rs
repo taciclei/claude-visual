@@ -1,18 +1,18 @@
 //! Rendering implementation for diagnostics panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::DiagnosticsPanel;
 use super::types::{default_colors, DiagnosticsPanelEvent, SimpleColors};
 
-mod header;
-mod file_list;
 mod diagnostic_item;
 mod empty_state;
+mod file_list;
+mod header;
 
-use header::render_header;
 use file_list::render_file_list;
+use header::render_header;
 
 impl EventEmitter<DiagnosticsPanelEvent> for DiagnosticsPanel {}
 

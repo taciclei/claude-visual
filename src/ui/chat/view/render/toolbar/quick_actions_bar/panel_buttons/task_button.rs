@@ -1,8 +1,8 @@
 //! Active tasks button
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render active tasks panel button (⚡ with count)
@@ -33,15 +33,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_tasks_panel {
-                    text_color_active
-                } else if task_count > 0 {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_tasks_panel {
+                text_color_active
+            } else if task_count > 0 {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .when(task_count > 0, move |d| d.bg(warning_bg))
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)

@@ -51,7 +51,12 @@ impl HistorySidebar {
     }
 
     /// Handle keyboard input in search field
-    pub(super) fn handle_search_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_search_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         match &event.keystroke.key {
             key if key == "escape" => {
                 self.clear_search(cx);
@@ -65,7 +70,12 @@ impl HistorySidebar {
     }
 
     /// Handle text input in search field
-    pub(super) fn handle_search_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_search_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.search_query.push_str(text);
         self.on_search_change(&self.search_query.clone(), cx);
     }

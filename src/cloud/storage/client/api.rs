@@ -2,8 +2,8 @@
 
 use super::super::crypto::{calculate_hash, decrypt_data, encrypt_data};
 use super::super::types::{
-    DownloadResponse, StorageError, StorageItemType, StorageMetadata, StorageQuota,
-    UpdateRequest, UploadRequest,
+    DownloadResponse, StorageError, StorageItemType, StorageMetadata, StorageQuota, UpdateRequest,
+    UploadRequest,
 };
 use super::core::CloudStorage;
 use std::collections::HashMap;

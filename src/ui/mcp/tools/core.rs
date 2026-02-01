@@ -1,10 +1,10 @@
 //! Core MCP tools panel implementation
 
-use std::sync::Arc;
-use gpui::*;
+use super::types::{McpToolsPanelEvent, PendingToolCall, ToolApprovalStatus, ToolItem};
 use crate::app::state::AppState;
 use crate::mcp::McpTool;
-use super::types::{ToolItem, PendingToolCall, ToolApprovalStatus, McpToolsPanelEvent};
+use gpui::*;
+use std::sync::Arc;
 
 impl EventEmitter<McpToolsPanelEvent> for McpToolsPanel {}
 

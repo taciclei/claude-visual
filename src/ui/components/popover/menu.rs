@@ -1,7 +1,7 @@
 //! Menu popover for action lists
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Menu popover for action lists
 #[derive(Clone)]
@@ -108,12 +108,7 @@ impl RenderOnce for MenuPopover {
             .flex_col()
             .children(self.items.into_iter().map(|item| {
                 if item.label == "---" {
-                    div()
-                        .h(px(1.0))
-                        .mx_2()
-                        .my_1()
-                        .bg(border)
-                        .into_any_element()
+                    div().h(px(1.0)).mx_2().my_1().bg(border).into_any_element()
                 } else {
                     let item_text = if item.danger { danger } else { text };
                     let opacity = if item.disabled { 0.5 } else { 1.0 };
@@ -126,8 +121,7 @@ impl RenderOnce for MenuPopover {
                         .gap_2()
                         .opacity(opacity)
                         .when(!item.disabled, |d| {
-                            d.cursor_pointer()
-                                .hover(|s| s.bg(hover))
+                            d.cursor_pointer().hover(|s| s.bg(hover))
                         })
                         .when_some(item.icon, |d, icon| {
                             d.child(
@@ -135,7 +129,7 @@ impl RenderOnce for MenuPopover {
                                     .w(px(16.0))
                                     .text_sm()
                                     .text_color(text_muted)
-                                    .child(icon)
+                                    .child(icon),
                             )
                         })
                         .child(
@@ -143,15 +137,10 @@ impl RenderOnce for MenuPopover {
                                 .flex_1()
                                 .text_sm()
                                 .text_color(item_text)
-                                .child(item.label)
+                                .child(item.label),
                         )
                         .when_some(item.shortcut, |d, shortcut| {
-                            d.child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child(shortcut)
-                            )
+                            d.child(div().text_xs().text_color(text_muted).child(shortcut))
                         })
                         .into_any_element()
                 }

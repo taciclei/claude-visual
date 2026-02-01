@@ -1,15 +1,15 @@
 //! Table component for displaying tabular data
 
-mod types;
-mod table_impl;
-mod render;
 mod data_table;
 mod key_value_table;
+mod render;
+mod table_impl;
+mod types;
 
-pub use types::*;
-pub use table_impl::Table;
 pub use data_table::DataTable;
 pub use key_value_table::KeyValueTable;
+pub use table_impl::Table;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -31,8 +31,7 @@ mod tests {
 
     #[test]
     fn test_table_row() {
-        let row = TableRow::new(vec!["Alice", "30", "Engineer"])
-            .disabled();
+        let row = TableRow::new(vec!["Alice", "30", "Engineer"]).disabled();
 
         assert_eq!(row.cells.len(), 3);
         assert!(row.disabled);

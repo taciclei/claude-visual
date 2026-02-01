@@ -1,8 +1,8 @@
 //! Collapsible card component
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 use crate::app::state::AppState;
 
@@ -20,7 +20,11 @@ pub struct CollapsibleCard {
 }
 
 impl CollapsibleCard {
-    pub fn new(app_state: Arc<AppState>, title: impl Into<String>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        title: impl Into<String>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             title: title.into(),
@@ -43,7 +47,12 @@ impl CollapsibleCard {
     }
 
     /// Set custom icons
-    pub fn set_icons(&mut self, collapsed: impl Into<String>, expanded: impl Into<String>, cx: &mut Context<Self>) {
+    pub fn set_icons(
+        &mut self,
+        collapsed: impl Into<String>,
+        expanded: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) {
         self.collapsed_icon = collapsed.into();
         self.expanded_icon = expanded.into();
         cx.notify();
@@ -53,7 +62,11 @@ impl CollapsibleCard {
 impl Render for CollapsibleCard {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
-        let icon = if self.expanded { &self.expanded_icon } else { &self.collapsed_icon };
+        let icon = if self.expanded {
+            &self.expanded_icon
+        } else {
+            &self.collapsed_icon
+        };
 
         div()
             .id("collapsible-card")
@@ -82,7 +95,7 @@ impl Render for CollapsibleCard {
                         div()
                             .text_color(theme.colors.text_muted)
                             .text_sm()
-                            .child(icon.clone())
+                            .child(icon.clone()),
                     )
                     // Title
                     .child(
@@ -91,8 +104,8 @@ impl Render for CollapsibleCard {
                             .text_sm()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(theme.colors.text)
-                            .child(self.title.clone())
-                    )
+                            .child(self.title.clone()),
+                    ),
             )
             // Content (shown when expanded)
             .when(self.expanded, |d| {
@@ -101,7 +114,7 @@ impl Render for CollapsibleCard {
                         .px_4()
                         .py_3()
                         .border_t_1()
-                        .border_color(theme.colors.border)
+                        .border_color(theme.colors.border),
                 )
             })
     }

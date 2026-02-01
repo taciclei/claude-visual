@@ -1,10 +1,10 @@
 //! Recent sessions cards render function for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::super::core::ChatView;
 use super::super::super::types::{ChatViewEvent, NotificationType};
 use crate::app::theme::Theme;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     pub fn render_recent_sessions_cards(&self, theme: &Theme, cx: &mut Context<Self>) -> Div {
@@ -61,7 +61,11 @@ impl ChatView {
                     })
                     .on_click(cx.listener(move |this, _, _window, cx| {
                         let session_id = session_id.clone();
-                        this.show_notification(&format!("Resuming session..."), NotificationType::Info, cx);
+                        this.show_notification(
+                            &format!("Resuming session..."),
+                            NotificationType::Info,
+                            cx,
+                        );
                         cx.emit(ChatViewEvent::Submit(format!("/resume {}", session_id)));
                     }))
                     // Session icon
@@ -75,7 +79,7 @@ impl ChatView {
                             .rounded_md()
                             .bg(theme.colors.accent.opacity(0.1))
                             .text_color(theme.colors.accent)
-                            .child("💬")
+                            .child("💬"),
                     )
                     // Session info
                     .child(
@@ -92,7 +96,7 @@ impl ChatView {
                                     .text_color(theme.colors.text)
                                     .overflow_hidden()
                                     .text_ellipsis()
-                                    .child(title)
+                                    .child(title),
                             )
                             .child(
                                 div()
@@ -107,20 +111,20 @@ impl ChatView {
                                             .items_center()
                                             .gap_1()
                                             .child("📁")
-                                            .child(folder_name)
+                                            .child(folder_name),
                                     )
                                     .child("·")
                                     .child(format!("{} msgs", msg_count))
                                     .child("·")
-                                    .child(model)
-                            )
+                                    .child(model),
+                            ),
                     )
                     // Time
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child(time_str)
+                            .child(time_str),
                     )
             }))
     }

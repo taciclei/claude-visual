@@ -1,8 +1,8 @@
 //! Calendar month view component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::DateValue;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Calendar month view (for dropdown)
 #[derive(IntoElement)]
@@ -78,9 +78,18 @@ impl CalendarMonth {
 
     fn month_name(&self) -> &'static str {
         match self.month {
-            1 => "January", 2 => "February", 3 => "March", 4 => "April",
-            5 => "May", 6 => "June", 7 => "July", 8 => "August",
-            9 => "September", 10 => "October", 11 => "November", 12 => "December",
+            1 => "January",
+            2 => "February",
+            3 => "March",
+            4 => "April",
+            5 => "May",
+            6 => "June",
+            7 => "July",
+            8 => "August",
+            9 => "September",
+            10 => "October",
+            11 => "November",
+            12 => "December",
             _ => "Unknown",
         }
     }
@@ -113,14 +122,14 @@ impl RenderOnce for CalendarMonth {
                             .rounded(px(4.0))
                             .cursor_pointer()
                             .hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
-                            .child("◀")
+                            .child("◀"),
                     )
                     .child(
                         div()
                             .text_size(px(14.0))
                             .font_weight(gpui::FontWeight::SEMIBOLD)
                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                            .child(format!("{} {}", self.month_name(), self.year))
+                            .child(format!("{} {}", self.month_name(), self.year)),
                     )
                     .child(
                         div()
@@ -129,8 +138,8 @@ impl RenderOnce for CalendarMonth {
                             .rounded(px(4.0))
                             .cursor_pointer()
                             .hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
-                            .child("▶")
-                    )
+                            .child("▶"),
+                    ),
             )
             .child(
                 // Day labels
@@ -147,7 +156,7 @@ impl RenderOnce for CalendarMonth {
                             .font_weight(gpui::FontWeight::MEDIUM)
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                             .child(day)
-                    }))
+                    })),
             )
             .child(
                 // Days grid
@@ -185,7 +194,7 @@ impl RenderOnce for CalendarMonth {
                         }
 
                         day_cell.child(day.to_string())
-                    }))
+                    })),
             )
     }
 }

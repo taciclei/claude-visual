@@ -74,8 +74,16 @@ impl RenderOnce for SegmentedControl {
             SegmentedVariant::Pills => (hsla(0.0, 0.0, 0.1, 1.0), hsla(0.0, 0.0, 0.0, 0.0)),
         };
 
-        let gap = if self.variant == SegmentedVariant::Pills { 4.0 } else { 0.0 };
-        let container_padding = if self.variant == SegmentedVariant::Pills { 4.0 } else { 2.0 };
+        let gap = if self.variant == SegmentedVariant::Pills {
+            4.0
+        } else {
+            0.0
+        };
+        let container_padding = if self.variant == SegmentedVariant::Pills {
+            4.0
+        } else {
+            2.0
+        };
 
         div()
             .id(self.id)
@@ -94,22 +102,18 @@ impl RenderOnce for SegmentedControl {
 
                 let (seg_bg, seg_text) = if is_selected {
                     match self.variant {
-                        SegmentedVariant::Filled => (
-                            hsla(0.0, 0.0, 0.25, 1.0),
-                            hsla(0.0, 0.0, 0.95, 1.0),
-                        ),
-                        SegmentedVariant::Outline => (
-                            hsla(0.6, 0.7, 0.5, 0.15),
-                            hsla(0.6, 0.7, 0.5, 1.0),
-                        ),
-                        SegmentedVariant::Ghost => (
-                            hsla(0.6, 0.7, 0.5, 0.15),
-                            hsla(0.6, 0.7, 0.5, 1.0),
-                        ),
-                        SegmentedVariant::Pills => (
-                            hsla(0.6, 0.7, 0.5, 1.0),
-                            hsla(0.0, 0.0, 1.0, 1.0),
-                        ),
+                        SegmentedVariant::Filled => {
+                            (hsla(0.0, 0.0, 0.25, 1.0), hsla(0.0, 0.0, 0.95, 1.0))
+                        }
+                        SegmentedVariant::Outline => {
+                            (hsla(0.6, 0.7, 0.5, 0.15), hsla(0.6, 0.7, 0.5, 1.0))
+                        }
+                        SegmentedVariant::Ghost => {
+                            (hsla(0.6, 0.7, 0.5, 0.15), hsla(0.6, 0.7, 0.5, 1.0))
+                        }
+                        SegmentedVariant::Pills => {
+                            (hsla(0.6, 0.7, 0.5, 1.0), hsla(0.0, 0.0, 1.0, 1.0))
+                        }
                     }
                 } else {
                     (hsla(0.0, 0.0, 0.0, 0.0), hsla(0.0, 0.0, 0.6, 1.0))
@@ -134,7 +138,7 @@ impl RenderOnce for SegmentedControl {
                             div()
                                 .text_size(px(font_size))
                                 .text_color(seg_text)
-                                .child(icon)
+                                .child(icon),
                         )
                     })
                     .child(
@@ -146,7 +150,7 @@ impl RenderOnce for SegmentedControl {
                                 FontWeight::NORMAL
                             })
                             .text_color(seg_text)
-                            .child(segment.label.clone())
+                            .child(segment.label.clone()),
                     )
                     .when_some(segment.badge.clone(), |el, badge| {
                         el.child(
@@ -157,7 +161,7 @@ impl RenderOnce for SegmentedControl {
                                 .rounded(px(8.0))
                                 .text_size(px(10.0))
                                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                .child(badge)
+                                .child(badge),
                         )
                     })
             }))

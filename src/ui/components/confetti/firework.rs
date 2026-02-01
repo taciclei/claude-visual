@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Firework burst component
 #[derive(IntoElement)]
@@ -73,7 +73,6 @@ impl RenderOnce for Firework {
             .top(px(self.y - self.radius))
             .size(px(self.radius * 2.0))
             .overflow_hidden()
-
             .flex()
             .items_center()
             .justify_center()
@@ -86,7 +85,12 @@ impl RenderOnce for Firework {
                     .flex()
                     .items_center()
                     .justify_center()
-                    .child(div().size(px(self.radius * 0.5)).rounded_full().bg(self.color)),
+                    .child(
+                        div()
+                            .size(px(self.radius * 0.5))
+                            .rounded_full()
+                            .bg(self.color),
+                    ),
             )
     }
 }

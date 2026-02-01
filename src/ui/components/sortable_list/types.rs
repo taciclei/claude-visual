@@ -1,7 +1,7 @@
 //! Core types for sortable lists
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Sortable item data
 #[derive(Clone)]

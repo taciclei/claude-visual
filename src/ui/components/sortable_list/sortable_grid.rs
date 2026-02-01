@@ -1,8 +1,8 @@
 //! Sortable grid component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::SortableItem;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Sortable grid - 2D sortable layout
 #[derive(IntoElement)]
@@ -83,11 +83,7 @@ impl RenderOnce for SortableGrid {
                     .opacity(opacity)
                     .cursor_grab()
                     .when_some(item.icon.clone(), |el, icon| {
-                        el.child(
-                            div()
-                                .text_size(px(24.0))
-                                .child(icon)
-                        )
+                        el.child(div().text_size(px(24.0)).child(icon))
                     })
                     .child(
                         div()
@@ -95,7 +91,7 @@ impl RenderOnce for SortableGrid {
                             .text_color(hsla(0.0, 0.0, 0.7, 1.0))
                             .text_ellipsis()
                             .max_w(px(self.item_size - 8.0))
-                            .child(item.content.clone())
+                            .child(item.content.clone()),
                     )
             }))
     }

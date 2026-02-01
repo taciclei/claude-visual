@@ -1,10 +1,10 @@
 //! Modal and overlay management
 
-use gpui::*;
+use super::core::Workspace;
 use crate::ui::components::command_palette::{CommandPalette, CommandPaletteEvent};
 use crate::ui::components::shortcuts_panel::{ShortcutsPanel, ShortcutsPanelEvent};
 use crate::ui::settings::{SettingsModal, SettingsModalEvent};
-use super::core::Workspace;
+use gpui::*;
 
 impl Workspace {
     /// Show the command palette
@@ -17,8 +17,9 @@ impl Workspace {
         let palette = cx.new(|cx| CommandPalette::new(app_state, cx));
 
         // Subscribe to palette events
-        cx.subscribe(&palette, |this, _, event: &CommandPaletteEvent, cx| {
-            match event {
+        cx.subscribe(
+            &palette,
+            |this, _, event: &CommandPaletteEvent, cx| match event {
                 CommandPaletteEvent::CommandSelected(command_id) => {
                     this.execute_command(command_id, cx);
                     this.hide_command_palette(cx);
@@ -26,8 +27,8 @@ impl Workspace {
                 CommandPaletteEvent::Dismissed => {
                     this.hide_command_palette(cx);
                 }
-            }
-        })
+            },
+        )
         .detach();
 
         self.command_palette = Some(palette);
@@ -50,8 +51,9 @@ impl Workspace {
         let modal = cx.new(|cx| SettingsModal::new(app_state, cx));
 
         // Subscribe to modal events
-        cx.subscribe(&modal, |this, _, event: &SettingsModalEvent, cx| {
-            match event {
+        cx.subscribe(
+            &modal,
+            |this, _, event: &SettingsModalEvent, cx| match event {
                 SettingsModalEvent::Dismissed => {
                     this.hide_settings_modal(cx);
                 }
@@ -59,8 +61,8 @@ impl Workspace {
                     tracing::info!("Settings saved");
                     this.hide_settings_modal(cx);
                 }
-            }
-        })
+            },
+        )
         .detach();
 
         // Modal will focus itself when rendered
@@ -86,13 +88,14 @@ impl Workspace {
         let panel = cx.new(|cx| ShortcutsPanel::new(app_state, cx));
 
         // Subscribe to panel events
-        cx.subscribe(&panel, |this, _, event: &ShortcutsPanelEvent, cx| {
-            match event {
+        cx.subscribe(
+            &panel,
+            |this, _, event: &ShortcutsPanelEvent, cx| match event {
                 ShortcutsPanelEvent::Dismissed => {
                     this.hide_shortcuts_panel(cx);
                 }
-            }
-        })
+            },
+        )
         .detach();
 
         // Panel will focus itself when rendered

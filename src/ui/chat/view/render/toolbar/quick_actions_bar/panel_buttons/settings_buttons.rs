@@ -1,8 +1,8 @@
 //! Settings and integration buttons - quick settings and MCP
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render quick settings button (⚙️)
@@ -30,7 +30,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.show_quick_settings { text_color_active } else { text_color_inactive })
+            .text_color(if self.show_quick_settings {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("⚙️")
@@ -72,21 +76,21 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.panels.mcp_panel || self.panels.mcp_quick_tools {
-                    text_color_active
-                } else if tool_count > 0 {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.panels.mcp_panel || self.panels.mcp_quick_tools {
+                text_color_active
+            } else if tool_count > 0 {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .on_mouse_down(gpui::MouseButton::Right, on_right_click)
             .child("🔌")
             .when(tool_count > 0, |d| d.child(format!("{}", tool_count)))
-            .when(tool_count == 0 && mcp_count > 0, |d| d.child(format!("{}s", mcp_count)))
+            .when(tool_count == 0 && mcp_count > 0, |d| {
+                d.child(format!("{}s", mcp_count))
+            })
             .when(tool_count == 0 && mcp_count == 0, |d| d.child("MCP"))
     }
 }

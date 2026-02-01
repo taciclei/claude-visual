@@ -11,8 +11,11 @@ fn test_config_serialization() {
     let mut config = McpConfig::default();
     config.set_server(
         "filesystem".to_string(),
-        McpServerConfig::new("npx")
-            .with_args(["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]),
+        McpServerConfig::new("npx").with_args([
+            "-y",
+            "@modelcontextprotocol/server-filesystem",
+            "/tmp",
+        ]),
     );
 
     let json = serde_json::to_string_pretty(&config).unwrap();
@@ -67,5 +70,8 @@ fn test_presets() {
     assert!(fs.args.contains(&"-y".to_string()));
 
     let github = presets::github(Some("token123".to_string()));
-    assert_eq!(github.env.get("GITHUB_PERSONAL_ACCESS_TOKEN"), Some(&"token123".to_string()));
+    assert_eq!(
+        github.env.get("GITHUB_PERSONAL_ACCESS_TOKEN"),
+        Some(&"token123".to_string())
+    );
 }

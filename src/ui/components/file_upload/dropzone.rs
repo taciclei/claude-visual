@@ -1,8 +1,8 @@
 //! File dropzone component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Dropzone for file uploads
 #[derive(Clone)]
@@ -145,7 +145,7 @@ impl RenderOnce for FileDropzone {
                     UploadState::Error => "✕".to_string(),
                     UploadState::Uploading => "⏳".to_string(),
                     _ => self.icon.clone(),
-                })
+                }),
         );
 
         // Label
@@ -161,7 +161,7 @@ impl RenderOnce for FileDropzone {
                         UploadState::Success => "Upload complete!".to_string(),
                         UploadState::Error => "Upload failed".to_string(),
                         _ => self.label.clone(),
-                    })
+                    }),
             );
         }
 
@@ -173,7 +173,7 @@ impl RenderOnce for FileDropzone {
                         div()
                             .text_xs()
                             .text_color(text_muted)
-                            .child(sublabel.clone())
+                            .child(sublabel.clone()),
                     );
                 }
             }
@@ -185,7 +185,7 @@ impl RenderOnce for FileDropzone {
                         .pt_2()
                         .text_xs()
                         .text_color(text_muted)
-                        .child(format!("Accepted: {}", self.accepted_types.join(", ")))
+                        .child(format!("Accepted: {}", self.accepted_types.join(", "))),
                 );
             }
         }

@@ -78,18 +78,33 @@ impl ChatView {
             "/add-dir" => Some(("📁 Adding directory to context...", NotificationType::Info)),
 
             // Claude Code Skills
-            "/apex" => Some(("⚡ Starting APEX workflow (Analyze-Plan-Execute-eXamine)...", NotificationType::Info)),
+            "/apex" => Some((
+                "⚡ Starting APEX workflow (Analyze-Plan-Execute-eXamine)...",
+                NotificationType::Info,
+            )),
             "/brainstorm" => Some(("💡 Starting deep research mode...", NotificationType::Info)),
             "/explore" => Some(("🔍 Exploring codebase...", NotificationType::Info)),
-            "/oneshot" => Some(("🚀 Ultra-fast implementation mode...", NotificationType::Info)),
+            "/oneshot" => Some((
+                "🚀 Ultra-fast implementation mode...",
+                NotificationType::Info,
+            )),
             "/explain" => Some(("📖 Generating deep explanation...", NotificationType::Info)),
-            "/refactor" => Some(("♻️ Starting parallel refactoring...", NotificationType::Info)),
+            "/refactor" => Some((
+                "♻️ Starting parallel refactoring...",
+                NotificationType::Info,
+            )),
             "/docs" => Some(("📚 Researching documentation...", NotificationType::Info)),
-            "/ultrathink" => Some(("🧠 Entering ultra-deep thinking mode...", NotificationType::Info)),
+            "/ultrathink" => Some((
+                "🧠 Entering ultra-deep thinking mode...",
+                NotificationType::Info,
+            )),
 
             // Git Skills
             "/create-pr" | "/pr" => Some(("🔀 Creating pull request...", NotificationType::Info)),
-            "/fix-pr-comments" => Some(("💬 Fetching and fixing PR comments...", NotificationType::Info)),
+            "/fix-pr-comments" => Some((
+                "💬 Fetching and fixing PR comments...",
+                NotificationType::Info,
+            )),
             "/merge" => Some(("🔗 Starting intelligent merge...", NotificationType::Info)),
 
             // Other utilities
@@ -139,7 +154,8 @@ impl ChatView {
 
         let slash_commands: Vec<String> = session
             .map(|info| {
-                info.slash_commands.iter()
+                info.slash_commands
+                    .iter()
                     .filter(|cmd| filter.is_empty() || cmd.to_lowercase().contains(&filter))
                     .cloned()
                     .collect()
@@ -148,7 +164,8 @@ impl ChatView {
 
         let skills: Vec<String> = session
             .map(|info| {
-                info.skills.iter()
+                info.skills
+                    .iter()
                     .filter(|skill| filter.is_empty() || skill.to_lowercase().contains(&filter))
                     .cloned()
                     .collect()
@@ -198,8 +215,18 @@ impl ChatView {
     }
 
     /// Update task progress
-    pub fn update_task_progress(&mut self, task_id: &str, progress: u8, status: Option<String>, cx: &mut Context<Self>) {
-        if let Some(task) = self.active_tasks.iter_mut().find(|t| t.task_id.as_deref() == Some(task_id)) {
+    pub fn update_task_progress(
+        &mut self,
+        task_id: &str,
+        progress: u8,
+        status: Option<String>,
+        cx: &mut Context<Self>,
+    ) {
+        if let Some(task) = self
+            .active_tasks
+            .iter_mut()
+            .find(|t| t.task_id.as_deref() == Some(task_id))
+        {
             task.progress = Some(progress.min(100));
             task.status = status;
             cx.notify();
@@ -209,12 +236,16 @@ impl ChatView {
     /// Cancel a task by ID (or first task if None)
     pub fn cancel_task(&mut self, task_id: Option<String>, cx: &mut Context<Self>) {
         if let Some(id) = task_id {
-            if let Some(pos) = self.active_tasks.iter().position(|t| t.task_id.as_ref() == Some(&id)) {
+            if let Some(pos) = self
+                .active_tasks
+                .iter()
+                .position(|t| t.task_id.as_ref() == Some(&id))
+            {
                 let task = self.active_tasks.remove(pos);
                 self.show_notification(
                     &format!("Cancelled task: {}", task.description),
                     NotificationType::Info,
-                    cx
+                    cx,
                 );
                 // Emit the cancel event
                 cx.emit(ChatViewEvent::CancelTask(Some(id)));
@@ -225,7 +256,7 @@ impl ChatView {
             self.show_notification(
                 &format!("Cancelled task: {}", task.description),
                 NotificationType::Info,
-                cx
+                cx,
             );
             cx.emit(ChatViewEvent::CancelTask(task.task_id));
         }

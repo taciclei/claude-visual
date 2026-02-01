@@ -22,10 +22,7 @@ impl AIProvider for OpenAIProvider {
     }
 
     fn default_model(&self) -> &str {
-        self.config
-            .default_model
-            .as_deref()
-            .unwrap_or("gpt-4o")
+        self.config.default_model.as_deref().unwrap_or("gpt-4o")
     }
 
     fn is_configured(&self) -> bool {
@@ -128,36 +125,34 @@ impl AIProvider for OpenAIProvider {
             };
         }
 
-        let stream = response.bytes_stream().map(move |chunk| {
-            match chunk {
-                Ok(bytes) => {
-                    let text = String::from_utf8_lossy(&bytes);
-                    for line in text.lines() {
-                        if let Some(data) = line.strip_prefix("data: ") {
-                            if data == "[DONE]" {
-                                return Ok(StreamChunk::Stop(StopReason::EndTurn));
-                            }
-                            if let Ok(event) = serde_json::from_str::<OpenAIStreamEvent>(data) {
-                                if let Some(choice) = event.choices.first() {
-                                    if let Some(content) = &choice.delta.content {
-                                        return Ok(StreamChunk::Text(content.clone()));
-                                    }
-                                    if let Some(reason) = &choice.finish_reason {
-                                        return Ok(StreamChunk::Stop(match reason.as_str() {
-                                            "stop" => StopReason::EndTurn,
-                                            "length" => StopReason::MaxTokens,
-                                            "tool_calls" => StopReason::ToolUse,
-                                            _ => StopReason::EndTurn,
-                                        }));
-                                    }
+        let stream = response.bytes_stream().map(move |chunk| match chunk {
+            Ok(bytes) => {
+                let text = String::from_utf8_lossy(&bytes);
+                for line in text.lines() {
+                    if let Some(data) = line.strip_prefix("data: ") {
+                        if data == "[DONE]" {
+                            return Ok(StreamChunk::Stop(StopReason::EndTurn));
+                        }
+                        if let Ok(event) = serde_json::from_str::<OpenAIStreamEvent>(data) {
+                            if let Some(choice) = event.choices.first() {
+                                if let Some(content) = &choice.delta.content {
+                                    return Ok(StreamChunk::Text(content.clone()));
+                                }
+                                if let Some(reason) = &choice.finish_reason {
+                                    return Ok(StreamChunk::Stop(match reason.as_str() {
+                                        "stop" => StopReason::EndTurn,
+                                        "length" => StopReason::MaxTokens,
+                                        "tool_calls" => StopReason::ToolUse,
+                                        _ => StopReason::EndTurn,
+                                    }));
                                 }
                             }
                         }
                     }
-                    Ok(StreamChunk::Text(String::new()))
                 }
-                Err(e) => Err(AIError::Network(e.to_string())),
+                Ok(StreamChunk::Text(String::new()))
             }
+            Err(e) => Err(AIError::Network(e.to_string())),
         });
 
         Ok(Box::pin(stream))

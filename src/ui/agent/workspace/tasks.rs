@@ -1,9 +1,9 @@
 //! Task management operations
 
-use gpui::*;
-use crate::agent::Plan;
 use super::state::AgentWorkspace;
 use super::types::*;
+use crate::agent::Plan;
+use gpui::*;
 
 impl AgentWorkspace {
     /// Start a new task
@@ -27,22 +27,32 @@ impl AgentWorkspace {
         self.total_steps = step_count;
         self.plan = Some(plan.clone());
         self.mode = AgentMode::Executing;
-        self.add_log(LogLevel::Success, format!("Plan generated with {} steps", step_count));
-        cx.emit(AgentWorkspaceEvent::PlanGenerated(format!("{} steps", step_count)));
+        self.add_log(
+            LogLevel::Success,
+            format!("Plan generated with {} steps", step_count),
+        );
+        cx.emit(AgentWorkspaceEvent::PlanGenerated(format!(
+            "{} steps",
+            step_count
+        )));
         cx.emit(AgentWorkspaceEvent::ModeChanged(self.mode));
         cx.notify();
     }
 
     /// Mark current step as completed
     pub fn complete_step(&mut self, cx: &mut Context<Self>) {
-        let step_name = self.plan
+        let step_name = self
+            .plan
             .as_ref()
             .and_then(|p| p.steps.get(self.current_step))
             .map(|s| s.description.clone())
             .unwrap_or_else(|| format!("Step {}", self.current_step + 1));
 
         self.add_log(LogLevel::Success, format!("Completed: {}", step_name));
-        cx.emit(AgentWorkspaceEvent::StepCompleted(self.current_step, step_name));
+        cx.emit(AgentWorkspaceEvent::StepCompleted(
+            self.current_step,
+            step_name,
+        ));
 
         self.current_step += 1;
         self.update_progress();

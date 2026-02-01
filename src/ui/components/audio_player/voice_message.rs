@@ -1,8 +1,8 @@
 //! Voice message component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::PlaybackState;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Voice message component
 #[derive(IntoElement)]
@@ -80,10 +80,12 @@ impl RenderOnce for VoiceMessage {
 
         // Generate default waveform if empty
         let waveform: Vec<f32> = if self.waveform.is_empty() {
-            (0..30).map(|i| {
-                let t = i as f32 / 30.0;
-                (t * 10.0).sin().abs() * 0.5 + 0.2
-            }).collect()
+            (0..30)
+                .map(|i| {
+                    let t = i as f32 / 30.0;
+                    (t * 10.0).sin().abs() * 0.5 + 0.2
+                })
+                .collect()
         } else {
             self.waveform.clone()
         };
@@ -115,8 +117,8 @@ impl RenderOnce for VoiceMessage {
                         div()
                             .text_size(px(12.0))
                             .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                            .child(play_icon)
-                    )
+                            .child(play_icon),
+                    ),
             )
             // Waveform
             .child(
@@ -139,7 +141,7 @@ impl RenderOnce for VoiceMessage {
                             .h(px(h * 24.0))
                             .bg(bar_color)
                             .rounded(px(1.5))
-                    }))
+                    })),
             )
             // Duration
             .child(
@@ -150,7 +152,7 @@ impl RenderOnce for VoiceMessage {
                         "{}:{:02}",
                         (self.duration / 60.0).floor() as i32,
                         (self.duration % 60.0).floor() as i32
-                    ))
+                    )),
             )
     }
 }

@@ -1,8 +1,8 @@
 //! Text with multiple highlights component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Text with multiple highlights
 #[derive(Clone)]
@@ -65,20 +65,18 @@ impl RenderOnce for MultiHighlight {
             .flex()
             .flex_wrap()
             .text_color(text_color)
-            .children(
-                segments.into_iter().map(|(text, color_opt)| {
-                    if let Some(color) = color_opt {
-                        div()
-                            .px(px(1.0))
-                            .rounded(px(2.0))
-                            .bg(color.background())
-                            .child(text)
-                            .into_any_element()
-                    } else {
-                        div().child(text).into_any_element()
-                    }
-                })
-            )
+            .children(segments.into_iter().map(|(text, color_opt)| {
+                if let Some(color) = color_opt {
+                    div()
+                        .px(px(1.0))
+                        .rounded(px(2.0))
+                        .bg(color.background())
+                        .child(text)
+                        .into_any_element()
+                } else {
+                    div().child(text).into_any_element()
+                }
+            }))
             .into_any_element()
     }
 }

@@ -1,7 +1,7 @@
 //! Type definitions for carousel components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Carousel navigation style
 #[derive(Debug, Clone, Copy, Default, PartialEq)]

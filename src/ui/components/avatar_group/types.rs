@@ -106,7 +106,7 @@ impl GroupAvatar {
 
         // Generate color from index
         let colors = [
-            hsla(0.6, 0.7, 0.55, 1.0),  // Blue
+            hsla(0.6, 0.7, 0.55, 1.0),   // Blue
             hsla(0.38, 0.65, 0.45, 1.0), // Green
             hsla(0.0, 0.7, 0.55, 1.0),   // Red
             hsla(0.75, 0.6, 0.55, 1.0),  // Purple

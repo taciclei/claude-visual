@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{NavItem, NavItemVariant, NavOrientation, NavSize};
 
@@ -102,51 +102,35 @@ impl RenderOnce for Nav {
 
                 // Apply variant-specific styles
                 nav_item = match self.variant {
-                    NavItemVariant::Default => {
-                        nav_item
-                            .when(is_active, |el| {
-                                el.bg(hsla(0.0, 0.0, 0.2, 1.0))
+                    NavItemVariant::Default => nav_item
+                        .when(is_active, |el| el.bg(hsla(0.0, 0.0, 0.2, 1.0)))
+                        .when(!is_active && !item.disabled, |el| {
+                            el.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
+                        }),
+                    NavItemVariant::Subtle => nav_item
+                        .when(is_active, |el| el.text_color(active_color))
+                        .when(!is_active && !item.disabled, |el| {
+                            el.hover(|style| style.text_color(hsla(0.0, 0.0, 0.8, 1.0)))
+                        }),
+                    NavItemVariant::Pill => nav_item
+                        .when(is_active, |el| {
+                            el.bg(active_color).text_color(hsla(0.0, 0.0, 0.0, 1.0))
+                        })
+                        .when(!is_active && !item.disabled, |el| {
+                            el.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
+                        }),
+                    NavItemVariant::Underline => nav_item
+                        .rounded_none()
+                        .when(is_active, |el| el.border_b_2().border_color(active_color))
+                        .when(!is_active && !item.disabled, |el| {
+                            el.hover(|style| {
+                                style.border_b_2().border_color(hsla(0.0, 0.0, 0.3, 1.0))
                             })
-                            .when(!is_active && !item.disabled, |el| {
-                                el.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
-                            })
-                    }
-                    NavItemVariant::Subtle => {
-                        nav_item
-                            .when(is_active, |el| {
-                                el.text_color(active_color)
-                            })
-                            .when(!is_active && !item.disabled, |el| {
-                                el.hover(|style| style.text_color(hsla(0.0, 0.0, 0.8, 1.0)))
-                            })
-                    }
-                    NavItemVariant::Pill => {
-                        nav_item
-                            .when(is_active, |el| {
-                                el.bg(active_color).text_color(hsla(0.0, 0.0, 0.0, 1.0))
-                            })
-                            .when(!is_active && !item.disabled, |el| {
-                                el.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
-                            })
-                    }
-                    NavItemVariant::Underline => {
-                        nav_item
-                            .rounded_none()
-                            .when(is_active, |el| {
-                                el.border_b_2().border_color(active_color)
-                            })
-                            .when(!is_active && !item.disabled, |el| {
-                                el.hover(|style| {
-                                    style.border_b_2().border_color(hsla(0.0, 0.0, 0.3, 1.0))
-                                })
-                            })
-                    }
+                        }),
                 };
 
                 nav_item
-                    .when(item.disabled, |el| {
-                        el.opacity(0.5).cursor_not_allowed()
-                    })
+                    .when(item.disabled, |el| el.opacity(0.5).cursor_not_allowed())
                     .when(item.icon.is_some() && !self.collapsed, |el| {
                         el.child(
                             div()
@@ -156,7 +140,7 @@ impl RenderOnce for Nav {
                                 } else {
                                     hsla(0.0, 0.0, 0.6, 1.0)
                                 })
-                                .child(item.icon.clone().unwrap_or_default())
+                                .child(item.icon.clone().unwrap_or_default()),
                         )
                     })
                     .when(item.icon.is_some() && self.collapsed, |el| {
@@ -168,7 +152,7 @@ impl RenderOnce for Nav {
                                 } else {
                                     hsla(0.0, 0.0, 0.6, 1.0)
                                 })
-                                .child(item.icon.clone().unwrap_or_default())
+                                .child(item.icon.clone().unwrap_or_default()),
                         )
                     })
                     .when(!self.collapsed, |el| {
@@ -180,7 +164,7 @@ impl RenderOnce for Nav {
                                 } else {
                                     hsla(0.0, 0.0, 0.7, 1.0)
                                 })
-                                .child(item.label.clone())
+                                .child(item.label.clone()),
                         )
                     })
                     .when(item.badge.is_some() && !self.collapsed, |el| {
@@ -193,7 +177,7 @@ impl RenderOnce for Nav {
                                 .bg(hsla(0.0, 0.7, 0.5, 1.0))
                                 .text_size(px(10.0))
                                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                .child(item.badge.unwrap_or_default())
+                                .child(item.badge.unwrap_or_default()),
                         )
                     })
                     .when(!item.children.is_empty() && !self.collapsed, |el| {
@@ -202,7 +186,7 @@ impl RenderOnce for Nav {
                                 .ml_auto()
                                 .text_size(px(10.0))
                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .child("▶")
+                                .child("▶"),
                         )
                     })
             }))

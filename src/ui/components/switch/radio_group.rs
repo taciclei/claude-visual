@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// A group of radio buttons
 pub struct RadioGroup {
@@ -22,7 +22,11 @@ pub struct RadioGroup {
 }
 
 impl RadioGroup {
-    pub fn new(app_state: Arc<AppState>, options: Vec<RadioGroupOption>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        options: Vec<RadioGroupOption>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             options,
@@ -91,20 +95,19 @@ impl Render for RadioGroup {
                             .rounded_full()
                             .bg(theme.colors.surface)
                             .border_2()
-                            .border_color(if is_selected { theme.colors.accent } else { theme.colors.border })
+                            .border_color(if is_selected {
+                                theme.colors.accent
+                            } else {
+                                theme.colors.border
+                            })
                             .flex()
                             .items_center()
                             .justify_center()
                             .flex_shrink_0()
                             .mt(px(1.0))
                             .when(is_selected, |d| {
-                                d.child(
-                                    div()
-                                        .size(px(9.0))
-                                        .rounded_full()
-                                        .bg(theme.colors.accent)
-                                )
-                            })
+                                d.child(div().size(px(9.0)).rounded_full().bg(theme.colors.accent))
+                            }),
                     )
                     // Label and description
                     .child(
@@ -116,16 +119,16 @@ impl Render for RadioGroup {
                                 div()
                                     .text_sm()
                                     .text_color(theme.colors.text)
-                                    .child(option.label.clone())
+                                    .child(option.label.clone()),
                             )
                             .when_some(option.description.clone(), |d, desc| {
                                 d.child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child(desc)
+                                        .child(desc),
                                 )
-                            })
+                            }),
                     )
             }))
     }

@@ -1,7 +1,7 @@
 //! Virtual scroller for large lists
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Virtual scroller for large lists
 #[derive(IntoElement)]
@@ -95,17 +95,12 @@ impl RenderOnce for VirtualScroller {
                 // Spacer for total scroll height
                 div().h(px(total_height)).w_full().child(
                     // Visible items container
-                    div()
-                        .absolute()
-                        .top(px(offset_y))
-                        .left_0()
-                        .right_0()
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(rgba(0x888888ff))
-                                .child(format!("Rendering items {} to {} of {}", start, end, self.total_items)),
-                        ),
+                    div().absolute().top(px(offset_y)).left_0().right_0().child(
+                        div().text_xs().text_color(rgba(0x888888ff)).child(format!(
+                            "Rendering items {} to {} of {}",
+                            start, end, self.total_items
+                        )),
+                    ),
                 ),
             )
     }

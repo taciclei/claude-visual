@@ -1,9 +1,9 @@
 //! Header rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpServersPanel;
-use super::types::{ServerConnectionStatus, McpServersPanelEvent};
+use super::types::{McpServersPanelEvent, ServerConnectionStatus};
+use gpui::prelude::*;
+use gpui::*;
 
 impl McpServersPanel {
     /// Render the header

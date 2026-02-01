@@ -1,7 +1,7 @@
 //! Numbered list component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Numbered list
 #[derive(Clone)]
@@ -51,28 +51,20 @@ impl RenderOnce for NumberedList {
             .flex()
             .flex_col()
             .gap_2()
-            .children(
-                self.items.into_iter().enumerate().map(move |(idx, item)| {
-                    div()
-                        .flex()
-                        .items_start()
-                        .gap_2()
-                        .child(
-                            div()
-                                .w(px(24.0))
-                                .flex_shrink_0()
-                                .text_sm()
-                                .text_color(text_muted)
-                                .child(format!("{}.", start + idx))
-                        )
-                        .child(
-                            div()
-                                .flex_1()
-                                .text_sm()
-                                .text_color(text)
-                                .child(item)
-                        )
-                })
-            )
+            .children(self.items.into_iter().enumerate().map(move |(idx, item)| {
+                div()
+                    .flex()
+                    .items_start()
+                    .gap_2()
+                    .child(
+                        div()
+                            .w(px(24.0))
+                            .flex_shrink_0()
+                            .text_sm()
+                            .text_color(text_muted)
+                            .child(format!("{}.", start + idx)),
+                    )
+                    .child(div().flex_1().text_sm().text_color(text).child(item))
+            }))
     }
 }

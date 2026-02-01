@@ -1,14 +1,14 @@
 //! Dropdown/Select component for selection menus
 
-mod types;
-mod state;
 mod methods;
-mod render;
 mod option_list;
+mod render;
+mod state;
+mod types;
 
-pub use types::*;
-pub use state::Dropdown;
 pub use option_list::OptionList;
+pub use state::Dropdown;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

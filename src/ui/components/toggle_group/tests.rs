@@ -6,9 +6,7 @@ mod tests {
 
     #[test]
     fn test_toggle_item() {
-        let item = ToggleItem::new("value", "Label")
-            .icon("🏠")
-            .disabled(false);
+        let item = ToggleItem::new("value", "Label").icon("🏠").disabled(false);
         assert_eq!(item.value.as_ref(), "value");
         assert_eq!(item.label.as_ref(), "Label");
         assert_eq!(item.icon.as_deref(), Some("🏠"));

@@ -1,7 +1,7 @@
 //! Activity entry rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::cloud::team::{ActivityEntry, ActivityType};
 
@@ -35,7 +35,11 @@ impl ActivityPanel {
     }
 
     /// Render activity entry
-    pub(super) fn render_activity_entry(&self, entry: &ActivityEntry, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_activity_entry(
+        &self,
+        entry: &ActivityEntry,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let entry_clone = entry.clone();
 
@@ -97,7 +101,12 @@ impl ActivityPanel {
                                     .text_sm()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(text_color)
-                                    .child(entry.user_name.clone().unwrap_or_else(|| "Unknown".to_string())),
+                                    .child(
+                                        entry
+                                            .user_name
+                                            .clone()
+                                            .unwrap_or_else(|| "Unknown".to_string()),
+                                    ),
                             )
                             .child(
                                 div()

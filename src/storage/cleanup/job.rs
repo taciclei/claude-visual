@@ -51,10 +51,7 @@ impl CleanupJob {
 
     /// Calculate space that would be freed
     pub fn estimate_space_freed(&self) -> u64 {
-        self.preview()
-            .iter()
-            .map(|item| item.size_bytes)
-            .sum()
+        self.preview().iter().map(|item| item.size_bytes).sum()
     }
 
     /// Execute the cleanup

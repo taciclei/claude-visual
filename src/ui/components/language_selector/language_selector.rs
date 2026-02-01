@@ -1,8 +1,8 @@
 //! Language selector component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Language selector component
 #[derive(IntoElement)]
@@ -65,9 +65,9 @@ impl LanguageSelector {
     }
 
     fn get_selected(&self) -> Option<&Language> {
-        self.selected_code.as_ref().and_then(|code| {
-            self.languages.iter().find(|l| &l.code == code)
-        })
+        self.selected_code
+            .as_ref()
+            .and_then(|code| self.languages.iter().find(|l| &l.code == code))
     }
 }
 
@@ -79,109 +79,108 @@ impl RenderOnce for LanguageSelector {
         let selected = self.get_selected();
 
         match self.variant {
-            LanguageSelectorVariant::Dropdown => {
-                div()
-                    .id(id)
-                    .flex()
-                    .items_center()
-                    .justify_between()
-                    .h(px(height))
-                    .px(px(12.0))
-                    .bg(hsla(0.0, 0.0, 0.12, 1.0))
-                    .border_1()
-                    .border_color(hsla(0.0, 0.0, 0.2, 1.0))
-                    .rounded(px(8.0))
-                    .cursor_pointer()
-                    .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap(px(8.0))
-                            .when(self.show_flag, |el| {
-                                if let Some(lang) = &selected {
-                                    if let Some(flag) = &lang.flag {
-                                        return el.child(
-                                            div()
-                                                .text_size(px(font_size + 4.0))
-                                                .child(flag.clone())
-                                        );
-                                    }
+            LanguageSelectorVariant::Dropdown => div()
+                .id(id)
+                .flex()
+                .items_center()
+                .justify_between()
+                .h(px(height))
+                .px(px(12.0))
+                .bg(hsla(0.0, 0.0, 0.12, 1.0))
+                .border_1()
+                .border_color(hsla(0.0, 0.0, 0.2, 1.0))
+                .rounded(px(8.0))
+                .cursor_pointer()
+                .child(
+                    div()
+                        .flex()
+                        .items_center()
+                        .gap(px(8.0))
+                        .when(self.show_flag, |el| {
+                            if let Some(lang) = &selected {
+                                if let Some(flag) = &lang.flag {
+                                    return el.child(
+                                        div().text_size(px(font_size + 4.0)).child(flag.clone()),
+                                    );
                                 }
-                                el
-                            })
-                            .when_some(selected.clone(), |el, lang| {
-                                el.child(
-                                    div()
-                                        .text_size(px(font_size))
-                                        .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                        .child(if self.show_native_name {
-                                            lang.native_name.clone()
-                                        } else {
-                                            lang.name.clone()
-                                        })
-                                )
-                            })
-                    )
-                    .child(
-                        div()
-                            .text_size(px(10.0))
-                            .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child("▼")
-                    )
-            }
-            LanguageSelectorVariant::Button => {
-                div()
-                    .id(id.clone())
-                    .flex()
-                    .items_center()
-                    .gap(px(6.0))
-                    .h(px(height))
-                    .px(px(12.0))
-                    .bg(hsla(0.0, 0.0, 0.15, 1.0))
-                    .border_1()
-                    .border_color(hsla(0.0, 0.0, 0.25, 1.0))
-                    .rounded(px(8.0))
-                    .cursor_pointer()
-                    .when(self.show_flag, |el| {
-                        if let Some(lang) = &selected {
-                            if let Some(flag) = &lang.flag {
-                                return el.child(
-                                    div()
-                                        .text_size(px(font_size + 2.0))
-                                        .child(flag.clone())
-                                );
                             }
+                            el
+                        })
+                        .when_some(selected.clone(), |el, lang| {
+                            el.child(
+                                div()
+                                    .text_size(px(font_size))
+                                    .text_color(hsla(0.0, 0.0, 0.9, 1.0))
+                                    .child(if self.show_native_name {
+                                        lang.native_name.clone()
+                                    } else {
+                                        lang.name.clone()
+                                    }),
+                            )
+                        }),
+                )
+                .child(
+                    div()
+                        .text_size(px(10.0))
+                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                        .child("▼"),
+                ),
+            LanguageSelectorVariant::Button => div()
+                .id(id.clone())
+                .flex()
+                .items_center()
+                .gap(px(6.0))
+                .h(px(height))
+                .px(px(12.0))
+                .bg(hsla(0.0, 0.0, 0.15, 1.0))
+                .border_1()
+                .border_color(hsla(0.0, 0.0, 0.25, 1.0))
+                .rounded(px(8.0))
+                .cursor_pointer()
+                .when(self.show_flag, |el| {
+                    if let Some(lang) = &selected {
+                        if let Some(flag) = &lang.flag {
+                            return el
+                                .child(div().text_size(px(font_size + 2.0)).child(flag.clone()));
                         }
-                        el
-                    })
-                    .child(
-                        div()
-                            .text_size(px(12.0))
-                            .font_weight(gpui::FontWeight::MEDIUM)
-                            .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                            .child(selected.map(|l| l.code.as_ref()).unwrap_or("EN").to_uppercase())
-                    )
-            }
-            LanguageSelectorVariant::Minimal => {
-                div()
-                    .id(id)
-                    .flex()
-                    .items_center()
-                    .gap(px(4.0))
-                    .cursor_pointer()
-                    .child(
-                        div()
-                            .text_size(px(12.0))
-                            .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                            .child("🌐")
-                    )
-                    .child(
-                        div()
-                            .text_size(px(12.0))
-                            .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                            .child(selected.map(|l| l.code.as_ref()).unwrap_or("en").to_uppercase())
-                    )
-            }
+                    }
+                    el
+                })
+                .child(
+                    div()
+                        .text_size(px(12.0))
+                        .font_weight(gpui::FontWeight::MEDIUM)
+                        .text_color(hsla(0.0, 0.0, 0.9, 1.0))
+                        .child(
+                            selected
+                                .map(|l| l.code.as_ref())
+                                .unwrap_or("EN")
+                                .to_uppercase(),
+                        ),
+                ),
+            LanguageSelectorVariant::Minimal => div()
+                .id(id)
+                .flex()
+                .items_center()
+                .gap(px(4.0))
+                .cursor_pointer()
+                .child(
+                    div()
+                        .text_size(px(12.0))
+                        .text_color(hsla(0.0, 0.0, 0.7, 1.0))
+                        .child("🌐"),
+                )
+                .child(
+                    div()
+                        .text_size(px(12.0))
+                        .text_color(hsla(0.0, 0.0, 0.7, 1.0))
+                        .child(
+                            selected
+                                .map(|l| l.code.as_ref())
+                                .unwrap_or("en")
+                                .to_uppercase(),
+                        ),
+                ),
             LanguageSelectorVariant::Flags => {
                 div()
                     .id(self.id)
@@ -209,11 +208,11 @@ impl RenderOnce for LanguageSelector {
                                 hsla(0.0, 0.0, 0.0, 0.0)
                             })
                             .cursor_pointer()
-                            .child(
-                                div()
-                                    .text_size(px(18.0))
-                                    .child(lang.flag.clone().unwrap_or_else(|| lang.code.chars().take(2).collect::<String>().into()))
-                            )
+                            .child(div().text_size(px(18.0)).child(
+                                lang.flag.clone().unwrap_or_else(|| {
+                                    lang.code.chars().take(2).collect::<String>().into()
+                                }),
+                            ))
                     }))
             }
         }

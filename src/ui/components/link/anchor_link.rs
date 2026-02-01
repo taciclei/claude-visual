@@ -1,7 +1,7 @@
 //! Anchor link with hash navigation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Anchor link with hash navigation
 #[derive(IntoElement)]

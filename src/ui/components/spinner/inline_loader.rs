@@ -1,9 +1,9 @@
 //! Inline loading indicator for text
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::spinner::Spinner;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Inline loading indicator for text
 #[derive(Clone)]
@@ -13,9 +13,7 @@ pub struct InlineLoader {
 
 impl InlineLoader {
     pub fn new(text: impl Into<String>) -> Self {
-        Self {
-            text: text.into(),
-        }
+        Self { text: text.into() }
     }
 }
 
@@ -30,13 +28,8 @@ impl RenderOnce for InlineLoader {
             .child(
                 Spinner::new()
                     .size(SpinnerSize::XSmall)
-                    .variant(SpinnerVariant::Dots)
+                    .variant(SpinnerVariant::Dots),
             )
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child(self.text)
-            )
+            .child(div().text_sm().text_color(text_muted).child(self.text))
     }
 }

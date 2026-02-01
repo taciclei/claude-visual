@@ -1,8 +1,8 @@
 //! State management for PlanView
 
-use gpui::*;
-use crate::agent::planner::Plan;
 use super::PlanView;
+use crate::agent::planner::Plan;
+use gpui::*;
 
 impl PlanView {
     /// Set the plan to display

@@ -1,7 +1,7 @@
 //! Collapsible sidebar layout component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::SidebarPosition;
 
@@ -55,7 +55,7 @@ impl RenderOnce for CollapsibleSidebar {
                         .bg(surface)
                         .border_r_1()
                         .border_color(border)
-                        .flex_shrink_0()
+                        .flex_shrink_0(),
                 )
             })
             // Collapse button (left)
@@ -72,17 +72,12 @@ impl RenderOnce for CollapsibleSidebar {
                             div()
                                 .text_xs()
                                 .text_color(text_muted)
-                                .child(if self.collapsed { "▶" } else { "◀" })
-                        )
+                                .child(if self.collapsed { "▶" } else { "◀" }),
+                        ),
                 )
             })
             // Main content
-            .child(
-                div()
-                    .flex_1()
-                    .h_full()
-                    .overflow_hidden()
-            )
+            .child(div().flex_1().h_full().overflow_hidden())
             // Collapse button (right)
             .when(!is_left, |d| {
                 d.child(
@@ -97,8 +92,8 @@ impl RenderOnce for CollapsibleSidebar {
                             div()
                                 .text_xs()
                                 .text_color(text_muted)
-                                .child(if self.collapsed { "◀" } else { "▶" })
-                        )
+                                .child(if self.collapsed { "◀" } else { "▶" }),
+                        ),
                 )
             })
             // Sidebar (right position)
@@ -110,7 +105,7 @@ impl RenderOnce for CollapsibleSidebar {
                         .bg(surface)
                         .border_l_1()
                         .border_color(border)
-                        .flex_shrink_0()
+                        .flex_shrink_0(),
                 )
             })
     }

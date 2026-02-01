@@ -1,9 +1,9 @@
 //! Command palette render functions for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::core::ChatView;
-use super::super::types::{PaletteCommand, ChatViewEvent};
+use super::super::types::{ChatViewEvent, PaletteCommand};
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Get quick skill chips for the palette header
@@ -58,7 +58,11 @@ impl ChatView {
         }
     }
 
-    pub fn render_command_palette(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_command_palette(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let commands = Self::get_palette_commands();
         let query = self.palette_query.to_lowercase();
 
@@ -66,11 +70,14 @@ impl ChatView {
         let filtered_commands: Vec<&PaletteCommand> = if query.is_empty() {
             commands.iter().collect()
         } else {
-            commands.iter().filter(|cmd| {
-                cmd.label.to_lowercase().contains(&query) ||
-                cmd.description.to_lowercase().contains(&query) ||
-                cmd.category.to_lowercase().contains(&query)
-            }).collect()
+            commands
+                .iter()
+                .filter(|cmd| {
+                    cmd.label.to_lowercase().contains(&query)
+                        || cmd.description.to_lowercase().contains(&query)
+                        || cmd.category.to_lowercase().contains(&query)
+                })
+                .collect()
         };
 
         // Group by category
@@ -130,7 +137,7 @@ impl ChatView {
                                 div()
                                     .text_lg()
                                     .text_color(theme.colors.text_muted)
-                                    .child("⌘")
+                                    .child("⌘"),
                             )
                             .child(
                                 div()
@@ -138,11 +145,13 @@ impl ChatView {
                                     .text_base()
                                     .text_color(theme.colors.text)
                                     .child(if palette_query.is_empty() {
-                                        div().text_color(theme.colors.text_muted).child("Type a command...")
+                                        div()
+                                            .text_color(theme.colors.text_muted)
+                                            .child("Type a command...")
                                     } else {
                                         div().child(palette_query)
-                                    })
-                            )
+                                    }),
+                            ),
                     )
                     // Quick skills chips (when no query)
                     .when(query.is_empty(), |d| {
@@ -159,45 +168,39 @@ impl ChatView {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child("Quick:")
+                                        .child("Quick:"),
                                 )
-                                .children(
-                                    quick_skills.iter().map(|(icon, label, cmd)| {
-                                        let cmd_str = cmd.to_string();
-                                        div()
-                                            .id(SharedString::from(format!("quick-skill-{}", label)))
-                                            .px_2()
-                                            .py_1()
-                                            .rounded_md()
-                                            .bg(theme.colors.accent.opacity(0.1))
-                                            .border_1()
-                                            .border_color(theme.colors.accent.opacity(0.2))
-                                            .flex()
-                                            .items_center()
-                                            .gap_1()
-                                            .cursor_pointer()
-                                            .hover(|s| {
-                                                s.bg(theme.colors.accent.opacity(0.2))
-                                                    .border_color(theme.colors.accent.opacity(0.4))
-                                            })
-                                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                                this.toggle_command_palette(cx);
-                                                cx.emit(ChatViewEvent::Submit(cmd_str.clone()));
-                                            }))
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .child(*icon)
-                                            )
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .font_weight(FontWeight::MEDIUM)
-                                                    .text_color(theme.colors.accent)
-                                                    .child(*label)
-                                            )
-                                    })
-                                )
+                                .children(quick_skills.iter().map(|(icon, label, cmd)| {
+                                    let cmd_str = cmd.to_string();
+                                    div()
+                                        .id(SharedString::from(format!("quick-skill-{}", label)))
+                                        .px_2()
+                                        .py_1()
+                                        .rounded_md()
+                                        .bg(theme.colors.accent.opacity(0.1))
+                                        .border_1()
+                                        .border_color(theme.colors.accent.opacity(0.2))
+                                        .flex()
+                                        .items_center()
+                                        .gap_1()
+                                        .cursor_pointer()
+                                        .hover(|s| {
+                                            s.bg(theme.colors.accent.opacity(0.2))
+                                                .border_color(theme.colors.accent.opacity(0.4))
+                                        })
+                                        .on_click(cx.listener(move |this, _, _window, cx| {
+                                            this.toggle_command_palette(cx);
+                                            cx.emit(ChatViewEvent::Submit(cmd_str.clone()));
+                                        }))
+                                        .child(div().text_xs().child(*icon))
+                                        .child(
+                                            div()
+                                                .text_xs()
+                                                .font_weight(FontWeight::MEDIUM)
+                                                .text_color(theme.colors.accent)
+                                                .child(*label),
+                                        )
+                                })),
                         )
                     })
                     // Commands list
@@ -210,113 +213,109 @@ impl ChatView {
                             .flex()
                             .flex_col()
                             .gap_1()
-                            .children(
-                                categories.iter().flat_map(|(category, cmds)| {
-                                    let mut elements: Vec<gpui::AnyElement> = vec![];
-                                    let (cat_icon, cat_style) = Self::category_style(category);
-                                    let cat_color = match cat_style {
-                                        "accent" => theme.colors.accent,
-                                        "success" => theme.colors.success,
-                                        "info" => theme.colors.info,
-                                        "warning" => theme.colors.warning,
-                                        _ => theme.colors.text_muted,
-                                    };
+                            .children(categories.iter().flat_map(|(category, cmds)| {
+                                let mut elements: Vec<gpui::AnyElement> = vec![];
+                                let (cat_icon, cat_style) = Self::category_style(category);
+                                let cat_color = match cat_style {
+                                    "accent" => theme.colors.accent,
+                                    "success" => theme.colors.success,
+                                    "info" => theme.colors.info,
+                                    "warning" => theme.colors.warning,
+                                    _ => theme.colors.text_muted,
+                                };
 
-                                    // Category header with icon and color
+                                // Category header with icon and color
+                                elements.push(
+                                    div()
+                                        .px_2()
+                                        .py_1()
+                                        .mt_1()
+                                        .flex()
+                                        .items_center()
+                                        .gap_2()
+                                        .child(div().text_xs().child(cat_icon))
+                                        .child(
+                                            div()
+                                                .text_xs()
+                                                .font_weight(FontWeight::SEMIBOLD)
+                                                .text_color(cat_color)
+                                                .child(*category),
+                                        )
+                                        .into_any_element(),
+                                );
+
+                                // Commands in category
+                                for (i, cmd) in cmds.iter().enumerate() {
+                                    let cmd_id = cmd.id;
+                                    let global_idx = filtered_commands
+                                        .iter()
+                                        .position(|c| c.id == cmd.id)
+                                        .unwrap_or(0);
+                                    let is_selected = global_idx == selected_idx;
+
                                     elements.push(
                                         div()
-                                            .px_2()
-                                            .py_1()
-                                            .mt_1()
+                                            .id(SharedString::from(format!("cmd-{}", i)))
+                                            .px_3()
+                                            .py_2()
+                                            .rounded_md()
+                                            .cursor_pointer()
+                                            .bg(if is_selected {
+                                                theme.colors.accent.opacity(0.15)
+                                            } else {
+                                                gpui::transparent_black()
+                                            })
+                                            .hover(|s| s.bg(theme.colors.surface_hover))
+                                            .on_click(cx.listener(move |this, _, _window, cx| {
+                                                this.execute_palette_command(cmd_id, cx);
+                                            }))
                                             .flex()
                                             .items_center()
-                                            .gap_2()
+                                            .gap_3()
+                                            // Icon
+                                            .child(div().w(px(20.0)).text_center().child(cmd.icon))
+                                            // Label and description
                                             .child(
                                                 div()
-                                                    .text_xs()
-                                                    .child(cat_icon)
-                                            )
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .font_weight(FontWeight::SEMIBOLD)
-                                                    .text_color(cat_color)
-                                                    .child(*category)
-                                            )
-                                            .into_any_element()
-                                    );
-
-                                    // Commands in category
-                                    for (i, cmd) in cmds.iter().enumerate() {
-                                        let cmd_id = cmd.id;
-                                        let global_idx = filtered_commands.iter().position(|c| c.id == cmd.id).unwrap_or(0);
-                                        let is_selected = global_idx == selected_idx;
-
-                                        elements.push(
-                                            div()
-                                                .id(SharedString::from(format!("cmd-{}", i)))
-                                                .px_3()
-                                                .py_2()
-                                                .rounded_md()
-                                                .cursor_pointer()
-                                                .bg(if is_selected { theme.colors.accent.opacity(0.15) } else { gpui::transparent_black() })
-                                                .hover(|s| s.bg(theme.colors.surface_hover))
-                                                .on_click(cx.listener(move |this, _, _window, cx| {
-                                                    this.execute_palette_command(cmd_id, cx);
-                                                }))
-                                                .flex()
-                                                .items_center()
-                                                .gap_3()
-                                                // Icon
-                                                .child(
-                                                    div()
-                                                        .w(px(20.0))
-                                                        .text_center()
-                                                        .child(cmd.icon)
-                                                )
-                                                // Label and description
-                                                .child(
-                                                    div()
-                                                        .flex_1()
-                                                        .flex()
-                                                        .flex_col()
-                                                        .child(
-                                                            div()
-                                                                .text_sm()
-                                                                .font_weight(FontWeight::MEDIUM)
-                                                                .text_color(theme.colors.text)
-                                                                .child(cmd.label)
-                                                        )
-                                                        .child(
-                                                            div()
-                                                                .text_xs()
-                                                                .text_color(theme.colors.text_muted)
-                                                                .child(cmd.description)
-                                                        )
-                                                )
-                                                // Shortcut
-                                                .when_some(cmd.shortcut, |d, shortcut| {
-                                                    d.child(
+                                                    .flex_1()
+                                                    .flex()
+                                                    .flex_col()
+                                                    .child(
                                                         div()
-                                                            .px_2()
-                                                            .py(px(2.0))
-                                                            .rounded_sm()
-                                                            .bg(theme.colors.background)
-                                                            .border_1()
-                                                            .border_color(theme.colors.border)
-                                                            .text_xs()
-                                                            .font_family("monospace")
-                                                            .text_color(theme.colors.text_muted)
-                                                            .child(shortcut)
+                                                            .text_sm()
+                                                            .font_weight(FontWeight::MEDIUM)
+                                                            .text_color(theme.colors.text)
+                                                            .child(cmd.label),
                                                     )
-                                                })
-                                                .into_any_element()
-                                        );
-                                    }
+                                                    .child(
+                                                        div()
+                                                            .text_xs()
+                                                            .text_color(theme.colors.text_muted)
+                                                            .child(cmd.description),
+                                                    ),
+                                            )
+                                            // Shortcut
+                                            .when_some(cmd.shortcut, |d, shortcut| {
+                                                d.child(
+                                                    div()
+                                                        .px_2()
+                                                        .py(px(2.0))
+                                                        .rounded_sm()
+                                                        .bg(theme.colors.background)
+                                                        .border_1()
+                                                        .border_color(theme.colors.border)
+                                                        .text_xs()
+                                                        .font_family("monospace")
+                                                        .text_color(theme.colors.text_muted)
+                                                        .child(shortcut),
+                                                )
+                                            })
+                                            .into_any_element(),
+                                    );
+                                }
 
-                                    elements
-                                })
-                            )
+                                elements
+                            })),
                     )
                     // Footer
                     .child(
@@ -332,7 +331,7 @@ impl ChatView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child(format!("{} commands", filtered_commands.len()))
+                                    .child(format!("{} commands", filtered_commands.len())),
                             )
                             .child(
                                 div()
@@ -345,9 +344,9 @@ impl ChatView {
                                     .child("·")
                                     .child("Enter select")
                                     .child("·")
-                                    .child("Esc close")
-                            )
-                    )
+                                    .child("Esc close"),
+                            ),
+                    ),
             )
     }
 }

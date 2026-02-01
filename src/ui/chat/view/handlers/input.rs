@@ -1,7 +1,7 @@
 //! Input configuration handlers
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Toggle multiline input mode

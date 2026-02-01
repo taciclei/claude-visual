@@ -2,9 +2,9 @@
 //!
 //! A two-pane diff viewer showing old and new versions side by side.
 
-mod types;
 mod core;
 mod render;
+mod types;
 
-pub use types::{SideBySideDiffEvent, DiffDisplayMode};
 pub use core::SideBySideDiffView;
+pub use types::{DiffDisplayMode, SideBySideDiffEvent};

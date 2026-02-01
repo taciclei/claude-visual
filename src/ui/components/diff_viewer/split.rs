@@ -1,7 +1,7 @@
 //! Split diff viewer (side-by-side)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Split diff viewer (side-by-side)
 #[derive(IntoElement)]
@@ -147,42 +147,40 @@ impl RenderOnce for SplitDiffViewer {
                     )
                     .child(
                         // New side
-                        div()
-                            .flex_1()
-                            .children((0..max_lines).map(|i| {
-                                let (line_num, content) = self
-                                    .new_lines
-                                    .get(i)
-                                    .cloned()
-                                    .unwrap_or((None, SharedString::default()));
-                                div()
-                                    .flex()
-                                    .bg(rgba(0x22c55e0d))
-                                    .when(self.show_line_numbers, |d| {
-                                        d.child(
-                                            div()
-                                                .w(px(40.0))
-                                                .text_right()
-                                                .pr_2()
-                                                .text_xs()
-                                                .text_color(rgba(0x666666ff))
-                                                .child(
-                                                    line_num
-                                                        .map(|n| format!("{}", n))
-                                                        .unwrap_or_default(),
-                                                ),
-                                        )
-                                    })
-                                    .child(
+                        div().flex_1().children((0..max_lines).map(|i| {
+                            let (line_num, content) = self
+                                .new_lines
+                                .get(i)
+                                .cloned()
+                                .unwrap_or((None, SharedString::default()));
+                            div()
+                                .flex()
+                                .bg(rgba(0x22c55e0d))
+                                .when(self.show_line_numbers, |d| {
+                                    d.child(
                                         div()
-                                            .flex_1()
-                                            .pl_2()
-                                            .text_sm()
-                                            .font_family("monospace")
-                                            .text_color(rgba(0xccccccff))
-                                            .child(content),
+                                            .w(px(40.0))
+                                            .text_right()
+                                            .pr_2()
+                                            .text_xs()
+                                            .text_color(rgba(0x666666ff))
+                                            .child(
+                                                line_num
+                                                    .map(|n| format!("{}", n))
+                                                    .unwrap_or_default(),
+                                            ),
                                     )
-                            })),
+                                })
+                                .child(
+                                    div()
+                                        .flex_1()
+                                        .pl_2()
+                                        .text_sm()
+                                        .font_family("monospace")
+                                        .text_color(rgba(0xccccccff))
+                                        .child(content),
+                                )
+                        })),
                     ),
             )
     }

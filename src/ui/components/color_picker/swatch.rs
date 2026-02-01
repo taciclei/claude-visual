@@ -1,7 +1,7 @@
 //! Simple color swatch for display
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 #[derive(Clone)]
 pub struct ColorSwatch {
@@ -45,9 +45,7 @@ impl RenderOnce for ColorSwatch {
             .size(px(self.size))
             .when(self.rounded, |d| d.rounded_full())
             .when(!self.rounded, |d| d.rounded(px(4.0)))
-            .when(self.show_border, |d| {
-                d.border_1().border_color(border)
-            })
+            .when(self.show_border, |d| d.border_1().border_color(border))
             .bg(self.color)
     }
 }

@@ -1,8 +1,8 @@
 //! Splash screen component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 impl EventEmitter<SplashEvent> for SplashScreen {}
 
@@ -117,12 +117,7 @@ impl Render for SplashScreen {
                             .flex()
                             .items_center()
                             .justify_center()
-                            .child(
-                                div()
-                                    .text_3xl()
-                                    .text_color(accent_color)
-                                    .child("C"),
-                            ),
+                            .child(div().text_3xl().text_color(accent_color).child("C")),
                     )
                     // App name
                     .child(

@@ -1,7 +1,7 @@
 //! WordReveal component - word-by-word reveal
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Word-by-word reveal
 #[derive(IntoElement)]

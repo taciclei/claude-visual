@@ -1,9 +1,9 @@
 //! Tab context menu component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::menu::ContextMenu;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Tab context menu
 #[derive(Clone)]
@@ -36,8 +36,7 @@ impl TabContextMenu {
 impl RenderOnce for TabContextMenu {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let mut items = vec![
-            ContextMenuItem::action("close", "Close Tab")
-                .shortcut("⌘W"),
+            ContextMenuItem::action("close", "Close Tab").shortcut("⌘W"),
             ContextMenuItem::action("close_others", "Close Other Tabs"),
             ContextMenuItem::action("close_all", "Close All Tabs"),
         ];
@@ -45,29 +44,21 @@ impl RenderOnce for TabContextMenu {
         items.push(ContextMenuItem::separator());
 
         if self.is_pinned {
-            items.push(
-                ContextMenuItem::action("unpin", "Unpin Tab")
-                    .icon("📍")
-            );
+            items.push(ContextMenuItem::action("unpin", "Unpin Tab").icon("📍"));
         } else {
-            items.push(
-                ContextMenuItem::action("pin", "Pin Tab")
-                    .icon("📌")
-            );
+            items.push(ContextMenuItem::action("pin", "Pin Tab").icon("📌"));
         }
 
         items.push(ContextMenuItem::separator());
 
-        items.push(
-            ContextMenuItem::action("duplicate", "Duplicate Tab")
-        );
+        items.push(ContextMenuItem::action("duplicate", "Duplicate Tab"));
 
         if self.has_unsaved {
             items.push(ContextMenuItem::separator());
             items.push(
                 ContextMenuItem::action("save", "Save")
                     .icon("💾")
-                    .shortcut("⌘S")
+                    .shortcut("⌘S"),
             );
         }
 

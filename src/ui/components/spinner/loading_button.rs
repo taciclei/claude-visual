@@ -1,9 +1,9 @@
 //! Button with loading state
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::spinner::Spinner;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Button with loading state
 #[derive(Clone)]
@@ -43,21 +43,25 @@ impl RenderOnce for LoadingButton {
             .px_4()
             .py_2()
             .rounded(px(6.0))
-            .bg(if is_disabled { accent.opacity(0.5) } else { accent })
+            .bg(if is_disabled {
+                accent.opacity(0.5)
+            } else {
+                accent
+            })
             .flex()
             .items_center()
             .justify_center()
             .gap_2()
             .text_sm()
             .text_color(gpui::white())
-            .cursor(if is_disabled { CursorStyle::default() } else { CursorStyle::PointingHand })
+            .cursor(if is_disabled {
+                CursorStyle::default()
+            } else {
+                CursorStyle::PointingHand
+            })
             .when(!is_disabled, |d| d.hover(|s| s.opacity(0.9)))
             .when(self.is_loading, |d| {
-                d.child(
-                    Spinner::new()
-                        .size(SpinnerSize::Small)
-                        .color(gpui::white())
-                )
+                d.child(Spinner::new().size(SpinnerSize::Small).color(gpui::white()))
             })
             .child(self.label)
     }

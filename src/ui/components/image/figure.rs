@@ -1,7 +1,7 @@
 //! Image with caption component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::image::Image;
 use super::types::CaptionPosition;
@@ -69,34 +69,36 @@ impl RenderOnce for Figure {
                 .flex_col()
                 .child(self.image)
                 .when_some(caption_el, |d, c| d.child(c)),
-            CaptionPosition::Overlay => div().relative().child(self.image).when_some(
-                self.caption.clone(),
-                |d, text| {
-                    d.child(
-                        div()
-                            .absolute()
-                            .bottom_0()
-                            .left_0()
-                            .right_0()
-                            .bg(Hsla {
-                                h: 0.0,
-                                s: 0.0,
-                                l: 0.0,
-                                a: 0.7,
-                            })
-                            .px_2()
-                            .py_1()
-                            .text_size(px(12.0))
-                            .text_color(Hsla {
-                                h: 0.0,
-                                s: 0.0,
-                                l: 1.0,
-                                a: 1.0,
-                            })
-                            .child(text),
-                    )
-                },
-            ),
+            CaptionPosition::Overlay => {
+                div()
+                    .relative()
+                    .child(self.image)
+                    .when_some(self.caption.clone(), |d, text| {
+                        d.child(
+                            div()
+                                .absolute()
+                                .bottom_0()
+                                .left_0()
+                                .right_0()
+                                .bg(Hsla {
+                                    h: 0.0,
+                                    s: 0.0,
+                                    l: 0.0,
+                                    a: 0.7,
+                                })
+                                .px_2()
+                                .py_1()
+                                .text_size(px(12.0))
+                                .text_color(Hsla {
+                                    h: 0.0,
+                                    s: 0.0,
+                                    l: 1.0,
+                                    a: 1.0,
+                                })
+                                .child(text),
+                        )
+                    })
+            }
         }
     }
 }

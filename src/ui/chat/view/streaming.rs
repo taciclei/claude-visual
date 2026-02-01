@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use crate::ui::chat::message::{MessageView, MessageViewEvent};
 use crate::claude::message::ClaudeMessage;
+use crate::ui::chat::message::{MessageView, MessageViewEvent};
 
 use super::core::ChatView;
 use super::types::{ChatViewEvent, NotificationType};
@@ -47,7 +47,11 @@ impl ChatView {
     }
 
     /// Create a new message view entity with event subscriptions
-    pub(crate) fn create_message_view(&self, message: ClaudeMessage, cx: &mut Context<Self>) -> Entity<MessageView> {
+    pub(crate) fn create_message_view(
+        &self,
+        message: ClaudeMessage,
+        cx: &mut Context<Self>,
+    ) -> Entity<MessageView> {
         let app_state = self.app_state.clone();
         let view = cx.new(|cx| MessageView::new(message, app_state, cx));
 
@@ -74,7 +78,8 @@ impl ChatView {
                 }
                 MessageViewEvent::Quote(content) => {
                     // Insert quoted content into input
-                    let quoted = format!("> {}\n\n", content.lines().collect::<Vec<_>>().join("\n> "));
+                    let quoted =
+                        format!("> {}\n\n", content.lines().collect::<Vec<_>>().join("\n> "));
                     this.input.update(cx, |input, cx| {
                         input.insert_text(&quoted, cx);
                     });
@@ -101,7 +106,8 @@ impl ChatView {
                 // Other events don't need special handling here
                 _ => {}
             }
-        }).detach();
+        })
+        .detach();
 
         view
     }

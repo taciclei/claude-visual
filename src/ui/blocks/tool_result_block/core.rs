@@ -6,8 +6,8 @@ use std::time::Duration;
 use gpui::*;
 use serde_json::Value;
 
+use super::types::{ToolExecutionStatus, ToolResult, ToolResultBlock, ToolResultBlockEvent};
 use crate::app::state::AppState;
-use super::types::{ToolResult, ToolResultBlock, ToolResultBlockEvent, ToolExecutionStatus};
 
 impl ToolResult {
     /// Create a successful result

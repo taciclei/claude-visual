@@ -1,19 +1,23 @@
 //! Debug toolbar rendering
 
-mod buttons;
-mod stepping;
 mod ai_assist;
+mod buttons;
 mod status;
+mod stepping;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::debug::debug_panel::DebugPanel;
 use crate::debug::DebugState;
+use crate::ui::debug::debug_panel::DebugPanel;
 
 impl DebugPanel {
     /// Render toolbar
-    pub(in crate::ui::debug::debug_panel) fn render_toolbar(&self, theme: &crate::app::theme::Theme, cx: &Context<Self>) -> impl IntoElement {
+    pub(in crate::ui::debug::debug_panel) fn render_toolbar(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let state = self.state;
         let is_running = state == DebugState::Running;
         let is_stopped = state == DebugState::Stopped || state == DebugState::Paused;
@@ -53,11 +57,29 @@ impl DebugPanel {
             // Separator
             .child(Self::render_separator(border_color))
             // Step Over
-            .child(self.render_step_over_button(is_stopped, surface_color, border_color, text_color, cx))
+            .child(self.render_step_over_button(
+                is_stopped,
+                surface_color,
+                border_color,
+                text_color,
+                cx,
+            ))
             // Step Into
-            .child(self.render_step_into_button(is_stopped, surface_color, border_color, text_color, cx))
+            .child(self.render_step_into_button(
+                is_stopped,
+                surface_color,
+                border_color,
+                text_color,
+                cx,
+            ))
             // Step Out
-            .child(self.render_step_out_button(is_stopped, surface_color, border_color, text_color, cx))
+            .child(self.render_step_out_button(
+                is_stopped,
+                surface_color,
+                border_color,
+                text_color,
+                cx,
+            ))
             // Spacer
             .child(div().flex_1())
             // AI Assistant button

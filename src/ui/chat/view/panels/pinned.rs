@@ -1,13 +1,17 @@
 //! Pinned messages panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::claude::message::MessageRole;
 use super::super::core::ChatView;
+use crate::claude::message::MessageRole;
 
 impl ChatView {
-    pub fn render_pinned_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_pinned_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let pinned = self.get_pinned_messages();
         let has_pinned = !pinned.is_empty();
 
@@ -57,7 +61,7 @@ impl ChatView {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Pinned Messages")
+                                            .child("Pinned Messages"),
                                     )
                                     .when(has_pinned, |d| {
                                         d.child(
@@ -68,9 +72,9 @@ impl ChatView {
                                                 .bg(theme.colors.accent.opacity(0.15))
                                                 .text_xs()
                                                 .text_color(theme.colors.accent)
-                                                .child(format!("{}", pinned.len()))
+                                                .child(format!("{}", pinned.len())),
                                         )
-                                    })
+                                    }),
                             )
                             .child(
                                 div()
@@ -85,8 +89,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_pinned_panel(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Pinned messages list
                     .child(
@@ -107,14 +111,14 @@ impl ChatView {
                                             div()
                                                 .text_sm()
                                                 .text_color(theme.colors.text_muted)
-                                                .child("No pinned messages")
+                                                .child("No pinned messages"),
                                         )
                                         .child(
                                             div()
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
-                                                .child("Use ⌥P to pin messages for quick access")
-                                        )
+                                                .child("Use ⌥P to pin messages for quick access"),
+                                        ),
                                 )
                             })
                             .when(has_pinned, |d| {
@@ -146,11 +150,7 @@ impl ChatView {
                                                 .flex()
                                                 .items_start()
                                                 .gap_2()
-                                                .child(
-                                                    div()
-                                                        .text_sm()
-                                                        .child(role_icon)
-                                                )
+                                                .child(div().text_sm().child(role_icon))
                                                 .child(
                                                     div()
                                                         .flex_1()
@@ -163,10 +163,17 @@ impl ChatView {
                                                                 .child(
                                                                     div()
                                                                         .text_xs()
-                                                                        .font_weight(FontWeight::MEDIUM)
-                                                                        .text_color(theme.colors.text_muted)
-                                                                        .child(format!("Message #{}", idx + 1))
-                                                                )
+                                                                        .font_weight(
+                                                                            FontWeight::MEDIUM,
+                                                                        )
+                                                                        .text_color(
+                                                                            theme.colors.text_muted,
+                                                                        )
+                                                                        .child(format!(
+                                                                            "Message #{}",
+                                                                            idx + 1
+                                                                        )),
+                                                                ),
                                                         )
                                                         .child(
                                                             div()
@@ -178,28 +185,31 @@ impl ChatView {
                                                                     format!("{}...", preview)
                                                                 } else {
                                                                     preview
-                                                                })
-                                                        )
+                                                                }),
+                                                        ),
                                                 )
                                                 .child(
                                                     div()
-                                                        .id(ElementId::Name(format!("unpin-msg-{}", idx).into()))
+                                                        .id(ElementId::Name(
+                                                            format!("unpin-msg-{}", idx).into(),
+                                                        ))
                                                         .px_1()
                                                         .rounded_sm()
                                                         .cursor_pointer()
                                                         .text_xs()
                                                         .text_color(theme.colors.text_muted)
                                                         .hover(|s| s.text_color(theme.colors.error))
-                                                        .on_click(cx.listener(move |this, _, _window, cx| {
-                                                            this.toggle_pin(msg_idx, cx);
-                                                        }))
-                                                        .child("×")
-                                                )
+                                                        .on_click(cx.listener(
+                                                            move |this, _, _window, cx| {
+                                                                this.toggle_pin(msg_idx, cx);
+                                                            },
+                                                        ))
+                                                        .child("×"),
+                                                ),
                                         )
                                 }))
-                            })
-                    )
+                            }),
+                    ),
             )
     }
-
 }

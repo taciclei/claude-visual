@@ -1,12 +1,15 @@
 //! Footer actions rendering for tool result blocks
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::{ToolResultBlock, ToolResultBlockEvent, ToolExecutionStatus};
+use super::types::{ToolExecutionStatus, ToolResultBlock, ToolResultBlockEvent};
 
 /// Get contextual skill suggestion based on tool name and status
-fn get_tool_skill_suggestion(tool_name: &str, status: &ToolExecutionStatus) -> Option<(&'static str, &'static str, &'static str)> {
+fn get_tool_skill_suggestion(
+    tool_name: &str,
+    status: &ToolExecutionStatus,
+) -> Option<(&'static str, &'static str, &'static str)> {
     let tool_lower = tool_name.to_lowercase();
 
     // Error-specific suggestions
@@ -52,7 +55,8 @@ impl ToolResultBlock {
         });
 
         // Get contextual skill suggestion
-        let skill_suggestion = get_tool_skill_suggestion(&self.result.tool_name, &self.result.status);
+        let skill_suggestion =
+            get_tool_skill_suggestion(&self.result.tool_name, &self.result.status);
 
         div()
             .px_3()
@@ -63,38 +67,35 @@ impl ToolResultBlock {
             .items_center()
             .justify_between()
             // Left side: contextual skill suggestions
-            .child(
-                div()
-                    .flex()
-                    .items_center()
-                    .gap_2()
-                    .when_some(skill_suggestion, |d, (icon, label, cmd)| {
-                        let cmd_str = cmd.to_string();
-                        let accent = theme_colors.accent;
-                        d.child(
-                            div()
-                                .id("skill-suggestion")
-                                .flex()
-                                .items_center()
-                                .gap_1()
-                                .px_2()
-                                .py_1()
-                                .rounded_md()
-                                .text_xs()
-                                .bg(accent.opacity(0.1))
-                                .border_1()
-                                .border_color(accent.opacity(0.2))
-                                .text_color(accent)
-                                .cursor_pointer()
-                                .hover(move |s| s.bg(accent.opacity(0.2)))
-                                .on_click(cx.listener(move |_this, _, _window, cx| {
-                                    cx.emit(ToolResultBlockEvent::ExecuteSkill(cmd_str.clone()));
-                                }))
-                                .child(icon)
-                                .child(label)
-                        )
-                    })
-            )
+            .child(div().flex().items_center().gap_2().when_some(
+                skill_suggestion,
+                |d, (icon, label, cmd)| {
+                    let cmd_str = cmd.to_string();
+                    let accent = theme_colors.accent;
+                    d.child(
+                        div()
+                            .id("skill-suggestion")
+                            .flex()
+                            .items_center()
+                            .gap_1()
+                            .px_2()
+                            .py_1()
+                            .rounded_md()
+                            .text_xs()
+                            .bg(accent.opacity(0.1))
+                            .border_1()
+                            .border_color(accent.opacity(0.2))
+                            .text_color(accent)
+                            .cursor_pointer()
+                            .hover(move |s| s.bg(accent.opacity(0.2)))
+                            .on_click(cx.listener(move |_this, _, _window, cx| {
+                                cx.emit(ToolResultBlockEvent::ExecuteSkill(cmd_str.clone()));
+                            }))
+                            .child(icon)
+                            .child(label),
+                    )
+                },
+            ))
             // Right side: action buttons
             .child(
                 div()
@@ -149,7 +150,7 @@ impl ToolResultBlock {
                                 .on_click(on_retry_click)
                                 .child("Retry"),
                         )
-                    })
+                    }),
             )
     }
 }

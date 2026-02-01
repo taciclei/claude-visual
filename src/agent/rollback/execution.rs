@@ -106,10 +106,8 @@ impl RollbackManager {
     /// Execute a single rollback operation
     pub(crate) fn execute_rollback(&self, op: &RollbackOperation) -> Result<(), String> {
         match op {
-            RollbackOperation::FileCreated { path } => {
-                std::fs::remove_file(path)
-                    .map_err(|e| format!("Failed to delete file {}: {}", path.display(), e))
-            }
+            RollbackOperation::FileCreated { path } => std::fs::remove_file(path)
+                .map_err(|e| format!("Failed to delete file {}: {}", path.display(), e)),
 
             RollbackOperation::FileModified {
                 path,
@@ -153,15 +151,17 @@ impl RollbackManager {
                 Ok(())
             }
 
-            RollbackOperation::FileRenamed { from, to } => {
-                std::fs::rename(to, from)
-                    .map_err(|e| format!("Failed to rename {} back to {}: {}", to.display(), from.display(), e))
-            }
+            RollbackOperation::FileRenamed { from, to } => std::fs::rename(to, from).map_err(|e| {
+                format!(
+                    "Failed to rename {} back to {}: {}",
+                    to.display(),
+                    from.display(),
+                    e
+                )
+            }),
 
-            RollbackOperation::DirectoryCreated { path } => {
-                std::fs::remove_dir_all(path)
-                    .map_err(|e| format!("Failed to delete directory {}: {}", path.display(), e))
-            }
+            RollbackOperation::DirectoryCreated { path } => std::fs::remove_dir_all(path)
+                .map_err(|e| format!("Failed to delete directory {}: {}", path.display(), e)),
 
             RollbackOperation::DirectoryDeleted { path, contents } => {
                 // First create the directory
@@ -252,7 +252,10 @@ impl RollbackManager {
                 if let Some(handler) = self.custom_handlers.get(name) {
                     handler(data)
                 } else {
-                    Err(format!("No handler registered for custom operation: {}", name))
+                    Err(format!(
+                        "No handler registered for custom operation: {}",
+                        name
+                    ))
                 }
             }
         }

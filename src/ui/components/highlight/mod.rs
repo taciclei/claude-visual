@@ -1,21 +1,21 @@
 //! Text highlighting and marking components
 
-mod types;
 mod highlight;
 mod mark;
+mod multi_highlight;
+mod search_match;
 mod strikethrough;
 mod text_diff;
-mod search_match;
-mod multi_highlight;
+mod types;
 
 // Re-export types
-pub use types::*;
 pub use highlight::Highlight;
 pub use mark::Mark;
+pub use multi_highlight::MultiHighlight;
+pub use search_match::SearchMatch;
 pub use strikethrough::Strikethrough;
 pub use text_diff::TextDiff;
-pub use search_match::SearchMatch;
-pub use multi_highlight::MultiHighlight;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -43,8 +43,7 @@ mod tests {
 
     #[test]
     fn test_strikethrough() {
-        let strike = Strikethrough::new("old")
-            .replaced_with("new");
+        let strike = Strikethrough::new("old").replaced_with("new");
 
         assert_eq!(strike.text, "old");
         assert_eq!(strike.replacement, Some("new".to_string()));

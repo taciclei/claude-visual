@@ -36,7 +36,11 @@ pub struct ProjectsSidebar {
 impl ProjectsSidebar {
     pub fn new(app_state: Arc<AppState>, cx: &mut Context<Self>) -> Self {
         // Load projects from database
-        let projects = app_state.project_manager.read(cx).list_projects().unwrap_or_default();
+        let projects = app_state
+            .project_manager
+            .read(cx)
+            .list_projects()
+            .unwrap_or_default();
 
         Self {
             app_state,

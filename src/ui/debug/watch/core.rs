@@ -6,8 +6,8 @@ use gpui::*;
 
 use crate::app::state::AppState;
 
-use super::types::{WatchExpression, WatchChild};
 use super::events::WatchViewEvent;
+use super::types::{WatchChild, WatchExpression};
 
 /// Watch expressions view component
 pub struct WatchView {
@@ -60,7 +60,13 @@ impl WatchView {
     }
 
     /// Update expression value
-    pub fn update_value(&mut self, id: usize, value: String, value_type: Option<String>, cx: &mut Context<Self>) {
+    pub fn update_value(
+        &mut self,
+        id: usize,
+        value: String,
+        value_type: Option<String>,
+        cx: &mut Context<Self>,
+    ) {
         if let Some(expr) = self.expressions.iter_mut().find(|e| e.id == id) {
             expr.value = Some(value);
             expr.value_type = value_type;

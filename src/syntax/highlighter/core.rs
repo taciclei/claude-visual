@@ -24,16 +24,76 @@ impl Highlighter {
         let mut queries = HashMap::new();
 
         // Initialize parsers for each language
-        Self::init_language(&mut parsers, &mut queries, "rust", tree_sitter_rust::LANGUAGE.into(), RUST_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "javascript", tree_sitter_javascript::LANGUAGE.into(), JS_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "typescript", tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(), TS_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "tsx", tree_sitter_typescript::LANGUAGE_TSX.into(), TS_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "python", tree_sitter_python::LANGUAGE.into(), PYTHON_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "json", tree_sitter_json::LANGUAGE.into(), JSON_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "toml", tree_sitter_toml_ng::LANGUAGE.into(), TOML_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "bash", tree_sitter_bash::LANGUAGE.into(), BASH_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "sh", tree_sitter_bash::LANGUAGE.into(), BASH_HIGHLIGHTS);
-        Self::init_language(&mut parsers, &mut queries, "shell", tree_sitter_bash::LANGUAGE.into(), BASH_HIGHLIGHTS);
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "rust",
+            tree_sitter_rust::LANGUAGE.into(),
+            RUST_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "javascript",
+            tree_sitter_javascript::LANGUAGE.into(),
+            JS_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "typescript",
+            tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),
+            TS_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "tsx",
+            tree_sitter_typescript::LANGUAGE_TSX.into(),
+            TS_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "python",
+            tree_sitter_python::LANGUAGE.into(),
+            PYTHON_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "json",
+            tree_sitter_json::LANGUAGE.into(),
+            JSON_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "toml",
+            tree_sitter_toml_ng::LANGUAGE.into(),
+            TOML_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "bash",
+            tree_sitter_bash::LANGUAGE.into(),
+            BASH_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "sh",
+            tree_sitter_bash::LANGUAGE.into(),
+            BASH_HIGHLIGHTS,
+        );
+        Self::init_language(
+            &mut parsers,
+            &mut queries,
+            "shell",
+            tree_sitter_bash::LANGUAGE.into(),
+            BASH_HIGHLIGHTS,
+        );
 
         Self { parsers, queries }
     }

@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::Ratio;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Aspect ratio container that maintains proportions
 #[derive(IntoElement)]
@@ -109,10 +109,7 @@ impl RenderOnce for AspectRatio {
         }
 
         // Content fills the container
-        let content = div()
-            .absolute()
-            .inset_0()
-            .child(self.content);
+        let content = div().absolute().inset_0().child(self.content);
 
         container.child(content)
     }

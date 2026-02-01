@@ -1,8 +1,8 @@
 //! CharacterReveal component - character-by-character reveal with effects
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Character-by-character reveal with effects
 #[derive(IntoElement)]

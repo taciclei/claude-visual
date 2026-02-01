@@ -2,7 +2,7 @@
 //!
 //! Contains all user interface components built with GPUI.
 
-use gpui::{relative, div, Div, DefiniteLength};
+use gpui::{div, relative, DefiniteLength, Div};
 
 /// Helper function to create a percentage-based length.
 /// Takes a percentage (0-100) and converts to a relative fraction.

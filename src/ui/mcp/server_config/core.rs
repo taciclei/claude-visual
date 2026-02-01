@@ -1,7 +1,7 @@
 //! Core logic for MCP server configuration editor
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
 use crate::app::state::AppState;
 use crate::mcp::McpServerConfig;
@@ -66,7 +66,12 @@ impl ServerConfigEditor {
     }
 
     /// Update a text field
-    pub(crate) fn update_field(&mut self, field: EditingField, value: String, cx: &mut Context<Self>) {
+    pub(crate) fn update_field(
+        &mut self,
+        field: EditingField,
+        value: String,
+        cx: &mut Context<Self>,
+    ) {
         match field {
             EditingField::Name => self.config.name = value,
             EditingField::Command => self.config.command = value,

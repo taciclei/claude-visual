@@ -1,7 +1,7 @@
 //! Strikethrough text component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Strikethrough text
 #[derive(Clone)]
@@ -34,18 +34,9 @@ impl RenderOnce for Strikethrough {
             .flex()
             .items_center()
             .gap_2()
-            .child(
-                div()
-                    .text_color(text_muted)
-                    .line_through()
-                    .child(self.text)
-            )
+            .child(div().text_color(text_muted).line_through().child(self.text))
             .when_some(self.replacement, |d, repl| {
-                d.child(
-                    div()
-                        .text_color(green)
-                        .child(repl)
-                )
+                d.child(div().text_color(green).child(repl))
             })
     }
 }

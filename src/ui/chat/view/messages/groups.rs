@@ -32,12 +32,20 @@ impl ChatView {
     }
 
     /// Get messages with their time groups for rendering separators
-    pub fn messages_with_time_groups(&self, cx: &Context<Self>) -> Vec<(Option<String>, usize, Entity<MessageView>)> {
+    pub fn messages_with_time_groups(
+        &self,
+        cx: &Context<Self>,
+    ) -> Vec<(Option<String>, usize, Entity<MessageView>)> {
         let show_bookmarked = self.show_bookmarked_only;
         let mut result = Vec::new();
         let mut last_group: Option<String> = None;
 
-        for ((idx, view), msg) in self.message_views.iter().enumerate().zip(self.messages.iter()) {
+        for ((idx, view), msg) in self
+            .message_views
+            .iter()
+            .enumerate()
+            .zip(self.messages.iter())
+        {
             // Apply filters
             if !self.message_filter.includes_role(msg.role) {
                 continue;

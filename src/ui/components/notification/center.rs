@@ -1,8 +1,8 @@
 //! Notification center panel component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::notification::Notification;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Notification center panel
 #[derive(Clone)]
@@ -86,7 +86,7 @@ impl RenderOnce for NotificationCenter {
                                         .text_base()
                                         .font_weight(FontWeight::SEMIBOLD)
                                         .text_color(text)
-                                        .child("Notifications")
+                                        .child("Notifications"),
                                 )
                                 .when(unread_count > 0, |d| {
                                     d.child(
@@ -97,9 +97,9 @@ impl RenderOnce for NotificationCenter {
                                             .bg(accent)
                                             .text_xs()
                                             .text_color(gpui::white())
-                                            .child(format!("{}", unread_count))
+                                            .child(format!("{}", unread_count)),
                                     )
-                                })
+                                }),
                         )
                         .when(self.show_clear_all && has_notifications, |d| {
                             d.child(
@@ -108,9 +108,9 @@ impl RenderOnce for NotificationCenter {
                                     .text_color(accent)
                                     .cursor_pointer()
                                     .hover(|s| s.underline())
-                                    .child("Clear all")
+                                    .child("Clear all"),
                             )
-                        })
+                        }),
                 )
             })
             // Notifications list
@@ -127,7 +127,7 @@ impl RenderOnce for NotificationCenter {
                                 .flex()
                                 .flex_col()
                                 .gap_2()
-                                .children(self.notifications)
+                                .children(self.notifications),
                         )
                     })
                     .when(!has_notifications, |d| {
@@ -139,20 +139,15 @@ impl RenderOnce for NotificationCenter {
                                 .flex_col()
                                 .items_center()
                                 .gap_2()
-                                .child(
-                                    div()
-                                        .text_3xl()
-                                        .text_color(text_muted)
-                                        .child("🔔")
-                                )
+                                .child(div().text_3xl().text_color(text_muted).child("🔔"))
                                 .child(
                                     div()
                                         .text_sm()
                                         .text_color(text_muted)
-                                        .child("No notifications")
-                                )
+                                        .child("No notifications"),
+                                ),
                         )
-                    })
+                    }),
             )
     }
 }

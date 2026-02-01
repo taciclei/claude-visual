@@ -1,7 +1,7 @@
 //! Diff-style text change component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Diff-style text change
 #[derive(Clone)]
@@ -45,20 +45,16 @@ impl RenderOnce for TextDiff {
                         .bg(removed_bg)
                         .text_color(removed_text)
                         .line_through()
-                        .child(self.old_text)
+                        .child(self.old_text),
                 )
-                .child(
-                    div()
-                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child("→")
-                )
+                .child(div().text_color(hsla(0.0, 0.0, 0.5, 1.0)).child("→"))
                 .child(
                     div()
                         .px_1()
                         .rounded(px(2.0))
                         .bg(added_bg)
                         .text_color(added_text)
-                        .child(self.new_text)
+                        .child(self.new_text),
                 )
         } else {
             div()
@@ -75,7 +71,7 @@ impl RenderOnce for TextDiff {
                                 .w(px(16.0))
                                 .text_center()
                                 .text_color(removed_text)
-                                .child("-")
+                                .child("-"),
                         )
                         .child(
                             div()
@@ -86,8 +82,8 @@ impl RenderOnce for TextDiff {
                                 .bg(removed_bg)
                                 .text_color(removed_text)
                                 .line_through()
-                                .child(self.old_text)
-                        )
+                                .child(self.old_text),
+                        ),
                 )
                 .child(
                     div()
@@ -99,7 +95,7 @@ impl RenderOnce for TextDiff {
                                 .w(px(16.0))
                                 .text_center()
                                 .text_color(added_text)
-                                .child("+")
+                                .child("+"),
                         )
                         .child(
                             div()
@@ -109,8 +105,8 @@ impl RenderOnce for TextDiff {
                                 .rounded(px(2.0))
                                 .bg(added_bg)
                                 .text_color(added_text)
-                                .child(self.new_text)
-                        )
+                                .child(self.new_text),
+                        ),
                 )
         }
     }

@@ -76,10 +76,10 @@ mod tests {
         let mut summarizer = Summarizer::new(SummarizationConfig::default());
 
         summarizer.add_message(ConversationMessage::user(
-            "I need help with Rust and database performance"
+            "I need help with Rust and database performance",
         ));
         summarizer.add_message(ConversationMessage::assistant(
-            "Let me help you with the Rust code and optimize the database queries"
+            "Let me help you with the Rust code and optimize the database queries",
         ));
 
         let topics = summarizer.extract_topics();

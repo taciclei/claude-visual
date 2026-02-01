@@ -1,17 +1,17 @@
 //! Card component for content containers
 
-mod types;
+mod collapsible_card;
 mod main_card;
 mod simple_card;
-mod collapsible_card;
+mod types;
 
 // Re-export types
-pub use types::{CardVariant, CardPadding, CardEvent};
+pub use types::{CardEvent, CardPadding, CardVariant};
 
 // Re-export components
+pub use collapsible_card::CollapsibleCard;
 pub use main_card::Card;
 pub use simple_card::SimpleCard;
-pub use collapsible_card::CollapsibleCard;
 
 #[cfg(test)]
 mod tests {

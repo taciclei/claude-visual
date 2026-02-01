@@ -109,7 +109,9 @@ impl DapClient {
         stdin
             .write_all(content.as_bytes())
             .map_err(|e| DapClientError::IoError(e.to_string()))?;
-        stdin.flush().map_err(|e| DapClientError::IoError(e.to_string()))?;
+        stdin
+            .flush()
+            .map_err(|e| DapClientError::IoError(e.to_string()))?;
 
         // Wait for response
         let (tx, rx) = tokio::sync::oneshot::channel();
@@ -119,11 +121,8 @@ impl DapClient {
         }
 
         // Wait with timeout
-        match tokio::time::timeout(
-            std::time::Duration::from_millis(self.config.timeout_ms),
-            rx,
-        )
-        .await
+        match tokio::time::timeout(std::time::Duration::from_millis(self.config.timeout_ms), rx)
+            .await
         {
             Ok(Ok(result)) => result,
             Ok(Err(_)) => Err(DapClientError::ProtocolError("Channel closed".to_string())),

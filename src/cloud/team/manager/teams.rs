@@ -25,7 +25,10 @@ impl TeamManager {
 
         // In production, this would call the API
         // For now, store locally
-        self.teams.write().await.insert(team.id.clone(), team.clone());
+        self.teams
+            .write()
+            .await
+            .insert(team.id.clone(), team.clone());
 
         // Log activity
         self.log_activity(

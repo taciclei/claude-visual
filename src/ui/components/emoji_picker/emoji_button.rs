@@ -47,10 +47,6 @@ impl RenderOnce for EmojiButton {
             .rounded(px(4.0))
             .opacity(opacity)
             .when(!self.disabled, |el| el.cursor_pointer())
-            .child(
-                div()
-                    .text_size(px(self.size))
-                    .child(self.emoji.clone())
-            )
+            .child(div().text_size(px(self.size)).child(self.emoji.clone()))
     }
 }

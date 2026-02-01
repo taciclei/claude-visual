@@ -1,7 +1,7 @@
 //! Helper functions for agent workspace
 
-use gpui::*;
 use super::types::{AgentMode, SimpleColors};
+use gpui::*;
 
 /// Get mode color
 pub(crate) fn mode_color(mode: AgentMode, colors: &SimpleColors) -> Hsla {

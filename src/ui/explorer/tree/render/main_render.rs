@@ -1,7 +1,7 @@
 //! Main Render trait implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::explorer::tree::core::FileTree;
 use crate::ui::explorer::tree::types::{default_colors, FileTreeEvent};
@@ -22,7 +22,9 @@ impl Render for FileTree {
         });
 
         let on_new_file = cx.listener(|this, _, _window, cx| {
-            if let Some(path) = this.selected_path.clone()
+            if let Some(path) = this
+                .selected_path
+                .clone()
                 .or_else(|| this.root_path.clone())
             {
                 cx.emit(FileTreeEvent::NewFileRequested(path));
@@ -30,7 +32,9 @@ impl Render for FileTree {
         });
 
         let on_new_folder = cx.listener(|this, _, _window, cx| {
-            if let Some(path) = this.selected_path.clone()
+            if let Some(path) = this
+                .selected_path
+                .clone()
                 .or_else(|| this.root_path.clone())
             {
                 cx.emit(FileTreeEvent::NewFolderRequested(path));
@@ -68,17 +72,13 @@ impl Render for FileTree {
                     .border_b_1()
                     .border_color(theme.border)
                     .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap_2()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .font_weight(FontWeight::MEDIUM)
-                                    .text_color(theme.text)
-                                    .child("Explorer"),
-                            ),
+                        div().flex().items_center().gap_2().child(
+                            div()
+                                .text_sm()
+                                .font_weight(FontWeight::MEDIUM)
+                                .text_color(theme.text)
+                                .child("Explorer"),
+                        ),
                     )
                     .child(
                         div()
@@ -144,12 +144,7 @@ impl Render for FileTree {
                             .border_1()
                             .border_color(theme.border)
                             .rounded_sm()
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(theme.text_muted)
-                                    .child("🔍"),
-                            )
+                            .child(div().text_xs().text_color(theme.text_muted).child("🔍"))
                             .child(
                                 div()
                                     .flex_1()

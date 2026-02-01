@@ -1,7 +1,7 @@
 //! LSP Manager events
 
-use crate::lsp::protocol::Diagnostic;
 use super::language::Language;
+use crate::lsp::protocol::Diagnostic;
 
 /// LSP Manager events
 #[derive(Debug, Clone)]

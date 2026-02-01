@@ -1,10 +1,10 @@
 //! Skeleton component for text blocks
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
 use crate::app::state::AppState;
 use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Skeleton for text blocks (multiple lines)
 pub struct SkeletonText {
@@ -68,7 +68,11 @@ impl Render for SkeletonText {
             .w_full()
             .children((0..self.lines).map(|i| {
                 let is_last = i == self.lines - 1;
-                let width_pct = if is_last { self.last_line_width * 100.0 } else { 100.0 };
+                let width_pct = if is_last {
+                    self.last_line_width * 100.0
+                } else {
+                    100.0
+                };
 
                 div()
                     .h(px(self.line_height))

@@ -1,7 +1,7 @@
 //! Session storage types
 
-use serde::{Deserialize, Serialize};
 use super::types::{OAuthTokens, UserProfile};
+use serde::{Deserialize, Serialize};
 
 /// Saved session data
 #[derive(Debug, Serialize, Deserialize)]

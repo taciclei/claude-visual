@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::Ratio;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Video placeholder with play button
 #[derive(IntoElement)]

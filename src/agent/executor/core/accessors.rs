@@ -3,8 +3,8 @@
 use crate::agent::planner::Plan;
 use crate::agent::task::TaskTree;
 
-use super::executor::AgentExecutor;
 use super::super::types::ExecutorState;
+use super::executor::AgentExecutor;
 
 impl AgentExecutor {
     /// Get current state
@@ -29,7 +29,11 @@ impl AgentExecutor {
 
     /// Get progress as (completed, total)
     pub fn progress(&self) -> (usize, usize) {
-        let total = self.current_plan.as_ref().map(|p| p.steps.len()).unwrap_or(0);
+        let total = self
+            .current_plan
+            .as_ref()
+            .map(|p| p.steps.len())
+            .unwrap_or(0);
         (self.completed_steps.len(), total)
     }
 

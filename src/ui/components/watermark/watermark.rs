@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::{WatermarkPosition, WatermarkVariant};
+use gpui::prelude::*;
+use gpui::*;
 
 /// Text watermark component
 #[derive(IntoElement)]
@@ -119,11 +119,7 @@ impl Watermark {
 impl RenderOnce for Watermark {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let id = self.id.clone();
-        let base = div()
-            .id(id)
-            .absolute()
-            .inset_0()
-            .overflow_hidden();
+        let base = div().id(id).absolute().inset_0().overflow_hidden();
 
         if self.position == WatermarkPosition::Tiled {
             return base.child(self.render_tiled());

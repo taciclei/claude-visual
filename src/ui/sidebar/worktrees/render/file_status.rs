@@ -1,11 +1,11 @@
 //! File status rendering (staged and unstaged files)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::super::types::{WorktreePanel, WorktreePanelEvent};
 use crate::app::theme::Theme;
 use crate::git::status::FileStatusKind;
-use super::super::types::{WorktreePanel, WorktreePanelEvent};
 
 /// Render quick action buttons for git operations
 fn render_quick_actions(
@@ -44,7 +44,7 @@ fn render_quick_actions(
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(WorktreePanelEvent::SendSkillCommand("/commit".to_string()));
                     }))
-                    .child("Commit")
+                    .child("Commit"),
             )
         })
         // Review button - show when there are any changes
@@ -69,7 +69,7 @@ fn render_quick_actions(
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(WorktreePanelEvent::SendSkillCommand("/review".to_string()));
                     }))
-                    .child("Review")
+                    .child("Review"),
             )
         })
         // Create PR button
@@ -90,11 +90,16 @@ fn render_quick_actions(
                     .flex()
                     .items_center()
                     .gap_1()
-                    .hover(move |s| s.bg(success.opacity(0.25)).border_color(success.opacity(0.5)))
+                    .hover(move |s| {
+                        s.bg(success.opacity(0.25))
+                            .border_color(success.opacity(0.5))
+                    })
                     .on_click(cx.listener(|_this, _, _window, cx| {
-                        cx.emit(WorktreePanelEvent::SendSkillCommand("/create-pr".to_string()));
+                        cx.emit(WorktreePanelEvent::SendSkillCommand(
+                            "/create-pr".to_string(),
+                        ));
                     }))
-                    .child("Create PR")
+                    .child("Create PR"),
             )
         })
         // Refactor button - when there are changes
@@ -115,11 +120,16 @@ fn render_quick_actions(
                     .flex()
                     .items_center()
                     .gap_1()
-                    .hover(move |s| s.bg(warning.opacity(0.25)).border_color(warning.opacity(0.5)))
+                    .hover(move |s| {
+                        s.bg(warning.opacity(0.25))
+                            .border_color(warning.opacity(0.5))
+                    })
                     .on_click(cx.listener(|_this, _, _window, cx| {
-                        cx.emit(WorktreePanelEvent::SendSkillCommand("/refactor".to_string()));
+                        cx.emit(WorktreePanelEvent::SendSkillCommand(
+                            "/refactor".to_string(),
+                        ));
                     }))
-                    .child("Refactor")
+                    .child("Refactor"),
             )
         })
 }

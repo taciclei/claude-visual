@@ -1,9 +1,9 @@
 //! Tree rendering logic
 
-use gpui::*;
-use gpui::prelude::*;
 use super::tree_state::Tree;
-use super::types::{TreeNode, TreeEvent};
+use super::types::{TreeEvent, TreeNode};
+use gpui::prelude::*;
+use gpui::*;
 
 impl Tree {
     /// Render a node recursively
@@ -15,21 +15,29 @@ impl Tree {
         theme: &crate::app::theme::Theme,
     ) -> Div {
         let is_expanded = self.is_expanded(&node.id);
-        let is_selected = self.selected.as_deref() == Some(&node.id)
-            || self.selected_multiple.contains(&node.id);
+        let is_selected =
+            self.selected.as_deref() == Some(&node.id) || self.selected_multiple.contains(&node.id);
         let has_children = node.has_children();
         let opacity = if node.disabled { 0.5 } else { 1.0 };
 
         let node_id = node.id.clone();
         let chevron = if has_children {
-            if is_expanded { "▼" } else { "▶" }
+            if is_expanded {
+                "▼"
+            } else {
+                "▶"
+            }
         } else {
             " "
         };
 
         let icon = node.icon.clone().unwrap_or_else(|| {
             if has_children {
-                if is_expanded { "📂".to_string() } else { "📁".to_string() }
+                if is_expanded {
+                    "📂".to_string()
+                } else {
+                    "📁".to_string()
+                }
             } else {
                 "📄".to_string()
             }
@@ -73,9 +81,7 @@ impl Tree {
                     .gap_1()
                     .rounded(px(4.0))
                     .opacity(opacity)
-                    .when(is_selected, |d| {
-                        d.bg(accent_color.opacity(0.15))
-                    })
+                    .when(is_selected, |d| d.bg(accent_color.opacity(0.15)))
                     .when(!node.disabled, |d| {
                         d.cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
@@ -92,17 +98,12 @@ impl Tree {
                             .text_xs()
                             .text_color(text_muted)
                             .when(has_children && !node.disabled, |d| {
-                                d.cursor_pointer()
-                                    .on_click(chevron_click_listener)
+                                d.cursor_pointer().on_click(chevron_click_listener)
                             })
-                            .child(chevron)
+                            .child(chevron),
                     )
                     // Icon
-                    .child(
-                        div()
-                            .text_sm()
-                            .child(icon)
-                    )
+                    .child(div().text_sm().child(icon))
                     // Label
                     .child(
                         div()
@@ -115,19 +116,17 @@ impl Tree {
                             })
                             .overflow_hidden()
                             .text_ellipsis()
-                            .child(node.label.clone())
-                    )
+                            .child(node.label.clone()),
+                    ),
             )
             // Children (if expanded)
             .when(is_expanded && has_children, |d| {
                 d.child(
-                    div()
-                        .w_full()
-                        .flex()
-                        .flex_col()
-                        .children(node.children.iter().map(|child| {
-                            self.render_node(child, depth + 1, cx, theme)
-                        }))
+                    div().w_full().flex().flex_col().children(
+                        node.children
+                            .iter()
+                            .map(|child| self.render_node(child, depth + 1, cx, theme)),
+                    ),
                 )
             })
     }
@@ -158,8 +157,10 @@ impl Render for Tree {
             .flex()
             .flex_col()
             .track_focus(&self.focus_handle)
-            .children(nodes.iter().map(|node| {
-                self.render_node(node, 0, cx, &theme)
-            }))
+            .children(
+                nodes
+                    .iter()
+                    .map(|node| self.render_node(node, 0, cx, &theme)),
+            )
     }
 }

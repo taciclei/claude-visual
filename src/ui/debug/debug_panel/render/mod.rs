@@ -2,8 +2,8 @@
 //!
 //! Render implementations for the debug panel.
 
-mod header;
-mod toolbar;
 mod ai_menu;
-mod tabs;
 mod content;
+mod header;
+mod tabs;
+mod toolbar;

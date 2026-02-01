@@ -1,12 +1,12 @@
 //! Core MessageView struct and methods
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
+use super::types::{MessageAction, MessageReaction, MessageViewEvent};
+use super::utils::format_relative_time;
 use crate::app::state::AppState;
 use crate::claude::message::{ClaudeMessage, MessageRole};
-use super::types::{MessageReaction, MessageViewEvent, MessageAction};
-use super::utils::format_relative_time;
 
 /// Stateful message view component
 pub struct MessageView {
@@ -152,7 +152,7 @@ impl MessageView {
     pub(super) fn estimate_cost(&self) -> f64 {
         let tokens = self.estimate_tokens() as f64;
         match self.message.role {
-            MessageRole::User => tokens * 3.0 / 1_000_000.0,      // Input pricing
+            MessageRole::User => tokens * 3.0 / 1_000_000.0, // Input pricing
             MessageRole::Assistant => tokens * 15.0 / 1_000_000.0, // Output pricing
             _ => 0.0,
         }
@@ -274,7 +274,10 @@ impl MessageView {
     /// Get full timestamp (always absolute)
     #[allow(dead_code)]
     pub(super) fn full_timestamp(&self) -> String {
-        self.message.timestamp.format("%Y-%m-%d %H:%M:%S").to_string()
+        self.message
+            .timestamp
+            .format("%Y-%m-%d %H:%M:%S")
+            .to_string()
     }
 
     /// Count code blocks in message content

@@ -41,9 +41,7 @@ impl SplitNode {
     pub fn pane_count(&self) -> usize {
         match self {
             SplitNode::Leaf(_) => 1,
-            SplitNode::Split { children, .. } => {
-                children.iter().map(|c| c.pane_count()).sum()
-            }
+            SplitNode::Split { children, .. } => children.iter().map(|c| c.pane_count()).sum(),
         }
     }
 

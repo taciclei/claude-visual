@@ -3,13 +3,12 @@
 //! Language Server Protocol client for code intelligence features.
 
 pub mod client;
-pub mod protocol;
 pub mod manager;
+pub mod protocol;
 
 pub use client::{LspClient, LspClientConfig};
+pub use manager::{LanguageServer, LspManager};
 pub use protocol::{
-    Position, Range, Location, TextDocumentIdentifier,
-    CompletionItem, Diagnostic, DiagnosticSeverity,
-    Hover, SignatureHelp, DocumentSymbol,
+    CompletionItem, Diagnostic, DiagnosticSeverity, DocumentSymbol, Hover, Location, Position,
+    Range, SignatureHelp, TextDocumentIdentifier,
 };
-pub use manager::{LspManager, LanguageServer};

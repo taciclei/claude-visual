@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Progress stepper for forms
 #[derive(IntoElement)]
@@ -110,12 +110,7 @@ impl RenderOnce for ProgressStepper {
                             .flex_col()
                             .items_center()
                             .gap_1()
-                            .child(
-                                div()
-                                    .size(px(8.0))
-                                    .rounded_full()
-                                    .bg(color),
-                            )
+                            .child(div().size(px(8.0)).rounded_full().bg(color))
                             .when(self.show_labels && i < self.labels.len(), |d| {
                                 d.child(
                                     div()

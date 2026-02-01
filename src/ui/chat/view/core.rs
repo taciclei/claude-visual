@@ -2,9 +2,9 @@
 
 use std::sync::Arc;
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 use crate::app::state::AppState;
 use crate::claude::message::{ClaudeEvent, ClaudeMessage, MessageRole};
@@ -302,7 +302,6 @@ pub struct ChatView {
     pub(crate) file_picker: FilePickerState,
 }
 
-
 impl ChatView {
     pub fn new(app_state: Arc<AppState>, cx: &mut Context<Self>) -> Self {
         // Load draft from settings if available
@@ -311,43 +310,46 @@ impl ChatView {
         let input = cx.new(|cx| {
             let mut input = ChatInput::new(app_state.clone(), cx);
             // Set default slash commands (these are common Claude CLI commands)
-            input.set_available_commands(vec![
-                // Help & Info
-                "help".to_string(),
-                "status".to_string(),
-                "usage".to_string(),
-                "cost".to_string(),
-                // Context management
-                "clear".to_string(),
-                "compact".to_string(),
-                "context".to_string(),
-                "add-dir".to_string(),
-                // Session management
-                "resume".to_string(),
-                "memory".to_string(),
-                // Model & AI
-                "model".to_string(),
-                "think".to_string(),
-                // Development
-                "review".to_string(),
-                "commit".to_string(),
-                "pr".to_string(),
-                // Settings & Config
-                "permissions".to_string(),
-                "config".to_string(),
-                "vim".to_string(),
-                // Troubleshooting
-                "doctor".to_string(),
-                "bug".to_string(),
-                // Project setup
-                "init".to_string(),
-                "terminal-setup".to_string(),
-                // MCP
-                "mcp".to_string(),
-                // Auth
-                "login".to_string(),
-                "logout".to_string(),
-            ], cx);
+            input.set_available_commands(
+                vec![
+                    // Help & Info
+                    "help".to_string(),
+                    "status".to_string(),
+                    "usage".to_string(),
+                    "cost".to_string(),
+                    // Context management
+                    "clear".to_string(),
+                    "compact".to_string(),
+                    "context".to_string(),
+                    "add-dir".to_string(),
+                    // Session management
+                    "resume".to_string(),
+                    "memory".to_string(),
+                    // Model & AI
+                    "model".to_string(),
+                    "think".to_string(),
+                    // Development
+                    "review".to_string(),
+                    "commit".to_string(),
+                    "pr".to_string(),
+                    // Settings & Config
+                    "permissions".to_string(),
+                    "config".to_string(),
+                    "vim".to_string(),
+                    // Troubleshooting
+                    "doctor".to_string(),
+                    "bug".to_string(),
+                    // Project setup
+                    "init".to_string(),
+                    "terminal-setup".to_string(),
+                    // MCP
+                    "mcp".to_string(),
+                    // Auth
+                    "login".to_string(),
+                    "logout".to_string(),
+                ],
+                cx,
+            );
             // Restore draft if available
             if !saved_draft.is_empty() {
                 input.set_text(saved_draft.clone(), cx);
@@ -423,7 +425,7 @@ impl ChatView {
             auto_scroll: true, // Auto-scroll by default
             selected_message_index: None,
             show_bookmarked_only: false,
-            word_wrap: false, // No word wrap by default (horizontal scroll)
+            word_wrap: false,        // No word wrap by default (horizontal scroll)
             show_line_numbers: true, // Show line numbers by default
             session_info: None,
             session_cost: 0.0,
@@ -441,7 +443,11 @@ impl ChatView {
             last_response_time_ms: None,
             response_start_time: None,
             show_model_switcher: false,
-            draft_text: if saved_draft.is_empty() { None } else { Some(saved_draft) },
+            draft_text: if saved_draft.is_empty() {
+                None
+            } else {
+                Some(saved_draft)
+            },
             draft_saved_at: None,
             context_capacity: 200_000, // Default Claude context window
             context_used: 0,
@@ -776,7 +782,6 @@ impl ChatView {
     // is_selected_bookmarked moved to selection.rs
     // has_selected_message moved to selection.rs
 
-
     // Conversation title methods moved to session.rs:
     // - conversation_title
     // - set_conversation_title
@@ -921,7 +926,6 @@ impl ChatView {
 
     // Session capabilities formatting moved to claude_events.rs:
     // - format_session_capabilities
-
 
     // ==================== Render: Context Menu ====================
 
@@ -2490,7 +2494,6 @@ impl Render for ChatView {
 #[cfg(test)]
 mod tests {
     use super::*;
-
 
     fn test_conversation_search_result() {
         let result = ConversationSearchResult {

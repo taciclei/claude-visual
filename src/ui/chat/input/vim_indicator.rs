@@ -1,7 +1,7 @@
 //! Vim mode indicator rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::vim::VimMode;
@@ -10,7 +10,11 @@ use super::ChatInput;
 
 impl ChatInput {
     /// Get vim mode label and color if vim is active
-    pub(super) fn get_vim_mode_label(&self, theme: &Theme, cx: &mut Context<Self>) -> Option<(&'static str, Hsla)> {
+    pub(super) fn get_vim_mode_label(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> Option<(&'static str, Hsla)> {
         self.vim_mode(cx).map(|m| match m {
             VimMode::Normal => ("NORMAL", theme.colors.accent),
             VimMode::Insert => ("INSERT", theme.colors.success),
@@ -23,7 +27,12 @@ impl ChatInput {
     }
 
     /// Render vim mode indicator
-    pub(super) fn render_vim_indicator(&self, label: &'static str, color: Hsla, theme: &Theme) -> impl IntoElement {
+    pub(super) fn render_vim_indicator(
+        &self,
+        label: &'static str,
+        color: Hsla,
+        theme: &Theme,
+    ) -> impl IntoElement {
         let hint = match label {
             "NORMAL" => "Press 'i' to edit",
             "INSERT" => "Esc to return",

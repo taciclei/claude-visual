@@ -1,14 +1,18 @@
 //! Projects view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::UsageAnalytics;
 use super::panel::AnalyticsPanel;
+use crate::cloud::team::UsageAnalytics;
 
 impl AnalyticsPanel {
     /// Render projects view
-    pub(super) fn render_projects(&self, analytics: &UsageAnalytics, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_projects(
+        &self,
+        analytics: &UsageAnalytics,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let mut projects: Vec<_> = analytics.usage_by_project.values().collect();
         projects.sort_by(|a, b| b.tokens.cmp(&a.tokens));
@@ -81,11 +85,7 @@ impl AnalyticsPanel {
                             .flex()
                             .items_center()
                             .gap_2()
-                            .child(
-                                div()
-                                    .text_lg()
-                                    .child("📁"),
-                            )
+                            .child(div().text_lg().child("📁"))
                             .child(
                                 div()
                                     .text_sm()

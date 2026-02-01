@@ -1,11 +1,11 @@
 //! Tag/Chip component for labels and categories
 
-use std::sync::Arc;
 use gpui::prelude::*;
 use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Tag/Chip component
 pub struct Tag {
@@ -29,7 +29,11 @@ pub struct Tag {
 }
 
 impl Tag {
-    pub fn new(app_state: Arc<AppState>, label: impl Into<String>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             label: label.into(),
@@ -44,14 +48,22 @@ impl Tag {
     }
 
     /// Create a closable tag
-    pub fn closable(app_state: Arc<AppState>, label: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn closable(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut tag = Self::new(app_state, label, cx);
         tag.closable = true;
         tag
     }
 
     /// Create a clickable/selectable tag
-    pub fn selectable(app_state: Arc<AppState>, label: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn selectable(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut tag = Self::new(app_state, label, cx);
         tag.clickable = true;
         tag
@@ -119,9 +131,18 @@ impl Tag {
             TagColor::Success => (theme.colors.success.opacity(0.15), theme.colors.success),
             TagColor::Warning => (theme.colors.warning.opacity(0.15), theme.colors.warning),
             TagColor::Error => (theme.colors.error.opacity(0.15), theme.colors.error),
-            TagColor::Info => (hsla(210.0 / 360.0, 0.8, 0.5, 0.15), hsla(210.0 / 360.0, 0.8, 0.5, 1.0)),
-            TagColor::Purple => (hsla(270.0 / 360.0, 0.6, 0.5, 0.15), hsla(270.0 / 360.0, 0.6, 0.5, 1.0)),
-            TagColor::Pink => (hsla(330.0 / 360.0, 0.7, 0.6, 0.15), hsla(330.0 / 360.0, 0.7, 0.6, 1.0)),
+            TagColor::Info => (
+                hsla(210.0 / 360.0, 0.8, 0.5, 0.15),
+                hsla(210.0 / 360.0, 0.8, 0.5, 1.0),
+            ),
+            TagColor::Purple => (
+                hsla(270.0 / 360.0, 0.6, 0.5, 0.15),
+                hsla(270.0 / 360.0, 0.6, 0.5, 1.0),
+            ),
+            TagColor::Pink => (
+                hsla(330.0 / 360.0, 0.7, 0.6, 0.15),
+                hsla(330.0 / 360.0, 0.7, 0.6, 1.0),
+            ),
         };
 
         if self.selected {
@@ -152,13 +173,14 @@ impl Render for Tag {
             .gap_1()
             .rounded(px(height / 2.0))
             .when(!self.outline, |d| d.bg(bg_color))
-            .when(self.outline, |d| d.border_1().border_color(fg_color.opacity(0.5)))
+            .when(self.outline, |d| {
+                d.border_1().border_color(fg_color.opacity(0.5))
+            })
             .text_color(fg_color)
             .text_size(px(font_size))
             .font_weight(FontWeight::MEDIUM)
             .when(self.clickable, |d| {
-                d.cursor_pointer()
-                    .hover(|s| s.bg(fg_color.opacity(0.2)))
+                d.cursor_pointer().hover(|s| s.bg(fg_color.opacity(0.2)))
             })
             .when(self.clickable, |d| {
                 d.on_click(cx.listener(|this, _, _window, cx| {
@@ -189,7 +211,7 @@ impl Render for Tag {
                         .on_click(cx.listener(|_this, _, _window, cx| {
                             cx.emit(TagEvent::Closed);
                         }))
-                        .child("×")
+                        .child("×"),
                 )
             })
     }

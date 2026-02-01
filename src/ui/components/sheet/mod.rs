@@ -1,17 +1,17 @@
 //! Sheet component (bottom sheet, action sheet)
 
-mod types;
-mod sheet;
 mod action_sheet;
 mod confirm_sheet;
 mod share_sheet;
+mod sheet;
+mod types;
 
 // Re-export all public items
-pub use types::{SheetPosition, SheetSize, SheetEvent, SheetAction, ShareItem};
-pub use sheet::Sheet;
 pub use action_sheet::ActionSheet;
 pub use confirm_sheet::ConfirmSheet;
 pub use share_sheet::ShareSheet;
+pub use sheet::Sheet;
+pub use types::{ShareItem, SheetAction, SheetEvent, SheetPosition, SheetSize};
 
 #[cfg(test)]
 mod tests {

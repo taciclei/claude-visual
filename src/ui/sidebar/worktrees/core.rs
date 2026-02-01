@@ -73,7 +73,10 @@ impl WorktreePanel {
     /// Copy branch name to clipboard
     pub(super) fn copy_branch_name(&mut self, index: usize, cx: &mut Context<Self>) {
         if let Some(worktree) = self.worktrees.get(index) {
-            let branch = worktree.branch.clone().unwrap_or_else(|| "detached".to_string());
+            let branch = worktree
+                .branch
+                .clone()
+                .unwrap_or_else(|| "detached".to_string());
             cx.write_to_clipboard(gpui::ClipboardItem::new_string(branch));
             tracing::info!("Copied branch name to clipboard");
         }
@@ -88,7 +91,9 @@ impl WorktreePanel {
             if worktree.is_main {
                 tracing::warn!("Cannot delete main worktree");
             } else {
-                cx.emit(WorktreePanelEvent::DeleteWorktreeRequested(worktree.path.clone()));
+                cx.emit(WorktreePanelEvent::DeleteWorktreeRequested(
+                    worktree.path.clone(),
+                ));
             }
         }
         self.context_menu_worktree = None;

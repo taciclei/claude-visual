@@ -1,14 +1,14 @@
 //! Radio group and radio button components
 
-mod types;
-mod radio;
-mod group;
 mod card_group;
+mod group;
 mod inline;
+mod radio;
 mod tests;
+mod types;
 
-pub use types::*;
-pub use radio::*;
-pub use group::*;
 pub use card_group::*;
+pub use group::*;
 pub use inline::*;
+pub use radio::*;
+pub use types::*;

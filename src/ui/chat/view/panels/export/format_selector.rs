@@ -1,14 +1,18 @@
 //! Export panel format selector component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::ExportFormat;
 
 impl ChatView {
-    pub(super) fn render_export_format_selector(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_export_format_selector(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let current_format = self.export.format;
         let text_color = theme.colors.text;
         let accent_color = theme.colors.accent;
@@ -21,7 +25,7 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .mb_2()
-                    .child("Export Format")
+                    .child("Export Format"),
             )
             .child(
                 div()
@@ -62,12 +66,20 @@ impl ChatView {
                                     .child(
                                         div()
                                             .text_xs()
-                                            .font_weight(if is_selected { FontWeight::SEMIBOLD } else { FontWeight::NORMAL })
-                                            .text_color(if is_selected { accent_color } else { text_color })
-                                            .child(format.display_name())
-                                    )
+                                            .font_weight(if is_selected {
+                                                FontWeight::SEMIBOLD
+                                            } else {
+                                                FontWeight::NORMAL
+                                            })
+                                            .text_color(if is_selected {
+                                                accent_color
+                                            } else {
+                                                text_color
+                                            })
+                                            .child(format.display_name()),
+                                    ),
                             )
-                    }))
+                    })),
             )
     }
 }

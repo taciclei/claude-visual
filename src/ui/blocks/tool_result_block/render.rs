@@ -1,9 +1,9 @@
 //! Main render implementation for tool result blocks
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::{ToolResultBlock, ToolExecutionStatus};
+use super::types::{ToolExecutionStatus, ToolResultBlock};
 
 impl Render for ToolResultBlock {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -31,12 +31,8 @@ impl Render for ToolResultBlock {
                 this.child(self.render_arguments(cx))
             })
             // Result content
-            .when(!self.collapsed, |this| {
-                this.child(self.render_content(cx))
-            })
+            .when(!self.collapsed, |this| this.child(self.render_content(cx)))
             // Footer actions
-            .when(!self.collapsed, |this| {
-                this.child(self.render_footer(cx))
-            })
+            .when(!self.collapsed, |this| this.child(self.render_footer(cx)))
     }
 }

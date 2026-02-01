@@ -1,7 +1,7 @@
 //! Input history management
 
-use gpui::*;
 use super::ChatInput;
+use gpui::*;
 
 impl ChatInput {
     /// Navigate to previous history entry (up arrow)

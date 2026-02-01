@@ -60,8 +60,16 @@ mod tests {
         };
 
         // Test valid command
-        match registry.execute("mcp-tool", "filesystem read_file {\"path\": \"/tmp/test.txt\"}", &ctx) {
-            CommandResult::McpToolCall { server, tool, arguments } => {
+        match registry.execute(
+            "mcp-tool",
+            "filesystem read_file {\"path\": \"/tmp/test.txt\"}",
+            &ctx,
+        ) {
+            CommandResult::McpToolCall {
+                server,
+                tool,
+                arguments,
+            } => {
                 assert_eq!(server, "filesystem");
                 assert_eq!(tool, "read_file");
                 assert!(arguments.is_some());

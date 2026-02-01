@@ -1,8 +1,8 @@
 //! Header rendering for MCP tools panel
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpToolsPanel;
+use gpui::prelude::*;
+use gpui::*;
 
 impl McpToolsPanel {
     /// Render the header
@@ -38,7 +38,7 @@ impl McpToolsPanel {
                             .child(format!("({} available)", self.tools.len())),
                     )
                     .when(!self.pending_calls.is_empty(), |this| {
-                this.child(
+                        this.child(
                             div()
                                 .px_2()
                                 .py_0p5()

@@ -10,4 +10,4 @@ mod tests;
 
 // Re-export public API
 pub use manager::FocusManager;
-pub use types::{FocusRingStyle, FocusZone, FocusTrap, FocusableElement};
+pub use types::{FocusRingStyle, FocusTrap, FocusZone, FocusableElement};

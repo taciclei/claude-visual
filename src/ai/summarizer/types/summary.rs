@@ -71,9 +71,7 @@ impl ConversationSummary {
         output.push_str("=== CONVERSATION SUMMARY ===\n");
         output.push_str(&format!(
             "(Summarizing {} messages, {} → {} tokens)\n\n",
-            self.message_count,
-            self.original_tokens,
-            self.summary_tokens
+            self.message_count, self.original_tokens, self.summary_tokens
         ));
 
         if !self.topics.is_empty() {

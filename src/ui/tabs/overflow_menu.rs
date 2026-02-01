@@ -68,10 +68,8 @@ impl TabBar {
             .shadow_lg()
             .id("scroll-overflow-menu")
             .overflow_y_scroll()
-
             // Prevent clicks from propagating
-            .on_mouse_down(MouseButton::Left, |_, _window, cx| {
-            })
+            .on_mouse_down(MouseButton::Left, |_, _window, cx| {})
             // Header
             .child(
                 div()
@@ -111,101 +109,105 @@ impl TabBar {
                     .flex()
                     .flex_col()
                     .p_1()
-                    .children(tab_items.into_iter().map(|(idx, title, is_dirty, is_pinned, is_active)| {
-                        div()
-                            .id(ElementId::Name(format!("overflow-tab-{}", idx).into()))
-                            .flex()
-                            .items_center()
-                            .justify_between()
-                            .w_full()
-                            .px_2()
-                            .py_1()
-                            .rounded_sm()
-                            .cursor_pointer()
-                            .when(is_active, |d| {
-                                d.bg(theme.colors.accent.opacity(0.15))
-                            })
-                            .hover(|style| {
-                                if is_active {
-                                    style.bg(theme.colors.accent.opacity(0.2))
-                                } else {
-                                    style.bg(theme.colors.surface_hover)
-                                }
-                            })
-                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                this.select_from_overflow(idx, cx);
-                            }))
-                            // Left side: indicators + title
-                            .child(
-                                div()
-                                    .flex()
-                                    .items_center()
-                                    .gap_2()
-                                    .flex_1()
-                                    .overflow_hidden()
-                                    // Pin indicator
-                                    .when(is_pinned, |d| {
-                                        d.child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(theme.colors.accent)
-                                                .child("📌"),
-                                        )
-                                    })
-                                    // Dirty indicator
-                                    .when(is_dirty && !is_pinned, |d| {
-                                        d.child(
-                                            div()
-                                                .size(px(6.0))
-                                                .rounded_full()
-                                                .bg(theme.colors.warning),
-                                        )
-                                    })
-                                    // Active indicator
-                                    .when(is_active && !is_pinned, |d| {
-                                        d.child(
-                                            div()
-                                                .size(px(6.0))
-                                                .rounded_full()
-                                                .bg(theme.colors.accent),
-                                        )
-                                    })
-                                    // Title
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(if is_active {
-                                                theme.colors.accent
-                                            } else {
-                                                theme.colors.text
-                                            })
-                                            .truncate()
-                                            .child(title),
-                                    ),
-                            )
-                            // Right side: close button (not for pinned tabs)
-                            .when(!is_pinned, |d| {
-                                d.child(
+                    .children(tab_items.into_iter().map(
+                        |(idx, title, is_dirty, is_pinned, is_active)| {
+                            div()
+                                .id(ElementId::Name(format!("overflow-tab-{}", idx).into()))
+                                .flex()
+                                .items_center()
+                                .justify_between()
+                                .w_full()
+                                .px_2()
+                                .py_1()
+                                .rounded_sm()
+                                .cursor_pointer()
+                                .when(is_active, |d| d.bg(theme.colors.accent.opacity(0.15)))
+                                .hover(|style| {
+                                    if is_active {
+                                        style.bg(theme.colors.accent.opacity(0.2))
+                                    } else {
+                                        style.bg(theme.colors.surface_hover)
+                                    }
+                                })
+                                .on_click(cx.listener(move |this, _, _window, cx| {
+                                    this.select_from_overflow(idx, cx);
+                                }))
+                                // Left side: indicators + title
+                                .child(
                                     div()
-                                        .id(ElementId::Name(format!("overflow-close-{}", idx).into()))
-                                        .size(px(18.0))
                                         .flex()
                                         .items_center()
-                                        .justify_center()
-                                        .rounded_sm()
-                                        .text_xs()
-                                        .text_color(theme.colors.text_muted)
-                                        .hover(|s| {
-                                            s.bg(theme.colors.error.opacity(0.2))
-                                                .text_color(theme.colors.error)
+                                        .gap_2()
+                                        .flex_1()
+                                        .overflow_hidden()
+                                        // Pin indicator
+                                        .when(is_pinned, |d| {
+                                            d.child(
+                                                div()
+                                                    .text_xs()
+                                                    .text_color(theme.colors.accent)
+                                                    .child("📌"),
+                                            )
                                         })
-                                        .on_click(cx.listener(move |this, event: &ClickEvent, _window, cx| {
-                                            this.close_from_overflow(idx, cx);
-                                        }))
-                                        .child("×"),
+                                        // Dirty indicator
+                                        .when(is_dirty && !is_pinned, |d| {
+                                            d.child(
+                                                div()
+                                                    .size(px(6.0))
+                                                    .rounded_full()
+                                                    .bg(theme.colors.warning),
+                                            )
+                                        })
+                                        // Active indicator
+                                        .when(is_active && !is_pinned, |d| {
+                                            d.child(
+                                                div()
+                                                    .size(px(6.0))
+                                                    .rounded_full()
+                                                    .bg(theme.colors.accent),
+                                            )
+                                        })
+                                        // Title
+                                        .child(
+                                            div()
+                                                .text_sm()
+                                                .text_color(if is_active {
+                                                    theme.colors.accent
+                                                } else {
+                                                    theme.colors.text
+                                                })
+                                                .truncate()
+                                                .child(title),
+                                        ),
                                 )
-                            })
-                    })),
+                                // Right side: close button (not for pinned tabs)
+                                .when(!is_pinned, |d| {
+                                    d.child(
+                                        div()
+                                            .id(ElementId::Name(
+                                                format!("overflow-close-{}", idx).into(),
+                                            ))
+                                            .size(px(18.0))
+                                            .flex()
+                                            .items_center()
+                                            .justify_center()
+                                            .rounded_sm()
+                                            .text_xs()
+                                            .text_color(theme.colors.text_muted)
+                                            .hover(|s| {
+                                                s.bg(theme.colors.error.opacity(0.2))
+                                                    .text_color(theme.colors.error)
+                                            })
+                                            .on_click(cx.listener(
+                                                move |this, event: &ClickEvent, _window, cx| {
+                                                    this.close_from_overflow(idx, cx);
+                                                },
+                                            ))
+                                            .child("×"),
+                                    )
+                                })
+                        },
+                    )),
             )
     }
 }

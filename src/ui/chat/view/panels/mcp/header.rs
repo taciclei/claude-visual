@@ -1,7 +1,7 @@
 //! MCP panel header rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
@@ -35,7 +35,7 @@ where
                         .text_sm()
                         .font_weight(FontWeight::SEMIBOLD)
                         .text_color(theme.colors.text)
-                        .child("MCP Servers")
+                        .child("MCP Servers"),
                 )
                 .child(
                     div()
@@ -57,8 +57,8 @@ where
                         } else {
                             theme.colors.text_muted
                         })
-                        .child(format!("{}/{} connected", connected_count, total_servers))
-                )
+                        .child(format!("{}/{} connected", connected_count, total_servers)),
+                ),
         )
         .child(
             div()
@@ -76,7 +76,7 @@ where
                             .bg(info_color.opacity(0.1))
                             .text_xs()
                             .text_color(info_color)
-                            .child(format!("🔧 {}", total_tools))
+                            .child(format!("🔧 {}", total_tools)),
                     )
                 })
                 .when(total_resources > 0, |d| {
@@ -89,7 +89,7 @@ where
                             .bg(accent_color.opacity(0.1))
                             .text_xs()
                             .text_color(accent_color)
-                            .child(format!("📄 {}", total_resources))
+                            .child(format!("📄 {}", total_resources)),
                     )
                 })
                 // Close button
@@ -107,7 +107,7 @@ where
                             move |s| s.bg(surface_hover)
                         })
                         .on_click(on_close)
-                        .child("×")
-                )
+                        .child("×"),
+                ),
         )
 }

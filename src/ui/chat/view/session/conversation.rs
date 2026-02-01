@@ -6,7 +6,7 @@ use crate::claude::message::{ClaudeMessage, MessageRole};
 use crate::storage::models::{Conversation, Message};
 
 use super::super::core::ChatView;
-use super::super::types::{MessageFilter, NotificationType, ConnectionStatus};
+use super::super::types::{ConnectionStatus, MessageFilter, NotificationType};
 
 impl ChatView {
     /// Get current conversation ID, creating one if needed
@@ -16,14 +16,16 @@ impl ChatView {
         }
 
         // Create new conversation
-        let project_id = self.app_state.current_directory()
-            .and_then(|_path| {
-                // Try to find matching project
-                // For now, just use None
-                None::<String>
-            });
+        let project_id = self.app_state.current_directory().and_then(|_path| {
+            // Try to find matching project
+            // For now, just use None
+            None::<String>
+        });
 
-        let title = format!("Conversation {}", chrono::Local::now().format("%Y-%m-%d %H:%M"));
+        let title = format!(
+            "Conversation {}",
+            chrono::Local::now().format("%Y-%m-%d %H:%M")
+        );
         let conversation = Conversation::new(title, project_id);
         let conv_id = conversation.id.clone();
 
@@ -104,7 +106,11 @@ impl ChatView {
                     self.message_views.push(view);
                     self.messages.push(message);
                 }
-                tracing::info!("Loaded {} messages from conversation {}", self.messages.len(), conversation_id);
+                tracing::info!(
+                    "Loaded {} messages from conversation {}",
+                    self.messages.len(),
+                    conversation_id
+                );
             }
             Err(e) => {
                 tracing::error!("Failed to load conversation: {}", e);
@@ -198,7 +204,7 @@ impl ChatView {
             self.show_notification(
                 format!("Session ended: {}", summary),
                 NotificationType::Info,
-                cx
+                cx,
             );
         }
 
@@ -208,7 +214,7 @@ impl ChatView {
         self.streaming_message_view = None;
         self.streaming.is_streaming = false;
         self.current_conversation_id = None; // Will create new conversation on next message
-        // Reset session stats
+                                             // Reset session stats
         self.session_info = None;
         self.stats.cost = 0.0;
         self.stats.input_tokens = 0;
@@ -243,7 +249,9 @@ impl ChatView {
     pub fn display_title(&self) -> String {
         if let Some(ref title) = self.conversation_title {
             title.clone()
-        } else if let Some(first_user_msg) = self.messages.iter().find(|m| m.role == MessageRole::User) {
+        } else if let Some(first_user_msg) =
+            self.messages.iter().find(|m| m.role == MessageRole::User)
+        {
             // Auto-generate from first user message (truncated)
             let content = first_user_msg.content.trim();
             if content.len() > 50 {

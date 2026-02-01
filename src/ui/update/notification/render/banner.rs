@@ -1,15 +1,20 @@
 //! Banner rendering for update notifications
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::update::UpdateInfo;
 use super::super::core::UpdateNotification;
 use super::super::types::{SimpleColors, UpdateNotificationEvent};
+use crate::update::UpdateInfo;
 
 impl UpdateNotification {
     /// Render the notification banner
-    pub(crate) fn render_banner(&self, info: &UpdateInfo, theme: &SimpleColors, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_banner(
+        &self,
+        info: &UpdateInfo,
+        theme: &SimpleColors,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let version = info.version.clone();
         let version_for_skip = info.version.clone();
         let has_notes = !info.body.is_empty();
@@ -21,7 +26,9 @@ impl UpdateNotification {
 
         let on_skip_version = cx.listener(move |this, _, _window, cx| {
             this.skip_version(version_for_skip.clone(), cx);
-            cx.emit(UpdateNotificationEvent::SkipVersion(version_for_skip.clone()));
+            cx.emit(UpdateNotificationEvent::SkipVersion(
+                version_for_skip.clone(),
+            ));
         });
 
         let on_remind_later = cx.listener(|this, _, _window, cx| {
@@ -76,8 +83,8 @@ impl UpdateNotification {
                                             .text_color(background)
                                             .text_sm()
                                             .font_weight(FontWeight::BOLD)
-                                            .child("↑")
-                                    )
+                                            .child("↑"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -89,19 +96,16 @@ impl UpdateNotification {
                                             .text_color(text)
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
-                                            .child(format!("Update Available: v{}", version))
+                                            .child(format!("Update Available: v{}", version)),
                                     )
-                                    .child(
-                                        div()
-                                            .text_color(text_muted)
-                                            .text_xs()
-                                            .child(if info.prerelease {
-                                                "Pre-release version"
-                                            } else {
-                                                "Stable release"
-                                            })
-                                    )
-                            )
+                                    .child(div().text_color(text_muted).text_xs().child(
+                                        if info.prerelease {
+                                            "Pre-release version"
+                                        } else {
+                                            "Stable release"
+                                        },
+                                    )),
+                            ),
                     )
                     .child(
                         // Right side: actions
@@ -121,7 +125,11 @@ impl UpdateNotification {
                                         .text_sm()
                                         .hover(|s| s.bg(surface_hover))
                                         .on_click(on_toggle_notes)
-                                        .child(if self.expanded { "Hide Notes" } else { "View Notes" })
+                                        .child(if self.expanded {
+                                            "Hide Notes"
+                                        } else {
+                                            "View Notes"
+                                        }),
                                 )
                             })
                             .child(
@@ -135,7 +143,7 @@ impl UpdateNotification {
                                     .text_sm()
                                     .hover(|s| s.bg(surface_hover))
                                     .on_click(on_skip_version)
-                                    .child("Skip")
+                                    .child("Skip"),
                             )
                             .child(
                                 div()
@@ -148,7 +156,7 @@ impl UpdateNotification {
                                     .text_sm()
                                     .hover(|s| s.bg(surface_hover))
                                     .on_click(on_remind_later)
-                                    .child("Later")
+                                    .child("Later"),
                             )
                             .child(
                                 div()
@@ -163,9 +171,9 @@ impl UpdateNotification {
                                     .font_weight(FontWeight::MEDIUM)
                                     .hover(|s| s.bg(accent_hover))
                                     .on_click(on_update_now)
-                                    .child("Update Now")
-                            )
-                    )
+                                    .child("Update Now"),
+                            ),
+                    ),
             )
             .when(self.expanded && has_notes, |this| {
                 this.child(
@@ -180,7 +188,7 @@ impl UpdateNotification {
                                 .text_xs()
                                 .font_weight(FontWeight::SEMIBOLD)
                                 .mb_2()
-                                .child("Release Notes")
+                                .child("Release Notes"),
                         )
                         .child(
                             div()
@@ -190,8 +198,8 @@ impl UpdateNotification {
                                 .max_h_40()
                                 .id("scroll-release-notes")
                                 .overflow_y_scroll()
-                                .child(info.body.clone())
-                        )
+                                .child(info.body.clone()),
+                        ),
                 )
             })
     }

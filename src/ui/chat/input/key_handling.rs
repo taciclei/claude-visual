@@ -2,13 +2,22 @@
 
 use gpui::*;
 
-use crate::ui::vim::VimMode;
 use super::{ChatInput, ChatInputEvent};
+use crate::ui::vim::VimMode;
 
 impl ChatInput {
     /// Handle key input
-    pub(super) fn handle_key_down(&mut self, event: &KeyDownEvent, window: &mut Window, cx: &mut Context<Self>) {
-        tracing::info!("ChatInput::handle_key_down: key={}, disabled={}", event.keystroke.key, self.is_disabled);
+    pub(super) fn handle_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        tracing::info!(
+            "ChatInput::handle_key_down: key={}, disabled={}",
+            event.keystroke.key,
+            self.is_disabled
+        );
         if self.is_disabled {
             tracing::warn!("Key ignored - input is disabled");
             return;
@@ -183,7 +192,12 @@ impl ChatInput {
     }
 
     /// Handle text input (for regular characters)
-    pub(super) fn handle_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if self.is_disabled {
             return;
         }

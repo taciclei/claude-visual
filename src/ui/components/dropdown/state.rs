@@ -1,10 +1,10 @@
 //! Dropdown state and struct definition
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Dropdown/Select component
 pub struct Dropdown {

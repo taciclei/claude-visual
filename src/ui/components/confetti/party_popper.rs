@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::PopperDirection;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Party popper effect
 #[derive(IntoElement)]

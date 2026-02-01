@@ -1,11 +1,11 @@
 //! Context progress bar render function for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::theme::Theme;
-use crate::ui::pct;
 use super::super::super::core::ChatView;
 use super::super::super::types::ChatViewEvent;
+use crate::app::theme::Theme;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     pub fn render_context_progress_bar(&self, theme: &Theme, cx: &mut Context<Self>) -> Div {
@@ -44,7 +44,7 @@ impl ChatView {
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child("📊")
+                            .child("📊"),
                     )
                     // Segmented progress bar showing input (blue) and output (green)
                     .child(
@@ -60,13 +60,13 @@ impl ChatView {
                                     div()
                                         .h_full()
                                         .bg(theme.colors.info) // Input tokens (blue)
-                                        .w(pct(input_pct))
+                                        .w(pct(input_pct)),
                                 )
                                 .child(
                                     div()
                                         .h_full()
                                         .bg(theme.colors.success) // Output tokens (green)
-                                        .w(pct(output_pct))
+                                        .w(pct(output_pct)),
                                 )
                             })
                             .when(total_tokens == 0, |d| {
@@ -75,16 +75,11 @@ impl ChatView {
                                         .h_full()
                                         .rounded_full()
                                         .bg(status_color)
-                                        .w(pct(width_pct as f32))
+                                        .w(pct(width_pct as f32)),
                                 )
-                            })
+                            }),
                     )
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(status_color)
-                            .child(usage_text)
-                    )
+                    .child(div().text_xs().text_color(status_color).child(usage_text)),
             )
             // Token breakdown legend (when we have token data)
             .when(total_tokens > 0, |d| {
@@ -105,14 +100,14 @@ impl ChatView {
                                         .w(px(8.0))
                                         .h(px(8.0))
                                         .rounded_sm()
-                                        .bg(theme.colors.info)
+                                        .bg(theme.colors.info),
                                 )
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.text_muted)
-                                        .child(format!("In: {}", Self::format_token_count(self.stats.input_tokens)))
-                                )
+                                .child(div().text_xs().text_color(theme.colors.text_muted).child(
+                                    format!(
+                                        "In: {}",
+                                        Self::format_token_count(self.stats.input_tokens)
+                                    ),
+                                )),
                         )
                         // Output tokens
                         .child(
@@ -125,15 +120,15 @@ impl ChatView {
                                         .w(px(8.0))
                                         .h(px(8.0))
                                         .rounded_sm()
-                                        .bg(theme.colors.success)
+                                        .bg(theme.colors.success),
                                 )
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.text_muted)
-                                        .child(format!("Out: {}", Self::format_token_count(self.stats.output_tokens)))
-                                )
-                        )
+                                .child(div().text_xs().text_color(theme.colors.text_muted).child(
+                                    format!(
+                                        "Out: {}",
+                                        Self::format_token_count(self.stats.output_tokens)
+                                    ),
+                                )),
+                        ),
                 )
             })
             // Warning message if context is filling up with compact button
@@ -152,18 +147,13 @@ impl ChatView {
                                 .flex()
                                 .items_center()
                                 .gap_1()
+                                .child(div().text_xs().text_color(theme.colors.warning).child("⚠️"))
                                 .child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.warning)
-                                        .child("⚠️")
-                                )
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.warning)
-                                        .child(warning)
-                                )
+                                        .child(warning),
+                                ),
                         )
                         // Quick compact button
                         .child(
@@ -181,8 +171,8 @@ impl ChatView {
                                 .on_click(cx.listener(|_this, _, _window, cx| {
                                     cx.emit(ChatViewEvent::Submit("/compact".to_string()));
                                 }))
-                                .child("📦 Compact")
-                        )
+                                .child("📦 Compact"),
+                        ),
                 )
             })
     }

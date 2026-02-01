@@ -1,11 +1,14 @@
 //! Code block header title (language badge and line count)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::blocks::code_block::view::CodeBlockView;
 
-pub(super) fn render_title(view: &CodeBlockView, cx: &mut Context<CodeBlockView>) -> impl IntoElement {
+pub(super) fn render_title(
+    view: &CodeBlockView,
+    cx: &mut Context<CodeBlockView>,
+) -> impl IntoElement {
     let theme = view.app_state.theme.read(cx);
     let line_count: Vec<&str> = view.code.lines().collect();
     let language_display = view.language_display();

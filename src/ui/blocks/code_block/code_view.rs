@@ -1,9 +1,9 @@
 //! Normal code view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::syntax::{SyntaxHighlighter, HighlightedSpan};
+use crate::syntax::{HighlightedSpan, SyntaxHighlighter};
 
 use super::types::HighlightStyle;
 use super::view::CodeBlockView;
@@ -21,17 +21,11 @@ impl CodeBlockView {
         // Pre-highlight all lines
         let highlighted_lines: Vec<_> = lines
             .iter()
-            .map(|line| {
-                SyntaxHighlighter::highlight(line, language.as_deref(), &syntax_colors)
-            })
+            .map(|line| SyntaxHighlighter::highlight(line, language.as_deref(), &syntax_colors))
             .collect();
 
         // Determine which lines have matches and which is current
-        let lines_with_matches: Vec<usize> = self
-            .search_matches
-            .iter()
-            .map(|m| m.line)
-            .collect();
+        let lines_with_matches: Vec<usize> = self.search_matches.iter().map(|m| m.line).collect();
         let current_match_line = self
             .current_match_index
             .and_then(|idx| self.search_matches.get(idx))
@@ -177,7 +171,7 @@ impl CodeBlockView {
                                 }
                                 el
                             }))
-                    })
+                    }),
             )
     }
 }

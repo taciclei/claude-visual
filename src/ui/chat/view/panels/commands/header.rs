@@ -1,7 +1,7 @@
 //! Commands panel header rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use super::super::super::types::CommandCategory;
@@ -47,7 +47,7 @@ pub fn render_header(
                                 .text_sm()
                                 .font_weight(FontWeight::SEMIBOLD)
                                 .text_color(theme.colors.text)
-                                .child("Commands & Skills")
+                                .child("Commands & Skills"),
                         )
                         .child(
                             div()
@@ -57,8 +57,8 @@ pub fn render_header(
                                 .bg(theme.colors.accent.opacity(0.2))
                                 .text_xs()
                                 .text_color(theme.colors.accent)
-                                .child(format!("{} total", total_count))
-                        )
+                                .child(format!("{} total", total_count)),
+                        ),
                 )
                 .child(
                     div()
@@ -71,10 +71,16 @@ pub fn render_header(
                         .text_color(theme.colors.text_muted)
                         .hover(move |s| s.bg(surface_hover))
                         .on_click(on_close_click)
-                        .child("×")
-                )
+                        .child("×"),
+                ),
         )
-        .child(render_category_tabs(category, accent, text_muted, surface_hover, cx))
+        .child(render_category_tabs(
+            category,
+            accent,
+            text_muted,
+            surface_hover,
+            cx,
+        ))
         .child(render_search_hint(theme, filter))
 }
 
@@ -85,11 +91,14 @@ fn render_category_tabs(
     surface_hover: Hsla,
     cx: &mut Context<ChatView>,
 ) -> impl IntoElement {
-    div()
-        .flex()
-        .items_center()
-        .gap_1()
-        .children([CommandCategory::All, CommandCategory::SlashCommands, CommandCategory::Skills].into_iter().map(|cat| {
+    div().flex().items_center().gap_1().children(
+        [
+            CommandCategory::All,
+            CommandCategory::SlashCommands,
+            CommandCategory::Skills,
+        ]
+        .into_iter()
+        .map(|cat| {
             let is_active = current_category == cat;
 
             div()
@@ -99,14 +108,19 @@ fn render_category_tabs(
                 .rounded_md()
                 .text_xs()
                 .cursor_pointer()
-                .bg(if is_active { accent.opacity(0.2) } else { gpui::transparent_black() })
+                .bg(if is_active {
+                    accent.opacity(0.2)
+                } else {
+                    gpui::transparent_black()
+                })
                 .text_color(if is_active { accent } else { text_muted })
                 .hover(move |s| s.bg(surface_hover))
                 .on_click(cx.listener(move |this, _, _window, cx| {
                     this.set_commands_category(cat, cx);
                 }))
                 .child(format!("{} {}", cat.icon(), cat.label()))
-        }))
+        }),
+    )
 }
 
 fn render_search_hint(theme: &crate::app::theme::Theme, filter: &str) -> impl IntoElement {

@@ -11,10 +11,10 @@ pub use provider::{ExtensionCapability, ExtensionProvider, SharedExtension};
 pub use state::HostState;
 
 use anyhow::{Context, Result};
+use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::path::Path;
 use std::sync::Arc;
-use parking_lot::RwLock;
 use wasmtime::*;
 
 use self::state::LoadedExtension;
@@ -69,21 +69,21 @@ impl PluginHost {
     pub fn load_extension(&mut self, path: &Path) -> Result<String> {
         // Read manifest
         let manifest_path = path.join("extension.toml");
-        let manifest_content = std::fs::read_to_string(&manifest_path)
-            .context("Failed to read extension.toml")?;
-        let manifest: ExtensionManifest = toml::from_str(&manifest_content)
-            .context("Failed to parse extension.toml")?;
+        let manifest_content =
+            std::fs::read_to_string(&manifest_path).context("Failed to read extension.toml")?;
+        let manifest: ExtensionManifest =
+            toml::from_str(&manifest_content).context("Failed to parse extension.toml")?;
 
         let extension_id = manifest.id.clone();
         let extension = Extension::new(manifest, path.to_path_buf());
 
         // Load WASM if present
         if extension.has_wasm() {
-            let wasm_bytes = std::fs::read(extension.wasm_path())
-                .context("Failed to read extension.wasm")?;
+            let wasm_bytes =
+                std::fs::read(extension.wasm_path()).context("Failed to read extension.wasm")?;
 
-            let module = Module::new(&self.engine, &wasm_bytes)
-                .context("Failed to compile WASM module")?;
+            let module =
+                Module::new(&self.engine, &wasm_bytes).context("Failed to compile WASM module")?;
 
             let host_state = state::HostState {
                 extension_id: extension_id.clone(),
@@ -98,7 +98,8 @@ impl PluginHost {
             let linker = linker::create_linker(&self.engine)?;
 
             // Instantiate the module
-            let instance = linker.instantiate(&mut store, &module)
+            let instance = linker
+                .instantiate(&mut store, &module)
                 .context("Failed to instantiate WASM module")?;
 
             // Call the extension's init function if it exists
@@ -174,10 +175,14 @@ impl PluginHost {
         P: wasmtime::WasmParams,
         R: wasmtime::WasmResults,
     {
-        let ext = self.loaded.get_mut(extension_id)
+        let ext = self
+            .loaded
+            .get_mut(extension_id)
             .ok_or_else(|| anyhow::anyhow!("Extension not loaded: {}", extension_id))?;
 
-        let instance = ext.instance.as_ref()
+        let instance = ext
+            .instance
+            .as_ref()
             .ok_or_else(|| anyhow::anyhow!("Extension has no WASM instance"))?;
 
         let func: TypedFunc<P, R> = instance
@@ -190,7 +195,9 @@ impl PluginHost {
 
     /// Get the extension manifest
     pub fn get_manifest(&self, extension_id: &str) -> Option<&ExtensionManifest> {
-        self.loaded.get(extension_id).map(|ext| &ext.extension.manifest)
+        self.loaded
+            .get(extension_id)
+            .map(|ext| &ext.extension.manifest)
     }
 }
 

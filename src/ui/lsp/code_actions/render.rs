@@ -1,7 +1,7 @@
 //! Rendering logic for code actions panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::CodeActionsPanel;
 use super::types::CodeActionsEvent;
@@ -39,11 +39,7 @@ impl Render for CodeActionsPanel {
                             .flex()
                             .items_center()
                             .gap_1()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .child("💡"),
-                            )
+                            .child(div().text_sm().child("💡"))
                             .child(
                                 div()
                                     .text_xs()
@@ -92,11 +88,7 @@ impl Render for CodeActionsPanel {
                                 cx.emit(CodeActionsEvent::Execute(id));
                             }))
                             // Icon
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .child(icon.to_string()),
-                            )
+                            .child(div().text_sm().child(icon.to_string()))
                             // Content
                             .child(
                                 div()

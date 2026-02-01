@@ -2,10 +2,10 @@
 //!
 //! UI for inspecting variables during debugging.
 
-mod types;
 mod events;
+mod types;
 mod view;
 
-pub use types::{VariableItem, ScopeItem};
 pub use events::VariablesViewEvent;
+pub use types::{ScopeItem, VariableItem};
 pub use view::VariablesView;

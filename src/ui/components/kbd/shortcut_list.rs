@@ -1,9 +1,9 @@
 //! Shortcut list component for help dialogs
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::KbdSize;
 use super::shortcut_hint::ShortcutHint;
+use super::types::KbdSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Shortcut list (for help dialogs)
 #[derive(Clone, IntoElement)]
@@ -62,14 +62,13 @@ impl RenderOnce for ShortcutList {
                         .pb_2()
                         .border_b_1()
                         .border_color(border)
-                        .child(title)
+                        .child(title),
                 )
             })
             .children(
-                self.shortcuts.into_iter().map(|(label, keys)| {
-                    ShortcutHint::new(label, &keys)
-                        .size(KbdSize::Small)
-                })
+                self.shortcuts
+                    .into_iter()
+                    .map(|(label, keys)| ShortcutHint::new(label, &keys).size(KbdSize::Small)),
             )
     }
 }

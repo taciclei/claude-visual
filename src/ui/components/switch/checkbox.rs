@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// A simple checkbox component
 pub struct Checkbox {
@@ -36,7 +36,11 @@ impl Checkbox {
     }
 
     /// Create with label
-    pub fn with_label(app_state: Arc<AppState>, label: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_label(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut checkbox = Self::new(app_state, cx);
         checkbox.label = Some(label.into());
         checkbox
@@ -127,16 +131,11 @@ impl Render for Checkbox {
                             .text_size(px(self.size * 0.7))
                             .font_weight(FontWeight::BOLD)
                             .child(icon)
-                    })
+                    }),
             )
             // Label
             .when_some(self.label.clone(), |d, label| {
-                d.child(
-                    div()
-                        .text_sm()
-                        .text_color(theme.colors.text)
-                        .child(label)
-                )
+                d.child(div().text_sm().text_color(theme.colors.text).child(label))
             })
     }
 }

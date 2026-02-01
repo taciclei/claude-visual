@@ -53,29 +53,25 @@ impl RenderOnce for TextMarquee {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let color = self.text_color.unwrap_or(hsla(0.0, 0.0, 0.8, 1.0));
 
-        div()
-            .id(self.id)
-            .w_full()
-            .overflow_hidden()
-            .child(
-                div()
-                    .flex()
-                    .gap(px(40.0))
-                    .child(
-                        div()
-                            .text_size(px(self.font_size))
-                            .text_color(color)
-                            .whitespace_nowrap()
-                            .child(self.text.clone())
-                    )
-                    .child(
-                        // Duplicate for seamless loop
-                        div()
-                            .text_size(px(self.font_size))
-                            .text_color(color)
-                            .whitespace_nowrap()
-                            .child(self.text.clone())
-                    )
-            )
+        div().id(self.id).w_full().overflow_hidden().child(
+            div()
+                .flex()
+                .gap(px(40.0))
+                .child(
+                    div()
+                        .text_size(px(self.font_size))
+                        .text_color(color)
+                        .whitespace_nowrap()
+                        .child(self.text.clone()),
+                )
+                .child(
+                    // Duplicate for seamless loop
+                    div()
+                        .text_size(px(self.font_size))
+                        .text_color(color)
+                        .whitespace_nowrap()
+                        .child(self.text.clone()),
+                ),
+        )
     }
 }

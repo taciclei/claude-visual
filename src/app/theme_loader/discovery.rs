@@ -5,15 +5,17 @@ use std::path::Path;
 use super::types::{PartialTheme, ThemeFormat, ThemeLoadError, ThemeMetadata};
 
 /// Discover themes synchronously (for use in blocking context)
-pub(crate) fn discover_themes_sync(themes_dir: &Path) -> Result<Vec<ThemeMetadata>, ThemeLoadError> {
+pub(crate) fn discover_themes_sync(
+    themes_dir: &Path,
+) -> Result<Vec<ThemeMetadata>, ThemeLoadError> {
     let mut themes = Vec::new();
 
     if !themes_dir.exists() {
         return Ok(themes);
     }
 
-    let entries = std::fs::read_dir(themes_dir)
-        .map_err(|e| ThemeLoadError::ReadError(e.to_string()))?;
+    let entries =
+        std::fs::read_dir(themes_dir).map_err(|e| ThemeLoadError::ReadError(e.to_string()))?;
 
     for entry in entries.flatten() {
         let path = entry.path();
@@ -41,16 +43,21 @@ pub(crate) fn discover_themes_sync(themes_dir: &Path) -> Result<Vec<ThemeMetadat
 }
 
 /// Read theme metadata without full parsing
-pub(crate) fn read_theme_metadata(path: &Path, format: ThemeFormat) -> Result<ThemeMetadata, ThemeLoadError> {
-    let content = std::fs::read_to_string(path)
-        .map_err(|e| ThemeLoadError::ReadError(e.to_string()))?;
+pub(crate) fn read_theme_metadata(
+    path: &Path,
+    format: ThemeFormat,
+) -> Result<ThemeMetadata, ThemeLoadError> {
+    let content =
+        std::fs::read_to_string(path).map_err(|e| ThemeLoadError::ReadError(e.to_string()))?;
 
     // Parse just the metadata fields
     let partial: PartialTheme = match format {
-        ThemeFormat::Json => serde_json::from_str(&content)
-            .map_err(|e| ThemeLoadError::ParseError(e.to_string()))?,
-        ThemeFormat::Toml => toml::from_str(&content)
-            .map_err(|e| ThemeLoadError::ParseError(e.to_string()))?,
+        ThemeFormat::Json => {
+            serde_json::from_str(&content).map_err(|e| ThemeLoadError::ParseError(e.to_string()))?
+        }
+        ThemeFormat::Toml => {
+            toml::from_str(&content).map_err(|e| ThemeLoadError::ParseError(e.to_string()))?
+        }
     };
 
     Ok(ThemeMetadata {

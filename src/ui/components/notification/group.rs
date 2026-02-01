@@ -1,8 +1,8 @@
 //! Grouped notifications by date component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::notification::Notification;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Grouped notifications by date
 #[derive(Clone)]
@@ -43,14 +43,9 @@ impl RenderOnce for NotificationGroup {
                             .text_xs()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text_muted)
-                            .child(self.date.to_uppercase())
+                            .child(self.date.to_uppercase()),
                     )
-                    .child(
-                        div()
-                            .flex_1()
-                            .h(px(1.0))
-                            .bg(border)
-                    )
+                    .child(div().flex_1().h(px(1.0)).bg(border)),
             )
             // Notifications
             .children(self.notifications)

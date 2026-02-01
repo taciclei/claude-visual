@@ -2,8 +2,8 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::state::AppState;
 
@@ -88,7 +88,10 @@ impl Render for Timeline {
                     TimelineItemStatus::Error => theme.colors.error,
                 };
 
-                let icon = item.icon.clone().unwrap_or_else(|| item.status.icon().to_string());
+                let icon = item
+                    .icon
+                    .clone()
+                    .unwrap_or_else(|| item.status.icon().to_string());
 
                 if is_vertical {
                     div()
@@ -114,7 +117,7 @@ impl Render for Timeline {
                                         .bg(status_color.opacity(0.15))
                                         .text_color(status_color)
                                         .text_sm()
-                                        .child(icon)
+                                        .child(icon),
                                 )
                                 // Connector line
                                 .when(self.show_connectors && !is_last, |d| {
@@ -123,9 +126,9 @@ impl Render for Timeline {
                                             .w(px(2.0))
                                             .flex_1()
                                             .min_h(px(24.0))
-                                            .bg(theme.colors.border)
+                                            .bg(theme.colors.border),
                                     )
-                                })
+                                }),
                         )
                         // Content column
                         .child(
@@ -141,7 +144,7 @@ impl Render for Timeline {
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted)
-                                            .child(ts)
+                                            .child(ts),
                                     )
                                 })
                                 // Title
@@ -150,7 +153,7 @@ impl Render for Timeline {
                                         .text_sm()
                                         .font_weight(FontWeight::MEDIUM)
                                         .text_color(theme.colors.text)
-                                        .child(item.title.clone())
+                                        .child(item.title.clone()),
                                 )
                                 // Description
                                 .when_some(item.description.clone(), |d, desc| {
@@ -158,9 +161,9 @@ impl Render for Timeline {
                                         div()
                                             .text_sm()
                                             .text_color(theme.colors.text_muted)
-                                            .child(desc)
+                                            .child(desc),
                                     )
-                                })
+                                }),
                         )
                         .into_any_element()
                 } else {
@@ -179,12 +182,7 @@ impl Render for Timeline {
                                 .w_full()
                                 // Left connector
                                 .when(self.show_connectors && index > 0, |d| {
-                                    d.child(
-                                        div()
-                                            .flex_1()
-                                            .h(px(2.0))
-                                            .bg(theme.colors.border)
-                                    )
+                                    d.child(div().flex_1().h(px(2.0)).bg(theme.colors.border))
                                 })
                                 // Dot
                                 .child(
@@ -198,17 +196,12 @@ impl Render for Timeline {
                                         .text_color(status_color)
                                         .text_sm()
                                         .flex_shrink_0()
-                                        .child(icon)
+                                        .child(icon),
                                 )
                                 // Right connector
                                 .when(self.show_connectors && !is_last, |d| {
-                                    d.child(
-                                        div()
-                                            .flex_1()
-                                            .h(px(2.0))
-                                            .bg(theme.colors.border)
-                                    )
-                                })
+                                    d.child(div().flex_1().h(px(2.0)).bg(theme.colors.border))
+                                }),
                         )
                         // Content
                         .child(
@@ -223,16 +216,16 @@ impl Render for Timeline {
                                         .text_sm()
                                         .font_weight(FontWeight::MEDIUM)
                                         .text_color(theme.colors.text)
-                                        .child(item.title.clone())
+                                        .child(item.title.clone()),
                                 )
                                 .when_some(item.timestamp.clone(), |d, ts| {
                                     d.child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted)
-                                            .child(ts)
+                                            .child(ts),
                                     )
-                                })
+                                }),
                         )
                         .into_any_element()
                 }

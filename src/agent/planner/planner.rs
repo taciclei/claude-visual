@@ -69,7 +69,8 @@ Format your response as JSON:
 }
 
 Available tools: {tools}
-User's goal: {goal}"#.to_string()
+User's goal: {goal}"#
+            .to_string()
     }
 
     /// Set available tools
@@ -97,16 +98,14 @@ User's goal: {goal}"#.to_string()
         let json_str = Self::extract_json(response)?;
 
         // Parse JSON
-        let parsed: serde_json::Value = serde_json::from_str(&json_str)
-            .map_err(|e| PlanError::ParseError(e.to_string()))?;
+        let parsed: serde_json::Value =
+            serde_json::from_str(&json_str).map_err(|e| PlanError::ParseError(e.to_string()))?;
 
         // Extract plan fields
         let title = parsed["title"]
             .as_str()
             .ok_or(PlanError::MissingField("title".to_string()))?;
-        let description = parsed["description"]
-            .as_str()
-            .unwrap_or("");
+        let description = parsed["description"].as_str().unwrap_or("");
 
         let mut plan = Plan::new(title, description);
 
@@ -121,17 +120,12 @@ User's goal: {goal}"#.to_string()
             }
 
             let step = PlanStep {
-                step_number: step_json["step_number"]
-                    .as_u64()
-                    .unwrap_or((i + 1) as u64) as usize,
+                step_number: step_json["step_number"].as_u64().unwrap_or((i + 1) as u64) as usize,
                 title: step_json["title"]
                     .as_str()
                     .unwrap_or(&format!("Step {}", i + 1))
                     .to_string(),
-                description: step_json["description"]
-                    .as_str()
-                    .unwrap_or("")
-                    .to_string(),
+                description: step_json["description"].as_str().unwrap_or("").to_string(),
                 tools: step_json["tools"]
                     .as_array()
                     .map(|arr| {
@@ -140,9 +134,7 @@ User's goal: {goal}"#.to_string()
                             .collect()
                     })
                     .unwrap_or_default(),
-                estimated_tokens: step_json["estimated_tokens"]
-                    .as_u64()
-                    .map(|n| n as usize),
+                estimated_tokens: step_json["estimated_tokens"].as_u64().map(|n| n as usize),
                 depends_on: step_json["depends_on"]
                     .as_array()
                     .map(|arr| {
@@ -151,15 +143,11 @@ User's goal: {goal}"#.to_string()
                             .collect()
                     })
                     .unwrap_or_default(),
-                risk_level: step_json["risk_level"]
-                    .as_u64()
-                    .unwrap_or(5) as u8,
-                requires_approval: step_json["requires_approval"]
-                    .as_bool()
-                    .unwrap_or_else(|| {
-                        // Auto-determine based on risk
-                        !self.auto_approve_low_risk || step_json["risk_level"].as_u64().unwrap_or(5) > 3
-                    }),
+                risk_level: step_json["risk_level"].as_u64().unwrap_or(5) as u8,
+                requires_approval: step_json["requires_approval"].as_bool().unwrap_or_else(|| {
+                    // Auto-determine based on risk
+                    !self.auto_approve_low_risk || step_json["risk_level"].as_u64().unwrap_or(5) > 3
+                }),
             };
 
             plan.add_step(step);
@@ -205,7 +193,10 @@ User's goal: {goal}"#.to_string()
         for step in &plan.steps {
             for dep in &step.depends_on {
                 if !step_numbers.contains(dep) {
-                    errors.push(PlanValidationError::InvalidDependency(step.step_number, *dep));
+                    errors.push(PlanValidationError::InvalidDependency(
+                        step.step_number,
+                        *dep,
+                    ));
                 }
             }
         }

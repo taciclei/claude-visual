@@ -1,7 +1,7 @@
 //! Debug panel header and main render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::debug::debug_panel::DebugPanel;
 
@@ -81,29 +81,29 @@ impl Render for DebugPanel {
                         .relative()
                         .child(self.render_toolbar(&theme, cx))
                         // AI menu overlay
-                        .when(show_ai_menu, |d| {
-                            d.child(self.render_ai_menu(&theme, cx))
+                        .when(show_ai_menu, |d| d.child(self.render_ai_menu(&theme, cx))),
+                )
+                .child(self.render_tabs(&theme, cx))
+                .child(
+                    div()
+                        .h(px(200.0))
+                        .flex()
+                        .flex_col()
+                        .child(match active_tab {
+                            crate::ui::debug::debug_panel::types::DebugTab::Console => {
+                                self.render_console(&theme).into_any_element()
+                            }
+                            _ => div()
+                                .flex_1()
+                                .flex()
+                                .items_center()
+                                .justify_center()
+                                .text_sm()
+                                .text_color(text_muted_color)
+                                .child(format!("{} view", active_tab.label()))
+                                .into_any_element(),
                         }),
                 )
-                    .child(self.render_tabs(&theme, cx))
-                    .child(
-                        div()
-                            .h(px(200.0))
-                            .flex()
-                            .flex_col()
-                            .child(match active_tab {
-                                crate::ui::debug::debug_panel::types::DebugTab::Console => self.render_console(&theme).into_any_element(),
-                                _ => div()
-                                    .flex_1()
-                                    .flex()
-                                    .items_center()
-                                    .justify_center()
-                                    .text_sm()
-                                    .text_color(text_muted_color)
-                                    .child(format!("{} view", active_tab.label()))
-                                    .into_any_element(),
-                            }),
-                    )
             })
     }
 }

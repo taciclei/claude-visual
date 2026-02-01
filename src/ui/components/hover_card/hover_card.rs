@@ -1,8 +1,8 @@
 //! Main hover card component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A hover card that appears when hovering over a trigger
 #[derive(IntoElement)]
@@ -116,7 +116,6 @@ impl RenderOnce for HoverCard {
         if self.open {
             let mut card = div()
                 .absolute()
-
                 .max_w(px(self.max_width))
                 .bg(background)
                 .border_1()

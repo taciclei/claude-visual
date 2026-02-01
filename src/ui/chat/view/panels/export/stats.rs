@@ -1,7 +1,7 @@
 //! Export panel stats summary component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::chat::view::core::ChatView;
@@ -29,8 +29,8 @@ impl ChatView {
                         div()
                             .text_sm()
                             .text_color(theme.colors.text)
-                            .child(format!("{} messages", stats.message_count))
-                    )
+                            .child(format!("{} messages", stats.message_count)),
+                    ),
             )
             .child(
                 div()
@@ -42,8 +42,8 @@ impl ChatView {
                         div()
                             .text_sm()
                             .text_color(theme.colors.text)
-                            .child(format!("{} words", stats.format_words()))
-                    )
+                            .child(format!("{} words", stats.format_words())),
+                    ),
             )
             .child(
                 div()
@@ -55,8 +55,8 @@ impl ChatView {
                         div()
                             .text_sm()
                             .text_color(theme.colors.text)
-                            .child(stats.format_duration())
-                    )
+                            .child(stats.format_duration()),
+                    ),
             )
     }
 }

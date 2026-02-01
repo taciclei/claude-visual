@@ -1,8 +1,8 @@
 //! Form component - container for form fields
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::{FormLayout, FormSize};
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct Form {
@@ -69,15 +69,9 @@ impl RenderOnce for Form {
         let mut form = div().id(self.id);
 
         form = match self.layout {
-            FormLayout::Vertical => {
-                form.flex().flex_col().gap(px(self.spacing))
-            }
-            FormLayout::Horizontal => {
-                form.flex().flex_row().flex_wrap().gap(px(self.spacing))
-            }
-            FormLayout::Inline => {
-                form.flex().flex_row().items_end().gap(px(12.0))
-            }
+            FormLayout::Vertical => form.flex().flex_col().gap(px(self.spacing)),
+            FormLayout::Horizontal => form.flex().flex_row().flex_wrap().gap(px(self.spacing)),
+            FormLayout::Inline => form.flex().flex_row().items_end().gap(px(12.0)),
         };
 
         if self.disabled || self.loading {

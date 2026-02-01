@@ -28,9 +28,14 @@ impl ViewSwitcher {
 
     pub fn views(
         mut self,
-        views: Vec<(impl Into<SharedString>, impl Into<SharedString>, Option<impl Into<SharedString>>)>,
+        views: Vec<(
+            impl Into<SharedString>,
+            impl Into<SharedString>,
+            Option<impl Into<SharedString>>,
+        )>,
     ) -> Self {
-        self.views = views.into_iter()
+        self.views = views
+            .into_iter()
             .map(|(id, label, icon)| (id.into(), label.into(), icon.map(|i| i.into())))
             .collect();
         self
@@ -86,7 +91,7 @@ impl RenderOnce for ViewSwitcher {
                             div()
                                 .text_size(px(font_size + 2.0))
                                 .text_color(text_color)
-                                .child(icon)
+                                .child(icon),
                         )
                     })
                     .child(
@@ -98,7 +103,7 @@ impl RenderOnce for ViewSwitcher {
                                 FontWeight::NORMAL
                             })
                             .text_color(text_color)
-                            .child(label.clone())
+                            .child(label.clone()),
                     )
                     .when(is_selected && self.show_indicator, |el| {
                         el.child(
@@ -108,7 +113,7 @@ impl RenderOnce for ViewSwitcher {
                                 .left_0()
                                 .right_0()
                                 .h(px(2.0))
-                                .bg(hsla(0.6, 0.7, 0.5, 1.0))
+                                .bg(hsla(0.6, 0.7, 0.5, 1.0)),
                         )
                     })
             }))

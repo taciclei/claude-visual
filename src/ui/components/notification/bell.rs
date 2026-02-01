@@ -1,8 +1,8 @@
 //! Notification bell icon with badge component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::badge::NotificationBadge;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Notification bell icon with badge
 #[derive(Clone)]
@@ -39,7 +39,7 @@ impl RenderOnce for NotificationBell {
                         .absolute()
                         .top(px(-2.0))
                         .right(px(-2.0))
-                        .child(NotificationBadge::new(self.count))
+                        .child(NotificationBadge::new(self.count)),
                 )
             })
     }

@@ -1,10 +1,10 @@
 //! Command palette component for quick action access
 
-mod types;
-mod state;
-mod render;
 mod fuzzy;
+mod render;
+mod state;
+mod types;
 
-pub use types::{Command, COMMANDS, CommandPaletteEvent};
-pub use state::CommandPalette;
 pub use fuzzy::FuzzyMatch;
+pub use state::CommandPalette;
+pub use types::{Command, CommandPaletteEvent, COMMANDS};

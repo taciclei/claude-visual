@@ -1,8 +1,8 @@
 //! Circular Progress component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::GaugeSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Circular progress with percentage
 #[derive(IntoElement)]

@@ -1,7 +1,7 @@
 //! Select component - dropdown selection
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{SelectOption, SelectSize, SelectVariant};
 
@@ -118,7 +118,8 @@ impl RenderOnce for Select {
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.3, 1.0));
         let text = self.text_color.unwrap_or(hsla(0.0, 0.0, 0.9, 1.0));
 
-        let display_text = self.selected
+        let display_text = self
+            .selected
             .as_ref()
             .and_then(|v| self.options.iter().find(|o| &o.value == v))
             .map(|o| o.label.clone())
@@ -148,14 +149,14 @@ impl RenderOnce for Select {
                     } else {
                         text
                     })
-                    .child(display_text)
+                    .child(display_text),
             )
             .child(
                 // Chevron down icon
                 div()
                     .text_size(px(10.0))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("▼")
+                    .child("▼"),
             )
     }
 }

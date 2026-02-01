@@ -1,12 +1,16 @@
 //! Quick actions render function
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::super::core::ChatView;
 use super::super::super::types::ChatViewEvent;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub fn render_quick_actions(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_quick_actions(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         // Quick action button definitions: (label, command, description, icon)
         let quick_actions = [
             ("Resume", "/resume", "Continue previous session", "↩"),
@@ -40,7 +44,10 @@ impl ChatView {
                     .border_1()
                     .border_color(theme.colors.border)
                     .cursor_pointer()
-                    .hover(|s| s.bg(theme.colors.surface_hover).border_color(theme.colors.accent.opacity(0.5)))
+                    .hover(|s| {
+                        s.bg(theme.colors.surface_hover)
+                            .border_color(theme.colors.accent.opacity(0.5))
+                    })
                     .on_click(cx.listener(move |this, _, _window, cx| {
                         // Set the command in the input and submit
                         this.input.update(cx, |input, cx| {
@@ -48,23 +55,19 @@ impl ChatView {
                         });
                         cx.emit(ChatViewEvent::Submit(cmd_str.clone()));
                     }))
-                    .child(
-                        div()
-                            .text_lg()
-                            .child(*icon)
-                    )
+                    .child(div().text_lg().child(*icon))
                     .child(
                         div()
                             .text_sm()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(theme.colors.text)
-                            .child(*label)
+                            .child(*label),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child(*desc)
+                            .child(*desc),
                     )
             }))
     }

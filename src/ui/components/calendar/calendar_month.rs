@@ -1,8 +1,8 @@
 //! Calendar month view component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Calendar month view
 #[derive(Clone, IntoElement)]
@@ -167,7 +167,7 @@ impl RenderOnce for CalendarMonth {
                             .text_color(text_muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover).text_color(text))
-                            .child("‹")
+                            .child("‹"),
                     )
                     // Month/Year
                     .child(
@@ -175,7 +175,7 @@ impl RenderOnce for CalendarMonth {
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text)
-                            .child(format!("{} {}", date.month_name(), self.year))
+                            .child(format!("{} {}", date.month_name(), self.year)),
                     )
                     // Next month
                     .child(
@@ -188,27 +188,25 @@ impl RenderOnce for CalendarMonth {
                             .text_color(text_muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover).text_color(text))
-                            .child("›")
-                    )
+                            .child("›"),
+                    ),
             )
             // Weekday headers
             .child(
                 div()
                     .w_full()
                     .flex()
-                    .children(
-                        Weekday::all().into_iter().map(|day| {
-                            let name = day.short_name().to_string();
-                            div()
-                                .size(px(cell_size))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(name)
-                        })
-                    )
+                    .children(Weekday::all().into_iter().map(|day| {
+                        let name = day.short_name().to_string();
+                        div()
+                            .size(px(cell_size))
+                            .flex()
+                            .items_center()
+                            .justify_center()
+                            .text_xs()
+                            .text_color(text_muted)
+                            .child(name)
+                    })),
             )
             // Days grid
             .child(
@@ -216,44 +214,34 @@ impl RenderOnce for CalendarMonth {
                     .w_full()
                     .flex()
                     .flex_wrap()
-                    .children(
-                        days.into_iter().map(move |day_opt| {
-                            let mut cell = div()
-                                .size(px(cell_size))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .rounded(px(4.0));
+                    .children(days.into_iter().map(move |day_opt| {
+                        let mut cell = div()
+                            .size(px(cell_size))
+                            .flex()
+                            .items_center()
+                            .justify_center()
+                            .rounded(px(4.0));
 
-                            if let Some(day) = day_opt {
-                                let current_date = SimpleDate::new(year, month, day);
-                                let is_selected = selected == Some(current_date);
-                                let is_today = today == Some(current_date);
+                        if let Some(day) = day_opt {
+                            let current_date = SimpleDate::new(year, month, day);
+                            let is_selected = selected == Some(current_date);
+                            let is_today = today == Some(current_date);
 
-                                cell = cell
-                                    .text_color(text)
-                                    .cursor_pointer();
+                            cell = cell.text_color(text).cursor_pointer();
 
-                                if is_selected {
-                                    cell = cell
-                                        .bg(accent)
-                                        .text_color(gpui::white());
-                                } else if is_today {
-                                    cell = cell
-                                        .border_1()
-                                        .border_color(accent)
-                                        .text_color(accent);
-                                } else {
-                                    cell = cell
-                                        .hover(|s| s.bg(surface_hover));
-                                }
-
-                                cell.child(format!("{}", day))
+                            if is_selected {
+                                cell = cell.bg(accent).text_color(gpui::white());
+                            } else if is_today {
+                                cell = cell.border_1().border_color(accent).text_color(accent);
                             } else {
-                                cell
+                                cell = cell.hover(|s| s.bg(surface_hover));
                             }
-                        })
-                    )
+
+                            cell.child(format!("{}", day))
+                        } else {
+                            cell
+                        }
+                    })),
             )
     }
 }

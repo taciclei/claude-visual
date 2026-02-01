@@ -3,24 +3,18 @@
 //! Combines agent UI components (task panel, executor view, plan view) into a
 //! cohesive agent mode interface that integrates with the main workspace.
 
-mod types;
-mod state;
-mod lifecycle;
-mod tasks;
 mod approval;
 mod execution;
+mod getters;
+mod helpers;
 mod internal;
 mod layout;
-mod getters;
+mod lifecycle;
 mod render;
-mod helpers;
+mod state;
+mod tasks;
 mod tests;
+mod types;
 
-pub use types::{
-    AgentMode,
-    AgentWorkspaceEvent,
-    NotificationType,
-    AgentLayout,
-    AgentSettings,
-};
 pub use state::AgentWorkspace;
+pub use types::{AgentLayout, AgentMode, AgentSettings, AgentWorkspaceEvent, NotificationType};

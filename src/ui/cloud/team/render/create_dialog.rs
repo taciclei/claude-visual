@@ -1,7 +1,7 @@
 //! Create team dialog rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::TeamPanel;
 
@@ -87,12 +87,7 @@ impl TeamPanel {
                                     .flex()
                                     .flex_col()
                                     .gap_1()
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(text)
-                                            .child("Team Name"),
-                                    )
+                                    .child(div().text_sm().text_color(text).child("Team Name"))
                                     .child(
                                         div()
                                             .px_3()

@@ -1,12 +1,16 @@
 //! Notes panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_notes_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_notes_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let has_notes = self.has_notes();
 
         div()
@@ -55,8 +59,8 @@ impl ChatView {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Session Notes")
-                                    )
+                                            .child("Session Notes"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -71,8 +75,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_notes_panel(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Notes content
                     .child(
@@ -84,13 +88,18 @@ impl ChatView {
                             .child(
                                 div()
                                     .text_sm()
-                                    .text_color(if has_notes { theme.colors.text } else { theme.colors.text_muted })
+                                    .text_color(if has_notes {
+                                        theme.colors.text
+                                    } else {
+                                        theme.colors.text_muted
+                                    })
                                     .child(if has_notes {
                                         self.session_notes.clone()
                                     } else {
-                                        "No notes yet. Notes are saved with your session.".to_string()
-                                    })
-                            )
+                                        "No notes yet. Notes are saved with your session."
+                                            .to_string()
+                                    }),
+                            ),
                     )
                     // Tags section
                     .when(self.has_tags(), |d| {
@@ -105,24 +114,20 @@ impl ChatView {
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
                                         .mb_2()
-                                        .child("Tags")
+                                        .child("Tags"),
                                 )
-                                .child(
-                                    div()
-                                        .flex()
-                                        .flex_wrap()
-                                        .gap_1()
-                                        .children(self.conversation_tags.iter().map(|tag| {
-                                            div()
-                                                .px_2()
-                                                .py_0p5()
-                                                .rounded_full()
-                                                .bg(theme.colors.accent.opacity(0.15))
-                                                .text_xs()
-                                                .text_color(theme.colors.accent)
-                                                .child(format!("#{}", tag))
-                                        }))
-                                )
+                                .child(div().flex().flex_wrap().gap_1().children(
+                                    self.conversation_tags.iter().map(|tag| {
+                                        div()
+                                            .px_2()
+                                            .py_0p5()
+                                            .rounded_full()
+                                            .bg(theme.colors.accent.opacity(0.15))
+                                            .text_xs()
+                                            .text_color(theme.colors.accent)
+                                            .child(format!("#{}", tag))
+                                    }),
+                                )),
                         )
                     })
                     // Suggested tags
@@ -139,17 +144,16 @@ impl ChatView {
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
                                         .mb_2()
-                                        .child("Suggested tags (click to add)")
+                                        .child("Suggested tags (click to add)"),
                                 )
                                 .child(
-                                    div()
-                                        .flex()
-                                        .flex_wrap()
-                                        .gap_1()
-                                        .children(suggestions.iter().map(|tag| {
+                                    div().flex().flex_wrap().gap_1().children(
+                                        suggestions.iter().map(|tag| {
                                             let tag_str = *tag;
                                             div()
-                                                .id(ElementId::Name(format!("suggest-tag-{}", tag).into()))
+                                                .id(ElementId::Name(
+                                                    format!("suggest-tag-{}", tag).into(),
+                                                ))
                                                 .px_2()
                                                 .py_0p5()
                                                 .rounded_full()
@@ -157,16 +161,21 @@ impl ChatView {
                                                 .bg(theme.colors.surface_hover)
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
-                                                .hover(|s| s.bg(theme.colors.accent.opacity(0.15)).text_color(theme.colors.accent))
-                                                .on_click(cx.listener(move |this, _, _window, cx| {
-                                                    this.add_tag(tag_str.to_string(), cx);
-                                                }))
+                                                .hover(|s| {
+                                                    s.bg(theme.colors.accent.opacity(0.15))
+                                                        .text_color(theme.colors.accent)
+                                                })
+                                                .on_click(cx.listener(
+                                                    move |this, _, _window, cx| {
+                                                        this.add_tag(tag_str.to_string(), cx);
+                                                    },
+                                                ))
                                                 .child(format!("+{}", tag))
-                                        }))
+                                        }),
+                                    ),
                                 )
                             })
-                    })
+                    }),
             )
     }
-
 }

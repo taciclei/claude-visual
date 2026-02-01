@@ -2,9 +2,7 @@
 
 use async_trait::async_trait;
 
-use crate::ai::provider::{
-    AIError, AIProvider, AIRequest, AIResponse, AIStream, ModelInfo,
-};
+use crate::ai::provider::{AIError, AIProvider, AIRequest, AIResponse, AIStream, ModelInfo};
 
 use super::ClaudeProvider;
 

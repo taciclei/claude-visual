@@ -7,7 +7,11 @@ use super::{ChatInput, ChatInputEvent};
 impl ChatInput {
     /// Submit the current message
     pub(super) fn submit(&mut self, cx: &mut Context<Self>) {
-        tracing::info!("ChatInput::submit called, disabled={}, text='{}'", self.is_disabled, self.text);
+        tracing::info!(
+            "ChatInput::submit called, disabled={}, text='{}'",
+            self.is_disabled,
+            self.text
+        );
         if self.is_disabled {
             tracing::warn!("Submit blocked - input is disabled");
             return;

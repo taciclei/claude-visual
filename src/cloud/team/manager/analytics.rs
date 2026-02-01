@@ -34,9 +34,7 @@ impl TeamManager {
             .ok_or_else(|| TeamError::Unauthorized("Not a team member".to_string()))?;
 
         if !role.can_view_analytics() {
-            return Err(TeamError::Unauthorized(
-                "Cannot view analytics".to_string(),
-            ));
+            return Err(TeamError::Unauthorized("Cannot view analytics".to_string()));
         }
 
         let now = Utc::now();

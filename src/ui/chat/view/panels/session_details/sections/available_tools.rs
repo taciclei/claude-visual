@@ -1,7 +1,7 @@
 //! Available tools section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -21,7 +21,7 @@ impl ChatView {
                     .text_xs()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text_muted)
-                    .child(format!("AVAILABLE TOOLS ({})", info.tools.len()))
+                    .child(format!("AVAILABLE TOOLS ({})", info.tools.len())),
             )
             .child(
                 div()
@@ -47,9 +47,9 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("+{} more", info.tools.len() - 20))
+                                .child(format!("+{} more", info.tools.len() - 20)),
                         )
-                    })
+                    }),
             )
     }
 }

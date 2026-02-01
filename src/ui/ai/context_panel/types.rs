@@ -45,4 +45,6 @@ pub enum ContextPanelEvent {
     AttachFileRequested,
     /// Attach snippet requested
     AttachSnippetRequested,
+    /// Send a Claude Code skill command
+    SendSkillCommand(String),
 }

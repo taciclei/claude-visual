@@ -1,9 +1,9 @@
 //! SQLite database operations
 
-mod core;
-mod projects;
 mod conversations;
-mod messages;
+mod core;
 mod helpers;
+mod messages;
+mod projects;
 
 pub use core::Database;

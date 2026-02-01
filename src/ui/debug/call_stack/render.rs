@@ -2,15 +2,21 @@
 //!
 //! Rendering logic for call stack view.
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::component::CallStackView;
 use super::types::{CallStackViewEvent, StackFrameItem};
 
 impl CallStackView {
     /// Render a stack frame
-    pub(super) fn render_frame(&self, thread_id: i64, frame: &StackFrameItem, theme: &crate::app::theme::Theme, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_frame(
+        &self,
+        thread_id: i64,
+        frame: &StackFrameItem,
+        theme: &crate::app::theme::Theme,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let frame_id = frame.id;
         let is_current = frame.is_current;
         let name = frame.display_name().to_string();
@@ -24,11 +30,17 @@ impl CallStackView {
 
         // Extract listener before div chain
         let on_click_listener = cx.listener(move |_this, _, _window, cx| {
-            cx.emit(CallStackViewEvent::SelectFrame { thread_id, frame_id });
+            cx.emit(CallStackViewEvent::SelectFrame {
+                thread_id,
+                frame_id,
+            });
         });
 
         div()
-            .id(SharedString::from(format!("frame-{}-{}", thread_id, frame_id)))
+            .id(SharedString::from(format!(
+                "frame-{}-{}",
+                thread_id, frame_id
+            )))
             .flex()
             .items_center()
             .gap_2()
@@ -45,12 +57,7 @@ impl CallStackView {
             .on_click(on_click_listener)
             // Current indicator
             .when(is_current, |d| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(accent_color)
-                        .child("→"),
-                )
+                d.child(div().text_xs().text_color(accent_color).child("→"))
             })
             .when(!is_current, |d| d.child(div().w(px(12.0))))
             // Function name
@@ -65,12 +72,7 @@ impl CallStackView {
                     .child(name),
             )
             // Location
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(text_muted)
-                    .child(location),
-            )
+            .child(div().text_xs().text_color(text_muted).child(location))
     }
 }
 
@@ -189,9 +191,7 @@ impl Render for CallStackView {
                                     .px_2()
                                     .py_1()
                                     .cursor_pointer()
-                                    .when(is_current, move |d| {
-                                        d.bg(accent_bg.opacity(0.05))
-                                    })
+                                    .when(is_current, move |d| d.bg(accent_bg.opacity(0.05)))
                                     .hover(move |s| s.bg(hover_bg))
                                     .on_click(toggle_listener)
                                     // Expand toggle
@@ -205,7 +205,11 @@ impl Render for CallStackView {
                                     .child(
                                         div()
                                             .text_xs()
-                                            .text_color(if is_current { thread_accent_color } else { thread_text_muted })
+                                            .text_color(if is_current {
+                                                thread_accent_color
+                                            } else {
+                                                thread_text_muted
+                                            })
                                             .child("⚡"),
                                     )
                                     // Thread name
@@ -213,7 +217,11 @@ impl Render for CallStackView {
                                         div()
                                             .flex_1()
                                             .text_xs()
-                                            .font_weight(if is_current { FontWeight::MEDIUM } else { FontWeight::NORMAL })
+                                            .font_weight(if is_current {
+                                                FontWeight::MEDIUM
+                                            } else {
+                                                FontWeight::NORMAL
+                                            })
                                             .text_color(thread_text_color)
                                             .child(thread.name.clone()),
                                     )
@@ -227,9 +235,11 @@ impl Render for CallStackView {
                             )
                             // Stack frames
                             .when(expanded, |d| {
-                                d.children(thread.frames.iter().map(|frame| {
-                                    self.render_frame(thread_id, frame, &theme, cx)
-                                }))
+                                d.children(
+                                    thread.frames.iter().map(|frame| {
+                                        self.render_frame(thread_id, frame, &theme, cx)
+                                    }),
+                                )
                             })
                     })),
             )

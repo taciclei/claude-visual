@@ -1,8 +1,8 @@
 //! Time picker component
 
-use gpui::*;
+use super::types::{DatePickerSize, TimeValue};
 use gpui::prelude::*;
-use super::types::{TimeValue, DatePickerSize};
+use gpui::*;
 
 /// Time picker component
 #[derive(IntoElement)]
@@ -102,13 +102,15 @@ impl RenderOnce for TimePicker {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.15, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.3, 1.0));
 
-        let display_text: SharedString = self.value
+        let display_text: SharedString = self
+            .value
             .map(|t| {
                 if self.use_12_hour {
                     t.format_12h()
                 } else {
                     t.format_24h()
-                }.into()
+                }
+                .into()
             })
             .unwrap_or(self.placeholder.clone());
         let has_value = self.value.is_some();
@@ -131,7 +133,7 @@ impl RenderOnce for TimePicker {
                 div()
                     .text_size(px(font_size))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("🕐")
+                    .child("🕐"),
             )
             .child(
                 div()
@@ -142,7 +144,7 @@ impl RenderOnce for TimePicker {
                     } else {
                         hsla(0.0, 0.0, 0.5, 1.0)
                     })
-                    .child(display_text)
+                    .child(display_text),
             )
     }
 }

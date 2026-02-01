@@ -96,11 +96,16 @@ pub struct DraggedFile {
 
 impl DraggedFile {
     pub fn new(path: PathBuf) -> Self {
-        let name = path.file_name()
+        let name = path
+            .file_name()
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_else(|| path.display().to_string());
         let is_directory = path.is_dir();
-        Self { path, name, is_directory }
+        Self {
+            path,
+            name,
+            is_directory,
+        }
     }
 }
 

@@ -60,16 +60,54 @@ pub(crate) fn tokenize(code: &str, _language: Option<&str>) -> Vec<CodeToken> {
 pub(crate) fn classify_token(word: &str) -> TokenType {
     // Common keywords
     const KEYWORDS: &[&str] = &[
-        "fn", "let", "const", "mut", "pub", "mod", "use", "struct", "enum",
-        "impl", "trait", "type", "where", "if", "else", "match", "for",
-        "while", "loop", "return", "break", "continue", "async", "await",
-        "function", "var", "class", "interface", "extends", "import", "export",
-        "def", "class", "from", "return", "if", "elif", "else",
+        "fn",
+        "let",
+        "const",
+        "mut",
+        "pub",
+        "mod",
+        "use",
+        "struct",
+        "enum",
+        "impl",
+        "trait",
+        "type",
+        "where",
+        "if",
+        "else",
+        "match",
+        "for",
+        "while",
+        "loop",
+        "return",
+        "break",
+        "continue",
+        "async",
+        "await",
+        "function",
+        "var",
+        "class",
+        "interface",
+        "extends",
+        "import",
+        "export",
+        "def",
+        "class",
+        "from",
+        "return",
+        "if",
+        "elif",
+        "else",
     ];
 
     if KEYWORDS.contains(&word) {
         TokenType::Keyword
-    } else if word.chars().next().map(|c| c.is_uppercase()).unwrap_or(false) {
+    } else if word
+        .chars()
+        .next()
+        .map(|c| c.is_uppercase())
+        .unwrap_or(false)
+    {
         TokenType::Type
     } else if word.chars().all(|c| c.is_numeric()) {
         TokenType::Number

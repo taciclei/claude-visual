@@ -1,7 +1,7 @@
 //! Drag-and-drop overlay rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::ChatInput;
 
@@ -22,11 +22,7 @@ impl ChatInput {
                     .flex_col()
                     .items_center()
                     .gap_2()
-                    .child(
-                        div()
-                            .text_xl()
-                            .child("📎"),
-                    )
+                    .child(div().text_xl().child("📎"))
                     .child(
                         div()
                             .text_sm()

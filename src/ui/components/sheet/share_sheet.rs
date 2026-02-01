@@ -1,8 +1,8 @@
 //! ShareSheet component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Share sheet
 #[derive(Clone)]
@@ -16,10 +16,22 @@ impl ShareSheet {
         Self {
             title: "Share".to_string(),
             items: vec![
-                ShareItem { label: "Copy Link".to_string(), icon: "🔗".to_string() },
-                ShareItem { label: "Email".to_string(), icon: "📧".to_string() },
-                ShareItem { label: "Message".to_string(), icon: "💬".to_string() },
-                ShareItem { label: "More...".to_string(), icon: "⋯".to_string() },
+                ShareItem {
+                    label: "Copy Link".to_string(),
+                    icon: "🔗".to_string(),
+                },
+                ShareItem {
+                    label: "Email".to_string(),
+                    icon: "📧".to_string(),
+                },
+                ShareItem {
+                    label: "Message".to_string(),
+                    icon: "💬".to_string(),
+                },
+                ShareItem {
+                    label: "More...".to_string(),
+                    icon: "⋯".to_string(),
+                },
             ],
         }
     }
@@ -77,8 +89,8 @@ impl RenderOnce for ShareSheet {
                                     .w(px(36.0))
                                     .h(px(4.0))
                                     .rounded(px(2.0))
-                                    .bg(hsla(0.0, 0.0, 0.35, 1.0))
-                            )
+                                    .bg(hsla(0.0, 0.0, 0.35, 1.0)),
+                            ),
                     )
                     // Title
                     .child(
@@ -94,8 +106,8 @@ impl RenderOnce for ShareSheet {
                                     .text_base()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(text)
-                                    .child(self.title)
-                            )
+                                    .child(self.title),
+                            ),
                     )
                     // Share items grid
                     .child(
@@ -107,39 +119,37 @@ impl RenderOnce for ShareSheet {
                             .flex_wrap()
                             .justify_center()
                             .gap_4()
-                            .children(
-                                self.items.into_iter().map(|item| {
-                                    div()
-                                        .w(px(70.0))
-                                        .flex()
-                                        .flex_col()
-                                        .items_center()
-                                        .gap_2()
-                                        .cursor_pointer()
-                                        // Icon circle
-                                        .child(
-                                            div()
-                                                .size(px(50.0))
-                                                .rounded_full()
-                                                .bg(hsla(0.0, 0.0, 0.2, 1.0))
-                                                .flex()
-                                                .items_center()
-                                                .justify_center()
-                                                .text_xl()
-                                                .hover(|s| s.bg(hsla(0.0, 0.0, 0.25, 1.0)))
-                                                .child(item.icon)
-                                        )
-                                        // Label
-                                        .child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(text_muted)
-                                                .text_center()
-                                                .child(item.label)
-                                        )
-                                })
-                            )
-                    )
+                            .children(self.items.into_iter().map(|item| {
+                                div()
+                                    .w(px(70.0))
+                                    .flex()
+                                    .flex_col()
+                                    .items_center()
+                                    .gap_2()
+                                    .cursor_pointer()
+                                    // Icon circle
+                                    .child(
+                                        div()
+                                            .size(px(50.0))
+                                            .rounded_full()
+                                            .bg(hsla(0.0, 0.0, 0.2, 1.0))
+                                            .flex()
+                                            .items_center()
+                                            .justify_center()
+                                            .text_xl()
+                                            .hover(|s| s.bg(hsla(0.0, 0.0, 0.25, 1.0)))
+                                            .child(item.icon),
+                                    )
+                                    // Label
+                                    .child(
+                                        div()
+                                            .text_xs()
+                                            .text_color(text_muted)
+                                            .text_center()
+                                            .child(item.label),
+                                    )
+                            })),
+                    ),
             )
     }
 }

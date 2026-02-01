@@ -4,8 +4,8 @@ use gpui::*;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::lsp::protocol::{Diagnostic, DiagnosticSeverity};
 use super::types::FileDiagnostics;
+use crate::lsp::protocol::{Diagnostic, DiagnosticSeverity};
 
 /// Diagnostics panel for displaying LSP diagnostics
 pub struct DiagnosticsPanel {
@@ -103,7 +103,10 @@ impl DiagnosticsPanel {
     }
 
     /// Get filtered diagnostics for a file
-    pub(crate) fn filtered_diagnostics<'a>(&'a self, file: &'a FileDiagnostics) -> Vec<&'a Diagnostic> {
+    pub(crate) fn filtered_diagnostics<'a>(
+        &'a self,
+        file: &'a FileDiagnostics,
+    ) -> Vec<&'a Diagnostic> {
         file.diagnostics
             .iter()
             .filter(|d| match self.severity_filter {

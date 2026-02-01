@@ -1,7 +1,7 @@
 //! Progress sparkline component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Progress sparkline - shows progress over time
 #[derive(IntoElement)]
@@ -64,7 +64,10 @@ impl RenderOnce for ProgressSparkline {
         let color = self.color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0));
         let target_color = self.target_color.unwrap_or(hsla(0.0, 0.7, 0.5, 0.5));
 
-        let max_val = self.data.iter().copied()
+        let max_val = self
+            .data
+            .iter()
+            .copied()
             .chain(self.target.into_iter())
             .fold(f64::NEG_INFINITY, f64::max)
             .max(0.001);
@@ -93,7 +96,7 @@ impl RenderOnce for ProgressSparkline {
                             .h(px(bar_height))
                             .bg(color)
                             .rounded(px(1.0))
-                    }))
+                    })),
             )
             .when_some(self.target, |el, target| {
                 let target_y = ((target / max_val) as f32 * self.height).min(self.height);
@@ -104,7 +107,7 @@ impl RenderOnce for ProgressSparkline {
                         .right_0()
                         .bottom(px(target_y))
                         .h(px(1.0))
-                        .bg(target_color)
+                        .bg(target_color),
                 )
             })
     }

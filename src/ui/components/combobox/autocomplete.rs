@@ -1,8 +1,8 @@
 //! Autocomplete component - simple text autocomplete without selection
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Autocomplete - simple text autocomplete without selection
 #[derive(IntoElement)]
@@ -95,9 +95,7 @@ impl RenderOnce for Autocomplete {
             .border_1()
             .border_color(border)
             .bg(bg)
-            .when(self.disabled, |el| {
-                el.opacity(0.5).cursor_not_allowed()
-            })
+            .when(self.disabled, |el| el.opacity(0.5).cursor_not_allowed())
             .child(
                 div()
                     .flex_1()
@@ -111,7 +109,7 @@ impl RenderOnce for Autocomplete {
                         self.placeholder.clone()
                     } else {
                         self.value.clone()
-                    })
+                    }),
             )
     }
 }

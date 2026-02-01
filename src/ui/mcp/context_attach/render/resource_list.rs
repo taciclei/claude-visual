@@ -1,7 +1,7 @@
 //! Resource list rendering for MCP context attachment panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::McpContextAttachPanel;
 
@@ -39,9 +39,11 @@ impl McpContextAttachPanel {
                 )
             })
             .when(!filtered.is_empty(), |d| {
-                d.children(filtered.into_iter().map(|(idx, resource)| {
-                    self.render_resource_item(idx, resource, cx)
-                }))
+                d.children(
+                    filtered
+                        .into_iter()
+                        .map(|(idx, resource)| self.render_resource_item(idx, resource, cx)),
+                )
             })
     }
 }

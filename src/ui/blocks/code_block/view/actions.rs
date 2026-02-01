@@ -2,7 +2,10 @@
 
 use gpui::*;
 
-use crate::{AddTestsAction, ExecuteCodeAction, ExplainCodeAction, ImproveCodeAction, RefactorCodeAction, ReviewCodeAction, SaveCodeToFileAction};
+use crate::{
+    AddTestsAction, ExecuteCodeAction, ExplainCodeAction, ImproveCodeAction, RefactorCodeAction,
+    ReviewCodeAction, SaveCodeToFileAction,
+};
 
 use super::CodeBlockView;
 
@@ -10,7 +13,9 @@ impl CodeBlockView {
     /// Request to execute the code
     pub fn execute(&self, _window: &mut Window, cx: &mut Context<Self>) {
         if self.is_executable() {
-            let action = ExecuteCodeAction { code: self.code.clone() };
+            let action = ExecuteCodeAction {
+                code: self.code.clone(),
+            };
             cx.dispatch_action(&action);
             tracing::info!("Dispatched code execution action");
         }
@@ -18,7 +23,9 @@ impl CodeBlockView {
 
     /// Request to save the code to a file
     pub fn save_to_file(&self, _window: &mut Window, cx: &mut Context<Self>) {
-        let action = SaveCodeToFileAction { code: self.code.clone() };
+        let action = SaveCodeToFileAction {
+            code: self.code.clone(),
+        };
         cx.dispatch_action(&action);
         tracing::info!("Dispatched save to file action");
     }

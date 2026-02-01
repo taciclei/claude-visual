@@ -1,9 +1,9 @@
 //! Loading overlay for containers
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::spinner::Spinner;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Loading overlay for containers
 #[derive(Clone)]
@@ -60,12 +60,7 @@ impl RenderOnce for LoadingOverlay {
             .gap_3()
             .child(Spinner::new().size(self.spinner_size))
             .when_some(self.message, |d, msg| {
-                d.child(
-                    div()
-                        .text_sm()
-                        .text_color(text)
-                        .child(msg)
-                )
+                d.child(div().text_sm().text_color(text).child(msg))
             })
     }
 }

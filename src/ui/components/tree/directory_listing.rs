@@ -1,7 +1,7 @@
 //! Directory listing component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::DirectoryEntry;
 
@@ -46,67 +46,60 @@ impl RenderOnce for DirectoryListing {
 
         // Sort: directories first, then files
         let mut entries = self.entries;
-        entries.sort_by(|a, b| {
-            match (a.is_dir, b.is_dir) {
-                (true, false) => std::cmp::Ordering::Less,
-                (false, true) => std::cmp::Ordering::Greater,
-                _ => a.name.cmp(&b.name),
-            }
+        entries.sort_by(|a, b| match (a.is_dir, b.is_dir) {
+            (true, false) => std::cmp::Ordering::Less,
+            (false, true) => std::cmp::Ordering::Greater,
+            _ => a.name.cmp(&b.name),
         });
 
-        div()
-            .w_full()
-            .flex()
-            .flex_col()
-            .children(entries.into_iter().filter(|e| {
-                self.show_hidden || !e.name.starts_with('.')
-            }).map(|entry| {
-                let icon = if entry.is_dir { "📁" } else { "📄" };
-                let name_color = if entry.is_dir { accent } else { text };
+        div().w_full().flex().flex_col().children(
+            entries
+                .into_iter()
+                .filter(|e| self.show_hidden || !e.name.starts_with('.'))
+                .map(|entry| {
+                    let icon = if entry.is_dir { "📁" } else { "📄" };
+                    let name_color = if entry.is_dir { accent } else { text };
 
-                div()
-                    .h(px(32.0))
-                    .w_full()
-                    .px_3()
-                    .flex()
-                    .items_center()
-                    .gap_3()
-                    .cursor_pointer()
-                    .hover(|s| s.bg(surface_hover))
-                    .child(
-                        div()
-                            .text_base()
-                            .child(icon)
-                    )
-                    .child(
-                        div()
-                            .flex_1()
-                            .text_sm()
-                            .text_color(name_color)
-                            .overflow_hidden()
-                            .text_ellipsis()
-                            .child(entry.name)
-                    )
-                    .when_some(entry.size, |d, size| {
-                        d.child(
+                    div()
+                        .h(px(32.0))
+                        .w_full()
+                        .px_3()
+                        .flex()
+                        .items_center()
+                        .gap_3()
+                        .cursor_pointer()
+                        .hover(|s| s.bg(surface_hover))
+                        .child(div().text_base().child(icon))
+                        .child(
                             div()
-                                .w(px(80.0))
-                                .text_xs()
-                                .text_color(text_muted)
-                                .text_right()
-                                .child(size)
+                                .flex_1()
+                                .text_sm()
+                                .text_color(name_color)
+                                .overflow_hidden()
+                                .text_ellipsis()
+                                .child(entry.name),
                         )
-                    })
-                    .when_some(entry.modified, |d, modified| {
-                        d.child(
-                            div()
-                                .w(px(100.0))
-                                .text_xs()
-                                .text_color(text_muted)
-                                .text_right()
-                                .child(modified)
-                        )
-                    })
-            }))
+                        .when_some(entry.size, |d, size| {
+                            d.child(
+                                div()
+                                    .w(px(80.0))
+                                    .text_xs()
+                                    .text_color(text_muted)
+                                    .text_right()
+                                    .child(size),
+                            )
+                        })
+                        .when_some(entry.modified, |d, modified| {
+                            d.child(
+                                div()
+                                    .w(px(100.0))
+                                    .text_xs()
+                                    .text_color(text_muted)
+                                    .text_right()
+                                    .child(modified),
+                            )
+                        })
+                }),
+        )
     }
 }

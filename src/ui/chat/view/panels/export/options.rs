@@ -1,13 +1,17 @@
 //! Export panel options component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::chat::view::core::ChatView;
 
 impl ChatView {
-    pub(super) fn render_export_options(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_export_options(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let include_meta = self.export.include_metadata;
         let include_tools = self.export.include_tools;
         let include_thinking = self.export.include_thinking;
@@ -40,7 +44,7 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .mb_2()
-                    .child("Include in Export")
+                    .child("Include in Export"),
             )
             .child(
                 div()
@@ -69,14 +73,9 @@ impl ChatView {
                                     .justify_center()
                                     .when(include_meta, |d| {
                                         d.child(div().text_xs().text_color(surface).child("✓"))
-                                    })
+                                    }),
                             )
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(text)
-                                    .child("Metadata & Stats")
-                            )
+                            .child(div().text_sm().text_color(text).child("Metadata & Stats")),
                     )
                     // Tools option
                     .child(
@@ -100,14 +99,14 @@ impl ChatView {
                                     .justify_center()
                                     .when(include_tools, |d| {
                                         d.child(div().text_xs().text_color(surface).child("✓"))
-                                    })
+                                    }),
                             )
                             .child(
                                 div()
                                     .text_sm()
                                     .text_color(text)
-                                    .child("Tool Calls & Results")
-                            )
+                                    .child("Tool Calls & Results"),
+                            ),
                     )
                     // Thinking option
                     .child(
@@ -131,15 +130,10 @@ impl ChatView {
                                     .justify_center()
                                     .when(include_thinking, |d| {
                                         d.child(div().text_xs().text_color(surface).child("✓"))
-                                    })
+                                    }),
                             )
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(text)
-                                    .child("Thinking/Reasoning")
-                            )
-                    )
+                            .child(div().text_sm().text_color(text).child("Thinking/Reasoning")),
+                    ),
             )
     }
 }

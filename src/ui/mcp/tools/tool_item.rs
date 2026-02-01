@@ -1,13 +1,18 @@
 //! Tool item rendering for MCP tools panel
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpToolsPanel;
-use super::types::{ToolItem, ToolApprovalStatus};
+use super::types::{ToolApprovalStatus, ToolItem};
+use gpui::prelude::*;
+use gpui::*;
 
 impl McpToolsPanel {
     /// Render a tool item
-    pub(crate) fn render_tool_item(&self, tool: &ToolItem, index: usize, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_tool_item(
+        &self,
+        tool: &ToolItem,
+        index: usize,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx).clone();
         let is_selected = self.selected_tool == Some(index);
 
@@ -58,15 +63,25 @@ impl McpToolsPanel {
                                     .rounded_md()
                                     .text_xs()
                                     .bg(match tool.approval {
-                                        ToolApprovalStatus::Pending => theme.colors.warning.opacity(0.2),
-                                        ToolApprovalStatus::ApprovedSession => theme.colors.success.opacity(0.2),
-                                        ToolApprovalStatus::ApprovedPermanent => theme.colors.accent.opacity(0.2),
-                                        ToolApprovalStatus::Denied => theme.colors.error.opacity(0.2),
+                                        ToolApprovalStatus::Pending => {
+                                            theme.colors.warning.opacity(0.2)
+                                        }
+                                        ToolApprovalStatus::ApprovedSession => {
+                                            theme.colors.success.opacity(0.2)
+                                        }
+                                        ToolApprovalStatus::ApprovedPermanent => {
+                                            theme.colors.accent.opacity(0.2)
+                                        }
+                                        ToolApprovalStatus::Denied => {
+                                            theme.colors.error.opacity(0.2)
+                                        }
                                     })
                                     .text_color(match tool.approval {
                                         ToolApprovalStatus::Pending => theme.colors.warning,
                                         ToolApprovalStatus::ApprovedSession => theme.colors.success,
-                                        ToolApprovalStatus::ApprovedPermanent => theme.colors.accent,
+                                        ToolApprovalStatus::ApprovedPermanent => {
+                                            theme.colors.accent
+                                        }
                                         ToolApprovalStatus::Denied => theme.colors.error,
                                     })
                                     .child(match tool.approval {

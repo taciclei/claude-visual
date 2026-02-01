@@ -1,15 +1,19 @@
 //! Progress rendering for update installation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::update::InstallProgress;
 use super::super::core::UpdateNotification;
 use super::super::types::SimpleColors;
+use crate::update::InstallProgress;
 
 impl UpdateNotification {
     /// Render the download progress
-    pub(crate) fn render_progress(&self, progress: &InstallProgress, theme: &SimpleColors) -> impl IntoElement {
+    pub(crate) fn render_progress(
+        &self,
+        progress: &InstallProgress,
+        theme: &SimpleColors,
+    ) -> impl IntoElement {
         let (message, progress_value): (String, Option<f32>) = match progress {
             InstallProgress::Starting => ("Starting download...".to_string(), None),
             InstallProgress::Downloading(p) => ("Downloading update...".to_string(), Some(*p)),
@@ -67,12 +71,7 @@ impl UpdateNotification {
                                 .flex()
                                 .items_center()
                                 .justify_center()
-                                .child(
-                                    div()
-                                        .text_color(background)
-                                        .text_xs()
-                                        .child("✓")
-                                )
+                                .child(div().text_color(background).text_xs().child("✓"))
                         } else if is_error {
                             div()
                                 .w_6()
@@ -82,12 +81,7 @@ impl UpdateNotification {
                                 .flex()
                                 .items_center()
                                 .justify_center()
-                                .child(
-                                    div()
-                                        .text_color(background)
-                                        .text_xs()
-                                        .child("!")
-                                )
+                                .child(div().text_color(background).text_xs().child("!"))
                         } else {
                             // Spinner placeholder
                             div()
@@ -97,7 +91,7 @@ impl UpdateNotification {
                                 .border_2()
                                 .border_color(accent.opacity(0.3))
                                 .border_color(accent)
-                        }
+                        },
                     )
                     .child(
                         div()
@@ -105,29 +99,19 @@ impl UpdateNotification {
                             .flex()
                             .flex_col()
                             .gap_1()
-                            .child(
-                                div()
-                                    .text_color(text)
-                                    .text_sm()
-                                    .child(message)
-                            )
+                            .child(div().text_color(text).text_sm().child(message))
                             .when(progress_value.is_some(), |this| {
                                 let pv = progress_value.unwrap();
                                 this.child(
-                                    div()
-                                        .w_full()
-                                        .h_1()
-                                        .bg(surface_hover)
-                                        .rounded_full()
-                                        .child(
-                                            div()
-                                                .h_full()
-                                                .bg(accent)
-                                                .rounded_full()
-                                                .w(relative(pv as f32 / 100.0))
-                                        )
+                                    div().w_full().h_1().bg(surface_hover).rounded_full().child(
+                                        div()
+                                            .h_full()
+                                            .bg(accent)
+                                            .rounded_full()
+                                            .w(relative(pv as f32 / 100.0)),
+                                    ),
                                 )
-                            })
+                            }),
                     )
                     .when(is_complete, |this| {
                         this.child(
@@ -141,9 +125,9 @@ impl UpdateNotification {
                                 .text_sm()
                                 .font_weight(FontWeight::MEDIUM)
                                 .hover(|s| s.opacity(0.9))
-                                .child("Restart")
+                                .child("Restart"),
                         )
-                    })
+                    }),
             )
     }
 }

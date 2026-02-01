@@ -1,10 +1,10 @@
 //! Primary debug control buttons
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::debug::debug_panel::{DebugPanel, DebugPanelEvent};
 use crate::debug::DebugState;
+use crate::ui::debug::debug_panel::{DebugPanel, DebugPanelEvent};
 
 impl DebugPanel {
     /// Render start/stop button
@@ -38,23 +38,13 @@ impl DebugPanel {
                 d.bg(success_color.opacity(0.2))
                     .hover(|s| s.bg(success_color.opacity(0.3)))
                     .on_click(on_start)
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(success_color)
-                            .child("▶"),
-                    )
+                    .child(div().text_sm().text_color(success_color).child("▶"))
             })
             .when(!is_idle, |d| {
                 d.bg(error_color.opacity(0.2))
                     .hover(|s| s.bg(error_color.opacity(0.3)))
                     .on_click(on_stop)
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(error_color)
-                            .child("⏹"),
-                    )
+                    .child(div().text_sm().text_color(error_color).child("⏹"))
             })
     }
 
@@ -83,11 +73,6 @@ impl DebugPanel {
             .bg(surface_color)
             .hover(|s| s.bg(border_color))
             .on_click(on_restart)
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(warning_color)
-                    .child("↻"),
-            )
+            .child(div().text_sm().text_color(warning_color).child("↻"))
     }
 }

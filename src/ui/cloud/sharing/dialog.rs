@@ -4,8 +4,8 @@ use std::sync::Arc;
 
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Share dialog
 pub struct ShareDialog {

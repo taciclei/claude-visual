@@ -2,17 +2,17 @@
 //!
 //! Provides components for mentioning users, channels, or other entities.
 
-mod types;
+mod channel_mention;
 mod mention;
 mod mention_dropdown;
 mod mention_input;
-mod channel_mention;
+mod types;
 
-pub use types::*;
+pub use channel_mention::ChannelMention;
 pub use mention::Mention;
 pub use mention_dropdown::MentionDropdown;
 pub use mention_input::MentionInput;
-pub use channel_mention::ChannelMention;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -39,9 +39,7 @@ mod tests {
 
     #[test]
     fn test_mention_self() {
-        let mention = Mention::new("m", "me")
-            .is_self(true)
-            .avatar("👤");
+        let mention = Mention::new("m", "me").is_self(true).avatar("👤");
 
         assert!(mention.is_self);
         assert!(mention.avatar.is_some());

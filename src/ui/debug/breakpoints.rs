@@ -5,9 +5,9 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 use crate::app::state::AppState;
 
@@ -240,18 +240,16 @@ impl Render for BreakpointsList {
                                             div()
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
-                                                .child(format!("if {}", bp.condition.as_ref().unwrap())),
+                                                .child(format!(
+                                                    "if {}",
+                                                    bp.condition.as_ref().unwrap()
+                                                )),
                                         )
                                     }),
                             )
                             // Verified indicator
                             .when(!bp.verified && bp.enabled, |d| {
-                                d.child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.warning)
-                                        .child("?"),
-                                )
+                                d.child(div().text_xs().text_color(theme.colors.warning).child("?"))
                             })
                             // Remove button
                             .child(

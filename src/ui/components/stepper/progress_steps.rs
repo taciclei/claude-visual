@@ -1,7 +1,7 @@
 //! Simple progress steps display
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple progress steps display
 #[derive(Clone)]
@@ -66,7 +66,11 @@ impl RenderOnce for ProgressSteps {
                                     .justify_center()
                                     .text_xs()
                                     .text_color(gpui::white())
-                                    .child(if is_completed { "✓".to_string() } else { (idx + 1).to_string() })
+                                    .child(if is_completed {
+                                        "✓".to_string()
+                                    } else {
+                                        (idx + 1).to_string()
+                                    }),
                             )
                             // Label
                             .child(
@@ -74,17 +78,15 @@ impl RenderOnce for ProgressSteps {
                                     .text_xs()
                                     .text_color(label_color)
                                     .text_center()
-                                    .child(label)
-                            )
+                                    .child(label),
+                            ),
                     )
                     // Connector
-                    .child(
-                        div()
-                            .flex_1()
-                            .h(px(2.0))
-                            .mx_2()
-                            .bg(if is_completed { success } else { border })
-                    )
+                    .child(div().flex_1().h(px(2.0)).mx_2().bg(if is_completed {
+                        success
+                    } else {
+                        border
+                    }))
             }))
     }
 }

@@ -11,11 +11,12 @@ impl Workspace {
         theme: &crate::app::theme::Theme,
     ) -> Vec<crate::syntax::HighlightedSpan> {
         // Strip the diff prefix (+, -, or space)
-        let (prefix, code) = if line.starts_with('+') || line.starts_with('-') || line.starts_with(' ') {
-            (line.chars().next(), &line[1..])
-        } else {
-            (None, line)
-        };
+        let (prefix, code) =
+            if line.starts_with('+') || line.starts_with('-') || line.starts_with(' ') {
+                (line.chars().next(), &line[1..])
+            } else {
+                (None, line)
+            };
 
         // If no language, return plain text
         let Some(lang) = language else {

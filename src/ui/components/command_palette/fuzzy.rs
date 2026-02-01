@@ -78,7 +78,11 @@ fn fuzzy_score(text: &str, query_chars: &[char]) -> Option<(i32, Vec<usize>)> {
             // Scoring bonuses
             if i == 0 {
                 score += 15; // Start of string bonus
-            } else if text_chars.get(i.saturating_sub(1)).map(|c| *c == ' ' || *c == '_' || *c == '-').unwrap_or(false) {
+            } else if text_chars
+                .get(i.saturating_sub(1))
+                .map(|c| *c == ' ' || *c == '_' || *c == '-')
+                .unwrap_or(false)
+            {
                 score += 10; // Start of word bonus
             }
 

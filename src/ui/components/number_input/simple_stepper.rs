@@ -50,7 +50,7 @@ impl RenderOnce for SimpleStepper {
                     .when(can_dec, |d| {
                         d.cursor_pointer().hover(|s| s.bg(surface_hover))
                     })
-                    .child("−")
+                    .child("−"),
             )
             // Value
             .child(
@@ -64,7 +64,7 @@ impl RenderOnce for SimpleStepper {
                     .justify_center()
                     .text_sm()
                     .text_color(text)
-                    .child(self.value.to_string())
+                    .child(self.value.to_string()),
             )
             // Increment
             .child(
@@ -80,7 +80,7 @@ impl RenderOnce for SimpleStepper {
                     .when(can_inc, |d| {
                         d.cursor_pointer().hover(|s| s.bg(surface_hover))
                     })
-                    .child("+")
+                    .child("+"),
             )
     }
 }

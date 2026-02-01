@@ -1,7 +1,7 @@
 //! Form row - horizontal grouping of fields
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct FormRow {
@@ -41,13 +41,10 @@ impl Default for FormRow {
 
 impl RenderOnce for FormRow {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        div()
-            .w_full()
-            .flex()
-            .flex_row()
-            .gap(px(self.gap))
-            .children(self.children.into_iter().map(|child| {
-                div().flex_1().child(child)
-            }))
+        div().w_full().flex().flex_row().gap(px(self.gap)).children(
+            self.children
+                .into_iter()
+                .map(|child| div().flex_1().child(child)),
+        )
     }
 }

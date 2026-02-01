@@ -1,7 +1,7 @@
 //! Templates panel search bar
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 
@@ -34,23 +34,22 @@ impl ChatView {
                     .flex()
                     .items_center()
                     .gap_2()
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(text_muted)
-                            .child("🔍")
-                    )
+                    .child(div().text_sm().text_color(text_muted).child("🔍"))
                     .child(
                         div()
                             .flex_1()
                             .text_sm()
-                            .text_color(if filter.is_empty() { text_muted } else { text_color })
+                            .text_color(if filter.is_empty() {
+                                text_muted
+                            } else {
+                                text_color
+                            })
                             .child(if filter.is_empty() {
                                 "Search templates...".to_string()
                             } else {
                                 filter
-                            })
-                    )
+                            }),
+                    ),
             )
     }
 }

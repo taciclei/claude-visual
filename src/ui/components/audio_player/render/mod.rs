@@ -1,12 +1,12 @@
 //! Audio player rendering
 
-mod minimal;
-mod full;
 mod compact;
+mod full;
+mod minimal;
 
-pub(super) use minimal::render_minimal;
-pub(super) use full::render_full;
 pub(super) use compact::render_compact;
+pub(super) use full::render_full;
+pub(super) use minimal::render_minimal;
 
 use gpui::*;
 

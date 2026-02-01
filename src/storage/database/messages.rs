@@ -175,30 +175,26 @@ impl Database {
 
         // Build params dynamically
         let results = match (&date_param, &filter.project_id) {
-            (None, None) => {
-                stmt.query_map(params![search_query, limit], |row| {
+            (None, None) => stmt
+                .query_map(params![search_query, limit], |row| {
                     Self::parse_search_row(row)
                 })?
-                .collect::<std::result::Result<Vec<_>, _>>()?
-            }
-            (Some(date), None) => {
-                stmt.query_map(params![search_query, date, limit], |row| {
+                .collect::<std::result::Result<Vec<_>, _>>()?,
+            (Some(date), None) => stmt
+                .query_map(params![search_query, date, limit], |row| {
                     Self::parse_search_row(row)
                 })?
-                .collect::<std::result::Result<Vec<_>, _>>()?
-            }
-            (None, Some(project)) => {
-                stmt.query_map(params![search_query, project, limit], |row| {
+                .collect::<std::result::Result<Vec<_>, _>>()?,
+            (None, Some(project)) => stmt
+                .query_map(params![search_query, project, limit], |row| {
                     Self::parse_search_row(row)
                 })?
-                .collect::<std::result::Result<Vec<_>, _>>()?
-            }
-            (Some(date), Some(project)) => {
-                stmt.query_map(params![search_query, date, project, limit], |row| {
+                .collect::<std::result::Result<Vec<_>, _>>()?,
+            (Some(date), Some(project)) => stmt
+                .query_map(params![search_query, date, project, limit], |row| {
                     Self::parse_search_row(row)
                 })?
-                .collect::<std::result::Result<Vec<_>, _>>()?
-            }
+                .collect::<std::result::Result<Vec<_>, _>>()?,
         };
 
         Ok(results)

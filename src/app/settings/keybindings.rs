@@ -148,41 +148,111 @@ pub struct Keybindings {
 }
 
 // Default value functions for serde
-fn default_copy_message() -> String { "cmd-c".to_string() }
-fn default_edit_message() -> String { "cmd-e".to_string() }
-fn default_delete_message() -> String { "cmd-backspace".to_string() }
-fn default_pin_message() -> String { "cmd-p".to_string() }
-fn default_bookmark_message() -> String { "cmd-d".to_string() }
-fn default_add_reaction() -> String { "cmd-r".to_string() }
-fn default_jump_first() -> String { "cmd-home".to_string() }
-fn default_jump_last() -> String { "cmd-end".to_string() }
-fn default_select_prev() -> String { "up".to_string() }
-fn default_select_next() -> String { "down".to_string() }
-fn default_page_up() -> String { "pageup".to_string() }
-fn default_page_down() -> String { "pagedown".to_string() }
-fn default_collapse_all() -> String { "cmd-shift-c".to_string() }
-fn default_expand_all() -> String { "cmd-shift-e".to_string() }
-fn default_toggle_timestamps() -> String { "cmd-shift-t".to_string() }
-fn default_toggle_compact() -> String { "cmd-shift-m".to_string() }
-fn default_toggle_thinking() -> String { "cmd-shift-k".to_string() }
-fn default_find() -> String { "cmd-f".to_string() }
-fn default_find_next() -> String { "cmd-g".to_string() }
-fn default_find_prev() -> String { "cmd-shift-g".to_string() }
-fn default_toggle_context() -> String { "cmd-1".to_string() }
-fn default_toggle_commands() -> String { "cmd-2".to_string() }
-fn default_toggle_templates() -> String { "cmd-3".to_string() }
-fn default_toggle_mcp() -> String { "cmd-4".to_string() }
-fn default_toggle_tasks() -> String { "cmd-5".to_string() }
-fn default_toggle_git() -> String { "cmd-6".to_string() }
-fn default_toggle_export() -> String { "cmd-7".to_string() }
-fn default_toggle_shortcuts() -> String { "cmd-/".to_string() }
-fn default_skip_main() -> String { "alt-1".to_string() }
-fn default_skip_input() -> String { "alt-2".to_string() }
-fn default_skip_sidebar() -> String { "alt-3".to_string() }
-fn default_skip_toolbar() -> String { "alt-4".to_string() }
-fn default_save_session() -> String { "cmd-s".to_string() }
-fn default_clear_conversation() -> String { "cmd-shift-backspace".to_string() }
-fn default_toggle_history() -> String { "cmd-h".to_string() }
+fn default_copy_message() -> String {
+    "cmd-c".to_string()
+}
+fn default_edit_message() -> String {
+    "cmd-e".to_string()
+}
+fn default_delete_message() -> String {
+    "cmd-backspace".to_string()
+}
+fn default_pin_message() -> String {
+    "cmd-p".to_string()
+}
+fn default_bookmark_message() -> String {
+    "cmd-d".to_string()
+}
+fn default_add_reaction() -> String {
+    "cmd-r".to_string()
+}
+fn default_jump_first() -> String {
+    "cmd-home".to_string()
+}
+fn default_jump_last() -> String {
+    "cmd-end".to_string()
+}
+fn default_select_prev() -> String {
+    "up".to_string()
+}
+fn default_select_next() -> String {
+    "down".to_string()
+}
+fn default_page_up() -> String {
+    "pageup".to_string()
+}
+fn default_page_down() -> String {
+    "pagedown".to_string()
+}
+fn default_collapse_all() -> String {
+    "cmd-shift-c".to_string()
+}
+fn default_expand_all() -> String {
+    "cmd-shift-e".to_string()
+}
+fn default_toggle_timestamps() -> String {
+    "cmd-shift-t".to_string()
+}
+fn default_toggle_compact() -> String {
+    "cmd-shift-m".to_string()
+}
+fn default_toggle_thinking() -> String {
+    "cmd-shift-k".to_string()
+}
+fn default_find() -> String {
+    "cmd-f".to_string()
+}
+fn default_find_next() -> String {
+    "cmd-g".to_string()
+}
+fn default_find_prev() -> String {
+    "cmd-shift-g".to_string()
+}
+fn default_toggle_context() -> String {
+    "cmd-1".to_string()
+}
+fn default_toggle_commands() -> String {
+    "cmd-2".to_string()
+}
+fn default_toggle_templates() -> String {
+    "cmd-3".to_string()
+}
+fn default_toggle_mcp() -> String {
+    "cmd-4".to_string()
+}
+fn default_toggle_tasks() -> String {
+    "cmd-5".to_string()
+}
+fn default_toggle_git() -> String {
+    "cmd-6".to_string()
+}
+fn default_toggle_export() -> String {
+    "cmd-7".to_string()
+}
+fn default_toggle_shortcuts() -> String {
+    "cmd-/".to_string()
+}
+fn default_skip_main() -> String {
+    "alt-1".to_string()
+}
+fn default_skip_input() -> String {
+    "alt-2".to_string()
+}
+fn default_skip_sidebar() -> String {
+    "alt-3".to_string()
+}
+fn default_skip_toolbar() -> String {
+    "alt-4".to_string()
+}
+fn default_save_session() -> String {
+    "cmd-s".to_string()
+}
+fn default_clear_conversation() -> String {
+    "cmd-shift-backspace".to_string()
+}
+fn default_toggle_history() -> String {
+    "cmd-h".to_string()
+}
 
 impl Default for Keybindings {
     fn default() -> Self {
@@ -307,63 +377,87 @@ impl Keybindings {
     /// Get bindings grouped by category for display
     pub fn bindings_by_category(&self) -> Vec<(&'static str, Vec<(&'static str, &str)>)> {
         vec![
-            ("Navigation", vec![
-                ("Toggle Sidebar", &self.toggle_sidebar),
-                ("New Conversation", &self.new_conversation),
-                ("Command Palette", &self.command_palette),
-                ("Focus Input", &self.focus_input),
-                ("Next Tab", &self.next_tab),
-                ("Previous Tab", &self.prev_tab),
-            ]),
-            ("Messages", vec![
-                ("Copy Message", &self.copy_message),
-                ("Edit Message", &self.edit_message),
-                ("Delete Message", &self.delete_message),
-                ("Pin Message", &self.pin_message),
-                ("Bookmark Message", &self.bookmark_message),
-                ("Add Reaction", &self.add_reaction),
-            ]),
-            ("Message Navigation", vec![
-                ("Jump to First", &self.jump_first),
-                ("Jump to Last", &self.jump_last),
-                ("Select Previous", &self.select_prev_message),
-                ("Select Next", &self.select_next_message),
-                ("Page Up", &self.page_up),
-                ("Page Down", &self.page_down),
-            ]),
-            ("View", vec![
-                ("Collapse All", &self.collapse_all),
-                ("Expand All", &self.expand_all),
-                ("Toggle Timestamps", &self.toggle_timestamps),
-                ("Toggle Compact", &self.toggle_compact),
-                ("Toggle Thinking", &self.toggle_thinking),
-            ]),
-            ("Search", vec![
-                ("Find", &self.find),
-                ("Find Next", &self.find_next),
-                ("Find Previous", &self.find_prev),
-            ]),
-            ("Panels", vec![
-                ("Context Panel", &self.toggle_context_panel),
-                ("Commands Panel", &self.toggle_commands_panel),
-                ("Templates Panel", &self.toggle_templates_panel),
-                ("MCP Panel", &self.toggle_mcp_panel),
-                ("Tasks Panel", &self.toggle_tasks_panel),
-                ("Git Panel", &self.toggle_git_panel),
-                ("Export Panel", &self.toggle_export_panel),
-                ("Shortcuts Help", &self.toggle_shortcuts),
-            ]),
-            ("Accessibility", vec![
-                ("Skip to Main", &self.skip_to_main),
-                ("Skip to Input", &self.skip_to_input),
-                ("Skip to Sidebar", &self.skip_to_sidebar),
-                ("Skip to Toolbar", &self.skip_to_toolbar),
-            ]),
-            ("Session", vec![
-                ("Save Session", &self.save_session),
-                ("Clear Conversation", &self.clear_conversation),
-                ("Session History", &self.toggle_history),
-            ]),
+            (
+                "Navigation",
+                vec![
+                    ("Toggle Sidebar", &self.toggle_sidebar),
+                    ("New Conversation", &self.new_conversation),
+                    ("Command Palette", &self.command_palette),
+                    ("Focus Input", &self.focus_input),
+                    ("Next Tab", &self.next_tab),
+                    ("Previous Tab", &self.prev_tab),
+                ],
+            ),
+            (
+                "Messages",
+                vec![
+                    ("Copy Message", &self.copy_message),
+                    ("Edit Message", &self.edit_message),
+                    ("Delete Message", &self.delete_message),
+                    ("Pin Message", &self.pin_message),
+                    ("Bookmark Message", &self.bookmark_message),
+                    ("Add Reaction", &self.add_reaction),
+                ],
+            ),
+            (
+                "Message Navigation",
+                vec![
+                    ("Jump to First", &self.jump_first),
+                    ("Jump to Last", &self.jump_last),
+                    ("Select Previous", &self.select_prev_message),
+                    ("Select Next", &self.select_next_message),
+                    ("Page Up", &self.page_up),
+                    ("Page Down", &self.page_down),
+                ],
+            ),
+            (
+                "View",
+                vec![
+                    ("Collapse All", &self.collapse_all),
+                    ("Expand All", &self.expand_all),
+                    ("Toggle Timestamps", &self.toggle_timestamps),
+                    ("Toggle Compact", &self.toggle_compact),
+                    ("Toggle Thinking", &self.toggle_thinking),
+                ],
+            ),
+            (
+                "Search",
+                vec![
+                    ("Find", &self.find),
+                    ("Find Next", &self.find_next),
+                    ("Find Previous", &self.find_prev),
+                ],
+            ),
+            (
+                "Panels",
+                vec![
+                    ("Context Panel", &self.toggle_context_panel),
+                    ("Commands Panel", &self.toggle_commands_panel),
+                    ("Templates Panel", &self.toggle_templates_panel),
+                    ("MCP Panel", &self.toggle_mcp_panel),
+                    ("Tasks Panel", &self.toggle_tasks_panel),
+                    ("Git Panel", &self.toggle_git_panel),
+                    ("Export Panel", &self.toggle_export_panel),
+                    ("Shortcuts Help", &self.toggle_shortcuts),
+                ],
+            ),
+            (
+                "Accessibility",
+                vec![
+                    ("Skip to Main", &self.skip_to_main),
+                    ("Skip to Input", &self.skip_to_input),
+                    ("Skip to Sidebar", &self.skip_to_sidebar),
+                    ("Skip to Toolbar", &self.skip_to_toolbar),
+                ],
+            ),
+            (
+                "Session",
+                vec![
+                    ("Save Session", &self.save_session),
+                    ("Clear Conversation", &self.clear_conversation),
+                    ("Session History", &self.toggle_history),
+                ],
+            ),
         ]
     }
 

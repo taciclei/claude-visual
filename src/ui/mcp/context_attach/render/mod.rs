@@ -1,15 +1,15 @@
 //! Rendering implementation for MCP context attachment
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::McpContextAttachPanel;
 use super::types::*;
 
 mod header;
-mod search;
-mod resource_list;
 mod resource_item;
+mod resource_list;
+mod search;
 
 impl Render for McpContextAttachPanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

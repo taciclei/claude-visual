@@ -2,17 +2,17 @@
 //!
 //! Provides combobox components that combine text input with dropdown selection.
 
-mod types;
+mod autocomplete;
 mod combobox;
 mod combobox_dropdown;
 mod tag_input;
-mod autocomplete;
+mod types;
 
-pub use types::*;
+pub use autocomplete::Autocomplete;
 pub use combobox::Combobox;
 pub use combobox_dropdown::ComboboxDropdown;
 pub use tag_input::TagInput;
-pub use autocomplete::Autocomplete;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

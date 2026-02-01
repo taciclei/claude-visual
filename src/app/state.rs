@@ -37,7 +37,9 @@ impl AppState {
     pub fn new(cx: &mut App) -> Arc<Self> {
         // Initialize database
         let database = Database::open().expect("Failed to open database");
-        database.initialize().expect("Failed to initialize database");
+        database
+            .initialize()
+            .expect("Failed to initialize database");
         let database = Arc::new(database);
 
         // Load settings
@@ -72,7 +74,10 @@ impl AppState {
     }
 
     /// Load themes from an extension
-    pub fn load_extension_themes(&self, extension_path: &std::path::Path) -> anyhow::Result<Vec<String>> {
+    pub fn load_extension_themes(
+        &self,
+        extension_path: &std::path::Path,
+    ) -> anyhow::Result<Vec<String>> {
         self.theme_loader.write().load_extension(extension_path)
     }
 
@@ -89,7 +94,13 @@ impl AppState {
             "High Contrast Dark".to_string(),
             "High Contrast Light".to_string(),
         ];
-        themes.extend(self.theme_loader.read().list().iter().map(|s| s.to_string()));
+        themes.extend(
+            self.theme_loader
+                .read()
+                .list()
+                .iter()
+                .map(|s| s.to_string()),
+        );
         themes
     }
 
@@ -129,13 +140,7 @@ impl AppState {
     /// List all available icon themes
     pub fn list_icon_themes(&self) -> Vec<String> {
         let mut themes = vec!["Default".to_string()];
-        themes.extend(
-            self.icon_loader
-                .read()
-                .list()
-                .iter()
-                .map(|s| s.to_string()),
-        );
+        themes.extend(self.icon_loader.read().list().iter().map(|s| s.to_string()));
         themes
     }
 }

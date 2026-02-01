@@ -1,14 +1,14 @@
 //! Timeline component for displaying events chronologically
 
-mod types;
-mod timeline;
-mod simple_timeline;
 mod activity_feed;
+mod simple_timeline;
+mod timeline;
+mod types;
 
-pub use types::*;
-pub use timeline::Timeline;
-pub use simple_timeline::SimpleTimeline;
 pub use activity_feed::{ActivityFeed, ActivityItem};
+pub use simple_timeline::SimpleTimeline;
+pub use timeline::Timeline;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -27,9 +27,11 @@ mod tests {
 
     #[test]
     fn test_simple_timeline() {
-        let timeline = SimpleTimeline::new()
-            .item("Started", "9:00 AM", true)
-            .item("In Progress", "10:00 AM", false);
+        let timeline = SimpleTimeline::new().item("Started", "9:00 AM", true).item(
+            "In Progress",
+            "10:00 AM",
+            false,
+        );
 
         assert_eq!(timeline.items.len(), 2);
     }
@@ -37,10 +39,7 @@ mod tests {
     #[test]
     fn test_activity_feed() {
         let feed = ActivityFeed::new()
-            .item(
-                ActivityItem::new("👤", "Alice", "commented on", "2h ago")
-                    .target("Issue #123")
-            );
+            .item(ActivityItem::new("👤", "Alice", "commented on", "2h ago").target("Issue #123"));
 
         assert_eq!(feed.items.len(), 1);
     }

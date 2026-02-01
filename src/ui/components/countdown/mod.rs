@@ -2,17 +2,17 @@
 //!
 //! Provides countdown timer and clock display components.
 
-mod types;
-mod countdown;
-mod timer;
 mod clock;
+mod countdown;
 mod pomodoro;
+mod timer;
+mod types;
 
-pub use types::{CountdownSize, CountdownVariant, TimeRemaining};
-pub use countdown::Countdown;
-pub use timer::Timer;
 pub use clock::Clock;
+pub use countdown::Countdown;
 pub use pomodoro::PomodoroTimer;
+pub use timer::Timer;
+pub use types::{CountdownSize, CountdownVariant, TimeRemaining};
 
 #[cfg(test)]
 mod tests {
@@ -75,9 +75,7 @@ mod tests {
 
     #[test]
     fn test_pomodoro_session() {
-        let pomodoro = PomodoroTimer::new("p", 25, 0)
-            .session(2, 4)
-            .is_break(false);
+        let pomodoro = PomodoroTimer::new("p", 25, 0).session(2, 4).is_break(false);
 
         assert_eq!(pomodoro.session_number, 2);
         assert_eq!(pomodoro.total_sessions, 4);

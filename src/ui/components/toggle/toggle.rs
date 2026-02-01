@@ -1,8 +1,8 @@
 //! Basic toggle button component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Basic toggle button component
 #[derive(IntoElement)]
@@ -123,9 +123,7 @@ impl RenderOnce for Toggle {
             }
             ToggleVariant::Ghost => {
                 if self.pressed {
-                    button
-                        .bg(hsla(0.6, 0.5, 0.5, 0.2))
-                        .text_color(active_color)
+                    button.bg(hsla(0.6, 0.5, 0.5, 0.2)).text_color(active_color)
                 } else {
                     button.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
                 }
@@ -149,11 +147,7 @@ impl RenderOnce for Toggle {
 
         // Icon
         if let Some(icon) = self.icon {
-            button = button.child(
-                div()
-                    .text_size(px(font_size))
-                    .child(icon)
-            );
+            button = button.child(div().text_size(px(font_size)).child(icon));
         }
 
         // Label
@@ -162,7 +156,7 @@ impl RenderOnce for Toggle {
                 div()
                     .text_size(px(font_size))
                     .font_weight(gpui::FontWeight::MEDIUM)
-                    .child(label)
+                    .child(label),
             );
         }
 

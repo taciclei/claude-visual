@@ -2,17 +2,17 @@
 //!
 //! Provides floating action buttons (FAB) for primary actions.
 
-mod types;
-mod fab;
-mod speed_dial;
 mod container;
+mod fab;
 mod mini_fab;
+mod speed_dial;
+mod types;
 
-pub use types::*;
-pub use fab::Fab;
-pub use speed_dial::SpeedDial;
 pub use container::FabContainer;
+pub use fab::Fab;
 pub use mini_fab::MiniFab;
+pub use speed_dial::SpeedDial;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

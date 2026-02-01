@@ -1,9 +1,9 @@
 //! Approval prompt rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use super::super::types::*;
 use super::super::state::AgentWorkspace;
+use super::super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 pub(crate) fn render_approval_prompt(
     approval: &PendingApproval,

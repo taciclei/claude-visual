@@ -2,23 +2,23 @@
 //!
 //! High-level debug session handling with state management.
 
-mod types;
-mod core;
-mod lifecycle;
 mod breakpoints;
+mod core;
+mod events;
 mod execution;
 mod inspection;
-mod events;
+mod lifecycle;
+mod types;
 
 // Re-export public types
-pub use types::{DebugState, SessionEvent, UserBreakpoint};
 pub use core::DebugSession;
+pub use types::{DebugState, SessionEvent, UserBreakpoint};
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::path::PathBuf;
     use crate::debug::client::DapClientConfig;
+    use std::path::PathBuf;
 
     #[test]
     fn test_debug_state() {
@@ -28,8 +28,7 @@ mod tests {
 
     #[test]
     fn test_user_breakpoint() {
-        let bp = UserBreakpoint::new(PathBuf::from("main.rs"), 42)
-            .with_condition("x > 10");
+        let bp = UserBreakpoint::new(PathBuf::from("main.rs"), 42).with_condition("x > 10");
 
         assert_eq!(bp.line, 42);
         assert_eq!(bp.condition, Some("x > 10".to_string()));

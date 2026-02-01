@@ -1,11 +1,11 @@
 //! DiffBlockView component definition and core methods
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::parser::parse_diff;
 use super::types::{DiffBlockEvent, DiffHunk};
+use crate::app::state::AppState;
 
 /// A stateful diff visualization block
 pub struct DiffBlockView {
@@ -20,7 +20,12 @@ pub struct DiffBlockView {
 impl EventEmitter<DiffBlockEvent> for DiffBlockView {}
 
 impl DiffBlockView {
-    pub fn new(file_path: String, diff_text: &str, app_state: Arc<AppState>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        file_path: String,
+        diff_text: &str,
+        app_state: Arc<AppState>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         let (hunks, additions, deletions) = parse_diff(diff_text);
 
         Self {

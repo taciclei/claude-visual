@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Simple action menu (dropdown style)
 pub struct ActionMenu {
@@ -22,7 +22,12 @@ pub struct ActionMenu {
 }
 
 impl ActionMenu {
-    pub fn new(app_state: Arc<AppState>, label: impl Into<String>, items: Vec<MenuItemData>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        items: Vec<MenuItemData>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             label: label.into(),
@@ -85,21 +90,19 @@ impl Render for ActionMenu {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.toggle(cx);
                     }))
-                    .when_some(self.icon.clone(), |d, icon| {
-                        d.child(div().child(icon))
-                    })
+                    .when_some(self.icon.clone(), |d, icon| d.child(div().child(icon)))
                     .child(
                         div()
                             .text_sm()
                             .text_color(theme.colors.text)
-                            .child(self.label.clone())
+                            .child(self.label.clone()),
                     )
                     .child(
                         div()
                             .text_color(theme.colors.text_muted)
                             .text_xs()
-                            .child(if self.open { "▲" } else { "▼" })
-                    )
+                            .child(if self.open { "▲" } else { "▼" }),
+                    ),
             )
             // Dropdown menu
             .when(self.open, |d| {
@@ -108,7 +111,6 @@ impl Render for ActionMenu {
                         .absolute()
                         .top(px(40.0))
                         .left_0()
-
                         .min_w(px(180.0))
                         .py_1()
                         .rounded(px(8.0))
@@ -126,40 +128,48 @@ impl Render for ActionMenu {
                                         .h(px(1.0))
                                         .mx_2()
                                         .my_1()
-                                        .bg(theme.colors.border)
+                                        .bg(theme.colors.border),
                                 ),
                                 MenuItemType::Item => {
                                     let item_id = item.id.clone();
                                     let is_disabled = item.disabled;
 
-                                    Some(div()
-                                        .id(SharedString::from(format!("action-item-{}", idx)))
-                                        .px_3()
-                                        .py_2()
-                                        .mx_1()
-                                        .rounded(px(4.0))
-                                        .flex()
-                                        .items_center()
-                                        .gap_2()
-                                        .text_sm()
-                                        .text_color(if is_disabled { theme.colors.text_muted } else { theme.colors.text })
-                                        .when(!is_disabled, |d| {
-                                            d.cursor_pointer()
-                                                .hover(|s| s.bg(theme.colors.surface_hover))
-                                        })
-                                        .when(!is_disabled, |d| {
-                                            d.on_click(cx.listener(move |this, _, _window, cx| {
-                                                this.select_item(item_id.clone(), cx);
-                                            }))
-                                        })
-                                        .when_some(item.icon.clone(), |d, icon| {
-                                            d.child(div().child(icon))
-                                        })
-                                        .child(item.label.clone()))
+                                    Some(
+                                        div()
+                                            .id(SharedString::from(format!("action-item-{}", idx)))
+                                            .px_3()
+                                            .py_2()
+                                            .mx_1()
+                                            .rounded(px(4.0))
+                                            .flex()
+                                            .items_center()
+                                            .gap_2()
+                                            .text_sm()
+                                            .text_color(if is_disabled {
+                                                theme.colors.text_muted
+                                            } else {
+                                                theme.colors.text
+                                            })
+                                            .when(!is_disabled, |d| {
+                                                d.cursor_pointer()
+                                                    .hover(|s| s.bg(theme.colors.surface_hover))
+                                            })
+                                            .when(!is_disabled, |d| {
+                                                d.on_click(cx.listener(
+                                                    move |this, _, _window, cx| {
+                                                        this.select_item(item_id.clone(), cx);
+                                                    },
+                                                ))
+                                            })
+                                            .when_some(item.icon.clone(), |d, icon| {
+                                                d.child(div().child(icon))
+                                            })
+                                            .child(item.label.clone()),
+                                    )
                                 }
                                 _ => None,
                             }
-                        }))
+                        })),
                 )
             })
     }

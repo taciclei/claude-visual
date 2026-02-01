@@ -1,7 +1,7 @@
 //! Key-value pair display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Key-value pair display
 #[derive(Clone)]
@@ -32,11 +32,7 @@ impl RenderOnce for KeyValue {
         let key_color = hsla(0.0, 0.0, 0.6, 1.0);
         let value_color = hsla(0.0, 0.0, 0.9, 1.0);
 
-        let mut container = div()
-            .px_2()
-            .py_1()
-            .bg(bg)
-            .rounded(px(4.0));
+        let mut container = div().px_2().py_1().bg(bg).rounded(px(4.0));
 
         if self.inline {
             container = container
@@ -48,14 +44,9 @@ impl RenderOnce for KeyValue {
                         .text_xs()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(key_color)
-                        .child(self.key)
+                        .child(self.key),
                 )
-                .child(
-                    div()
-                        .text_sm()
-                        .text_color(value_color)
-                        .child(self.value)
-                );
+                .child(div().text_sm().text_color(value_color).child(self.value));
         } else {
             container = container
                 .flex()
@@ -66,14 +57,14 @@ impl RenderOnce for KeyValue {
                         .text_xs()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(key_color)
-                        .child(self.key)
+                        .child(self.key),
                 )
                 .child(
                     div()
                         .text_sm()
                         .text_color(value_color)
                         .font_family("monospace")
-                        .child(self.value)
+                        .child(self.value),
                 );
         }
 

@@ -1,8 +1,8 @@
 //! Mini FAB - smaller floating action button
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Mini FAB - smaller floating action button
 #[derive(IntoElement)]
@@ -56,7 +56,7 @@ impl RenderOnce for MiniFab {
                 div()
                     .text_size(px(18.0))
                     .text_color(text_color)
-                    .child(self.icon.clone())
+                    .child(self.icon.clone()),
             )
     }
 }

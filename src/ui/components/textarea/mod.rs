@@ -1,12 +1,12 @@
 //! Textarea component for multiline text input
 
-mod types;
-pub mod textarea;
 mod code_textarea;
+pub mod textarea;
+mod types;
 
-pub use types::{TextareaResize, TextareaEvent};
-pub use textarea::Textarea;
 pub use code_textarea::CodeTextarea;
+pub use textarea::Textarea;
+pub use types::{TextareaEvent, TextareaResize};
 
 #[cfg(test)]
 mod tests {

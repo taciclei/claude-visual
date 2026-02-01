@@ -1,10 +1,10 @@
 //! Header rendering for sync status panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::super::SyncStatusPanel;
 use super::super::super::utils;
+use super::super::SyncStatusPanel;
 
 impl SyncStatusPanel {
     /// Render header
@@ -45,18 +45,8 @@ impl SyncStatusPanel {
                             .text_color(text_color)
                             .child("Cloud Sync"),
                     )
-                    .child(
-                        div()
-                            .size_2()
-                            .rounded_full()
-                            .bg(status_color),
-                    ),
+                    .child(div().size_2().rounded_full().bg(status_color)),
             )
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(text_muted)
-                    .child(status_text),
-            )
+            .child(div().text_xs().text_color(text_muted).child(status_text))
     }
 }

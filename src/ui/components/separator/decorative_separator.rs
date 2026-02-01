@@ -1,8 +1,8 @@
 //! Decorative separator with pattern
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Decorative separator with pattern
 #[derive(IntoElement)]

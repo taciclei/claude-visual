@@ -1,17 +1,25 @@
 //! Search bar render functions for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::claude::message::MessageRole;
 use super::super::core::ChatView;
 use super::super::types::MessageFilter;
+use crate::claude::message::MessageRole;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub fn render_search_bar(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_search_bar(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let result_count = self.search_result_count();
         let current_index = self.current_result_index();
         let query = self.search.query.clone();
-        let query_display = if query.is_empty() { "(type to search)".to_string() } else { query.clone() };
+        let query_display = if query.is_empty() {
+            "(type to search)".to_string()
+        } else {
+            query.clone()
+        };
         let case_sensitive = self.search.case_sensitive;
         let regex_enabled = self.search.regex;
         let role_filter = self.search.role_filter;
@@ -41,7 +49,7 @@ impl ChatView {
                                 div()
                                     .text_sm()
                                     .text_color(theme.colors.text_muted)
-                                    .child("🔍")
+                                    .child("🔍"),
                             )
                             .child(
                                 div()
@@ -51,11 +59,15 @@ impl ChatView {
                                     .rounded_md()
                                     .bg(theme.colors.background)
                                     .border_1()
-                                    .border_color(if regex_enabled { theme.colors.accent } else { theme.colors.border })
+                                    .border_color(if regex_enabled {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.border
+                                    })
                                     .text_sm()
                                     .text_color(theme.colors.text)
-                                    .child(query_display)
-                            )
+                                    .child(query_display),
+                            ),
                     )
                     // Filter buttons row
                     .child(
@@ -73,15 +85,27 @@ impl ChatView {
                                     .cursor_pointer()
                                     .text_xs()
                                     .font_weight(FontWeight::MEDIUM)
-                                    .bg(if case_sensitive { theme.colors.accent.opacity(0.2) } else { theme.colors.surface })
-                                    .text_color(if case_sensitive { theme.colors.accent } else { theme.colors.text_muted })
+                                    .bg(if case_sensitive {
+                                        theme.colors.accent.opacity(0.2)
+                                    } else {
+                                        theme.colors.surface
+                                    })
+                                    .text_color(if case_sensitive {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.text_muted
+                                    })
                                     .border_1()
-                                    .border_color(if case_sensitive { theme.colors.accent } else { theme.colors.border.opacity(0.5) })
+                                    .border_color(if case_sensitive {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.border.opacity(0.5)
+                                    })
                                     .hover(|s| s.bg(theme.colors.surface_hover))
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_search_case_sensitive(cx);
                                     }))
-                                    .child("Aa")
+                                    .child("Aa"),
                             )
                             // Regex toggle
                             .child(
@@ -93,15 +117,27 @@ impl ChatView {
                                     .cursor_pointer()
                                     .text_xs()
                                     .font_weight(FontWeight::MEDIUM)
-                                    .bg(if regex_enabled { theme.colors.accent.opacity(0.2) } else { theme.colors.surface })
-                                    .text_color(if regex_enabled { theme.colors.accent } else { theme.colors.text_muted })
+                                    .bg(if regex_enabled {
+                                        theme.colors.accent.opacity(0.2)
+                                    } else {
+                                        theme.colors.surface
+                                    })
+                                    .text_color(if regex_enabled {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.text_muted
+                                    })
                                     .border_1()
-                                    .border_color(if regex_enabled { theme.colors.accent } else { theme.colors.border.opacity(0.5) })
+                                    .border_color(if regex_enabled {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.border.opacity(0.5)
+                                    })
                                     .hover(|s| s.bg(theme.colors.surface_hover))
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_search_regex(cx);
                                     }))
-                                    .child(".*")
+                                    .child(".*"),
                             )
                             // Role filter dropdown
                             .child(
@@ -115,30 +151,46 @@ impl ChatView {
                                     .rounded_md()
                                     .cursor_pointer()
                                     .text_xs()
-                                    .bg(if role_filter != MessageFilter::All { theme.colors.accent.opacity(0.2) } else { theme.colors.surface })
-                                    .text_color(if role_filter != MessageFilter::All { theme.colors.accent } else { theme.colors.text_muted })
+                                    .bg(if role_filter != MessageFilter::All {
+                                        theme.colors.accent.opacity(0.2)
+                                    } else {
+                                        theme.colors.surface
+                                    })
+                                    .text_color(if role_filter != MessageFilter::All {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.text_muted
+                                    })
                                     .border_1()
-                                    .border_color(if role_filter != MessageFilter::All { theme.colors.accent } else { theme.colors.border.opacity(0.5) })
+                                    .border_color(if role_filter != MessageFilter::All {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.border.opacity(0.5)
+                                    })
                                     .hover(|s| s.bg(theme.colors.surface_hover))
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.cycle_search_role_filter(cx);
                                     }))
                                     .child(role_filter.icon())
-                                    .child(role_filter.label())
-                            )
+                                    .child(role_filter.label()),
+                            ),
                     )
                     // Results counter
                     .child(
                         div()
                             .text_xs()
-                            .text_color(if result_count > 0 { theme.colors.text } else { theme.colors.text_muted })
+                            .text_color(if result_count > 0 {
+                                theme.colors.text
+                            } else {
+                                theme.colors.text_muted
+                            })
                             .child(if result_count == 0 && !query.is_empty() {
                                 "No results".to_string()
                             } else if result_count > 0 {
                                 format!("{}/{}", current_index, result_count)
                             } else {
                                 "".to_string()
-                            })
+                            }),
                     )
                     // Navigation buttons
                     .when(result_count > 0, |d| {
@@ -160,11 +212,14 @@ impl ChatView {
                                         .cursor_pointer()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                                        .hover(|s| {
+                                            s.bg(theme.colors.surface_hover)
+                                                .text_color(theme.colors.text)
+                                        })
                                         .on_click(cx.listener(|this, _, _window, cx| {
                                             this.prev_search_result(cx);
                                         }))
-                                        .child("▲")
+                                        .child("▲"),
                                 )
                                 // Next button
                                 .child(
@@ -179,11 +234,14 @@ impl ChatView {
                                         .cursor_pointer()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                                        .hover(|s| {
+                                            s.bg(theme.colors.surface_hover)
+                                                .text_color(theme.colors.text)
+                                        })
                                         .on_click(cx.listener(|this, _, _window, cx| {
                                             this.next_search_result(cx);
                                         }))
-                                        .child("▼")
+                                        .child("▼"),
                                 )
                                 // Jump to message button
                                 .child(
@@ -208,8 +266,8 @@ impl ChatView {
                                             this.scroll_to_search_result(cx);
                                         }))
                                         .child("↵")
-                                        .child("Jump")
-                                )
+                                        .child("Jump"),
+                                ),
                         )
                     })
                     // Close button
@@ -222,12 +280,15 @@ impl ChatView {
                             .cursor_pointer()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                            .hover(|s| {
+                                s.bg(theme.colors.surface_hover)
+                                    .text_color(theme.colors.text)
+                            })
                             .on_click(cx.listener(|this, _, _window, cx| {
                                 this.toggle_search(cx);
                             }))
-                            .child("✕")
-                    )
+                            .child("✕"),
+                    ),
             )
             // Search results preview (show first 3 results when there are matches)
             .when(result_count > 0, |d| {
@@ -242,51 +303,61 @@ impl ChatView {
                         .bg(theme.colors.background.opacity(0.5))
                         .max_h(px(100.0))
                         .overflow_y_scroll()
-                        .children(self.search.results.iter().take(5).enumerate().map(|(idx, result)| {
-                            let is_current = idx == self.search.current_result;
-                            let result_idx = idx;
-                            div()
-                                .id(ElementId::Name(format!("search-result-{}", idx).into()))
-                                .flex()
-                                .items_center()
-                                .gap_2()
-                                .px_2()
-                                .py_1()
-                                .rounded_md()
-                                .cursor_pointer()
-                                .bg(if is_current { theme.colors.accent.opacity(0.1) } else { theme.colors.surface.opacity(0.5) })
-                                .border_l_2()
-                                .border_color(if is_current { theme.colors.accent } else { theme.colors.border.opacity(0.3) })
-                                .hover(|s| s.bg(theme.colors.surface_hover))
-                                .on_click(cx.listener(move |this, _, _window, cx| {
-                                    this.jump_to_search_result(result_idx, cx);
-                                }))
-                                // Role indicator
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .px_1()
-                                        .rounded(px(2.0))
-                                        .bg(theme.colors.surface)
-                                        .text_color(theme.colors.text_muted)
-                                        .child(match result.role {
-                                            MessageRole::User => "You",
-                                            MessageRole::Assistant => "Claude",
-                                            MessageRole::ToolUse => "Tool",
-                                            MessageRole::ToolResult => "Result",
-                                            _ => "...",
-                                        })
-                                )
-                                // Snippet
-                                .child(
-                                    div()
-                                        .flex_1()
-                                        .text_xs()
-                                        .text_color(theme.colors.text)
-                                        .overflow_hidden()
-                                        .child(result.snippet.clone())
-                                )
-                        }))
+                        .children(self.search.results.iter().take(5).enumerate().map(
+                            |(idx, result)| {
+                                let is_current = idx == self.search.current_result;
+                                let result_idx = idx;
+                                div()
+                                    .id(ElementId::Name(format!("search-result-{}", idx).into()))
+                                    .flex()
+                                    .items_center()
+                                    .gap_2()
+                                    .px_2()
+                                    .py_1()
+                                    .rounded_md()
+                                    .cursor_pointer()
+                                    .bg(if is_current {
+                                        theme.colors.accent.opacity(0.1)
+                                    } else {
+                                        theme.colors.surface.opacity(0.5)
+                                    })
+                                    .border_l_2()
+                                    .border_color(if is_current {
+                                        theme.colors.accent
+                                    } else {
+                                        theme.colors.border.opacity(0.3)
+                                    })
+                                    .hover(|s| s.bg(theme.colors.surface_hover))
+                                    .on_click(cx.listener(move |this, _, _window, cx| {
+                                        this.jump_to_search_result(result_idx, cx);
+                                    }))
+                                    // Role indicator
+                                    .child(
+                                        div()
+                                            .text_xs()
+                                            .px_1()
+                                            .rounded(px(2.0))
+                                            .bg(theme.colors.surface)
+                                            .text_color(theme.colors.text_muted)
+                                            .child(match result.role {
+                                                MessageRole::User => "You",
+                                                MessageRole::Assistant => "Claude",
+                                                MessageRole::ToolUse => "Tool",
+                                                MessageRole::ToolResult => "Result",
+                                                _ => "...",
+                                            }),
+                                    )
+                                    // Snippet
+                                    .child(
+                                        div()
+                                            .flex_1()
+                                            .text_xs()
+                                            .text_color(theme.colors.text)
+                                            .overflow_hidden()
+                                            .child(result.snippet.clone()),
+                                    )
+                            },
+                        )),
                 )
             })
     }

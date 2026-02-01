@@ -1,9 +1,9 @@
 //! Settings tab content area
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::core::SettingsModal;
 use super::super::types::SettingsTab;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     pub(super) fn render_content(&self, cx: &mut Context<Self>) -> impl IntoElement {

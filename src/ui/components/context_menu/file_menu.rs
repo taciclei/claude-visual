@@ -1,9 +1,9 @@
 //! File context menu component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::menu::ContextMenu;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Simple file context menu
 #[derive(Clone)]
@@ -38,17 +38,19 @@ impl FileContextMenu {
 
 impl RenderOnce for FileContextMenu {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        let mut items = vec![
-            ContextMenuItem::action("open", if self.is_directory { "Open Folder" } else { "Open" })
-                .icon("📂")
-                .shortcut("Enter"),
-        ];
+        let mut items = vec![ContextMenuItem::action(
+            "open",
+            if self.is_directory {
+                "Open Folder"
+            } else {
+                "Open"
+            },
+        )
+        .icon("📂")
+        .shortcut("Enter")];
 
         if !self.is_directory {
-            items.push(
-                ContextMenuItem::action("open_with", "Open With...")
-                    .icon("📋")
-            );
+            items.push(ContextMenuItem::action("open_with", "Open With...").icon("📋"));
         }
 
         items.push(ContextMenuItem::separator());
@@ -56,13 +58,13 @@ impl RenderOnce for FileContextMenu {
         items.push(
             ContextMenuItem::action("copy", "Copy")
                 .icon("📄")
-                .shortcut("⌘C")
+                .shortcut("⌘C"),
         );
 
         items.push(
             ContextMenuItem::action("cut", "Cut")
                 .icon("✂️")
-                .shortcut("⌘X")
+                .shortcut("⌘X"),
         );
 
         items.push(ContextMenuItem::separator());
@@ -71,7 +73,7 @@ impl RenderOnce for FileContextMenu {
             items.push(
                 ContextMenuItem::action("rename", "Rename")
                     .icon("✏️")
-                    .shortcut("Enter")
+                    .shortcut("Enter"),
             );
         }
 
@@ -80,7 +82,7 @@ impl RenderOnce for FileContextMenu {
                 ContextMenuItem::action("delete", "Delete")
                     .icon("🗑️")
                     .shortcut("⌘⌫")
-                    .danger()
+                    .danger(),
             );
         }
 
@@ -89,7 +91,7 @@ impl RenderOnce for FileContextMenu {
         items.push(
             ContextMenuItem::action("info", "Get Info")
                 .icon("ℹ️")
-                .shortcut("⌘I")
+                .shortcut("⌘I"),
         );
 
         ContextMenu::new().items(items)

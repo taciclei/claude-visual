@@ -1,7 +1,7 @@
 //! Authentication feedback components (error and loading states)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::cloud::AuthState;
 
@@ -22,12 +22,7 @@ impl AuthDialog {
                     .bg(error_color.opacity(0.1))
                     .border_1()
                     .border_color(error_color.opacity(0.3))
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(error_color)
-                            .child(message),
-                    ),
+                    .child(div().text_sm().text_color(error_color).child(message)),
             )
         })
     }
@@ -39,8 +34,9 @@ impl AuthDialog {
         let accent_faded = accent_color.opacity(0.3);
         let text_muted = theme.colors.text_muted;
 
-        div()
-            .when(matches!(self.auth_state, AuthState::Authenticating), move |this| {
+        div().when(
+            matches!(self.auth_state, AuthState::Authenticating),
+            move |this| {
                 this.child(
                     div()
                         .flex()
@@ -65,6 +61,7 @@ impl AuthDialog {
                                 .child("Signing in..."),
                         ),
                 )
-            })
+            },
+        )
     }
 }

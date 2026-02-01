@@ -142,16 +142,16 @@ impl FocusZone {
     /// Get the tab order for this zone (lower = earlier)
     pub fn tab_order(&self) -> u32 {
         match self {
-            FocusZone::Modal => 0,           // Modals always first
-            FocusZone::CommandPalette => 1,  // Command palette next
-            FocusZone::Main => 10,           // Main content
-            FocusZone::ChatInput => 11,      // Chat input in main area
-            FocusZone::Sidebar => 20,        // Sidebar
-            FocusZone::FileExplorer => 21,   // File explorer
-            FocusZone::TabBar => 30,         // Tab bar
-            FocusZone::Settings => 40,       // Settings
-            FocusZone::Terminal => 50,       // Terminal
-            FocusZone::Custom(_) => 100,     // Custom zones last
+            FocusZone::Modal => 0,          // Modals always first
+            FocusZone::CommandPalette => 1, // Command palette next
+            FocusZone::Main => 10,          // Main content
+            FocusZone::ChatInput => 11,     // Chat input in main area
+            FocusZone::Sidebar => 20,       // Sidebar
+            FocusZone::FileExplorer => 21,  // File explorer
+            FocusZone::TabBar => 30,        // Tab bar
+            FocusZone::Settings => 40,      // Settings
+            FocusZone::Terminal => 50,      // Terminal
+            FocusZone::Custom(_) => 100,    // Custom zones last
         }
     }
 

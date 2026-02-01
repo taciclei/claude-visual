@@ -87,7 +87,8 @@ impl ContextFileType {
     /// Detect file type from extension
     pub fn from_extension(ext: &str) -> Self {
         match ext.to_lowercase().as_str() {
-            "rs" | "py" | "js" | "ts" | "tsx" | "jsx" | "go" | "java" | "c" | "cpp" | "h" | "hpp" | "rb" | "swift" | "kt" => ContextFileType::Code,
+            "rs" | "py" | "js" | "ts" | "tsx" | "jsx" | "go" | "java" | "c" | "cpp" | "h"
+            | "hpp" | "rb" | "swift" | "kt" => ContextFileType::Code,
             "md" | "mdx" | "markdown" | "txt" => ContextFileType::Markdown,
             "json" | "yaml" | "yml" | "toml" | "ini" | "env" | "config" => ContextFileType::Config,
             "csv" | "sql" | "db" => ContextFileType::Data,

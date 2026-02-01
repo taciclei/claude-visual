@@ -1,10 +1,10 @@
 //! Mention handling
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ai::mention::{parse_mentions, get_mention_at_cursor, Mention, MentionKind};
 use super::ChatInput;
+use crate::ai::mention::{get_mention_at_cursor, parse_mentions, Mention, MentionKind};
 
 impl ChatInput {
     /// Update parsed mentions from current text
@@ -50,7 +50,7 @@ impl ChatInput {
             let end = mention.end;
 
             // Also remove trailing whitespace if present
-            let end_with_space = if self.text.get(end..end+1) == Some(" ") {
+            let end_with_space = if self.text.get(end..end + 1) == Some(" ") {
                 end + 1
             } else {
                 end

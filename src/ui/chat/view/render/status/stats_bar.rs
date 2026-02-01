@@ -1,9 +1,9 @@
 //! Stats bar rendering for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::super::super::core::ChatView;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     pub fn render_stats_bar(&self, theme: &crate::app::theme::Theme) -> Div {
@@ -34,15 +34,15 @@ impl ChatView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child("Messages:")
+                                    .child("Messages:"),
                             )
                             .child(
                                 div()
                                     .text_xs()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text)
-                                    .child(stats.message_count.to_string())
-                            )
+                                    .child(stats.message_count.to_string()),
+                            ),
                     )
                     // User / Assistant breakdown
                     .child(
@@ -54,36 +54,32 @@ impl ChatView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.accent)
-                                    .child(format!("{} you", stats.user_message_count))
+                                    .child(format!("{} you", stats.user_message_count)),
                             )
                             .child(
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child("/")
+                                    .child("/"),
                             )
                             .child(
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.success)
-                                    .child(format!("{} claude", stats.assistant_message_count))
-                            )
+                                    .child(format!("{} claude", stats.assistant_message_count)),
+                            ),
                     )
                     // Tool uses
                     .when(stats.tool_use_count > 0, |d| {
                         d.child(
-                            div()
-                                .flex()
-                                .items_center()
-                                .gap_1()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.info)
-                                        .child(format!("{} tools", stats.tool_use_count))
-                                )
+                            div().flex().items_center().gap_1().child(
+                                div()
+                                    .text_xs()
+                                    .text_color(theme.colors.info)
+                                    .child(format!("{} tools", stats.tool_use_count)),
+                            ),
                         )
-                    })
+                    }),
             )
             // Right side - word/token counts and duration
             .child(
@@ -101,14 +97,14 @@ impl ChatView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child("Words:")
+                                    .child("Words:"),
                             )
                             .child(
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text)
-                                    .child(stats.format_words())
-                            )
+                                    .child(stats.format_words()),
+                            ),
                     )
                     // Estimated tokens with context progress
                     .child(
@@ -125,19 +121,21 @@ impl ChatView {
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted)
-                                            .child("~Tokens:")
+                                            .child("~Tokens:"),
                                     )
                                     .child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.warning)
-                                            .child(stats.format_tokens())
-                                    )
+                                            .child(stats.format_tokens()),
+                                    ),
                             )
                             // Context usage progress bar (estimate based on 200K context)
                             .child({
                                 let max_tokens = 200_000usize; // Claude default
-                                let percentage = (stats.estimated_tokens as f32 / max_tokens as f32 * 100.0).min(100.0);
+                                let percentage =
+                                    (stats.estimated_tokens as f32 / max_tokens as f32 * 100.0)
+                                        .min(100.0);
                                 let progress_color = if percentage > 95.0 {
                                     theme.colors.error
                                 } else if percentage > 80.0 {
@@ -161,14 +159,14 @@ impl ChatView {
                                                     .h_full()
                                                     .w(pct(percentage))
                                                     .rounded_full()
-                                                    .bg(progress_color)
-                                            )
+                                                    .bg(progress_color),
+                                            ),
                                     )
                                     .child(
                                         div()
                                             .text_xs()
                                             .text_color(progress_color)
-                                            .child(format!("{:.0}%", percentage))
+                                            .child(format!("{:.0}%", percentage)),
                                     )
                                     // Warning badge when context is getting full
                                     .when(percentage > 80.0, |d| {
@@ -188,20 +186,16 @@ impl ChatView {
                                                 .bg(progress_color.opacity(0.15))
                                                 .border_1()
                                                 .border_color(progress_color.opacity(0.3))
-                                                .child(
-                                                    div()
-                                                        .text_xs()
-                                                        .child(icon)
-                                                )
+                                                .child(div().text_xs().child(icon))
                                                 .child(
                                                     div()
                                                         .text_xs()
                                                         .text_color(progress_color)
-                                                        .child(label)
-                                                )
+                                                        .child(label),
+                                                ),
                                         )
                                     })
-                            })
+                            }),
                     )
                     // Duration
                     .when(stats.duration_minutes > 0, |d| {
@@ -214,14 +208,14 @@ impl ChatView {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child("Duration:")
+                                        .child("Duration:"),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text)
-                                        .child(stats.format_duration())
-                                )
+                                        .child(stats.format_duration()),
+                                ),
                         )
                     })
                     // Session model (from Claude CLI)
@@ -235,40 +229,42 @@ impl ChatView {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child("Model:")
+                                        .child("Model:"),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .font_weight(FontWeight::MEDIUM)
                                         .text_color(theme.colors.accent)
-                                        .child(info.model.clone())
-                                )
+                                        .child(info.model.clone()),
+                                ),
                         )
                     })
                     // Actual tokens used
-                    .when(self.stats.input_tokens > 0 || self.stats.output_tokens > 0, |d| {
-                        d.child(
-                            div()
-                                .flex()
-                                .items_center()
-                                .gap_1()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.text_muted)
-                                        .child("Tokens:")
-                                )
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.info)
-                                        .child(format!("{}↓ {}↑",
+                    .when(
+                        self.stats.input_tokens > 0 || self.stats.output_tokens > 0,
+                        |d| {
+                            d.child(
+                                div()
+                                    .flex()
+                                    .items_center()
+                                    .gap_1()
+                                    .child(
+                                        div()
+                                            .text_xs()
+                                            .text_color(theme.colors.text_muted)
+                                            .child("Tokens:"),
+                                    )
+                                    .child(div().text_xs().text_color(theme.colors.info).child(
+                                        format!(
+                                            "{}↓ {}↑",
                                             Self::format_token_count(self.stats.input_tokens),
-                                            Self::format_token_count(self.stats.output_tokens)))
-                                )
-                        )
-                    })
+                                            Self::format_token_count(self.stats.output_tokens)
+                                        ),
+                                    )),
+                            )
+                        },
+                    )
                     // Session cost
                     .when(self.stats.cost > 0.0, |d| {
                         d.child(
@@ -280,17 +276,17 @@ impl ChatView {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child("Cost:")
+                                        .child("Cost:"),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .font_weight(FontWeight::MEDIUM)
                                         .text_color(theme.colors.success)
-                                        .child(format!("${:.4}", self.stats.cost))
-                                )
+                                        .child(format!("${:.4}", self.stats.cost)),
+                                ),
                         )
-                    })
+                    }),
             )
     }
 }

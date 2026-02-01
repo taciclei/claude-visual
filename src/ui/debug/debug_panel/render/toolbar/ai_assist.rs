@@ -1,7 +1,7 @@
 //! AI assistant button
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::debug::debug_panel::DebugPanel;
 

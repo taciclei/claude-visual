@@ -1,6 +1,6 @@
-use gpui::*;
+use super::types::{ConfettiIntensity, ConfettiParticle, ConfettiShape, ConfettiStyle};
 use gpui::prelude::*;
-use super::types::{ConfettiStyle, ConfettiIntensity, ConfettiParticle, ConfettiShape};
+use gpui::*;
 
 /// Confetti burst component
 #[derive(IntoElement)]
@@ -133,7 +133,11 @@ impl RenderOnce for Confetti {
         let id = self.id.clone();
         let width = self.width;
         let height = self.height;
-        let particles: Vec<_> = self.particles.iter().map(|p| self.render_particle(p)).collect();
+        let particles: Vec<_> = self
+            .particles
+            .iter()
+            .map(|p| self.render_particle(p))
+            .collect();
 
         div()
             .id(id)

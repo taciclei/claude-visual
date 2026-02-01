@@ -50,8 +50,8 @@ impl ExtensionLoader {
     /// Load extension manifest from a directory
     pub fn load_manifest(&self, path: &Path) -> Result<ExtensionManifest> {
         let manifest_path = path.join("extension.toml");
-        let content = std::fs::read_to_string(&manifest_path)
-            .context("Failed to read extension.toml")?;
+        let content =
+            std::fs::read_to_string(&manifest_path).context("Failed to read extension.toml")?;
         toml::from_str(&content).context("Failed to parse extension.toml")
     }
 

@@ -1,7 +1,7 @@
 //! Bookmarks filter button
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Render bookmarks filter button (⭐ with count, only shown when bookmarks exist)
@@ -36,11 +36,15 @@ impl ChatView {
                 .rounded_md()
                 .cursor_pointer()
                 .text_xs()
-                .text_color(if is_filtered { text_color_active } else { text_color_inactive })
+                .text_color(if is_filtered {
+                    text_color_active
+                } else {
+                    text_color_inactive
+                })
                 .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
                 .on_click(on_click)
                 .child("⭐")
-                .child(format!("{}", count))
+                .child(format!("{}", count)),
         )
     }
 }

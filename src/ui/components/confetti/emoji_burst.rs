@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Celebration emoji burst
 #[derive(IntoElement)]
@@ -77,15 +77,12 @@ impl RenderOnce for EmojiBurst {
             .absolute()
             .inset_0()
             .overflow_hidden()
-
             .flex()
             .items_center()
             .justify_center()
             .children((0..self.count.min(self.emojis.len())).map(|i| {
                 let emoji = &self.emojis[i % self.emojis.len()];
-                div()
-                    .text_size(px(self.size))
-                    .child(emoji.clone())
+                div().text_size(px(self.size)).child(emoji.clone())
             }))
     }
 }

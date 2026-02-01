@@ -1,11 +1,11 @@
 //! Main color picker component
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Color picker component
 pub struct ColorPicker {
@@ -42,16 +42,16 @@ impl ColorPicker {
 
     fn default_presets() -> Vec<Hsla> {
         vec![
-            hsla(0.0, 0.0, 0.0, 1.0),     // Black
-            hsla(0.0, 0.0, 0.5, 1.0),     // Gray
-            hsla(0.0, 0.0, 1.0, 1.0),     // White
-            hsla(0.0, 0.8, 0.5, 1.0),     // Red
-            hsla(0.08, 0.8, 0.5, 1.0),    // Orange
-            hsla(0.15, 0.8, 0.5, 1.0),    // Yellow
-            hsla(0.33, 0.8, 0.4, 1.0),    // Green
-            hsla(0.55, 0.8, 0.5, 1.0),    // Blue
-            hsla(0.75, 0.8, 0.5, 1.0),    // Purple
-            hsla(0.9, 0.8, 0.5, 1.0),     // Pink
+            hsla(0.0, 0.0, 0.0, 1.0),  // Black
+            hsla(0.0, 0.0, 0.5, 1.0),  // Gray
+            hsla(0.0, 0.0, 1.0, 1.0),  // White
+            hsla(0.0, 0.8, 0.5, 1.0),  // Red
+            hsla(0.08, 0.8, 0.5, 1.0), // Orange
+            hsla(0.15, 0.8, 0.5, 1.0), // Yellow
+            hsla(0.33, 0.8, 0.4, 1.0), // Green
+            hsla(0.55, 0.8, 0.5, 1.0), // Blue
+            hsla(0.75, 0.8, 0.5, 1.0), // Purple
+            hsla(0.9, 0.8, 0.5, 1.0),  // Pink
         ]
     }
 
@@ -157,7 +157,7 @@ impl Render for ColorPicker {
                         .text_sm()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(theme.colors.text)
-                        .child(label)
+                        .child(label),
                 )
             })
             // Trigger button
@@ -169,7 +169,11 @@ impl Render for ColorPicker {
                     .px_2()
                     .rounded(px(6.0))
                     .border_1()
-                    .border_color(if self.is_open { theme.colors.accent } else { theme.colors.border })
+                    .border_color(if self.is_open {
+                        theme.colors.accent
+                    } else {
+                        theme.colors.border
+                    })
                     .bg(theme.colors.surface)
                     .flex()
                     .items_center()
@@ -188,7 +192,7 @@ impl Render for ColorPicker {
                             .rounded(px(4.0))
                             .border_1()
                             .border_color(theme.colors.border)
-                            .bg(self.color)
+                            .bg(self.color),
                     )
                     // Hex value
                     .child(
@@ -196,15 +200,15 @@ impl Render for ColorPicker {
                             .flex_1()
                             .text_sm()
                             .text_color(theme.colors.text)
-                            .child(self.color_to_hex())
+                            .child(self.color_to_hex()),
                     )
                     // Dropdown indicator
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child(if self.is_open { "▲" } else { "▼" })
-                    )
+                            .child(if self.is_open { "▲" } else { "▼" }),
+                    ),
             )
             // Dropdown panel
             .when(self.is_open, |d| {
@@ -223,33 +227,32 @@ impl Render for ColorPicker {
                         .flex_col()
                         .gap_3()
                         // Preset colors
-                        .child(
-                            div()
-                                .flex()
-                                .flex_wrap()
-                                .gap_2()
-                                .children(self.presets.clone().into_iter().map(|preset| {
-                                    let is_selected = (preset.h - self.color.h).abs() < 0.01
-                                        && (preset.s - self.color.s).abs() < 0.01;
+                        .child(div().flex().flex_wrap().gap_2().children(
+                            self.presets.clone().into_iter().map(|preset| {
+                                let is_selected = (preset.h - self.color.h).abs() < 0.01
+                                    && (preset.s - self.color.s).abs() < 0.01;
 
-                                    div()
-                                        .id(SharedString::from(format!("preset-{:.2}-{:.2}", preset.h, preset.s)))
-                                        .size(px(24.0))
-                                        .rounded(px(4.0))
-                                        .bg(preset)
-                                        .border_2()
-                                        .border_color(if is_selected {
-                                            theme.colors.accent
-                                        } else {
-                                            preset.opacity(0.0)
-                                        })
-                                        .cursor_pointer()
-                                        .hover(|s| s.border_color(theme.colors.accent.opacity(0.5)))
-                                        .on_click(cx.listener(move |this, _, _window, cx| {
-                                            this.select_preset(preset, cx);
-                                        }))
-                                }))
-                        )
+                                div()
+                                    .id(SharedString::from(format!(
+                                        "preset-{:.2}-{:.2}",
+                                        preset.h, preset.s
+                                    )))
+                                    .size(px(24.0))
+                                    .rounded(px(4.0))
+                                    .bg(preset)
+                                    .border_2()
+                                    .border_color(if is_selected {
+                                        theme.colors.accent
+                                    } else {
+                                        preset.opacity(0.0)
+                                    })
+                                    .cursor_pointer()
+                                    .hover(|s| s.border_color(theme.colors.accent.opacity(0.5)))
+                                    .on_click(cx.listener(move |this, _, _window, cx| {
+                                        this.select_preset(preset, cx);
+                                    }))
+                            }),
+                        ))
                         // Alpha slider (if enabled)
                         .when(self.show_alpha, |d| {
                             d.child(
@@ -261,23 +264,23 @@ impl Render for ColorPicker {
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted)
-                                            .child("Alpha:")
+                                            .child("Alpha:"),
                                     )
                                     .child(
                                         div()
                                             .flex_1()
                                             .h(px(8.0))
                                             .rounded_full()
-                                            .bg(theme.colors.surface_hover)
+                                            .bg(theme.colors.surface_hover),
                                     )
                                     .child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text)
-                                            .child(format!("{}%", (self.color.a * 100.0) as u8))
-                                    )
+                                            .child(format!("{}%", (self.color.a * 100.0) as u8)),
+                                    ),
                             )
-                        })
+                        }),
                 )
             })
     }

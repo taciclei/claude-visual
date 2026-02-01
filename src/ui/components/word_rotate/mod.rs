@@ -2,21 +2,21 @@
 //!
 //! Provides components for rotating through words/phrases with animations.
 
-mod types;
-mod word_rotate;
-mod typewriter;
-mod text_scramble;
-mod gradient_text;
 mod counting_number;
 mod flip_words;
+mod gradient_text;
+mod text_scramble;
+mod types;
+mod typewriter;
+mod word_rotate;
 
-pub use types::*;
-pub use word_rotate::WordRotate;
-pub use typewriter::Typewriter;
-pub use text_scramble::TextScramble;
-pub use gradient_text::GradientText;
 pub use counting_number::CountingNumber;
 pub use flip_words::FlipWords;
+pub use gradient_text::GradientText;
+pub use text_scramble::TextScramble;
+pub use types::*;
+pub use typewriter::Typewriter;
+pub use word_rotate::WordRotate;
 
 #[cfg(test)]
 mod tests {
@@ -57,8 +57,7 @@ mod tests {
 
     #[test]
     fn test_text_scramble() {
-        let scramble = TextScramble::new("sc", "Secret Message")
-            .revealed_count(6);
+        let scramble = TextScramble::new("sc", "Secret Message").revealed_count(6);
 
         assert_eq!(scramble.revealed_count, 6);
     }

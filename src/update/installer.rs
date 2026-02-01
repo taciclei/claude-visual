@@ -120,10 +120,7 @@ impl UpdateInstaller {
 
         // Use ditto for proper resource fork handling
         let copy_output = Command::new("ditto")
-            .args([
-                app_source.to_str().unwrap(),
-                app_dest.to_str().unwrap(),
-            ])
+            .args([app_source.to_str().unwrap(), app_dest.to_str().unwrap()])
             .output()?;
 
         if !copy_output.status.success() {

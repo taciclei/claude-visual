@@ -10,10 +10,10 @@ use std::thread;
 use anyhow::Result;
 use futures::Stream;
 
-use crate::claude::message::ClaudeEvent;
 use super::core::ClaudeClient;
 use super::parser::parse_stream_json;
 use super::PromptOptions;
+use crate::claude::message::ClaudeEvent;
 
 impl ClaudeClient {
     /// Send a prompt to Claude and get a stream of events
@@ -22,7 +22,8 @@ impl ClaudeClient {
         prompt: &str,
         cwd: Option<&Path>,
     ) -> Result<Pin<Box<dyn Stream<Item = ClaudeEvent> + Send>>> {
-        self.send_prompt_with_options(prompt, cwd, PromptOptions::default()).await
+        self.send_prompt_with_options(prompt, cwd, PromptOptions::default())
+            .await
     }
 
     /// Send a prompt to Claude with optional session continuity
@@ -32,10 +33,15 @@ impl ClaudeClient {
         cwd: Option<&Path>,
         session_id: Option<&str>,
     ) -> Result<Pin<Box<dyn Stream<Item = ClaudeEvent> + Send>>> {
-        self.send_prompt_with_options(prompt, cwd, PromptOptions {
-            session_id: session_id.map(String::from),
-            ..Default::default()
-        }).await
+        self.send_prompt_with_options(
+            prompt,
+            cwd,
+            PromptOptions {
+                session_id: session_id.map(String::from),
+                ..Default::default()
+            },
+        )
+        .await
     }
 
     /// Send a prompt to Claude with full options (think mode, model, session)

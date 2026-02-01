@@ -1,10 +1,10 @@
 //! Password input with strength meter
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::meter::PasswordStrengthMeter;
 use super::requirements::PasswordRequirements;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Password input with strength meter
 #[derive(IntoElement)]
@@ -93,22 +93,22 @@ impl RenderOnce for PasswordInput {
                                 }
                             } else {
                                 self.placeholder.to_string()
-                            })
+                            }),
                     )
                     .child(
                         div()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                             .cursor_pointer()
-                            .child(if self.visible { "🙈" } else { "👁" })
-                    )
+                            .child(if self.visible { "🙈" } else { "👁" }),
+                    ),
             )
             // Strength meter
             .when(self.show_strength && has_value, |el| {
                 el.child(
                     PasswordStrengthMeter::new("strength")
                         .strength(strength)
-                        .variant(StrengthMeterVariant::Segments)
+                        .variant(StrengthMeterVariant::Segments),
                 )
             })
             // Requirements
@@ -116,7 +116,7 @@ impl RenderOnce for PasswordInput {
                 el.child(
                     PasswordRequirements::new("reqs")
                         .from_password(&self.value)
-                        .show_all(false)
+                        .show_all(false),
                 )
             })
     }

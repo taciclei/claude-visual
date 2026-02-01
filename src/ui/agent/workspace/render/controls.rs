@@ -1,10 +1,10 @@
 //! Control buttons rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
-use super::super::types::*;
 use super::super::state::AgentWorkspace;
+use super::super::types::*;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 pub(crate) fn render_controls(
     workspace: &AgentWorkspace,
@@ -111,23 +111,26 @@ pub(crate) fn render_controls(
             )
         })
         // Cancel button
-        .when(mode == AgentMode::Executing || mode == AgentMode::Paused, |d| {
-            d.child(
-                div()
-                    .id("agent-cancel")
-                    .px_2()
-                    .py_1()
-                    .rounded_sm()
-                    .text_xs()
-                    .text_color(colors_error)
-                    .border_1()
-                    .border_color(colors_error.opacity(0.3))
-                    .cursor_pointer()
-                    .hover(|s| s.bg(colors_error.opacity(0.1)))
-                    .on_click(on_cancel)
-                    .child("Cancel"),
-            )
-        })
+        .when(
+            mode == AgentMode::Executing || mode == AgentMode::Paused,
+            |d| {
+                d.child(
+                    div()
+                        .id("agent-cancel")
+                        .px_2()
+                        .py_1()
+                        .rounded_sm()
+                        .text_xs()
+                        .text_color(colors_error)
+                        .border_1()
+                        .border_color(colors_error.opacity(0.3))
+                        .cursor_pointer()
+                        .hover(|s| s.bg(colors_error.opacity(0.1)))
+                        .on_click(on_cancel)
+                        .child("Cancel"),
+                )
+            },
+        )
         // Expand/collapse button
         .child(
             div()

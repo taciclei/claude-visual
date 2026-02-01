@@ -2,8 +2,8 @@
 //!
 //! Displays a banner when a new version is available.
 
-mod types;
 mod core;
+mod types;
 
 #[path = "render/mod.rs"]
 mod render;
@@ -14,5 +14,5 @@ mod traits;
 mod tests;
 
 // Re-export public types
-pub use types::UpdateNotificationEvent;
 pub use core::UpdateNotification;
+pub use types::UpdateNotificationEvent;

@@ -1,12 +1,12 @@
 //! Command palette state and logic
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
+use super::fuzzy::{fuzzy_search, FuzzyMatch};
 use super::types::*;
-use super::fuzzy::{FuzzyMatch, fuzzy_search};
+use crate::app::state::AppState;
 
 /// Maximum number of recent commands to track
 const MAX_RECENT_COMMANDS: usize = 10;
@@ -39,7 +39,10 @@ impl CommandPalette {
 
     /// Get filtered commands based on query (legacy, returns just commands)
     pub(crate) fn filtered_commands(&self) -> Vec<&Command> {
-        self.fuzzy_matches().into_iter().map(|m| m.command).collect()
+        self.fuzzy_matches()
+            .into_iter()
+            .map(|m| m.command)
+            .collect()
     }
 
     /// Track a command as recently used
@@ -53,7 +56,12 @@ impl CommandPalette {
     }
 
     /// Handle key input
-    pub(crate) fn handle_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn handle_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let filtered = self.filtered_commands();
         let count = filtered.len();
 
@@ -92,7 +100,12 @@ impl CommandPalette {
     }
 
     /// Handle text input
-    pub(crate) fn handle_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn handle_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.query.push_str(text);
         self.selected_index = 0;
         cx.notify();

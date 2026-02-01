@@ -1,7 +1,7 @@
 //! Core types for the split view system
 
-use gpui::Point;
 pub use crate::ui::split::split_view::SplitDirection;
+use gpui::Point;
 
 /// Events emitted by the SplitContainer
 pub enum SplitContainerEvent {
@@ -79,9 +79,7 @@ impl SplitNode {
     pub fn pane_count(&self) -> usize {
         match self {
             SplitNode::Pane(_) => 1,
-            SplitNode::Split { children, .. } => {
-                children.iter().map(|c| c.pane_count()).sum()
-            }
+            SplitNode::Split { children, .. } => children.iter().map(|c| c.pane_count()).sum(),
         }
     }
 

@@ -1,7 +1,7 @@
 //! Authentication dialog layout and main render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::cloud::{AuthState, OAuthProvider};
 
@@ -50,28 +50,19 @@ impl Render for AuthDialog {
                     .flex_col()
                     // Close button
                     .child(
-                        div()
-                            .flex()
-                            .flex_row()
-                            .justify_end()
-                            .child(
-                                div()
-                                    .id("close-auth-dialog")
-                                    .size_6()
-                                    .rounded_full()
-                                    .flex()
-                                    .items_center()
-                                    .justify_center()
-                                    .cursor_pointer()
-                                    .hover(move |this| this.bg(surface_hover))
-                                    .on_click(close_click)
-                                    .child(
-                                        div()
-                                            .text_lg()
-                                            .text_color(text_muted)
-                                            .child("×"),
-                                    ),
-                            ),
+                        div().flex().flex_row().justify_end().child(
+                            div()
+                                .id("close-auth-dialog")
+                                .size_6()
+                                .rounded_full()
+                                .flex()
+                                .items_center()
+                                .justify_center()
+                                .cursor_pointer()
+                                .hover(move |this| this.bg(surface_hover))
+                                .on_click(close_click)
+                                .child(div().text_lg().text_color(text_muted).child("×")),
+                        ),
                     )
                     // Header
                     .child(self.render_header(cx))
@@ -80,31 +71,30 @@ impl Render for AuthDialog {
                     // Loading state
                     .child(self.render_loading(cx))
                     // OAuth providers
-                    .when(!matches!(self.auth_state, AuthState::Authenticating), |this| {
-                        this.child(
-                            div()
-                                .flex()
-                                .flex_col()
-                                .gap_3()
-                                .child(self.render_provider_button(OAuthProvider::GitHub, cx))
-                                .child(self.render_provider_button(OAuthProvider::Google, cx)),
-                        )
-                    })
+                    .when(
+                        !matches!(self.auth_state, AuthState::Authenticating),
+                        |this| {
+                            this.child(
+                                div()
+                                    .flex()
+                                    .flex_col()
+                                    .gap_3()
+                                    .child(self.render_provider_button(OAuthProvider::GitHub, cx))
+                                    .child(self.render_provider_button(OAuthProvider::Google, cx)),
+                            )
+                        },
+                    )
                     // Divider
                     .child(self.render_divider(cx))
                     // Email form (simplified for now)
                     .child(
-                        div()
-                            .flex()
-                            .flex_col()
-                            .gap_3()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.colors.text_muted)
-                                    .text_center()
-                                    .child("Email authentication coming soon"),
-                            ),
+                        div().flex().flex_col().gap_3().child(
+                            div()
+                                .text_sm()
+                                .text_color(theme.colors.text_muted)
+                                .text_center()
+                                .child("Email authentication coming soon"),
+                        ),
                     )
                     // Mode toggle
                     .child(self.render_mode_toggle(cx)),

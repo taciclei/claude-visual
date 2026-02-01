@@ -1,10 +1,10 @@
 //! Main container rendering for side-by-side diff view
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::diff::side_by_side::core::SideBySideDiffView;
 use crate::ui::diff::hunk::{HunkStatus, ManagedHunk};
+use crate::ui::diff::side_by_side::core::SideBySideDiffView;
 
 impl Render for SideBySideDiffView {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -35,31 +35,22 @@ impl Render for SideBySideDiffView {
             .border_color(border_color)
             .bg(background_color)
             // Header
-            .child(
-                self.render_header(
-                    &theme,
-                    &file_path,
-                    collapsed,
-                    total_additions,
-                    total_deletions,
-                    applied_count,
-                    rejected_count,
-                    total_hunks,
-                    comment_count,
-                    display_mode,
-                    cx,
-                )
-            )
+            .child(self.render_header(
+                &theme,
+                &file_path,
+                collapsed,
+                total_additions,
+                total_deletions,
+                applied_count,
+                rejected_count,
+                total_hunks,
+                comment_count,
+                display_mode,
+                cx,
+            ))
             // Toolbar
             .when(!collapsed, |d| {
-                d.child(
-                    self.render_toolbar(
-                        &theme,
-                        display_mode,
-                        pending_count,
-                        cx,
-                    )
-                )
+                d.child(self.render_toolbar(&theme, display_mode, pending_count, cx))
             })
             // Hunks content
             .when(!collapsed, |d| {
@@ -71,9 +62,11 @@ impl Render for SideBySideDiffView {
                         .overflow_y_scroll()
                         .overflow_x_scroll()
                         .p_2()
-                        .children(hunks.iter().map(|hunk| {
-                            self.render_hunk_side_by_side(hunk, &theme, cx)
-                        })),
+                        .children(
+                            hunks
+                                .iter()
+                                .map(|hunk| self.render_hunk_side_by_side(hunk, &theme, cx)),
+                        ),
                 )
             })
     }

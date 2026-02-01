@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::super::SettingsModal;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render the reset confirmation dialog

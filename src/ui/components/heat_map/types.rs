@@ -70,7 +70,10 @@ impl HeatMapScale {
 
     pub(crate) fn color_for_level(&self, level: usize) -> gpui::Hsla {
         let colors = self.colors();
-        colors.get(level.min(colors.len() - 1)).copied().unwrap_or(colors[0])
+        colors
+            .get(level.min(colors.len() - 1))
+            .copied()
+            .unwrap_or(colors[0])
     }
 }
 

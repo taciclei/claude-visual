@@ -1,9 +1,9 @@
 //! Alert dialog component (acknowledgment only)
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::dialog::Dialog;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Alert dialog (acknowledgment only)
 #[derive(Clone)]

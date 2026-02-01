@@ -1,7 +1,7 @@
 //! Individual diff line rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Render a single diff line with line numbers and content
 pub fn render_line(
@@ -20,30 +20,18 @@ pub fn render_line(
     background_color: Hsla,
 ) -> impl IntoElement {
     let (bg_color, text_color, prefix_color) = match line_type {
-        "added" => (
-            success_color.opacity(0.12),
-            text_color,
-            success_color,
-        ),
-        "removed" => (
-            error_color.opacity(0.12),
-            text_color,
-            error_color,
-        ),
-        "header" => (
-            surface_color,
-            accent_color,
-            accent_color,
-        ),
-        _ => (
-            background_color,
-            text_color,
-            text_muted_color,
-        ),
+        "added" => (success_color.opacity(0.12), text_color, success_color),
+        "removed" => (error_color.opacity(0.12), text_color, error_color),
+        "header" => (surface_color, accent_color, accent_color),
+        _ => (background_color, text_color, text_muted_color),
     };
 
-    let old_ln_str = old_ln.map(|n| format!("{:>4}", n)).unwrap_or_else(|| "    ".to_string());
-    let new_ln_str = new_ln.map(|n| format!("{:>4}", n)).unwrap_or_else(|| "    ".to_string());
+    let old_ln_str = old_ln
+        .map(|n| format!("{:>4}", n))
+        .unwrap_or_else(|| "    ".to_string());
+    let new_ln_str = new_ln
+        .map(|n| format!("{:>4}", n))
+        .unwrap_or_else(|| "    ".to_string());
 
     div()
         .w_full()
@@ -87,7 +75,11 @@ pub fn render_line(
         })
         // Prefix (+/-)
         .when(line_type != "header", |d| {
-            let prefix_str = if line_type == "context" { " ".to_string() } else { prefix.to_string() };
+            let prefix_str = if line_type == "context" {
+                " ".to_string()
+            } else {
+                prefix.to_string()
+            };
             d.child(
                 div()
                     .w(px(20.0))
@@ -111,9 +103,7 @@ pub fn render_line(
                 .whitespace_nowrap()
                 .text_color(text_color)
                 .when(line_type == "header", |d| {
-                    d.font_weight(FontWeight::MEDIUM)
-                        .py_1()
-                        .bg(surface_color)
+                    d.font_weight(FontWeight::MEDIUM).py_1().bg(surface_color)
                 })
                 .child(content),
         )

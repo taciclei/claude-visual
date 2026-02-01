@@ -66,10 +66,14 @@ async fn handle_event(session: &mut DebugSession, event: DapEvent) {
 
                 match reason {
                     "started" => {
-                        let _ = session.session_event_sender.send(SessionEvent::ThreadStarted(thread_id));
+                        let _ = session
+                            .session_event_sender
+                            .send(SessionEvent::ThreadStarted(thread_id));
                     }
                     "exited" => {
-                        let _ = session.session_event_sender.send(SessionEvent::ThreadExited(thread_id));
+                        let _ = session
+                            .session_event_sender
+                            .send(SessionEvent::ThreadExited(thread_id));
                     }
                     _ => {}
                 }
@@ -79,7 +83,9 @@ async fn handle_event(session: &mut DebugSession, event: DapEvent) {
             if let Some(body) = event.body {
                 if let Some(bp) = body.get("breakpoint") {
                     if let Ok(breakpoint) = serde_json::from_value::<Breakpoint>(bp.clone()) {
-                        let _ = session.session_event_sender.send(SessionEvent::BreakpointChanged(breakpoint));
+                        let _ = session
+                            .session_event_sender
+                            .send(SessionEvent::BreakpointChanged(breakpoint));
                     }
                 }
             }
@@ -87,10 +93,19 @@ async fn handle_event(session: &mut DebugSession, event: DapEvent) {
         "module" => {
             if let Some(body) = event.body {
                 if let Some(module) = body.get("module") {
-                    let name = module.get("name").and_then(|v| v.as_str()).unwrap_or("").to_string();
-                    let path = module.get("path").and_then(|v| v.as_str()).map(String::from);
+                    let name = module
+                        .get("name")
+                        .and_then(|v| v.as_str())
+                        .unwrap_or("")
+                        .to_string();
+                    let path = module
+                        .get("path")
+                        .and_then(|v| v.as_str())
+                        .map(String::from);
 
-                    let _ = session.session_event_sender.send(SessionEvent::ModuleLoaded { name, path });
+                    let _ = session
+                        .session_event_sender
+                        .send(SessionEvent::ModuleLoaded { name, path });
                 }
             }
         }

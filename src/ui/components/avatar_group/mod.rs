@@ -1,16 +1,16 @@
 //! Avatar group components for displaying multiple avatars
 
-mod types;
+mod assignee_picker;
 mod avatar_group;
 mod avatar_stack;
-mod assignee_picker;
 mod team_member_item;
+mod types;
 
-pub use types::*;
+pub use assignee_picker::AssigneePicker;
 pub use avatar_group::AvatarGroup;
 pub use avatar_stack::AvatarStack;
-pub use assignee_picker::AssigneePicker;
 pub use team_member_item::TeamMemberItem;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

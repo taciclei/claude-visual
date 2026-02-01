@@ -7,11 +7,11 @@
 //! - Palette toggle and state management
 
 mod definitions;
-mod filtering;
 mod executor;
+mod filtering;
 mod palette;
 
 pub(crate) use definitions::*;
-pub(crate) use filtering::*;
 pub(crate) use executor::*;
+pub(crate) use filtering::*;
 pub(crate) use palette::*;

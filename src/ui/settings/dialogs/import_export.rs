@@ -1,7 +1,7 @@
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::super::SettingsModal;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render the import/export dialog
@@ -11,7 +11,11 @@ impl SettingsModal {
         cx: &Context<Self>,
     ) -> impl IntoElement {
         let is_import = self.import_mode;
-        let title = if is_import { "Import Settings" } else { "Export Settings" };
+        let title = if is_import {
+            "Import Settings"
+        } else {
+            "Export Settings"
+        };
         let description = if is_import {
             "Paste JSON settings below to import"
         } else {
@@ -51,7 +55,6 @@ impl SettingsModal {
             .flex()
             .items_center()
             .justify_center()
-
             .child(
                 div()
                     .w(px(500.0))
@@ -65,8 +68,7 @@ impl SettingsModal {
                     .flex_col()
                     .gap_4()
                     // Prevent clicks from closing
-                    .on_mouse_down(MouseButton::Left, |_, _window, cx| {
-                    })
+                    .on_mouse_down(MouseButton::Left, |_, _window, cx| {})
                     // Header
                     .child(
                         div()
@@ -84,7 +86,7 @@ impl SettingsModal {
                                     .justify_center()
                                     .text_color(theme.colors.accent)
                                     .text_lg()
-                                    .child(if is_import { "↓" } else { "↑" })
+                                    .child(if is_import { "↓" } else { "↑" }),
                             )
                             .child(
                                 div()
@@ -96,15 +98,15 @@ impl SettingsModal {
                                             .text_base()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child(title)
+                                            .child(title),
                                     )
                                     .child(
                                         div()
                                             .text_sm()
                                             .text_color(theme.colors.text_muted)
-                                            .child(description)
-                                    )
-                            )
+                                            .child(description),
+                                    ),
+                            ),
                     )
                     // Text area (display-only for now, shows content)
                     .child(
@@ -135,7 +137,8 @@ impl SettingsModal {
                                             "Paste JSON settings here..."
                                         } else {
                                             "Generating export..."
-                                        }.to_string()
+                                        }
+                                        .to_string()
                                     } else {
                                         text_content.clone()
                                     }),
@@ -146,9 +149,9 @@ impl SettingsModal {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.error)
-                                        .child(error_msg.unwrap_or_default())
+                                        .child(error_msg.unwrap_or_default()),
                                 )
-                            })
+                            }),
                     )
                     // Action buttons
                     .child(
@@ -175,7 +178,7 @@ impl SettingsModal {
                                                 .border_color(accent_opacity_03)
                                                 .hover(move |s| s.bg(accent_opacity_01))
                                                 .on_click(on_copy)
-                                                .child("Copy to Clipboard")
+                                                .child("Copy to Clipboard"),
                                         )
                                     })
                                     .when(is_import, |d| {
@@ -192,9 +195,9 @@ impl SettingsModal {
                                                 .border_color(accent_opacity_03)
                                                 .hover(move |s| s.bg(accent_opacity_01))
                                                 .on_click(on_paste)
-                                                .child("Paste from Clipboard")
+                                                .child("Paste from Clipboard"),
                                         )
-                                    })
+                                    }),
                             )
                             // Right side - close/apply buttons
                             .child(
@@ -210,12 +213,9 @@ impl SettingsModal {
                                             .cursor_pointer()
                                             .text_sm()
                                             .text_color(text_muted)
-                                            .hover(move |s| {
-                                                s.bg(surface_hover)
-                                                    .text_color(text)
-                                            })
+                                            .hover(move |s| s.bg(surface_hover).text_color(text))
                                             .on_click(on_cancel)
-                                            .child("Close")
+                                            .child("Close"),
                                     )
                                     .when(is_import, |d| {
                                         d.child(
@@ -230,11 +230,11 @@ impl SettingsModal {
                                                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
                                                 .hover(|s| s.opacity(0.9))
                                                 .on_click(on_apply)
-                                                .child("Apply Import")
+                                                .child("Apply Import"),
                                         )
-                                    })
-                            )
-                    )
+                                    }),
+                            ),
+                    ),
             )
     }
 }

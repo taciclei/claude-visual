@@ -1,7 +1,7 @@
 //! Rendering implementation for ChatInput
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::explorer::{DraggedFile, DraggedFiles};
 
@@ -37,13 +37,15 @@ impl Render for ChatInput {
             .gap_2()
             // Drag-and-drop support for file attachment
             .drag_over::<DraggedFile>(|style, _, _window, _cx| {
-                style.bg(hsla(210.0 / 360.0, 0.5, 0.5, 0.1))
+                style
+                    .bg(hsla(210.0 / 360.0, 0.5, 0.5, 0.1))
                     .border_2()
                     .border_color(hsla(210.0 / 360.0, 0.7, 0.5, 0.6))
                     .rounded_lg()
             })
             .drag_over::<DraggedFiles>(|style, _, _window, _cx| {
-                style.bg(hsla(210.0 / 360.0, 0.5, 0.5, 0.1))
+                style
+                    .bg(hsla(210.0 / 360.0, 0.5, 0.5, 0.1))
                     .border_2()
                     .border_color(hsla(210.0 / 360.0, 0.7, 0.5, 0.6))
                     .rounded_lg()
@@ -57,25 +59,23 @@ impl Render for ChatInput {
                 this.handle_files_drop(files, window, cx);
             }))
             // Drag overlay indicator
-            .when(is_drag_over, |d| {
-                d.child(self.render_drag_overlay())
-            })
+            .when(is_drag_over, |d| d.child(self.render_drag_overlay()))
             // Vim mode indicator
             .when_some(vim_mode_label, |d, (label, color)| {
                 d.child(self.render_vim_indicator(label, color, &theme))
             })
             // Mention badges (show attached files)
-            .when_some(context_chips, |d, chips| {
-                d.child(chips)
-            })
+            .when_some(context_chips, |d, chips| d.child(chips))
             // Slash command autocomplete dropdown
-            .when(self.show_command_autocomplete && !self.filtered_commands.is_empty(), |d| {
-                d.child(self.render_command_dropdown(&theme, cx))
-            })
+            .when(
+                self.show_command_autocomplete && !self.filtered_commands.is_empty(),
+                |d| d.child(self.render_command_dropdown(&theme, cx)),
+            )
             // File mention autocomplete dropdown
-            .when(self.show_file_autocomplete && !self.filtered_files.is_empty(), |d| {
-                d.child(self.render_file_dropdown(&theme, cx))
-            })
+            .when(
+                self.show_file_autocomplete && !self.filtered_files.is_empty(),
+                |d| d.child(self.render_file_dropdown(&theme, cx)),
+            )
             // Prompt templates dropdown
             .when(self.show_templates, |d| {
                 d.child(self.render_templates_dropdown(&theme, cx))
@@ -93,9 +93,16 @@ impl Render for ChatInput {
                     // Quick action buttons (attach, command)
                     .child(self.render_toolbar(&theme, cx))
                     // Text input area
-                    .child(self.render_input_area(&theme, is_focused, is_disabled, text_is_empty, has_mentions, cx))
+                    .child(self.render_input_area(
+                        &theme,
+                        is_focused,
+                        is_disabled,
+                        text_is_empty,
+                        has_mentions,
+                        cx,
+                    ))
                     // Send button with keyboard hint
-                    .child(self.render_send_button(&theme, can_submit, cx))
+                    .child(self.render_send_button(&theme, can_submit, cx)),
             )
             // Footer with character count and hints
             .child(self.render_footer(&theme, text_is_empty, is_disabled))

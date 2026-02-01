@@ -1,9 +1,9 @@
 //! Shortcuts panel state and logic
 
-use std::sync::Arc;
-use gpui::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::*;
+use std::sync::Arc;
 
 /// Keyboard shortcuts help panel
 pub struct ShortcutsPanel {
@@ -24,7 +24,12 @@ impl ShortcutsPanel {
     }
 
     /// Handle key input
-    pub(super) fn handle_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         match event.keystroke.key.as_str() {
             "escape" => {
                 cx.emit(ShortcutsPanelEvent::Dismissed);
@@ -54,7 +59,12 @@ impl ShortcutsPanel {
     }
 
     /// Handle text input for search
-    pub(super) fn handle_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.search_query.push_str(text);
         cx.notify();
     }

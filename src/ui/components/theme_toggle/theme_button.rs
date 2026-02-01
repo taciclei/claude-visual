@@ -1,8 +1,8 @@
 //! Simple icon-only theme button
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Simple icon-only theme button
 #[derive(IntoElement)]
@@ -41,7 +41,7 @@ impl RenderOnce for ThemeButton {
             .child(
                 div()
                     .text_size(px(self.size * 0.55))
-                    .child(self.mode.icon())
+                    .child(self.mode.icon()),
             )
     }
 }

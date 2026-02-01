@@ -41,12 +41,18 @@ pub struct ClaudeStreamSender {
 
 impl ClaudeStreamSender {
     /// Send an event to the stream
-    pub async fn send(&self, event: ClaudeEvent) -> Result<(), mpsc::error::SendError<ClaudeEvent>> {
+    pub async fn send(
+        &self,
+        event: ClaudeEvent,
+    ) -> Result<(), mpsc::error::SendError<ClaudeEvent>> {
         self.sender.send(event).await
     }
 
     /// Try to send an event without blocking
-    pub fn try_send(&self, event: ClaudeEvent) -> Result<(), mpsc::error::TrySendError<ClaudeEvent>> {
+    pub fn try_send(
+        &self,
+        event: ClaudeEvent,
+    ) -> Result<(), mpsc::error::TrySendError<ClaudeEvent>> {
         self.sender.try_send(event)
     }
 

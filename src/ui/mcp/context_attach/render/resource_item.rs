@@ -1,7 +1,7 @@
 //! Individual resource item rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::McpContextAttachPanel;
 use super::super::types::*;
@@ -86,10 +86,9 @@ impl McpContextAttachPanel {
                                             .child(resource.name.clone()),
                                     )
                                     .child(
-                                        div()
-                                            .text_xs()
-                                            .text_color(theme.colors.text_muted)
-                                            .child(format!("{} • {}", resource.server, resource.uri)),
+                                        div().text_xs().text_color(theme.colors.text_muted).child(
+                                            format!("{} • {}", resource.server, resource.uri),
+                                        ),
                                     ),
                             ),
                     )
@@ -161,19 +160,22 @@ impl McpContextAttachPanel {
                 )
             })
             // Error message
-            .when(matches!(&resource.status, AttachmentStatus::Failed(_)), |d| {
-                if let AttachmentStatus::Failed(err) = &resource.status {
-                    d.child(
-                        div()
-                            .mt_1()
-                            .pl(px(24.0))
-                            .text_xs()
-                            .text_color(theme.colors.error)
-                            .child(err.clone()),
-                    )
-                } else {
-                    d
-                }
-            })
+            .when(
+                matches!(&resource.status, AttachmentStatus::Failed(_)),
+                |d| {
+                    if let AttachmentStatus::Failed(err) = &resource.status {
+                        d.child(
+                            div()
+                                .mt_1()
+                                .pl(px(24.0))
+                                .text_xs()
+                                .text_color(theme.colors.error)
+                                .child(err.clone()),
+                        )
+                    } else {
+                        d
+                    }
+                },
+            )
     }
 }

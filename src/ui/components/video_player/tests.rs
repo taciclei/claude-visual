@@ -1,7 +1,7 @@
 //! Video player tests
 
-use super::*;
 use super::controls::{format_time, format_views};
+use super::*;
 
 #[test]
 fn test_video_player_sizes() {

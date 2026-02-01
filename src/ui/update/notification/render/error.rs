@@ -1,14 +1,19 @@
 //! Error state rendering for update notifications
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::UpdateNotification;
 use super::super::types::{SimpleColors, UpdateNotificationEvent};
 
 impl UpdateNotification {
     /// Render error state
-    pub(crate) fn render_error(&self, error: &str, theme: &SimpleColors, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_error(
+        &self,
+        error: &str,
+        theme: &SimpleColors,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         // Extract listener
         let on_dismiss = cx.listener(|this, _, _window, cx| {
             this.dismiss(cx);
@@ -49,19 +54,14 @@ impl UpdateNotification {
                                     .flex()
                                     .items_center()
                                     .justify_center()
-                                    .child(
-                                        div()
-                                            .text_color(background)
-                                            .text_xs()
-                                            .child("!")
-                                    )
+                                    .child(div().text_color(background).text_xs().child("!")),
                             )
                             .child(
                                 div()
                                     .text_color(text)
                                     .text_sm()
-                                    .child(format!("Update check failed: {}", error))
-                            )
+                                    .child(format!("Update check failed: {}", error)),
+                            ),
                     )
                     .child(
                         div()
@@ -74,8 +74,8 @@ impl UpdateNotification {
                             .text_sm()
                             .hover(|s| s.bg(surface_hover))
                             .on_click(on_dismiss)
-                            .child("Dismiss")
-                    )
+                            .child("Dismiss"),
+                    ),
             )
     }
 }

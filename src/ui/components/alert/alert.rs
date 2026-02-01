@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Alert/Banner component
 pub struct Alert {
@@ -30,7 +30,11 @@ pub struct Alert {
 }
 
 impl Alert {
-    pub fn new(app_state: Arc<AppState>, message: impl Into<String>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        message: impl Into<String>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             alert_type: AlertType::default(),
@@ -45,28 +49,44 @@ impl Alert {
     }
 
     /// Create an info alert
-    pub fn info(app_state: Arc<AppState>, message: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn info(
+        app_state: Arc<AppState>,
+        message: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut alert = Self::new(app_state, message, cx);
         alert.alert_type = AlertType::Info;
         alert
     }
 
     /// Create a success alert
-    pub fn success(app_state: Arc<AppState>, message: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn success(
+        app_state: Arc<AppState>,
+        message: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut alert = Self::new(app_state, message, cx);
         alert.alert_type = AlertType::Success;
         alert
     }
 
     /// Create a warning alert
-    pub fn warning(app_state: Arc<AppState>, message: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn warning(
+        app_state: Arc<AppState>,
+        message: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut alert = Self::new(app_state, message, cx);
         alert.alert_type = AlertType::Warning;
         alert
     }
 
     /// Create an error alert
-    pub fn error(app_state: Arc<AppState>, message: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn error(
+        app_state: Arc<AppState>,
+        message: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut alert = Self::new(app_state, message, cx);
         alert.alert_type = AlertType::Error;
         alert
@@ -142,7 +162,10 @@ impl Render for Alert {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let (accent_color, bg_color, border_color) = self.get_colors(theme);
-        let icon = self.custom_icon.clone().unwrap_or_else(|| self.alert_type.icon().to_string());
+        let icon = self
+            .custom_icon
+            .clone()
+            .unwrap_or_else(|| self.alert_type.icon().to_string());
 
         let (use_bg, use_border, use_left_accent) = match self.style {
             AlertStyle::Filled => (true, false, false),
@@ -159,9 +182,7 @@ impl Render for Alert {
             .when(use_bg, |d| d.bg(bg_color))
             .when(use_border, |d| d.border_1().border_color(border_color))
             .when(use_left_accent, |d| {
-                d.border_l_4()
-                    .border_color(accent_color)
-                    .rounded_l_none()
+                d.border_l_4().border_color(accent_color).rounded_l_none()
             })
             .flex()
             .items_start()
@@ -176,7 +197,7 @@ impl Render for Alert {
                         .items_center()
                         .justify_center()
                         .text_color(accent_color)
-                        .child(icon)
+                        .child(icon),
                 )
             })
             // Content
@@ -193,7 +214,7 @@ impl Render for Alert {
                                 .text_sm()
                                 .font_weight(FontWeight::SEMIBOLD)
                                 .text_color(theme.colors.text)
-                                .child(title)
+                                .child(title),
                         )
                     })
                     // Message
@@ -201,7 +222,7 @@ impl Render for Alert {
                         div()
                             .text_sm()
                             .text_color(theme.colors.text_muted)
-                            .child(self.message.clone())
+                            .child(self.message.clone()),
                     )
                     // Action button
                     .when_some(self.action_label.clone(), |d, label| {
@@ -221,9 +242,9 @@ impl Render for Alert {
                                 .on_click(cx.listener(|_this, _, _window, cx| {
                                     cx.emit(AlertEvent::ActionClicked);
                                 }))
-                                .child(label)
+                                .child(label),
                         )
-                    })
+                    }),
             )
             // Dismiss button
             .when(self.dismissible, |d| {
@@ -238,11 +259,14 @@ impl Render for Alert {
                         .justify_center()
                         .text_color(theme.colors.text_muted)
                         .cursor_pointer()
-                        .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                        .hover(|s| {
+                            s.bg(theme.colors.surface_hover)
+                                .text_color(theme.colors.text)
+                        })
                         .on_click(cx.listener(|_this, _, _window, cx| {
                             cx.emit(AlertEvent::Dismissed);
                         }))
-                        .child("×")
+                        .child("×"),
                 )
             })
     }

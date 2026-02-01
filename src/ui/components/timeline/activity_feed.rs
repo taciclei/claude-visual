@@ -1,7 +1,7 @@
 //! Activity feed components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Activity feed item
 #[derive(Clone)]
@@ -14,7 +14,12 @@ pub struct ActivityItem {
 }
 
 impl ActivityItem {
-    pub fn new(avatar: impl Into<String>, user: impl Into<String>, action: impl Into<String>, time: impl Into<String>) -> Self {
+    pub fn new(
+        avatar: impl Into<String>,
+        user: impl Into<String>,
+        action: impl Into<String>,
+        time: impl Into<String>,
+    ) -> Self {
         Self {
             avatar: avatar.into(),
             user: user.into(),
@@ -82,7 +87,7 @@ impl RenderOnce for ActivityFeed {
                             .items_center()
                             .justify_center()
                             .text_sm()
-                            .child(item.avatar)
+                            .child(item.avatar),
                     )
                     // Content
                     .child(
@@ -93,42 +98,31 @@ impl RenderOnce for ActivityFeed {
                             .gap_1()
                             // Action text
                             .child(
-                                div()
-                                    .text_sm()
-                                    .child(
-                                        div()
-                                            .flex()
-                                            .flex_wrap()
-                                            .items_center()
-                                            .gap(px(4.0))
-                                            .child(
+                                div().text_sm().child(
+                                    div()
+                                        .flex()
+                                        .flex_wrap()
+                                        .items_center()
+                                        .gap(px(4.0))
+                                        .child(
+                                            div()
+                                                .font_weight(FontWeight::MEDIUM)
+                                                .text_color(text)
+                                                .child(item.user),
+                                        )
+                                        .child(div().text_color(text_muted).child(item.action))
+                                        .when_some(item.target, |d, target| {
+                                            d.child(
                                                 div()
                                                     .font_weight(FontWeight::MEDIUM)
-                                                    .text_color(text)
-                                                    .child(item.user)
+                                                    .text_color(accent)
+                                                    .child(target),
                                             )
-                                            .child(
-                                                div()
-                                                    .text_color(text_muted)
-                                                    .child(item.action)
-                                            )
-                                            .when_some(item.target, |d, target| {
-                                                d.child(
-                                                    div()
-                                                        .font_weight(FontWeight::MEDIUM)
-                                                        .text_color(accent)
-                                                        .child(target)
-                                                )
-                                            })
-                                    )
+                                        }),
+                                ),
                             )
                             // Time
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child(item.time)
-                            )
+                            .child(div().text_xs().text_color(text_muted).child(item.time)),
                     )
             }))
     }

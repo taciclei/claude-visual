@@ -1,7 +1,7 @@
 //! Rendering implementation for project sidebar
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{ProjectsSidebar, ProjectsSidebarEvent};
 
@@ -36,9 +36,11 @@ impl ProjectsSidebar {
                     .text_color(accent)
                     .hover(move |s| s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5)))
                     .on_click(cx.listener(|_this, _, _window, cx| {
-                        cx.emit(ProjectsSidebarEvent::SendSkillCommand("/explore".to_string()));
+                        cx.emit(ProjectsSidebarEvent::SendSkillCommand(
+                            "/explore".to_string(),
+                        ));
                     }))
-                    .child("Explore")
+                    .child("Explore"),
             )
             // APEX workflow
             .child(
@@ -57,7 +59,7 @@ impl ProjectsSidebar {
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(ProjectsSidebarEvent::SendSkillCommand("/apex".to_string()));
                     }))
-                    .child("APEX")
+                    .child("APEX"),
             )
             // Documentation
             .child(
@@ -72,11 +74,14 @@ impl ProjectsSidebar {
                     .border_color(success.opacity(0.3))
                     .text_xs()
                     .text_color(success)
-                    .hover(move |s| s.bg(success.opacity(0.25)).border_color(success.opacity(0.5)))
+                    .hover(move |s| {
+                        s.bg(success.opacity(0.25))
+                            .border_color(success.opacity(0.5))
+                    })
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(ProjectsSidebarEvent::SendSkillCommand("/docs".to_string()));
                     }))
-                    .child("Docs")
+                    .child("Docs"),
             )
             // Search
             .child(
@@ -91,11 +96,16 @@ impl ProjectsSidebar {
                     .border_color(warning.opacity(0.3))
                     .text_xs()
                     .text_color(warning)
-                    .hover(move |s| s.bg(warning.opacity(0.25)).border_color(warning.opacity(0.5)))
+                    .hover(move |s| {
+                        s.bg(warning.opacity(0.25))
+                            .border_color(warning.opacity(0.5))
+                    })
                     .on_click(cx.listener(|_this, _, _window, cx| {
-                        cx.emit(ProjectsSidebarEvent::SendSkillCommand("/search".to_string()));
+                        cx.emit(ProjectsSidebarEvent::SendSkillCommand(
+                            "/search".to_string(),
+                        ));
                     }))
-                    .child("Search")
+                    .child("Search"),
             )
     }
 }
@@ -125,9 +135,19 @@ impl Render for ProjectsSidebar {
             .map(|(idx, project)| {
                 let is_selected = self
                     .selected_project
-                    .map(|sel_idx| self.projects.get(sel_idx).map(|p| p.path == project.path).unwrap_or(false))
+                    .map(|sel_idx| {
+                        self.projects
+                            .get(sel_idx)
+                            .map(|p| p.path == project.path)
+                            .unwrap_or(false)
+                    })
                     .unwrap_or(false);
-                (idx, project.name.clone(), project.path.display().to_string(), is_selected)
+                (
+                    idx,
+                    project.name.clone(),
+                    project.path.display().to_string(),
+                    is_selected,
+                )
             })
             .collect();
 
@@ -186,39 +206,35 @@ impl Render for ProjectsSidebar {
             .child(self.render_quick_actions(cx))
             // Search input
             .child(
-                div()
-                    .flex_shrink_0()
-                    .px_3()
-                    .py_2()
-                    .child(
-                        div()
-                            .id("project-search")
-                            .track_focus(&self.search_focus_handle)
-                            .px_3()
-                            .py_1()
-                            .rounded_md()
-                            .bg(background_color)
-                            .border_1()
-                            .border_color(if is_search_focused {
-                                accent_color
-                            } else {
-                                border_color
-                            })
-                            .cursor_text()
-                            .text_sm()
-                            .text_color(if filter_text.is_empty() {
-                                text_muted_color
-                            } else {
-                                text_color
-                            })
-                            .on_click(search_click_listener)
-                            .on_key_down(search_key_listener)
-                            .child(if filter_text.is_empty() {
-                                "Search projects...".to_string()
-                            } else {
-                                filter_text
-                            }),
-                    ),
+                div().flex_shrink_0().px_3().py_2().child(
+                    div()
+                        .id("project-search")
+                        .track_focus(&self.search_focus_handle)
+                        .px_3()
+                        .py_1()
+                        .rounded_md()
+                        .bg(background_color)
+                        .border_1()
+                        .border_color(if is_search_focused {
+                            accent_color
+                        } else {
+                            border_color
+                        })
+                        .cursor_text()
+                        .text_sm()
+                        .text_color(if filter_text.is_empty() {
+                            text_muted_color
+                        } else {
+                            text_color
+                        })
+                        .on_click(search_click_listener)
+                        .on_key_down(search_key_listener)
+                        .child(if filter_text.is_empty() {
+                            "Search projects...".to_string()
+                        } else {
+                            filter_text
+                        }),
+                ),
             )
             // Project list
             .child(
@@ -228,44 +244,41 @@ impl Render for ProjectsSidebar {
                     .overflow_y_scroll()
                     .px_2()
                     .py_1()
-                    .children(project_items.into_iter().map(|(idx, name, path, is_selected)| {
-                        let bg_color = if is_selected {
-                            accent_color
-                        } else {
-                            surface_color
-                        };
-                        let hover_color = if is_selected {
-                            accent_hover_color
-                        } else {
-                            surface_hover_color
-                        };
+                    .children(
+                        project_items
+                            .into_iter()
+                            .map(|(idx, name, path, is_selected)| {
+                                let bg_color = if is_selected {
+                                    accent_color
+                                } else {
+                                    surface_color
+                                };
+                                let hover_color = if is_selected {
+                                    accent_hover_color
+                                } else {
+                                    surface_hover_color
+                                };
 
-                        let project_click_listener = cx.listener(move |this, _, _window, cx| {
-                            this.select_project(idx, cx);
-                        });
+                                let project_click_listener =
+                                    cx.listener(move |this, _, _window, cx| {
+                                        this.select_project(idx, cx);
+                                    });
 
-                        div()
-                            .id(ElementId::Name(format!("project-{}", idx).into()))
-                            .px_3()
-                            .py_2()
-                            .rounded_md()
-                            .bg(bg_color)
-                            .hover(|style| style.bg(hover_color))
-                            .cursor_pointer()
-                            .on_click(project_click_listener)
-                            .child(
                                 div()
-                                    .text_sm()
-                                    .font_weight(FontWeight::MEDIUM)
-                                    .child(name),
-                            )
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted_color)
-                                    .child(path),
-                            )
-                    })),
+                                    .id(ElementId::Name(format!("project-{}", idx).into()))
+                                    .px_3()
+                                    .py_2()
+                                    .rounded_md()
+                                    .bg(bg_color)
+                                    .hover(|style| style.bg(hover_color))
+                                    .cursor_pointer()
+                                    .on_click(project_click_listener)
+                                    .child(
+                                        div().text_sm().font_weight(FontWeight::MEDIUM).child(name),
+                                    )
+                                    .child(div().text_xs().text_color(text_muted_color).child(path))
+                            }),
+                    ),
             )
             // Add project button
             .child(
@@ -313,11 +326,7 @@ impl Render for ProjectsSidebar {
                                 .flex_col()
                                 .items_center()
                                 .gap_2()
-                                .child(
-                                    div()
-                                        .text_2xl()
-                                        .child("📁"),
-                                )
+                                .child(div().text_2xl().child("📁"))
                                 .child(
                                     div()
                                         .text_sm()

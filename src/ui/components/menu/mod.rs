@@ -1,14 +1,14 @@
 //! Menu and Popover components
 
-mod types;
-mod menu;
-mod context_menu;
 mod action_menu;
+mod context_menu;
+mod menu;
+mod types;
 
-pub use types::*;
-pub use menu::Menu;
-pub use context_menu::ContextMenu;
 pub use action_menu::ActionMenu;
+pub use context_menu::ContextMenu;
+pub use menu::Menu;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

@@ -1,16 +1,22 @@
 //! Tests for explorer diagnostics
 
-use std::path::{Path, PathBuf};
-use crate::lsp::protocol::{Diagnostic, DiagnosticSeverity, Range, Position};
+use crate::lsp::protocol::{Diagnostic, DiagnosticSeverity, Position, Range};
 use crate::ui::sidebar::explorer_diagnostics::{
-    DiagnosticCounts, ExplorerDiagnosticsStore, DiagnosticBadge, BadgeStyle, IconDecoration
+    BadgeStyle, DiagnosticBadge, DiagnosticCounts, ExplorerDiagnosticsStore, IconDecoration,
 };
+use std::path::{Path, PathBuf};
 
 fn make_diagnostic(severity: DiagnosticSeverity) -> Diagnostic {
     Diagnostic {
         range: Range {
-            start: Position { line: 0, character: 0 },
-            end: Position { line: 0, character: 1 },
+            start: Position {
+                line: 0,
+                character: 0,
+            },
+            end: Position {
+                line: 0,
+                character: 1,
+            },
         },
         severity: Some(severity),
         code: None,
@@ -99,7 +105,10 @@ fn test_icon_decoration() {
 
     counts.errors = 0;
     counts.warnings = 1;
-    assert_eq!(IconDecoration::from_counts(&counts), IconDecoration::Warning);
+    assert_eq!(
+        IconDecoration::from_counts(&counts),
+        IconDecoration::Warning
+    );
 
     counts.errors = 1;
     assert_eq!(IconDecoration::from_counts(&counts), IconDecoration::Mixed);

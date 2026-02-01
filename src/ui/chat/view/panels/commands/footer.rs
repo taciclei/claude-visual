@@ -1,7 +1,7 @@
 //! Commands panel footer rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 pub fn render_footer(theme: &crate::app::theme::Theme) -> impl IntoElement {
     div()
@@ -16,7 +16,7 @@ pub fn render_footer(theme: &crate::app::theme::Theme) -> impl IntoElement {
             div()
                 .text_xs()
                 .text_color(theme.colors.text_muted)
-                .child("Click to use • Type / to filter")
+                .child("Click to use • Type / to filter"),
         )
         .child(
             div()
@@ -26,6 +26,6 @@ pub fn render_footer(theme: &crate::app::theme::Theme) -> impl IntoElement {
                 .text_xs()
                 .text_color(theme.colors.text_muted)
                 .child("⌘/")
-                .child("Toggle")
+                .child("Toggle"),
         )
 }

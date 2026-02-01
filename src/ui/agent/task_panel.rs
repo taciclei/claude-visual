@@ -2,9 +2,9 @@
 //!
 //! Displays the hierarchical task tree with status indicators.
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 use crate::agent::task::{AgentTask, TaskNode, TaskStatus, TaskTree};
 use crate::app::theme::Theme;
@@ -68,7 +68,13 @@ impl TaskPanel {
     }
 
     /// Render a task node
-    fn render_task_node(&self, task: &AgentTask, node: &TaskNode, depth: usize, cx: &mut Context<Self>) -> impl IntoElement {
+    fn render_task_node(
+        &self,
+        task: &AgentTask,
+        node: &TaskNode,
+        depth: usize,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let task_id = task.id.clone();
         let is_selected = self.selected_task_id.as_ref() == Some(&task_id);
         let has_children = !node.children.is_empty();
@@ -130,20 +136,14 @@ impl TaskPanel {
                                 .on_click(cx.listener(move |this, _, _window, cx| {
                                     this.toggle_task(&task_id_toggle, cx);
                                 }))
-                                .child(
-                                    if is_expanded { "▼" } else { "▶" }
-                                )
+                                .child(if is_expanded { "▼" } else { "▶" })
                         } else {
                             div().id("task-spacer").w_4().h_4()
-                        }
+                        },
                     )
                     .child(
                         // Status indicator
-                        div()
-                            .w_3()
-                            .h_3()
-                            .rounded_full()
-                            .bg(status_color)
+                        div().w_3().h_3().rounded_full().bg(status_color),
                     )
                     .child(
                         // Task title
@@ -151,23 +151,19 @@ impl TaskPanel {
                             .flex_1()
                             .text_sm()
                             .text_color(self.theme.colors.text)
-                            .child(task.title.clone())
+                            .child(task.title.clone()),
                     )
                     .child(
                         // Status icon
-                        div()
-                            .text_sm()
-                            .child(task.status.icon())
-                    )
+                        div().text_sm().child(task.status.icon()),
+                    ),
             )
             .when(is_expanded && has_children, |el| {
-                el.children(
-                    node.children.iter().filter_map(|child_id| {
-                        let child_task = self.task_tree.get(child_id)?;
-                        let child_node = self.task_tree.get_node(child_id)?;
-                        Some(self.render_task_node(child_task, child_node, depth + 1, cx))
-                    })
-                )
+                el.children(node.children.iter().filter_map(|child_id| {
+                    let child_task = self.task_tree.get(child_id)?;
+                    let child_node = self.task_tree.get_node(child_id)?;
+                    Some(self.render_task_node(child_task, child_node, depth + 1, cx))
+                }))
             })
     }
 
@@ -195,14 +191,14 @@ impl TaskPanel {
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(self.theme.colors.text)
-                            .child("Tasks")
+                            .child("Tasks"),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(self.theme.colors.text_muted)
-                            .child(format!("{}/{}", completed, total))
-                    )
+                            .child(format!("{}/{}", completed, total)),
+                    ),
             )
             .child(
                 // Progress bar
@@ -217,8 +213,8 @@ impl TaskPanel {
                             .h_full()
                             .bg(self.theme.colors.success)
                             .rounded_full()
-                            .w(relative(percentage / 100.0))
-                    )
+                            .w(relative(percentage / 100.0)),
+                    ),
             )
     }
 }
@@ -241,12 +237,10 @@ impl Render for TaskPanel {
                     .id("task-scroll-container")
                     .overflow_y_scroll()
                     .p_2()
-                    .children(
-                        roots.iter().filter_map(|task| {
-                            let node = self.task_tree.get_node(&task.id)?;
-                            Some(self.render_task_node(task, node, 0, cx))
-                        })
-                    )
+                    .children(roots.iter().filter_map(|task| {
+                        let node = self.task_tree.get_node(&task.id)?;
+                        Some(self.render_task_node(task, node, 0, cx))
+                    })),
             )
     }
 }

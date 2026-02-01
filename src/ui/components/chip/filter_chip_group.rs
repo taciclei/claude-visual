@@ -1,7 +1,7 @@
 //! Filter chip group component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::filter_chip::FilterChip;
 
@@ -68,30 +68,30 @@ impl RenderOnce for FilterChipGroup {
                     .items_center()
                     .gap_2()
                     .cursor_pointer()
-                    .hover(|s| s.bg(if chip.selected { accent.opacity(0.2) } else { surface_hover }))
-                    .when(chip.selected, |d| {
-                        d.child(
-                            div()
-                                .text_xs()
-                                .text_color(text_col)
-                                .child("✓")
-                        )
+                    .hover(|s| {
+                        s.bg(if chip.selected {
+                            accent.opacity(0.2)
+                        } else {
+                            surface_hover
+                        })
                     })
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(text_col)
-                            .child(chip.label)
-                    )
+                    .when(chip.selected, |d| {
+                        d.child(div().text_xs().text_color(text_col).child("✓"))
+                    })
+                    .child(div().text_sm().text_color(text_col).child(chip.label))
                     .when_some(chip.count, |d, count| {
                         d.child(
                             div()
                                 .px_1p5()
                                 .rounded_full()
-                                .bg(if chip.selected { accent.opacity(0.3) } else { surface_hover })
+                                .bg(if chip.selected {
+                                    accent.opacity(0.3)
+                                } else {
+                                    surface_hover
+                                })
                                 .text_xs()
                                 .text_color(if chip.selected { accent } else { text_muted })
-                                .child(count.to_string())
+                                .child(count.to_string()),
                         )
                     })
             }))

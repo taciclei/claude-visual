@@ -1,7 +1,7 @@
 //! Permissions panel header component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 
@@ -33,17 +33,13 @@ pub fn render_header(
                 .flex()
                 .items_center()
                 .gap_2()
-                .child(
-                    div()
-                        .text_base()
-                        .child("🔐")
-                )
+                .child(div().text_base().child("🔐"))
                 .child(
                     div()
                         .text_sm()
                         .font_weight(FontWeight::SEMIBOLD)
                         .text_color(theme.colors.text)
-                        .child("Permission Requests")
+                        .child("Permission Requests"),
                 )
                 .child(
                     div()
@@ -53,8 +49,8 @@ pub fn render_header(
                         .bg(theme.colors.warning.opacity(0.2))
                         .text_xs()
                         .text_color(theme.colors.warning)
-                        .child(format!("{}", permissions_count))
-                )
+                        .child(format!("{}", permissions_count)),
+                ),
         )
         .child(
             div()
@@ -67,6 +63,6 @@ pub fn render_header(
                 .text_color(text_muted)
                 .hover(move |s| s.bg(surface_hover))
                 .on_click(close_listener)
-                .child("×")
+                .child("×"),
         )
 }

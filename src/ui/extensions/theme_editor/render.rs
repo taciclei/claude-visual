@@ -1,10 +1,10 @@
 //! Main Render implementation for ThemeEditor
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::extensions::theme_editor::ThemeEditor;
 use crate::ui::extensions::theme_editor::types::ThemeEditorTab;
+use crate::ui::extensions::theme_editor::ThemeEditor;
 
 impl Render for ThemeEditor {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -36,7 +36,11 @@ impl Render for ThemeEditor {
                                     .text_base()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(theme.colors.text)
-                                    .child(if self.is_new { "New Theme" } else { "Edit Theme" }),
+                                    .child(if self.is_new {
+                                        "New Theme"
+                                    } else {
+                                        "Edit Theme"
+                                    }),
                             )
                             .child(
                                 div()

@@ -1,8 +1,8 @@
 //! ActionSheet component (iOS-style)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Action sheet (iOS-style)
 #[derive(Clone, IntoElement)]
@@ -106,7 +106,7 @@ impl RenderOnce for ActionSheet {
                                                     .text_sm()
                                                     .font_weight(FontWeight::SEMIBOLD)
                                                     .text_color(text)
-                                                    .child(title)
+                                                    .child(title),
                                             )
                                         })
                                         .when_some(self.message.clone(), |d, msg| {
@@ -115,33 +115,35 @@ impl RenderOnce for ActionSheet {
                                                     .text_xs()
                                                     .text_color(text_muted)
                                                     .text_center()
-                                                    .child(msg)
+                                                    .child(msg),
                                             )
-                                        })
+                                        }),
                                 )
                             })
                             // Action buttons
-                            .children(
-                                self.actions.into_iter().enumerate().map(|(idx, action)| {
-                                    let is_first = idx == 0 && self.title.is_none() && self.message.is_none();
-                                    let text_color = if action.destructive { danger } else { accent };
+                            .children(self.actions.into_iter().enumerate().map(|(idx, action)| {
+                                let is_first =
+                                    idx == 0 && self.title.is_none() && self.message.is_none();
+                                let text_color = if action.destructive { danger } else { accent };
 
-                                    div()
-                                        .w_full()
-                                        .py_3()
-                                        .flex()
-                                        .items_center()
-                                        .justify_center()
-                                        .text_color(if action.disabled { text_muted } else { text_color })
-                                        .when(!is_first, |d| d.border_t_1().border_color(border))
-                                        .when(!action.disabled, |d| {
-                                            d.cursor_pointer()
-                                                .hover(|s| s.bg(surface_hover))
-                                        })
-                                        .when(action.disabled, |d| d.opacity(0.5))
-                                        .child(action.label)
-                                })
-                            )
+                                div()
+                                    .w_full()
+                                    .py_3()
+                                    .flex()
+                                    .items_center()
+                                    .justify_center()
+                                    .text_color(if action.disabled {
+                                        text_muted
+                                    } else {
+                                        text_color
+                                    })
+                                    .when(!is_first, |d| d.border_t_1().border_color(border))
+                                    .when(!action.disabled, |d| {
+                                        d.cursor_pointer().hover(|s| s.bg(surface_hover))
+                                    })
+                                    .when(action.disabled, |d| d.opacity(0.5))
+                                    .child(action.label)
+                            })),
                     )
                     // Cancel button
                     .child(
@@ -157,8 +159,8 @@ impl RenderOnce for ActionSheet {
                             .font_weight(FontWeight::SEMIBOLD)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .child(self.cancel_label)
-                    )
+                            .child(self.cancel_label),
+                    ),
             )
     }
 }

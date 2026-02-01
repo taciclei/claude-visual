@@ -1,7 +1,7 @@
 //! Notification badge (count indicator) component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Notification badge (count indicator)
 #[derive(Clone, IntoElement)]

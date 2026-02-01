@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple inline radio buttons
 #[derive(IntoElement)]
@@ -20,7 +20,11 @@ impl InlineRadio {
         }
     }
 
-    pub fn option(mut self, value: impl Into<SharedString>, label: impl Into<SharedString>) -> Self {
+    pub fn option(
+        mut self,
+        value: impl Into<SharedString>,
+        label: impl Into<SharedString>,
+    ) -> Self {
         self.options.push((value.into(), label.into()));
         self
     }
@@ -65,11 +69,7 @@ impl RenderOnce for InlineRadio {
         for (value, label) in &self.options {
             let is_selected = self.selected.as_ref() == Some(value);
 
-            let mut option = div()
-                .flex()
-                .items_center()
-                .gap_2()
-                .cursor_pointer();
+            let mut option = div().flex().items_center().gap_2().cursor_pointer();
 
             if self.disabled {
                 option = option.cursor_not_allowed();
@@ -86,13 +86,9 @@ impl RenderOnce for InlineRadio {
                 .justify_center();
 
             if is_selected {
-                circle = circle.border_color(accent_color).child(
-                    div()
-                        .w(px(8.0))
-                        .h(px(8.0))
-                        .rounded_full()
-                        .bg(accent_color),
-                );
+                circle = circle
+                    .border_color(accent_color)
+                    .child(div().w(px(8.0)).h(px(8.0)).rounded_full().bg(accent_color));
             } else {
                 circle = circle.border_color(Hsla {
                     h: 0.0,

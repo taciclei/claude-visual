@@ -1,7 +1,7 @@
 //! Testimonial carousel component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::Testimonial;
 
@@ -66,7 +66,7 @@ impl RenderOnce for TestimonialCarousel {
                         div()
                             .text_3xl()
                             .text_color(accent.opacity(0.3))
-                            .child("\u{201C}")
+                            .child("\u{201C}"),
                     )
                     // Quote text
                     .child(
@@ -75,24 +75,22 @@ impl RenderOnce for TestimonialCarousel {
                             .text_color(text)
                             .text_center()
                             .italic()
-                            .child(t.quote)
+                            .child(t.quote),
                     )
                     // Rating
                     .when_some(t.rating, |d, rating| {
-                        d.child(
-                            div()
-                                .flex()
-                                .items_center()
-                                .gap_1()
-                                .children(
-                                    (0..5).map(move |i| {
-                                        div()
-                                            .text_sm()
-                                            .text_color(if i < rating { star_color } else { text_muted.opacity(0.3) })
-                                            .child("★")
+                        d.child(div().flex().items_center().gap_1().children((0..5).map(
+                            move |i| {
+                                div()
+                                    .text_sm()
+                                    .text_color(if i < rating {
+                                        star_color
+                                    } else {
+                                        text_muted.opacity(0.3)
                                     })
-                                )
-                        )
+                                    .child("★")
+                            },
+                        )))
                     })
                     // Author
                     .child(
@@ -112,7 +110,7 @@ impl RenderOnce for TestimonialCarousel {
                                         .items_center()
                                         .justify_center()
                                         .text_lg()
-                                        .child(avatar)
+                                        .child(avatar),
                                 )
                             })
                             // Name and role
@@ -125,17 +123,12 @@ impl RenderOnce for TestimonialCarousel {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(text)
-                                            .child(t.author)
+                                            .child(t.author),
                                     )
                                     .when_some(t.role, |d, role| {
-                                        d.child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(text_muted)
-                                                .child(role)
-                                        )
-                                    })
-                            )
+                                        d.child(div().text_xs().text_color(text_muted).child(role))
+                                    }),
+                            ),
                     )
             })
             // Dots
@@ -146,16 +139,18 @@ impl RenderOnce for TestimonialCarousel {
                         .flex()
                         .items_center()
                         .gap_2()
-                        .children(
-                            (0..total).map(move |idx| {
-                                let is_current = idx == current;
-                                div()
-                                    .size(px(8.0))
-                                    .rounded_full()
-                                    .bg(if is_current { accent } else { text_muted.opacity(0.3) })
-                                    .cursor_pointer()
-                            })
-                        )
+                        .children((0..total).map(move |idx| {
+                            let is_current = idx == current;
+                            div()
+                                .size(px(8.0))
+                                .rounded_full()
+                                .bg(if is_current {
+                                    accent
+                                } else {
+                                    text_muted.opacity(0.3)
+                                })
+                                .cursor_pointer()
+                        })),
                 )
             })
     }

@@ -50,7 +50,9 @@ impl ExtensionsPanel {
                     name: "Git Lens".to_string(),
                     version: "2.1.0".to_string(),
                     authors: vec!["Claude Visual Team".to_string()],
-                    description: Some("Enhanced git integration with blame annotations".to_string()),
+                    description: Some(
+                        "Enhanced git integration with blame annotations".to_string(),
+                    ),
                     repository: None,
                     lib: Some(crate::plugins::LibConfig {
                         kind: Some("rust".to_string()),
@@ -151,7 +153,10 @@ impl ExtensionsPanel {
                 }
                 ext.manifest.name.to_lowercase().contains(&query)
                     || ext.manifest.id.to_lowercase().contains(&query)
-                    || ext.manifest.description.as_ref()
+                    || ext
+                        .manifest
+                        .description
+                        .as_ref()
                         .map(|d| d.to_lowercase().contains(&query))
                         .unwrap_or(false)
             })

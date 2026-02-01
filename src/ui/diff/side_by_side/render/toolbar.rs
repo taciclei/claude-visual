@@ -1,7 +1,7 @@
 //! Toolbar rendering for side-by-side diff view
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::diff::side_by_side::core::SideBySideDiffView;
 use crate::ui::diff::side_by_side::types::DiffDisplayMode;
@@ -51,27 +51,23 @@ impl SideBySideDiffView {
             .border_color(border_color)
             // Mode toggle
             .child(
-                div()
-                    .flex()
-                    .items_center()
-                    .gap_2()
-                    .child(
-                        div()
-                            .id("toggle-mode")
-                            .px_2()
-                            .py_0p5()
-                            .rounded_sm()
-                            .bg(surface_color)
-                            .text_xs()
-                            .text_color(text_color)
-                            .cursor_pointer()
-                            .hover(|s| s.bg(border_color))
-                            .on_click(toggle_mode_listener)
-                            .child(match display_mode {
-                                DiffDisplayMode::SideBySide => "Switch to Unified",
-                                DiffDisplayMode::Unified => "Switch to Split",
-                            }),
-                    ),
+                div().flex().items_center().gap_2().child(
+                    div()
+                        .id("toggle-mode")
+                        .px_2()
+                        .py_0p5()
+                        .rounded_sm()
+                        .bg(surface_color)
+                        .text_xs()
+                        .text_color(text_color)
+                        .cursor_pointer()
+                        .hover(|s| s.bg(border_color))
+                        .on_click(toggle_mode_listener)
+                        .child(match display_mode {
+                            DiffDisplayMode::SideBySide => "Switch to Unified",
+                            DiffDisplayMode::Unified => "Switch to Split",
+                        }),
+                ),
             )
             // Bulk actions
             .child(

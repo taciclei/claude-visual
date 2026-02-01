@@ -1,10 +1,10 @@
 //! Circular progress indicator
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// A circular progress indicator (spinner)
 pub struct CircularProgress {
@@ -104,10 +104,6 @@ impl Render for CircularProgress {
             .justify_center()
             .size(px(self.size))
             .text_color(fill_color)
-            .child(
-                div()
-                    .text_size(px(self.size * 0.8))
-                    .child(spinner_char)
-            )
+            .child(div().text_size(px(self.size * 0.8)).child(spinner_char))
     }
 }

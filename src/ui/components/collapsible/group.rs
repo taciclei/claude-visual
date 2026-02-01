@@ -1,8 +1,8 @@
 //! Group of collapsible sections (accordion-like but independent)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::collapsible::Collapsible;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A group of collapsible sections (accordion-like but independent)
 #[derive(IntoElement)]

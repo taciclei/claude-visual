@@ -1,9 +1,9 @@
 //! Header section rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use super::super::types::*;
 use super::super::helpers::{mode_color, mode_label};
+use super::super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 pub(crate) fn render_header(
     mode: AgentMode,

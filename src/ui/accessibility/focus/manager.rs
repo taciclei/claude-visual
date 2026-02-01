@@ -1,6 +1,6 @@
 //! Focus manager for tracking and managing focus
 
-use super::types::{FocusableElement, FocusRingStyle, FocusTrap, FocusZone};
+use super::types::{FocusRingStyle, FocusTrap, FocusZone, FocusableElement};
 
 /// Focus manager for tracking and managing focus across the application
 #[derive(Debug, Default)]
@@ -78,9 +78,9 @@ impl FocusManager {
 
     /// Get the currently focused element
     pub fn current_focus(&self) -> Option<&FocusableElement> {
-        self.current_focus.as_ref().and_then(|id| {
-            self.elements.iter().find(|e| &e.id == id)
-        })
+        self.current_focus
+            .as_ref()
+            .and_then(|id| self.elements.iter().find(|e| &e.id == id))
     }
 
     /// Move focus to the next focusable element
@@ -95,7 +95,8 @@ impl FocusManager {
 
     /// Focus the first element in a zone
     pub fn focus_zone(&mut self, zone: &FocusZone) -> Option<String> {
-        let focusable: Vec<_> = self.focusable_elements()
+        let focusable: Vec<_> = self
+            .focusable_elements()
             .filter(|e| &e.zone == zone)
             .collect();
 
@@ -173,9 +174,9 @@ impl FocusManager {
 
     fn focusable_elements(&self) -> impl Iterator<Item = &FocusableElement> {
         let trap_zone = self.focus_trap.as_ref().map(|t| &t.zone);
-        self.elements.iter().filter(move |e| {
-            e.can_focus() && (trap_zone.is_none() || trap_zone == Some(&e.zone))
-        })
+        self.elements
+            .iter()
+            .filter(move |e| e.can_focus() && (trap_zone.is_none() || trap_zone == Some(&e.zone)))
     }
 
     fn move_focus(&mut self, direction: i32) -> Option<String> {
@@ -184,9 +185,10 @@ impl FocusManager {
             return None;
         }
 
-        let current_idx = self.current_focus.as_ref().and_then(|id| {
-            focusable.iter().position(|e| &e.id == id)
-        });
+        let current_idx = self
+            .current_focus
+            .as_ref()
+            .and_then(|id| focusable.iter().position(|e| &e.id == id));
 
         let new_idx = match current_idx {
             Some(idx) => {

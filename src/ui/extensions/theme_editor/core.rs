@@ -1,11 +1,11 @@
 //! Core ThemeEditor struct and methods
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
 use crate::app::state::AppState;
 use crate::app::theme::Theme;
-use crate::ui::extensions::theme_editor::types::{EditingColor, ThemeEditorTab, ThemeEditorEvent};
+use crate::ui::extensions::theme_editor::types::{EditingColor, ThemeEditorEvent, ThemeEditorTab};
 
 /// Theme editor component
 pub struct ThemeEditor {
@@ -97,7 +97,11 @@ impl ThemeEditor {
     }
 
     /// Set theme variant (dark/light)
-    pub(crate) fn set_variant(&mut self, variant: crate::app::theme::ThemeVariant, cx: &mut Context<Self>) {
+    pub(crate) fn set_variant(
+        &mut self,
+        variant: crate::app::theme::ThemeVariant,
+        cx: &mut Context<Self>,
+    ) {
         self.editing_theme.variant = variant;
         self.editing_theme.is_dark = variant.is_dark();
         self.has_changes = true;

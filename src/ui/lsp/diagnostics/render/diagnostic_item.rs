@@ -1,12 +1,14 @@
 //! Individual diagnostic item rendering
 
-use std::path::PathBuf;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::path::PathBuf;
 
 use crate::lsp::protocol::Diagnostic;
 use crate::ui::lsp::diagnostics::core::DiagnosticsPanel;
-use crate::ui::lsp::diagnostics::types::{SimpleColors, DiagnosticsPanelEvent, severity_icon, severity_color};
+use crate::ui::lsp::diagnostics::types::{
+    severity_color, severity_icon, DiagnosticsPanelEvent, SimpleColors,
+};
 
 pub fn render_diagnostic_items(
     diagnostics: &[&Diagnostic],
@@ -49,7 +51,9 @@ pub fn render_diagnostic_items(
             });
 
             div()
-                .id(ElementId::Name(format!("diag-{}-{}", path_clone.display(), idx).into()))
+                .id(ElementId::Name(
+                    format!("diag-{}-{}", path_clone.display(), idx).into(),
+                ))
                 .flex()
                 .items_start()
                 .gap_2()
@@ -59,24 +63,14 @@ pub fn render_diagnostic_items(
                 .cursor_pointer()
                 .hover(|style| style.bg(colors_hover))
                 .on_click(goto_click)
-                .child(
-                    div()
-                        .text_sm()
-                        .text_color(color)
-                        .child(icon),
-                )
+                .child(div().text_sm().text_color(color).child(icon))
                 .child(
                     div()
                         .flex()
                         .flex_col()
                         .flex_1()
                         .overflow_hidden()
-                        .child(
-                            div()
-                                .text_sm()
-                                .text_color(colors_text)
-                                .child(message),
-                        )
+                        .child(div().text_sm().text_color(colors_text).child(message))
                         .child(
                             div()
                                 .flex()
@@ -100,19 +94,16 @@ pub fn render_diagnostic_items(
                 )
                 .child(
                     div()
-                        .id(ElementId::Name(format!("fix-{}-{}", path_clone.display(), idx).into()))
+                        .id(ElementId::Name(
+                            format!("fix-{}-{}", path_clone.display(), idx).into(),
+                        ))
                         .px_2()
                         .py_0p5()
                         .rounded_sm()
                         .cursor_pointer()
                         .hover(|style| style.bg(colors_hover))
                         .on_click(fix_click)
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(colors_accent)
-                                .child("Fix"),
-                        ),
+                        .child(div().text_xs().text_color(colors_accent).child("Fix")),
                 )
         }))
 }

@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Avatar component
 pub struct Avatar {
@@ -81,10 +81,22 @@ impl Avatar {
         let parts: Vec<&str> = name.split_whitespace().collect();
         match parts.len() {
             0 => "?".to_string(),
-            1 => parts[0].chars().next().map(|c| c.to_uppercase().to_string()).unwrap_or_default(),
+            1 => parts[0]
+                .chars()
+                .next()
+                .map(|c| c.to_uppercase().to_string())
+                .unwrap_or_default(),
             _ => {
-                let first = parts[0].chars().next().map(|c| c.to_uppercase().to_string()).unwrap_or_default();
-                let last = parts.last().and_then(|s| s.chars().next()).map(|c| c.to_uppercase().to_string()).unwrap_or_default();
+                let first = parts[0]
+                    .chars()
+                    .next()
+                    .map(|c| c.to_uppercase().to_string())
+                    .unwrap_or_default();
+                let last = parts
+                    .last()
+                    .and_then(|s| s.chars().next())
+                    .map(|c| c.to_uppercase().to_string())
+                    .unwrap_or_default();
                 format!("{}{}", first, last)
             }
         }
@@ -192,8 +204,12 @@ impl Render for Avatar {
         let size = self.size.pixels();
         let font_size = self.size.font_size();
 
-        let bg_color = self.bg_color.unwrap_or_else(|| self.default_bg_for_role(theme));
-        let fg_color = self.fg_color.unwrap_or_else(|| self.default_fg_for_role(theme));
+        let bg_color = self
+            .bg_color
+            .unwrap_or_else(|| self.default_bg_for_role(theme));
+        let fg_color = self
+            .fg_color
+            .unwrap_or_else(|| self.default_fg_for_role(theme));
         let presence_color = self.presence_color(theme);
 
         // Calculate border radius
@@ -222,14 +238,16 @@ impl Render for Avatar {
                     .size(px(size))
                     .rounded(px(radius))
                     .bg(bg_color)
-                    .when(self.bordered, |d| d.border_2().border_color(theme.colors.border))
+                    .when(self.bordered, |d| {
+                        d.border_2().border_color(theme.colors.border)
+                    })
                     .flex()
                     .items_center()
                     .justify_center()
                     .text_color(fg_color)
                     .text_size(px(font_size))
                     .font_weight(FontWeight::MEDIUM)
-                    .child(display_content)
+                    .child(display_content),
             )
             // Presence indicator
             .when_some(presence_color, |this, color| {
@@ -243,7 +261,7 @@ impl Render for Avatar {
                         .rounded_full()
                         .bg(color)
                         .border_2()
-                        .border_color(theme.colors.surface)
+                        .border_color(theme.colors.surface),
                 )
             })
     }

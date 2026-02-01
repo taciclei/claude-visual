@@ -2,12 +2,12 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::StatusBarEvent;
 use super::{left_section, right_section};
+use crate::app::state::AppState;
 
 /// Status bar component
 pub struct StatusBar {
@@ -110,7 +110,12 @@ impl StatusBar {
     }
 
     /// Update project info
-    pub fn set_project(&mut self, name: Option<String>, path: Option<String>, cx: &mut Context<Self>) {
+    pub fn set_project(
+        &mut self,
+        name: Option<String>,
+        path: Option<String>,
+        cx: &mut Context<Self>,
+    ) {
         self.project_name = name;
         self.project_path = path;
         cx.notify();

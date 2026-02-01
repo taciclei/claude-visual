@@ -1,12 +1,12 @@
 //! VideoPlayer render implementation
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
+use super::controls::format_time;
 use super::types::{PlaybackState, VideoPlayerSize, VideoQuality};
-use super::controls::{format_time};
-use super::{VideoPlayer, overlay, progress_bar};
+use super::{overlay, progress_bar, VideoPlayer};
 
 impl RenderOnce for VideoPlayer {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
@@ -42,16 +42,18 @@ impl RenderOnce for VideoPlayer {
             .when(self.size != VideoPlayerSize::Full, |el| {
                 el.w(px(width)).h(px(height))
             })
-            .when(self.size == VideoPlayerSize::Full, |el| {
-                el.w_full()
-            })
+            .when(self.size == VideoPlayerSize::Full, |el| el.w_full())
             .bg(hsla(0.0, 0.0, 0.05, 1.0))
             .rounded(px(8.0))
             .overflow_hidden()
             // Video area / thumbnail
             .child(build_video_area(self.thumbnail.clone()))
             // Play overlay (when paused)
-            .children(overlay::build_play_overlay(self.state, self.show_controls, play_icon.to_string()))
+            .children(overlay::build_play_overlay(
+                self.state,
+                self.show_controls,
+                play_icon.to_string(),
+            ))
             // Controls overlay
             .when(self.show_controls, |el| {
                 el.child(build_controls_overlay(
@@ -83,7 +85,7 @@ fn build_video_area(thumbnail: Option<SharedString>) -> Div {
             div()
                 .text_size(px(48.0))
                 .text_color(hsla(0.0, 0.0, 0.3, 1.0))
-                .child(thumbnail.unwrap_or("🎬".into()))
+                .child(thumbnail.unwrap_or("🎬".into())),
         )
 }
 
@@ -117,8 +119,15 @@ fn build_controls_overlay(
                 .flex()
                 .items_center()
                 .justify_between()
-                .child(build_left_controls(play_icon.clone(), volume_icon, muted, volume, current_time, duration))
-                .child(build_right_controls(quality, fullscreen))
+                .child(build_left_controls(
+                    play_icon.clone(),
+                    volume_icon,
+                    muted,
+                    volume,
+                    current_time,
+                    duration,
+                ))
+                .child(build_right_controls(quality, fullscreen)),
         )
 }
 
@@ -141,7 +150,7 @@ fn build_left_controls(
                 .text_size(px(16.0))
                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
                 .cursor_pointer()
-                .child(play_icon)
+                .child(play_icon),
         )
         // Volume
         .child(
@@ -154,7 +163,7 @@ fn build_left_controls(
                         .text_size(px(14.0))
                         .text_color(hsla(0.0, 0.0, 1.0, 1.0))
                         .cursor_pointer()
-                        .child(volume_icon)
+                        .child(volume_icon),
                 )
                 .child(
                     div()
@@ -168,9 +177,9 @@ fn build_left_controls(
                                 .h_full()
                                 .w(pct(if muted { 0.0 } else { volume * 100.0 }))
                                 .bg(hsla(0.0, 0.0, 0.8, 1.0))
-                                .rounded_full()
-                        )
-                )
+                                .rounded_full(),
+                        ),
+                ),
         )
         // Time
         .child(
@@ -181,7 +190,7 @@ fn build_left_controls(
                     "{} / {}",
                     format_time(current_time),
                     format_time(duration)
-                ))
+                )),
         )
 }
 
@@ -201,7 +210,7 @@ fn build_right_controls(quality: VideoQuality, fullscreen: bool) -> Div {
                 .text_size(px(11.0))
                 .text_color(hsla(0.0, 0.0, 0.9, 1.0))
                 .cursor_pointer()
-                .child(quality.label())
+                .child(quality.label()),
         )
         // Fullscreen
         .child(
@@ -209,6 +218,6 @@ fn build_right_controls(quality: VideoQuality, fullscreen: bool) -> Div {
                 .text_size(px(14.0))
                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
                 .cursor_pointer()
-                .child(if fullscreen { "⤓" } else { "⤢" })
+                .child(if fullscreen { "⤓" } else { "⤢" }),
         )
 }

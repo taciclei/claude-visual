@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use crate::app::theme::Theme;
 use super::super::types::WorktreePanel;
+use crate::app::theme::Theme;
 
 pub(crate) fn render_create_button(
     theme: &Theme,

@@ -1,9 +1,9 @@
 //! Modal dialog component
 
+use gpui::prelude::*;
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 /// Modal dialog component
 pub struct Modal {
@@ -86,12 +86,7 @@ impl RenderOnce for Modal {
                             }),
                     )
                     // Content
-                    .child(
-                        div()
-                            .px_4()
-                            .py_4()
-                            .child(self.content),
-                    ),
+                    .child(div().px_4().py_4().child(self.content)),
             )
     }
 }

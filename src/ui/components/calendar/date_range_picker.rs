@@ -1,9 +1,9 @@
 //! Date range picker component (two calendars)
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::calendar_month::CalendarMonth;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Date range picker (two calendars)
 #[derive(Clone)]
@@ -48,19 +48,14 @@ impl RenderOnce for DateRangePicker {
             // Left calendar
             .child(
                 CalendarMonth::new(self.left_year, self.left_month)
-                    .selected(self.start_date.unwrap_or(SimpleDate::new(2026, 1, 1)))
+                    .selected(self.start_date.unwrap_or(SimpleDate::new(2026, 1, 1))),
             )
             // Divider
-            .child(
-                div()
-                    .w(px(1.0))
-                    .h_full()
-                    .bg(border)
-            )
+            .child(div().w(px(1.0)).h_full().bg(border))
             // Right calendar
             .child(
                 CalendarMonth::new(right_year, right_month)
-                    .selected(self.end_date.unwrap_or(SimpleDate::new(2026, 1, 31)))
+                    .selected(self.end_date.unwrap_or(SimpleDate::new(2026, 1, 31))),
             )
     }
 }

@@ -1,7 +1,7 @@
 //! Rendering implementation for SplitContainer
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::container::SplitContainer;
 use super::types::*;
@@ -38,12 +38,8 @@ impl SplitContainer {
                     .min_w(px(150.0))
                     .min_h(px(150.0))
                     .border_1()
-                    .when(is_focused, |this| {
-                this.border_color(theme.colors.accent)
-                    })
-                    .when(!is_focused, |this| {
-                this.border_color(theme.colors.border)
-                    })
+                    .when(is_focused, |this| this.border_color(theme.colors.accent))
+                    .when(!is_focused, |this| this.border_color(theme.colors.border))
                     .rounded_sm()
                     // Placeholder content - would contain ChatView
                     .child(
@@ -62,14 +58,14 @@ impl SplitContainer {
                     )
                     .into_any_element()
             }
-            SplitNode::Split { direction, children } => {
+            SplitNode::Split {
+                direction,
+                children,
+            } => {
                 let is_horizontal = *direction == SplitDirection::Horizontal;
                 let dir = *direction;
 
-                let mut container = div()
-                    .flex_1()
-                    .flex()
-                    .gap_0();
+                let mut container = div().flex_1().flex().gap_0();
 
                 container = if is_horizontal {
                     container.flex_row()
@@ -81,7 +77,9 @@ impl SplitContainer {
                 for (i, child) in children.iter().enumerate() {
                     if i > 0 {
                         let divider_idx = i - 1;
-                        let is_dragging = self.resize_drag.as_ref()
+                        let is_dragging = self
+                            .resize_drag
+                            .as_ref()
                             .map(|d| d.divider_index == divider_idx)
                             .unwrap_or(false);
 
@@ -90,14 +88,12 @@ impl SplitContainer {
                             div()
                                 .id(ElementId::Name(format!("divider-{}", i).into()))
                                 .when(is_horizontal, |this| {
-                this.w(px(6.0))
+                                    this.w(px(6.0))
                                         .h_full()
                                         .cursor(CursorStyle::ResizeLeftRight)
                                 })
                                 .when(!is_horizontal, |this| {
-                this.h(px(6.0))
-                                        .w_full()
-                                        .cursor(CursorStyle::ResizeUpDown)
+                                    this.h(px(6.0)).w_full().cursor(CursorStyle::ResizeUpDown)
                                 })
                                 .bg(if is_dragging {
                                     theme.colors.accent
@@ -107,9 +103,16 @@ impl SplitContainer {
                                 .hover(|style| style.bg(theme.colors.accent))
                                 .on_mouse_down(
                                     MouseButton::Left,
-                                    cx.listener(move |this, event: &MouseDownEvent, _window, cx| {
-                                        this.start_resize_drag(dir, divider_idx, event.position, cx);
-                                    }),
+                                    cx.listener(
+                                        move |this, event: &MouseDownEvent, _window, cx| {
+                                            this.start_resize_drag(
+                                                dir,
+                                                divider_idx,
+                                                event.position,
+                                                cx,
+                                            );
+                                        },
+                                    ),
                                 )
                                 .on_mouse_up(
                                     MouseButton::Left,
@@ -117,13 +120,13 @@ impl SplitContainer {
                                         this.end_resize_drag(cx);
                                     }),
                                 )
-                                .on_mouse_move(
-                                    cx.listener(|this, event: &MouseMoveEvent, _window, cx| {
+                                .on_mouse_move(cx.listener(
+                                    |this, event: &MouseMoveEvent, _window, cx| {
                                         if this.resize_drag.is_some() {
                                             this.update_resize_drag(event.position, cx);
                                         }
-                                    }),
-                                ),
+                                    },
+                                )),
                         );
                     }
                     container = container.child(self.render_node(child, cx));

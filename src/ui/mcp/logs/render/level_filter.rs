@@ -1,7 +1,7 @@
 //! Level filter button rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::mcp::logs::core::McpLogsPanel;
@@ -24,7 +24,9 @@ impl McpLogsPanel {
         });
 
         div()
-            .id(ElementId::Name(format!("level-filter-{}", level.label()).into()))
+            .id(ElementId::Name(
+                format!("level-filter-{}", level.label()).into(),
+            ))
             .px_2()
             .py_1()
             .text_xs()
@@ -35,11 +37,7 @@ impl McpLogsPanel {
             } else {
                 gpui::transparent_black()
             })
-            .text_color(if is_active {
-                level_color
-            } else {
-                text_muted
-            })
+            .text_color(if is_active { level_color } else { text_muted })
             .hover(|s| s.bg(level_color.opacity(0.1)))
             .on_click(on_click_handler)
             .child(level.label())

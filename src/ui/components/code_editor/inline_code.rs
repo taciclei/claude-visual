@@ -1,7 +1,7 @@
 //! Inline code snippet component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Inline code snippet
 #[derive(IntoElement)]

@@ -3,9 +3,9 @@
 use gpui::*;
 use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::super::VimKeyHandler;
 use super::VimMode;
+use crate::app::state::AppState;
 
 /// Vim state manager
 pub struct VimState {

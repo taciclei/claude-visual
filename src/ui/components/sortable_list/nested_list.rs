@@ -1,8 +1,8 @@
 //! Nested sortable list component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::NestedSortableItem;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Nested sortable list component
 #[derive(IntoElement)]
@@ -60,19 +60,17 @@ impl NestedSortableList {
                                 .cursor_pointer()
                                 .text_size(px(12.0))
                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .child(if item.collapsed { "▶" } else { "▼" })
+                                .child(if item.collapsed { "▶" } else { "▼" }),
                         )
                     })
-                    .when(!has_children, |el| {
-                        el.child(div().w(px(20.0)))
-                    })
+                    .when(!has_children, |el| el.child(div().w(px(20.0))))
                     // Drag handle
                     .child(
                         div()
                             .text_size(px(12.0))
                             .text_color(hsla(0.0, 0.0, 0.4, 1.0))
                             .cursor_grab()
-                            .child("⋮⋮")
+                            .child("⋮⋮"),
                     )
                     // Content
                     .child(
@@ -80,13 +78,15 @@ impl NestedSortableList {
                             .flex_1()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                            .child(item.content.clone())
-                    )
+                            .child(item.content.clone()),
+                    ),
             )
             .when(!item.collapsed && has_children, |el| {
-                el.children(item.children.iter().map(|child| {
-                    Self::render_item(child, depth + 1, indent_size)
-                }))
+                el.children(
+                    item.children
+                        .iter()
+                        .map(|child| Self::render_item(child, depth + 1, indent_size)),
+                )
             })
             .into_any_element()
     }
@@ -96,12 +96,10 @@ impl RenderOnce for NestedSortableList {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let indent_size = self.indent_size;
 
-        div()
-            .id(self.id)
-            .flex()
-            .flex_col()
-            .children(self.items.iter().map(|item| {
-                Self::render_item(item, 0, indent_size)
-            }))
+        div().id(self.id).flex().flex_col().children(
+            self.items
+                .iter()
+                .map(|item| Self::render_item(item, 0, indent_size)),
+        )
     }
 }

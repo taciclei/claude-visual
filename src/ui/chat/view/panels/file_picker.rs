@@ -1,12 +1,16 @@
 //! File picker render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_file_picker(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_file_picker(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let files = &self.file_picker.results;
         let query = &self.file_picker.query;
 
@@ -59,7 +63,7 @@ impl ChatView {
                                         "Search files to mention...".to_string()
                                     } else {
                                         query.clone()
-                                    })
+                                    }),
                             )
                             .child(
                                 div()
@@ -74,8 +78,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_file_picker(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // File list
                     .child(
@@ -91,7 +95,7 @@ impl ChatView {
                                         .text_center()
                                         .text_sm()
                                         .text_color(theme.colors.text_muted)
-                                        .child("Type to search files...")
+                                        .child("Type to search files..."),
                                 )
                             })
                             .children(files.iter().enumerate().map(|(idx, file)| {
@@ -108,11 +112,7 @@ impl ChatView {
                                     .on_click(cx.listener(move |this, _, _window, cx| {
                                         this.select_file(&path, cx);
                                     }))
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .child(file.icon())
-                                    )
+                                    .child(div().text_sm().child(file.icon()))
                                     .child(
                                         div()
                                             .flex_1()
@@ -122,16 +122,16 @@ impl ChatView {
                                                 div()
                                                     .text_sm()
                                                     .text_color(theme.colors.text)
-                                                    .child(file.name.clone())
+                                                    .child(file.name.clone()),
                                             )
                                             .child(
                                                 div()
                                                     .text_xs()
                                                     .text_color(theme.colors.text_muted)
-                                                    .child(file.path.clone())
-                                            )
+                                                    .child(file.path.clone()),
+                                            ),
                                     )
-                            }))
+                            })),
                     )
                     // Footer hint
                     .child(
@@ -159,12 +159,11 @@ impl ChatView {
                                             .border_1()
                                             .border_color(theme.colors.border)
                                             .font_family("monospace")
-                                            .child("⎋")
+                                            .child("⎋"),
                                     )
-                                    .child("Close")
-                            )
-                    )
+                                    .child("Close"),
+                            ),
+                    ),
             )
     }
-
 }

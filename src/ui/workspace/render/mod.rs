@@ -1,13 +1,13 @@
 //! Workspace render implementation split into logical modules
 
 mod action_registry;
-mod sidebar;
 mod content;
 mod overlays;
+mod sidebar;
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::Workspace;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for Workspace {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -24,13 +24,13 @@ impl Render for Workspace {
                 .text_color(theme.colors.text)
                 .flex()
                 .flex_row(),
-            cx
+            cx,
         )
-            // Sidebar
-            .child(sidebar::render_sidebar(self, &theme, cx))
-            // Main content area
-            .child(content::render_content(self, &theme, active_chat_view, cx))
-            // Overlays and indicators
-            .children(overlays::render_overlays(self, &theme, cx))
+        // Sidebar
+        .child(sidebar::render_sidebar(self, &theme, cx))
+        // Main content area
+        .child(content::render_content(self, &theme, active_chat_view, cx))
+        // Overlays and indicators
+        .children(overlays::render_overlays(self, &theme, cx))
     }
 }

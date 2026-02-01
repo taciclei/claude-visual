@@ -1,7 +1,7 @@
 //! Simple star rating display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::*;
 
@@ -42,13 +42,20 @@ impl RenderOnce for StarRating {
                 let filled = self.value >= (i as f32 + 1.0);
                 let half = !filled && self.value > i as f32;
 
-                let icon = if filled { "★" } else if half { "⯪" } else { "☆" };
-                let color = if filled || half { filled_color } else { empty_color };
+                let icon = if filled {
+                    "★"
+                } else if half {
+                    "⯪"
+                } else {
+                    "☆"
+                };
+                let color = if filled || half {
+                    filled_color
+                } else {
+                    empty_color
+                };
 
-                div()
-                    .text_size(px(icon_size))
-                    .text_color(color)
-                    .child(icon)
+                div().text_size(px(icon_size)).text_color(color).child(icon)
             }))
     }
 }

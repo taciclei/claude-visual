@@ -4,7 +4,10 @@ use crate::ui::chat::view::ChatView;
 
 impl ChatView {
     /// Format session capabilities for notification
-    pub(crate) fn format_session_capabilities(&self, info: &crate::claude::message::SessionInfo) -> String {
+    pub(crate) fn format_session_capabilities(
+        &self,
+        info: &crate::claude::message::SessionInfo,
+    ) -> String {
         let mut parts = Vec::new();
 
         // Model name (simplified)

@@ -1,7 +1,7 @@
 //! Stateless skeleton line component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Stateless skeleton for simple use cases
 #[derive(Clone)]

@@ -1,8 +1,8 @@
 //! Main sparkline component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Sparkline component - inline mini chart
 #[derive(IntoElement)]

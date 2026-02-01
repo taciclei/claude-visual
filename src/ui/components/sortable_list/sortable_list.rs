@@ -1,8 +1,8 @@
 //! Sortable list component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::{SortableItem, SortableVariant};
+use gpui::prelude::*;
+use gpui::*;
 
 /// Sortable list component
 #[derive(IntoElement)]
@@ -119,7 +119,13 @@ impl RenderOnce for SortableList {
                     }
                 };
 
-                let opacity = if is_disabled { 0.5 } else if is_dragging { 0.8 } else { 1.0 };
+                let opacity = if is_disabled {
+                    0.5
+                } else if is_dragging {
+                    0.8
+                } else {
+                    1.0
+                };
 
                 div()
                     .flex()
@@ -135,12 +141,10 @@ impl RenderOnce for SortableList {
                             .shadow_sm()
                     })
                     .when(self.variant == SortableVariant::Bordered && i > 0, |el| {
-                        el.border_t_1()
-                            .border_color(hsla(0.0, 0.0, 0.2, 1.0))
+                        el.border_t_1().border_color(hsla(0.0, 0.0, 0.2, 1.0))
                     })
                     .when(is_drop_target, |el| {
-                        el.border_t_2()
-                            .border_color(hsla(0.6, 0.7, 0.5, 1.0))
+                        el.border_t_2().border_color(hsla(0.6, 0.7, 0.5, 1.0))
                     })
                     .opacity(opacity)
                     .when(!is_disabled && !is_locked, |el| el.cursor_grab())
@@ -155,7 +159,7 @@ impl RenderOnce for SortableList {
                                 .text_size(px(14.0))
                                 .text_color(hsla(0.0, 0.0, 0.4, 1.0))
                                 .when(!is_disabled, |el| el.cursor_grab())
-                                .child("⋮⋮")
+                                .child("⋮⋮"),
                         )
                     })
                     .when(is_locked, |el| {
@@ -167,7 +171,7 @@ impl RenderOnce for SortableList {
                                 .w(px(20.0))
                                 .text_size(px(12.0))
                                 .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                .child("🔒")
+                                .child("🔒"),
                         )
                     })
                     // Number
@@ -184,16 +188,12 @@ impl RenderOnce for SortableList {
                                 .text_size(px(12.0))
                                 .font_weight(gpui::FontWeight::MEDIUM)
                                 .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                                .child((i + 1).to_string())
+                                .child((i + 1).to_string()),
                         )
                     })
                     // Icon
                     .when_some(item.icon.clone(), |el, icon| {
-                        el.child(
-                            div()
-                                .text_size(px(16.0))
-                                .child(icon)
-                        )
+                        el.child(div().text_size(px(16.0)).child(icon))
                     })
                     // Content
                     .child(
@@ -201,7 +201,7 @@ impl RenderOnce for SortableList {
                             .flex_1()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                            .child(item.content.clone())
+                            .child(item.content.clone()),
                     )
             }))
     }

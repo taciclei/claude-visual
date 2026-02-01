@@ -57,11 +57,13 @@ impl SummarizationRequest {
              2. Important technical details and code changes\n\
              3. Current state and any pending tasks\n\
              4. Context needed for continuing the conversation\n\n\
-             Keep the summary concise but comprehensive. "
+             Keep the summary concise but comprehensive. ",
         );
 
         if !self.config.include_code {
-            prompt.push_str("Summarize code changes conceptually without including full code blocks. ");
+            prompt.push_str(
+                "Summarize code changes conceptually without including full code blocks. ",
+            );
         }
 
         prompt.push_str(&format!(

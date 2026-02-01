@@ -1,7 +1,7 @@
 //! File loading logic for preview
 
+use super::types::{PreviewState, MAX_PREVIEW_LINES, MAX_PREVIEW_SIZE};
 use std::path::PathBuf;
-use super::types::{PreviewState, MAX_PREVIEW_SIZE, MAX_PREVIEW_LINES};
 
 /// Load file preview content
 pub(crate) fn load_file_preview(path: &PathBuf) -> PreviewState {

@@ -1,8 +1,8 @@
 //! AnimatedText component - various text effects
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Animated text with various effects
 #[derive(IntoElement)]

@@ -1,7 +1,7 @@
 //! Windowed message loader for virtualized lists
 
-use std::collections::VecDeque;
 use super::{PageInfo, PaginatedResult};
+use std::collections::VecDeque;
 
 /// Windowed message loader for virtualized list
 ///

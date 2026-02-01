@@ -1,10 +1,10 @@
 //! Stats rendering for sync status panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::super::SyncStatusPanel;
 use super::super::super::utils;
+use super::super::SyncStatusPanel;
 
 impl SyncStatusPanel {
     /// Render stats
@@ -27,18 +27,8 @@ impl SyncStatusPanel {
                     .flex()
                     .flex_col()
                     .gap_0p5()
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted)
-                            .child("Last sync"),
-                    )
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(text_color)
-                            .child(last_sync_text),
-                    ),
+                    .child(div().text_xs().text_color(text_muted).child("Last sync"))
+                    .child(div().text_sm().text_color(text_color).child(last_sync_text)),
             )
             // Pending
             .child(
@@ -46,12 +36,7 @@ impl SyncStatusPanel {
                     .flex()
                     .flex_col()
                     .gap_0p5()
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted)
-                            .child("Pending"),
-                    )
+                    .child(div().text_xs().text_color(text_muted).child("Pending"))
                     .child(
                         div()
                             .text_sm()
@@ -69,12 +54,7 @@ impl SyncStatusPanel {
                     .flex()
                     .flex_col()
                     .gap_0p5()
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted)
-                            .child("Up/Down"),
-                    )
+                    .child(div().text_xs().text_color(text_muted).child("Up/Down"))
                     .child(
                         div()
                             .text_sm()

@@ -1,25 +1,25 @@
 //! Form label and helper text components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-mod types;
-mod label;
-mod helper_text;
 mod character_count;
-mod form_field;
-mod field_group;
-mod inline_label;
 mod description_label;
+mod field_group;
+mod form_field;
+mod helper_text;
+mod inline_label;
+mod label;
+mod types;
 
-pub use types::{LabelSize, HelperTextVariant};
-pub use label::Label;
-pub use helper_text::HelperText;
 pub use character_count::CharacterCount;
-pub use form_field::FormField;
-pub use field_group::FieldGroup;
-pub use inline_label::InlineLabel;
 pub use description_label::DescriptionLabel;
+pub use field_group::FieldGroup;
+pub use form_field::FormField;
+pub use helper_text::HelperText;
+pub use inline_label::InlineLabel;
+pub use label::Label;
+pub use types::{HelperTextVariant, LabelSize};
 
 #[cfg(test)]
 mod tests {
@@ -27,9 +27,7 @@ mod tests {
 
     #[test]
     fn test_label() {
-        let label = Label::new("Email")
-            .required(true)
-            .size(LabelSize::Medium);
+        let label = Label::new("Email").required(true).size(LabelSize::Medium);
         assert_eq!(label.text.as_ref(), "Email");
         assert!(label.required);
     }
@@ -62,8 +60,7 @@ mod tests {
 
     #[test]
     fn test_description_label() {
-        let dl = DescriptionLabel::new("Status", "Active")
-            .inline(true);
+        let dl = DescriptionLabel::new("Status", "Active").inline(true);
         assert_eq!(dl.term.as_ref(), "Status");
         assert_eq!(dl.description.as_ref(), "Active");
         assert!(dl.inline);

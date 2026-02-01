@@ -7,7 +7,8 @@ impl Summarizer {
     /// Extract topics from conversation (basic implementation)
     pub fn extract_topics(&self) -> Vec<String> {
         let mut topics = Vec::new();
-        let mut topic_counts: std::collections::HashMap<String, usize> = std::collections::HashMap::new();
+        let mut topic_counts: std::collections::HashMap<String, usize> =
+            std::collections::HashMap::new();
 
         for msg in &self.messages {
             // Look for common programming topics
@@ -59,9 +60,12 @@ impl Summarizer {
             message_tokens: self.message_tokens(),
             compression_ratio: if self.total_tokens > 0 {
                 1.0 - (self.summary_tokens() as f32
-                    / (self.summary_tokens() + self.summaries.iter()
-                        .map(|s| s.original_tokens)
-                        .sum::<usize>()) as f32)
+                    / (self.summary_tokens()
+                        + self
+                            .summaries
+                            .iter()
+                            .map(|s| s.original_tokens)
+                            .sum::<usize>()) as f32)
             } else {
                 0.0
             },

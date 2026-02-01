@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Activity streak display
 #[derive(IntoElement)]
@@ -84,11 +84,7 @@ impl RenderOnce for ActivityStreak {
                             .items_center()
                             .gap_2()
                             .when(self.show_flame && self.current_streak > 0, |d| {
-                                d.child(
-                                    div()
-                                        .text_2xl()
-                                        .child("🔥"),
-                                )
+                                d.child(div().text_2xl().child("🔥"))
                             })
                             .child(
                                 div()

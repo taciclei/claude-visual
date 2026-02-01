@@ -1,11 +1,11 @@
 //! Settings modal core logic
 
-use std::sync::Arc;
-use gpui::*;
+use super::types::{SettingsModalEvent, SettingsTab};
 use crate::app::settings::Settings;
 use crate::app::state::AppState;
 use crate::i18n::i18n;
-use super::types::{SettingsTab, SettingsModalEvent};
+use gpui::*;
+use std::sync::Arc;
 
 /// Settings modal component
 pub struct SettingsModal {
@@ -79,8 +79,8 @@ impl SettingsModal {
         let theme_clone = self.app_state.theme.read(cx).clone();
         let current_theme_name = theme_clone.name.clone();
         let theme_mode_name = theme_clone.mode_name();
-        let theme_changed = current_theme_name != self.pending.ui.theme
-            && theme_mode_name != self.pending.ui.theme;
+        let theme_changed =
+            current_theme_name != self.pending.ui.theme && theme_mode_name != self.pending.ui.theme;
 
         if theme_changed {
             // First check if it's a built-in theme
@@ -189,7 +189,9 @@ impl SettingsModal {
 
     /// Copy export text to clipboard
     pub(crate) fn copy_to_clipboard(&self, cx: &mut Context<Self>) {
-        cx.write_to_clipboard(gpui::ClipboardItem::new_string(self.import_export_text.clone()));
+        cx.write_to_clipboard(gpui::ClipboardItem::new_string(
+            self.import_export_text.clone(),
+        ));
         tracing::info!("Settings exported to clipboard");
     }
 

@@ -94,10 +94,7 @@ impl DapClientConfig {
     pub fn debugpy() -> Self {
         Self {
             command: "python".to_string(),
-            args: vec![
-                "-m".to_string(),
-                "debugpy.adapter".to_string(),
-            ],
+            args: vec!["-m".to_string(), "debugpy.adapter".to_string()],
             ..Default::default()
         }
     }
@@ -106,9 +103,7 @@ impl DapClientConfig {
     pub fn node_debug() -> Self {
         Self {
             command: "node".to_string(),
-            args: vec![
-                "--inspect-brk".to_string(),
-            ],
+            args: vec!["--inspect-brk".to_string()],
             ..Default::default()
         }
     }

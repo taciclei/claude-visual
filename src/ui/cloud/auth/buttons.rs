@@ -1,7 +1,7 @@
 //! Authentication button components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::cloud::OAuthProvider;
 
@@ -26,7 +26,9 @@ impl AuthDialog {
         });
 
         div()
-            .id(ElementId::Name(format!("auth-provider-{:?}", provider).into()))
+            .id(ElementId::Name(
+                format!("auth-provider-{:?}", provider).into(),
+            ))
             .w_full()
             .py_2()
             .px_4()
@@ -42,12 +44,8 @@ impl AuthDialog {
                 OAuthProvider::Google => Hsla::from(rgb(0xdadce0)),
                 _ => Hsla::transparent_black(),
             })
-            .when(!is_loading, |this| {
-                this.hover(|this| this.opacity(0.9))
-            })
-            .when(is_loading, |this| {
-                this.opacity(0.6).cursor_not_allowed()
-            })
+            .when(!is_loading, |this| this.hover(|this| this.opacity(0.9)))
+            .when(is_loading, |this| this.opacity(0.6).cursor_not_allowed())
             .on_click(on_click)
             .child(
                 div()
@@ -56,15 +54,11 @@ impl AuthDialog {
                     .items_center()
                     .justify_center()
                     .gap_3()
-                    .child(
-                        div()
-                            .text_base()
-                            .child(match provider {
-                                OAuthProvider::GitHub => "GitHub",
-                                OAuthProvider::Google => "Google",
-                                OAuthProvider::Email => "Email",
-                            }),
-                    )
+                    .child(div().text_base().child(match provider {
+                        OAuthProvider::GitHub => "GitHub",
+                        OAuthProvider::Google => "Google",
+                        OAuthProvider::Email => "Email",
+                    }))
                     .text_color(match provider {
                         OAuthProvider::GitHub => Hsla::from(rgb(0xffffff)),
                         OAuthProvider::Google => Hsla::from(rgb(0x000000)),

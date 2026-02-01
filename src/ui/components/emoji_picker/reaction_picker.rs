@@ -61,11 +61,7 @@ impl RenderOnce for ReactionPicker {
                     .h(px(28.0))
                     .rounded(px(4.0))
                     .cursor_pointer()
-                    .child(
-                        div()
-                            .text_size(px(18.0))
-                            .child(emoji.clone())
-                    )
+                    .child(div().text_size(px(18.0)).child(emoji.clone()))
             }))
             .when(self.show_more, |el| {
                 el.child(
@@ -81,8 +77,8 @@ impl RenderOnce for ReactionPicker {
                             div()
                                 .text_size(px(14.0))
                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .child("+")
-                        )
+                                .child("+"),
+                        ),
                 )
             })
     }

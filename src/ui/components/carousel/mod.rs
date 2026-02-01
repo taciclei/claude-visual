@@ -1,21 +1,16 @@
 //! Carousel and slider components for content display
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-mod types;
 mod carousel;
 mod image_gallery;
 mod testimonial_carousel;
+mod types;
 
 // Re-export types
 pub use types::{
-    CarouselNavigation,
-    CarouselAnimation,
-    CarouselSlide,
-    CarouselEvent,
-    GalleryImage,
-    Testimonial,
+    CarouselAnimation, CarouselEvent, CarouselNavigation, CarouselSlide, GalleryImage, Testimonial,
 };
 
 // Re-export components

@@ -24,7 +24,11 @@ impl HistorySidebar {
     }
 
     /// Set project filter
-    pub(super) fn set_project_filter(&mut self, project_id: Option<String>, cx: &mut Context<Self>) {
+    pub(super) fn set_project_filter(
+        &mut self,
+        project_id: Option<String>,
+        cx: &mut Context<Self>,
+    ) {
         self.search_filter.project_id = project_id;
         if self.display_mode == DisplayMode::Search {
             self.perform_search(cx);

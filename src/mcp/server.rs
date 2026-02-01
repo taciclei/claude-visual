@@ -81,17 +81,24 @@ impl McpServerRegistry {
     }
 
     /// Connect to an MCP server
-    pub fn connect(&mut self, name: impl Into<String>, config: McpServerConfig) -> Result<(), McpError> {
+    pub fn connect(
+        &mut self,
+        name: impl Into<String>,
+        config: McpServerConfig,
+    ) -> Result<(), McpError> {
         let name = name.into();
 
         // Store config for potential reconnection
         self.configs.insert(name.clone(), config.clone());
 
         // Update health status to connecting
-        self.health.insert(name.clone(), ServerHealth {
-            status: ServerStatus::Connecting,
-            ..Default::default()
-        });
+        self.health.insert(
+            name.clone(),
+            ServerHealth {
+                status: ServerStatus::Connecting,
+                ..Default::default()
+            },
+        );
 
         // Attempt connection
         match self.manager.connect(&name, config) {
@@ -138,7 +145,9 @@ impl McpServerRegistry {
 
     /// Attempt to reconnect a failed server
     pub fn reconnect(&mut self, name: &str) -> Result<(), McpError> {
-        let config = self.configs.get(name)
+        let config = self
+            .configs
+            .get(name)
             .ok_or_else(|| McpError::Connection(format!("No config for server '{}'", name)))?
             .clone();
 
@@ -176,7 +185,8 @@ impl McpServerRegistry {
 
     /// Get connected server count
     pub fn connected_count(&self) -> usize {
-        self.health.values()
+        self.health
+            .values()
             .filter(|h| h.status == ServerStatus::Connected)
             .count()
     }
@@ -188,7 +198,8 @@ impl McpServerRegistry {
 
     /// Check if a server is connected
     pub fn is_connected(&self, name: &str) -> bool {
-        self.health.get(name)
+        self.health
+            .get(name)
             .map(|h| h.status == ServerStatus::Connected)
             .unwrap_or(false)
     }
@@ -219,12 +230,17 @@ impl McpServerRegistry {
             return Vec::new();
         }
 
-        let failed_servers: Vec<String> = self.health.iter()
-            .filter(|(_, h)| h.status == ServerStatus::Error && h.failure_count < self.max_reconnect_attempts)
+        let failed_servers: Vec<String> = self
+            .health
+            .iter()
+            .filter(|(_, h)| {
+                h.status == ServerStatus::Error && h.failure_count < self.max_reconnect_attempts
+            })
             .map(|(name, _)| name.clone())
             .collect();
 
-        failed_servers.into_iter()
+        failed_servers
+            .into_iter()
             .map(|name| {
                 let result = self.reconnect(&name);
                 (name, result)

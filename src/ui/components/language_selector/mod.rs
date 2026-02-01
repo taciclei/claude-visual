@@ -2,17 +2,17 @@
 //!
 //! Provides language/locale switching functionality.
 
-mod types;
-mod language_selector;
 mod language_dropdown;
+mod language_selector;
 mod locale_display;
 mod translation_status;
+mod types;
 
-pub use types::*;
-pub use language_selector::*;
 pub use language_dropdown::*;
+pub use language_selector::*;
 pub use locale_display::*;
 pub use translation_status::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -43,7 +43,10 @@ mod tests {
             .variant(LanguageSelectorVariant::Dropdown)
             .show_flag(true);
 
-        assert_eq!(selector.selected_code.as_ref().map(|s| s.as_ref()), Some("fr"));
+        assert_eq!(
+            selector.selected_code.as_ref().map(|s| s.as_ref()),
+            Some("fr")
+        );
         assert!(selector.show_flag);
     }
 
@@ -53,14 +56,16 @@ mod tests {
             .selected("de")
             .show_native_name(true);
 
-        assert_eq!(dropdown.selected_code.as_ref().map(|s| s.as_ref()), Some("de"));
+        assert_eq!(
+            dropdown.selected_code.as_ref().map(|s| s.as_ref()),
+            Some("de")
+        );
         assert!(dropdown.show_native_name);
     }
 
     #[test]
     fn test_locale_display() {
-        let locale = LocaleDisplay::new("ld", "en")
-            .region("US");
+        let locale = LocaleDisplay::new("ld", "en").region("US");
 
         assert_eq!(locale.language_code.as_ref(), "en");
         assert_eq!(locale.region_code.as_ref().map(|s| s.as_ref()), Some("US"));

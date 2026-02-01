@@ -1,18 +1,18 @@
 //! Keyboard shortcut display components
 
-mod types;
+mod common_shortcuts;
 mod kbd;
 mod keyboard_shortcut;
 mod shortcut_hint;
 mod shortcut_list;
-mod common_shortcuts;
+mod types;
 
-pub use types::{KbdSize, KbdStyle, Platform};
+pub use common_shortcuts::CommonShortcuts;
 pub use kbd::Kbd;
 pub use keyboard_shortcut::KeyboardShortcut;
 pub use shortcut_hint::ShortcutHint;
 pub use shortcut_list::ShortcutList;
-pub use common_shortcuts::CommonShortcuts;
+pub use types::{KbdSize, KbdStyle, Platform};
 
 #[cfg(test)]
 mod tests {
@@ -20,9 +20,7 @@ mod tests {
 
     #[test]
     fn test_kbd_creation() {
-        let key = Kbd::new("A")
-            .size(KbdSize::Large)
-            .style(KbdStyle::Flat);
+        let key = Kbd::new("A").size(KbdSize::Large).style(KbdStyle::Flat);
 
         assert_eq!(key.key, "A");
         assert_eq!(key.size, KbdSize::Large);

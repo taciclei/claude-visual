@@ -1,9 +1,9 @@
 //! Filter chips render functions
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::MessageFilter;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Renders filter chips with counts and bookmarked filter
@@ -63,11 +63,7 @@ impl ChatView {
                                 this.set_message_filter(filter_copy, cx);
                             }))
                             // Filter icon
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .child(filter.icon())
-                            )
+                            .child(div().text_xs().child(filter.icon()))
                             .child(filter.label())
                             // Show count for non-All filters when there are messages
                             .when(*filter != MessageFilter::All && count > 0, |d| {
@@ -78,10 +74,10 @@ impl ChatView {
                                         } else {
                                             theme.colors.text_muted.opacity(0.6)
                                         })
-                                        .child(format!("{}", count))
+                                        .child(format!("{}", count)),
                                 )
                             })
-                    }))
+                    })),
             )
             // Bookmarked filter toggle
             .when(bookmarked_count > 0, |d| {
@@ -111,17 +107,20 @@ impl ChatView {
                             this.toggle_bookmarked_filter(cx);
                         }))
                         .child("★")
-                        .child(format!("{}", bookmarked_count))
+                        .child(format!("{}", bookmarked_count)),
                 )
             })
             // Filter count (when filtered)
-            .when(current_filter != MessageFilter::All || show_bookmarked, |d| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(theme.colors.text_muted)
-                        .child(format!("({}/{})", visible_count, total_count))
-                )
-            })
+            .when(
+                current_filter != MessageFilter::All || show_bookmarked,
+                |d| {
+                    d.child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted)
+                            .child(format!("({}/{})", visible_count, total_count)),
+                    )
+                },
+            )
     }
 }

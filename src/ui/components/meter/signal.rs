@@ -1,8 +1,8 @@
 //! Signal strength indicator
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::MeterSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Signal strength indicator
 #[derive(IntoElement)]
@@ -71,7 +71,11 @@ impl RenderOnce for SignalStrength {
                     .w(px(bar_width))
                     .h(px(height))
                     .rounded(px(1.0))
-                    .bg(if is_active { active_color } else { inactive_color })
+                    .bg(if is_active {
+                        active_color
+                    } else {
+                        inactive_color
+                    })
             }))
     }
 }

@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::panel::ExtensionsPanel;
 
@@ -18,11 +18,7 @@ impl ExtensionsPanel {
                 d.items_center()
                     .justify_center()
                     .gap_2()
-                    .child(
-                        div()
-                            .text_2xl()
-                            .child("All up to date!"),
-                    )
+                    .child(div().text_2xl().child("All up to date!"))
                     .child(
                         div()
                             .text_sm()
@@ -39,9 +35,11 @@ impl ExtensionsPanel {
                             .text_color(theme.colors.text_muted)
                             .child(format!("{} update(s) available", updates.len())),
                     )
-                    .children(updates.iter().map(|ext| {
-                        self.render_extension_item(ext, false, cx)
-                    }))
+                    .children(
+                        updates
+                            .iter()
+                            .map(|ext| self.render_extension_item(ext, false, cx)),
+                    )
             })
     }
 }

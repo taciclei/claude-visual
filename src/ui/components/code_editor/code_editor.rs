@@ -1,9 +1,9 @@
 //! Main code editor component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::{EditorTheme, EditorFontSize, EditorLine, Selection};
+use super::types::{EditorFontSize, EditorLine, EditorTheme, Selection};
 
 /// Code editor component
 #[derive(IntoElement)]
@@ -133,8 +133,8 @@ impl RenderOnce for CodeEditor {
                             .flex()
                             .flex_col()
                             .children(self.lines.iter().map(|line| {
-                                let is_current = self.highlight_current_line
-                                    && cursor_line == Some(line.number);
+                                let is_current =
+                                    self.highlight_current_line && cursor_line == Some(line.number);
 
                                 let line_bg = if is_current {
                                     hsla(0.0, 0.0, 0.12, 1.0)
@@ -161,7 +161,7 @@ impl RenderOnce for CodeEditor {
                                                             .w(px(10.0))
                                                             .h(px(10.0))
                                                             .rounded_full()
-                                                            .bg(hsla(0.0, 0.7, 0.5, 1.0))
+                                                            .bg(hsla(0.0, 0.7, 0.5, 1.0)),
                                                     )
                                                 })
                                                 .when(line.has_error, |el| {
@@ -169,7 +169,7 @@ impl RenderOnce for CodeEditor {
                                                         div()
                                                             .text_size(px(10.0))
                                                             .text_color(hsla(0.0, 0.8, 0.5, 1.0))
-                                                            .child("●")
+                                                            .child("●"),
                                                     )
                                                 })
                                                 .when(line.has_warning && !line.has_error, |el| {
@@ -177,9 +177,9 @@ impl RenderOnce for CodeEditor {
                                                         div()
                                                             .text_size(px(10.0))
                                                             .text_color(hsla(0.12, 0.9, 0.5, 1.0))
-                                                            .child("●")
+                                                            .child("●"),
                                                     )
-                                                })
+                                                }),
                                         )
                                     })
                                     // Line numbers
@@ -198,7 +198,7 @@ impl RenderOnce for CodeEditor {
                                                 } else {
                                                     line_number_color
                                                 })
-                                                .child(line.number.to_string())
+                                                .child(line.number.to_string()),
                                         )
                                     })
                                     // Content
@@ -220,11 +220,11 @@ impl RenderOnce for CodeEditor {
                                             .child(
                                                 div()
                                                     .whitespace_nowrap()
-                                                    .child(line.content.clone())
-                                            )
+                                                    .child(line.content.clone()),
+                                            ),
                                     )
-                            }))
-                    )
+                            })),
+                    ),
             )
             // Minimap
             .when(self.show_minimap, |el| {
@@ -245,7 +245,7 @@ impl RenderOnce for CodeEditor {
                                 .mb(px(1.0))
                                 .bg(hsla(0.0, 0.0, 0.3, 1.0))
                                 .rounded(px(1.0))
-                        }))
+                        })),
                 )
             })
     }

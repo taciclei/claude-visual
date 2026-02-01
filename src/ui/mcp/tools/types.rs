@@ -1,8 +1,8 @@
 //! Types for MCP tools panel
 
-use std::collections::HashMap;
-use serde_json::Value;
 use crate::mcp::McpTool;
+use serde_json::Value;
+use std::collections::HashMap;
 
 /// Approval status for a tool
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -46,10 +46,7 @@ pub struct PendingToolCall {
 /// Events emitted by the MCP tools panel
 pub enum McpToolsPanelEvent {
     /// Approve a tool call
-    ApproveToolCall {
-        call_id: String,
-        permanent: bool,
-    },
+    ApproveToolCall { call_id: String, permanent: bool },
     /// Deny a tool call
     DenyToolCall(String),
     /// Change approval status for a tool

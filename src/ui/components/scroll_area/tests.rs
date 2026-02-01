@@ -51,8 +51,7 @@ mod tests {
 
     #[test]
     fn test_scroll_anchor() {
-        let anchor = ScrollAnchor::new("section-1", "Introduction")
-            .active(true);
+        let anchor = ScrollAnchor::new("section-1", "Introduction").active(true);
         assert_eq!(anchor.id.as_ref(), "section-1");
         assert_eq!(anchor.label.as_ref(), "Introduction");
         assert!(anchor.active);

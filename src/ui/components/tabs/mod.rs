@@ -1,13 +1,13 @@
 //! Tabs component for tabbed interfaces
 
-mod types;
-mod tabs_component;
 mod render;
 mod tab_bar;
+mod tabs_component;
+mod types;
 
-pub use types::*;
-pub use tabs_component::Tabs;
 pub use tab_bar::TabBar;
+pub use tabs_component::Tabs;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

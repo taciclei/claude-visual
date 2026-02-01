@@ -22,9 +22,7 @@ pub use jsonrpc::{
 pub use prompts::{
     GetPromptResult, ListPromptsResult, McpPrompt, PromptArgument, PromptContent, PromptMessage,
 };
-pub use resources::{
-    ListResourcesResult, McpResource, ResourceContents, ResourceReference,
-};
+pub use resources::{ListResourcesResult, McpResource, ResourceContents, ResourceReference};
 pub use tools::{
     CallToolParams, CallToolResult, ListToolsResult, McpTool, ToolContent, ToolInputSchema,
 };

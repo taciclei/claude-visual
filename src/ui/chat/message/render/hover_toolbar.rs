@@ -1,16 +1,20 @@
 //! Hover toolbar for quick message actions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::super::types::MessageAction;
+use super::super::view::MessageView;
 use crate::app::theme::Theme;
 use crate::claude::message::MessageRole;
-use super::super::view::MessageView;
-use super::super::types::MessageAction;
 
 impl MessageView {
     /// Render the hover toolbar that appears on message hover
-    pub(in crate::ui::chat::message) fn render_hover_toolbar(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(in crate::ui::chat::message) fn render_hover_toolbar(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let is_user = matches!(self.message.role, MessageRole::User);
         let is_assistant = matches!(self.message.role, MessageRole::Assistant);
         let is_bookmarked = self.bookmarked;
@@ -55,7 +59,7 @@ impl MessageView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.execute_action(MessageAction::Copy, cx);
                     }))
-                    .child("📋")
+                    .child("📋"),
             )
             // Quote button
             .child(
@@ -71,7 +75,7 @@ impl MessageView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.execute_action(MessageAction::Quote, cx);
                     }))
-                    .child("💬")
+                    .child("💬"),
             )
             // Bookmark button
             .child(
@@ -83,11 +87,18 @@ impl MessageView {
                     .text_sm()
                     .text_color(if is_bookmarked { warning } else { text_muted })
                     .cursor_pointer()
-                    .hover(move |s| s.bg(if is_bookmarked { warning.opacity(0.2) } else { surface_hover }).text_color(warning))
+                    .hover(move |s| {
+                        s.bg(if is_bookmarked {
+                            warning.opacity(0.2)
+                        } else {
+                            surface_hover
+                        })
+                        .text_color(warning)
+                    })
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.execute_action(MessageAction::Bookmark, cx);
                     }))
-                    .child(if is_bookmarked { "★" } else { "☆" })
+                    .child(if is_bookmarked { "★" } else { "☆" }),
             )
             // Edit button (user messages only)
             .when(is_user, |d| {
@@ -104,7 +115,7 @@ impl MessageView {
                         .on_click(cx.listener(|this, _, _window, cx| {
                             this.execute_action(MessageAction::Edit, cx);
                         }))
-                        .child("✏️")
+                        .child("✏️"),
                 )
             })
             // Regenerate button (assistant messages only)
@@ -122,7 +133,7 @@ impl MessageView {
                         .on_click(cx.listener(|this, _, _window, cx| {
                             this.execute_action(MessageAction::Regenerate, cx);
                         }))
-                        .child("🔄")
+                        .child("🔄"),
                 )
             })
             // Delete button
@@ -139,7 +150,7 @@ impl MessageView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.execute_action(MessageAction::Delete, cx);
                     }))
-                    .child("🗑️")
+                    .child("🗑️"),
             )
     }
 }

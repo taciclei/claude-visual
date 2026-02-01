@@ -1,7 +1,7 @@
 //! File list rendering for diagnostics panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::lsp::diagnostics::core::DiagnosticsPanel;
 use crate::ui::lsp::diagnostics::types::SimpleColors;
@@ -70,12 +70,7 @@ pub fn render_file_list(
                                     .text_color(colors_text_muted)
                                     .child(if is_expanded { "▼" } else { "▶" }),
                             )
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(colors_text)
-                                    .child(file_name),
-                            )
+                            .child(div().text_sm().text_color(colors_text).child(file_name))
                             .child(
                                 div()
                                     .flex()
@@ -101,7 +96,7 @@ pub fn render_file_list(
                     )
                     .when(is_expanded, |this| {
                         this.child(render_diagnostic_items(&filtered, &path_clone, cx, colors))
-                    })
+                    }),
             )
         }))
         .when(panel.files.is_empty(), |this| {

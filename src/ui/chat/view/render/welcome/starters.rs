@@ -1,10 +1,10 @@
 //! Starter prompts render function for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::super::core::ChatView;
 use super::super::super::types::ChatViewEvent;
 use crate::app::theme::Theme;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Starter prompt category
 struct StarterCategory {
@@ -19,9 +19,19 @@ const STARTER_CATEGORIES: &[StarterCategory] = &[
         name: "Implementation",
         color_key: "accent",
         starters: &[
-            ("⚡", "APEX", "Full workflow with validation", "/apex Implement "),
+            (
+                "⚡",
+                "APEX",
+                "Full workflow with validation",
+                "/apex Implement ",
+            ),
             ("🚀", "Oneshot", "Quick implementation", "/oneshot "),
-            ("🧠", "Ultrathink", "Deep analysis mode", "/ultrathink Analyze "),
+            (
+                "🧠",
+                "Ultrathink",
+                "Deep analysis mode",
+                "/ultrathink Analyze ",
+            ),
         ],
     },
     StarterCategory {
@@ -92,7 +102,7 @@ impl ChatView {
                             .text_xs()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(category_color)
-                            .child(category.name)
+                            .child(category.name),
                     )
                     // Starters grid
                     .child(
@@ -100,65 +110,77 @@ impl ChatView {
                             .flex()
                             .flex_wrap()
                             .gap_2()
-                            .children(category.starters.iter().map(|(icon, label, preview, prompt)| {
-                                let prompt_text = prompt.to_string();
-                                let is_slash_command = prompt.starts_with('/');
-                                div()
-                                    .id(SharedString::from(format!("starter-{}", label)))
-                                    .flex()
-                                    .items_center()
-                                    .gap_2()
-                                    .px_3()
-                                    .py_2()
-                                    .rounded_lg()
-                                    .bg(if is_slash_command { category_color.opacity(0.05) } else { theme.colors.surface })
-                                    .border_1()
-                                    .border_color(if is_slash_command { category_color.opacity(0.2) } else { theme.colors.border })
-                                    .cursor_pointer()
-                                    .hover(|s| {
-                                        s.bg(category_color.opacity(0.15))
-                                            .border_color(category_color.opacity(0.4))
-                                    })
-                                    .on_click(cx.listener(move |this, _, _window, cx| {
-                                        // For simple commands like /commit, /usage, submit directly
-                                        if prompt_text.starts_with('/') && !prompt_text.ends_with(' ') {
-                                            cx.emit(ChatViewEvent::Submit(prompt_text.clone()));
+                            .children(category.starters.iter().map(
+                                |(icon, label, preview, prompt)| {
+                                    let prompt_text = prompt.to_string();
+                                    let is_slash_command = prompt.starts_with('/');
+                                    div()
+                                        .id(SharedString::from(format!("starter-{}", label)))
+                                        .flex()
+                                        .items_center()
+                                        .gap_2()
+                                        .px_3()
+                                        .py_2()
+                                        .rounded_lg()
+                                        .bg(if is_slash_command {
+                                            category_color.opacity(0.05)
                                         } else {
-                                            // Set the prompt in the input for editing
-                                            this.input.update(cx, |input, cx| {
-                                                input.set_text(prompt_text.clone(), cx);
-                                            });
-                                        }
-                                        cx.notify();
-                                    }))
-                                    .child(
-                                        div()
-                                            .text_base()
-                                            .child(*icon)
-                                    )
-                                    .child(
-                                        div()
-                                            .flex()
-                                            .flex_col()
-                                            .gap_px()
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .font_weight(FontWeight::MEDIUM)
-                                                    .text_color(if is_slash_command { category_color } else { theme.colors.text })
-                                                    .child(*label)
-                                            )
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .text_color(theme.colors.text_muted)
-                                                    .max_w(px(130.0))
-                                                    .overflow_hidden()
-                                                    .text_ellipsis()
-                                                    .child(*preview)
-                                            )
-                                    )
-                            }))
+                                            theme.colors.surface
+                                        })
+                                        .border_1()
+                                        .border_color(if is_slash_command {
+                                            category_color.opacity(0.2)
+                                        } else {
+                                            theme.colors.border
+                                        })
+                                        .cursor_pointer()
+                                        .hover(|s| {
+                                            s.bg(category_color.opacity(0.15))
+                                                .border_color(category_color.opacity(0.4))
+                                        })
+                                        .on_click(cx.listener(move |this, _, _window, cx| {
+                                            // For simple commands like /commit, /usage, submit directly
+                                            if prompt_text.starts_with('/')
+                                                && !prompt_text.ends_with(' ')
+                                            {
+                                                cx.emit(ChatViewEvent::Submit(prompt_text.clone()));
+                                            } else {
+                                                // Set the prompt in the input for editing
+                                                this.input.update(cx, |input, cx| {
+                                                    input.set_text(prompt_text.clone(), cx);
+                                                });
+                                            }
+                                            cx.notify();
+                                        }))
+                                        .child(div().text_base().child(*icon))
+                                        .child(
+                                            div()
+                                                .flex()
+                                                .flex_col()
+                                                .gap_px()
+                                                .child(
+                                                    div()
+                                                        .text_xs()
+                                                        .font_weight(FontWeight::MEDIUM)
+                                                        .text_color(if is_slash_command {
+                                                            category_color
+                                                        } else {
+                                                            theme.colors.text
+                                                        })
+                                                        .child(*label),
+                                                )
+                                                .child(
+                                                    div()
+                                                        .text_xs()
+                                                        .text_color(theme.colors.text_muted)
+                                                        .max_w(px(130.0))
+                                                        .overflow_hidden()
+                                                        .text_ellipsis()
+                                                        .child(*preview),
+                                                ),
+                                        )
+                                },
+                            )),
                     )
             }))
             // Keyboard shortcuts hint
@@ -187,9 +209,9 @@ impl ChatView {
                                     .border_1()
                                     .border_color(theme.colors.border)
                                     .font_family("monospace")
-                                    .child("/")
+                                    .child("/"),
                             )
-                            .child("for skills")
+                            .child("for skills"),
                     )
                     .child(
                         div()
@@ -206,9 +228,9 @@ impl ChatView {
                                     .border_1()
                                     .border_color(theme.colors.border)
                                     .font_family("monospace")
-                                    .child("⌘K")
+                                    .child("⌘K"),
                             )
-                            .child("commands")
+                            .child("commands"),
                     )
                     .child(
                         div()
@@ -225,10 +247,10 @@ impl ChatView {
                                     .border_1()
                                     .border_color(theme.colors.border)
                                     .font_family("monospace")
-                                    .child("⌘T")
+                                    .child("⌘T"),
                             )
-                            .child("templates")
-                    )
+                            .child("templates"),
+                    ),
             )
     }
 }

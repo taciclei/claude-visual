@@ -1,10 +1,10 @@
 //! Full variant rendering
 
-use gpui::*;
-use gpui::prelude::*;
+use super::AudioColors;
 use crate::ui::components::audio_player::player::AudioPlayer;
 use crate::ui::pct;
-use super::AudioColors;
+use gpui::prelude::*;
+use gpui::*;
 
 pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
     let colors = AudioColors::default();
@@ -51,7 +51,7 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                                 .text_size(px(14.0))
                                 .font_weight(gpui::FontWeight::MEDIUM)
                                 .text_color(colors.text_primary)
-                                .child(title)
+                                .child(title),
                         )
                     })
                     .when_some(player.artist.clone(), |el, artist| {
@@ -59,9 +59,9 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                             div()
                                 .text_size(px(12.0))
                                 .text_color(colors.text_secondary)
-                                .child(artist)
+                                .child(artist),
                         )
-                    })
+                    }),
             )
         })
         .child(
@@ -80,8 +80,8 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                                 .h_full()
                                 .w(pct(progress * 100.0))
                                 .bg(colors.track_fg)
-                                .rounded_full()
-                        )
+                                .rounded_full(),
+                        ),
                 )
                 .when(player.show_time, |el| {
                     el.child(
@@ -91,9 +91,9 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                             .text_size(px(11.0))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                             .child(AudioPlayer::format_time(player.current_time))
-                            .child(AudioPlayer::format_time(player.duration))
+                            .child(AudioPlayer::format_time(player.duration)),
                     )
-                })
+                }),
         )
         .child(
             div()
@@ -105,12 +105,7 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                         .flex()
                         .items_center()
                         .gap(px(8.0))
-                        .child(
-                            div()
-                                .text_size(px(16.0))
-                                .cursor_pointer()
-                                .child("⏮")
-                        )
+                        .child(div().text_size(px(16.0)).cursor_pointer().child("⏮"))
                         .child(
                             div()
                                 .flex()
@@ -125,15 +120,10 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                                     div()
                                         .text_size(px(16.0))
                                         .text_color(colors.primary_fg)
-                                        .child(play_icon)
-                                )
+                                        .child(play_icon),
+                                ),
                         )
-                        .child(
-                            div()
-                                .text_size(px(16.0))
-                                .cursor_pointer()
-                                .child("⏭")
-                        )
+                        .child(div().text_size(px(16.0)).cursor_pointer().child("⏭")),
                 )
                 .when(player.show_volume, |el| {
                     el.child(
@@ -145,7 +135,7 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                                 div()
                                     .text_size(px(14.0))
                                     .cursor_pointer()
-                                    .child(volume_icon)
+                                    .child(volume_icon),
                             )
                             .child(
                                 div()
@@ -157,12 +147,16 @@ pub(crate) fn render_full(player: &AudioPlayer) -> impl IntoElement {
                                     .child(
                                         div()
                                             .h_full()
-                                            .w(pct(if player.muted { 0.0 } else { player.volume * 100.0 }))
+                                            .w(pct(if player.muted {
+                                                0.0
+                                            } else {
+                                                player.volume * 100.0
+                                            }))
                                             .bg(hsla(0.0, 0.0, 0.5, 1.0))
-                                            .rounded_full()
-                                    )
-                            )
+                                            .rounded_full(),
+                                    ),
+                            ),
                     )
-                })
+                }),
         )
 }

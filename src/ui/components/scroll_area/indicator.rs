@@ -1,8 +1,8 @@
 //! Scroll position indicator component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Scroll indicator showing scroll position
 #[derive(IntoElement)]
@@ -92,42 +92,38 @@ impl RenderOnce for ScrollIndicator {
         let thumb_offset = max_offset * self.position;
 
         match self.direction {
-            ScrollDirection::Vertical | ScrollDirection::Both => {
-                div()
-                    .w(px(bar_width))
-                    .h(px(self.length))
-                    .bg(track_color)
-                    .rounded_full()
-                    .relative()
-                    .child(
-                        div()
-                            .absolute()
-                            .top(px(thumb_offset))
-                            .left_0()
-                            .w(px(bar_width))
-                            .h(px(thumb_length))
-                            .bg(thumb_color)
-                            .rounded_full(),
-                    )
-            }
-            ScrollDirection::Horizontal => {
-                div()
-                    .h(px(bar_width))
-                    .w(px(self.length))
-                    .bg(track_color)
-                    .rounded_full()
-                    .relative()
-                    .child(
-                        div()
-                            .absolute()
-                            .left(px(thumb_offset))
-                            .top_0()
-                            .h(px(bar_width))
-                            .w(px(thumb_length))
-                            .bg(thumb_color)
-                            .rounded_full(),
-                    )
-            }
+            ScrollDirection::Vertical | ScrollDirection::Both => div()
+                .w(px(bar_width))
+                .h(px(self.length))
+                .bg(track_color)
+                .rounded_full()
+                .relative()
+                .child(
+                    div()
+                        .absolute()
+                        .top(px(thumb_offset))
+                        .left_0()
+                        .w(px(bar_width))
+                        .h(px(thumb_length))
+                        .bg(thumb_color)
+                        .rounded_full(),
+                ),
+            ScrollDirection::Horizontal => div()
+                .h(px(bar_width))
+                .w(px(self.length))
+                .bg(track_color)
+                .rounded_full()
+                .relative()
+                .child(
+                    div()
+                        .absolute()
+                        .left(px(thumb_offset))
+                        .top_0()
+                        .h(px(bar_width))
+                        .w(px(thumb_length))
+                        .bg(thumb_color)
+                        .rounded_full(),
+                ),
         }
     }
 }

@@ -1,8 +1,8 @@
 //! Share button component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Share button with copy option
 #[derive(IntoElement)]
@@ -63,15 +63,15 @@ impl RenderOnce for ShareButton {
                         div()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                            .child("📤")
+                            .child("📤"),
                     )
                     .child(
                         div()
                             .text_size(px(14.0))
                             .font_weight(gpui::FontWeight::MEDIUM)
                             .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                            .child(self.title.clone())
-                    )
+                            .child(self.title.clone()),
+                    ),
             )
             .when(self.show_options, |el| {
                 el.child(
@@ -85,33 +85,33 @@ impl RenderOnce for ShareButton {
                         .flex()
                         .flex_col()
                         .gap(px(4.0))
-                        .children([
-                            ("📋", "Copy link"),
-                            ("✉️", "Email"),
-                            ("🐦", "Twitter"),
-                            ("💼", "LinkedIn"),
-                        ].into_iter().map(|(icon, label)| {
-                            div()
-                                .px(px(12.0))
-                                .py(px(8.0))
-                                .flex()
-                                .items_center()
-                                .gap(px(8.0))
-                                .rounded(px(4.0))
-                                .cursor_pointer()
-                                .hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
-                                .child(
-                                    div()
-                                        .text_size(px(14.0))
-                                        .child(icon)
-                                )
-                                .child(
-                                    div()
-                                        .text_size(px(13.0))
-                                        .text_color(hsla(0.0, 0.0, 0.8, 1.0))
-                                        .child(label)
-                                )
-                        }))
+                        .children(
+                            [
+                                ("📋", "Copy link"),
+                                ("✉️", "Email"),
+                                ("🐦", "Twitter"),
+                                ("💼", "LinkedIn"),
+                            ]
+                            .into_iter()
+                            .map(|(icon, label)| {
+                                div()
+                                    .px(px(12.0))
+                                    .py(px(8.0))
+                                    .flex()
+                                    .items_center()
+                                    .gap(px(8.0))
+                                    .rounded(px(4.0))
+                                    .cursor_pointer()
+                                    .hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
+                                    .child(div().text_size(px(14.0)).child(icon))
+                                    .child(
+                                        div()
+                                            .text_size(px(13.0))
+                                            .text_color(hsla(0.0, 0.0, 0.8, 1.0))
+                                            .child(label),
+                                    )
+                            }),
+                        ),
                 )
             })
     }

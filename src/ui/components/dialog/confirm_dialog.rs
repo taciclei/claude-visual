@@ -1,9 +1,9 @@
 //! Confirm dialog component (yes/no)
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::dialog::Dialog;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Confirm dialog (yes/no)
 #[derive(Clone)]

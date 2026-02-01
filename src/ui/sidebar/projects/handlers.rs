@@ -2,8 +2,8 @@
 
 use std::path::PathBuf;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::project::manager::Project;
 
@@ -46,7 +46,12 @@ impl ProjectsSidebar {
     }
 
     /// Handle search key input
-    pub(super) fn handle_search_key(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_search_key(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         match &event.keystroke.key {
             key if key == "backspace" => {
                 self.filter_text.pop();
@@ -61,7 +66,12 @@ impl ProjectsSidebar {
     }
 
     /// Handle search text input
-    pub(super) fn handle_search_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_search_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.filter_text.push_str(text);
         cx.notify();
     }
@@ -80,7 +90,12 @@ impl ProjectsSidebar {
     }
 
     /// Handle file drop
-    pub(super) fn handle_file_drop(&mut self, paths: &ExternalPaths, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(super) fn handle_file_drop(
+        &mut self,
+        paths: &ExternalPaths,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.is_drag_over = false;
 
         // Filter to only directories

@@ -1,13 +1,10 @@
 //! Logs section rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
-pub(crate) fn render_logs(
-    logs: &[LogEntry],
-    colors: &SimpleColors,
-) -> impl IntoElement {
+pub(crate) fn render_logs(logs: &[LogEntry], colors: &SimpleColors) -> impl IntoElement {
     // Copy colors for closures
     let colors_background = colors.background;
     let colors_text_muted = colors.text_muted;

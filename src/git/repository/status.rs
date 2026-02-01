@@ -47,16 +47,18 @@ impl Repository {
         let (ahead, behind) = self.get_ahead_behind().unwrap_or((0, 0));
 
         // Get last commit message
-        let last_commit = self.repo.head().ok()
+        let last_commit = self
+            .repo
+            .head()
+            .ok()
             .and_then(|head| head.peel_to_commit().ok())
-            .map(|commit| {
-                commit.summary()
-                    .map(|s| s.to_string())
-                    .unwrap_or_default()
-            });
+            .map(|commit| commit.summary().map(|s| s.to_string()).unwrap_or_default());
 
         // Get remote name
-        let remote = self.repo.find_remote("origin").ok()
+        let remote = self
+            .repo
+            .find_remote("origin")
+            .ok()
             .and_then(|r| r.url().map(|s| s.to_string()));
 
         Ok(RepositoryStatusSummary {
@@ -75,16 +77,22 @@ impl Repository {
     /// Get ahead/behind counts relative to upstream
     fn get_ahead_behind(&self) -> Result<(usize, usize)> {
         let head = self.repo.head()?;
-        let local_oid = head.target().ok_or_else(|| anyhow::anyhow!("No local OID"))?;
+        let local_oid = head
+            .target()
+            .ok_or_else(|| anyhow::anyhow!("No local OID"))?;
 
         // Try to find upstream branch
         let branch = self.repo.find_branch(
-            head.shorthand().ok_or_else(|| anyhow::anyhow!("No branch name"))?,
+            head.shorthand()
+                .ok_or_else(|| anyhow::anyhow!("No branch name"))?,
             BranchType::Local,
         )?;
 
         let upstream = branch.upstream()?;
-        let upstream_oid = upstream.get().target().ok_or_else(|| anyhow::anyhow!("No upstream OID"))?;
+        let upstream_oid = upstream
+            .get()
+            .target()
+            .ok_or_else(|| anyhow::anyhow!("No upstream OID"))?;
 
         let (ahead, behind) = self.repo.graph_ahead_behind(local_oid, upstream_oid)?;
         Ok((ahead, behind))

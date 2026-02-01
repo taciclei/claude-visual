@@ -1,9 +1,9 @@
 //! Server and client capability types
 
-use serde::{Deserialize, Serialize};
-use super::completion::{CompletionOptions, CompletionClientCapabilities};
-use super::signature::SignatureHelpOptions;
+use super::completion::{CompletionClientCapabilities, CompletionOptions};
 use super::hover::HoverClientCapabilities;
+use super::signature::SignatureHelpOptions;
+use serde::{Deserialize, Serialize};
 
 /// Server capabilities
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

@@ -22,7 +22,8 @@ impl ChatView {
     /// Cycle to next filter option
     pub fn cycle_message_filter(&mut self, cx: &mut Context<Self>) {
         let options = MessageFilter::all_options();
-        let current_idx = options.iter()
+        let current_idx = options
+            .iter()
             .position(|f| *f == self.message_filter)
             .unwrap_or(0);
         let next_idx = (current_idx + 1) % options.len();
@@ -80,7 +81,10 @@ impl ChatView {
     }
 
     /// Get filtered message views with indices for highlight tracking
-    pub fn filtered_message_views_with_indices(&self, cx: &Context<Self>) -> Vec<(usize, Entity<MessageView>)> {
+    pub fn filtered_message_views_with_indices(
+        &self,
+        cx: &Context<Self>,
+    ) -> Vec<(usize, Entity<MessageView>)> {
         let show_bookmarked = self.show_bookmarked_only;
         self.message_views
             .iter()

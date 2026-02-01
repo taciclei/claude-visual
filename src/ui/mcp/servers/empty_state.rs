@@ -1,8 +1,8 @@
 //! Empty state rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpServersPanel;
+use gpui::prelude::*;
+use gpui::*;
 
 impl McpServersPanel {
     /// Render the empty state

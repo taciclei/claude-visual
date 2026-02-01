@@ -1,7 +1,7 @@
 //! Key-value table component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Key-value table for displaying properties
 #[derive(Clone)]
@@ -45,28 +45,27 @@ impl RenderOnce for KeyValueTable {
             .w_full()
             .flex()
             .flex_col()
-            .children(self.items.into_iter().enumerate().map(|(idx, (key, value))| {
-                div()
-                    .w_full()
-                    .py_2()
-                    .flex()
-                    .items_start()
-                    .when(idx > 0, |d| d.border_t_1().border_color(border))
-                    .child(
+            .children(
+                self.items
+                    .into_iter()
+                    .enumerate()
+                    .map(|(idx, (key, value))| {
                         div()
-                            .w(px(self.label_width))
-                            .flex_shrink_0()
-                            .text_sm()
-                            .text_color(text_muted)
-                            .child(key)
-                    )
-                    .child(
-                        div()
-                            .flex_1()
-                            .text_sm()
-                            .text_color(text)
-                            .child(value)
-                    )
-            }))
+                            .w_full()
+                            .py_2()
+                            .flex()
+                            .items_start()
+                            .when(idx > 0, |d| d.border_t_1().border_color(border))
+                            .child(
+                                div()
+                                    .w(px(self.label_width))
+                                    .flex_shrink_0()
+                                    .text_sm()
+                                    .text_color(text_muted)
+                                    .child(key),
+                            )
+                            .child(div().flex_1().text_sm().text_color(text).child(value))
+                    }),
+            )
     }
 }

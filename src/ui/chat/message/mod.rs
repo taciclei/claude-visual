@@ -1,21 +1,21 @@
 //! Message bubble component with collapse/expand functionality
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::claude::message::MessageRole;
 
 // Module declarations
+pub mod render;
 pub mod types;
 pub mod utils;
 pub mod view;
-pub mod render;
 
 #[cfg(test)]
 mod tests;
 
 // Re-exports for public API
-pub use types::{MessageReaction, MessageViewEvent, MessageAction};
+pub use types::{MessageAction, MessageReaction, MessageViewEvent};
 pub use utils::format_relative_time;
 pub use view::MessageView;
 
@@ -56,7 +56,9 @@ impl Render for MessageView {
 
         div()
             .relative()
-            .id(ElementId::Name(format!("msg-{}", self.message.timestamp.timestamp_millis()).into()))
+            .id(ElementId::Name(
+                format!("msg-{}", self.message.timestamp.timestamp_millis()).into(),
+            ))
             .w_full()
             .rounded_lg()
             .bg(bg_color)
@@ -64,18 +66,23 @@ impl Render for MessageView {
             .border_color(border_color)
             // Add accent border when selected
             .when(is_selected, |d| {
-                d.border_1()
-                    .border_color(theme.colors.accent.opacity(0.3))
+                d.border_1().border_color(theme.colors.accent.opacity(0.3))
             })
             // Right-click to show context menu
-            .on_mouse_down(MouseButton::Right, cx.listener(|this, event: &MouseDownEvent, _window, cx| {
-                this.show_context_menu(event.position, cx);
-            }))
+            .on_mouse_down(
+                MouseButton::Right,
+                cx.listener(|this, event: &MouseDownEvent, _window, cx| {
+                    this.show_context_menu(event.position, cx);
+                }),
+            )
             // Click outside context menu to close it
             .when(show_menu, |d| {
-                d.on_mouse_down(MouseButton::Left, cx.listener(|this, _, _window, cx| {
-                    this.hide_context_menu(cx);
-                }))
+                d.on_mouse_down(
+                    MouseButton::Left,
+                    cx.listener(|this, _, _window, cx| {
+                        this.hide_context_menu(cx);
+                    }),
+                )
             })
             // Enable group for hover toolbar
             .group("message")
@@ -92,20 +99,20 @@ impl Render for MessageView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.toggle_collapsed(cx);
                     }))
-                    .child(self.render_header(&theme))
+                    .child(self.render_header(&theme)),
             )
             // Content (collapsible)
             .when(!collapsed, |this| {
-                this.child(
-                    match self.message.role {
-                        MessageRole::User => self.render_user_content(&theme),
-                        MessageRole::Assistant => self.render_assistant_content(&theme),
-                        MessageRole::ToolUse | MessageRole::ToolResult => self.render_tool_content(&theme, cx),
-                        MessageRole::Error => self.render_error_content(&theme, cx),
-                        MessageRole::Thinking => self.render_thinking_content(&theme),
-                        MessageRole::System => self.render_system_content(&theme),
+                this.child(match self.message.role {
+                    MessageRole::User => self.render_user_content(&theme),
+                    MessageRole::Assistant => self.render_assistant_content(&theme),
+                    MessageRole::ToolUse | MessageRole::ToolResult => {
+                        self.render_tool_content(&theme, cx)
                     }
-                )
+                    MessageRole::Error => self.render_error_content(&theme, cx),
+                    MessageRole::Thinking => self.render_thinking_content(&theme),
+                    MessageRole::System => self.render_system_content(&theme),
+                })
             })
             // Actions footer (visible on hover or when expanded)
             .when(!collapsed, |this| {
@@ -122,53 +129,52 @@ impl Render for MessageView {
                         .border_t_1()
                         .border_color(theme.colors.border)
                         // Left side - Reactions (only for assistant messages)
-                        .child(
-                            div()
-                                .flex()
-                                .items_center()
-                                .gap_1()
-                                .when(can_react, |d| {
-                                    d
-                                        // Thumbs up
-                                        .child(
-                                            div()
-                                                .id("reaction-up")
-                                                .px_2()
-                                                .py_1()
-                                                .rounded_sm()
-                                                .cursor_pointer()
-                                                .bg(if current_reaction == Some(MessageReaction::ThumbsUp) {
-                                                    theme.colors.success.opacity(0.2)
-                                                } else {
-                                                    gpui::transparent_black()
-                                                })
-                                                .hover(|s| s.bg(theme.colors.surface_hover))
-                                                .on_click(cx.listener(|this, _, _window, cx| {
-                                                    this.set_reaction(MessageReaction::ThumbsUp, cx);
-                                                }))
-                                                .child("👍")
+                        .child(div().flex().items_center().gap_1().when(can_react, |d| {
+                            d
+                                // Thumbs up
+                                .child(
+                                    div()
+                                        .id("reaction-up")
+                                        .px_2()
+                                        .py_1()
+                                        .rounded_sm()
+                                        .cursor_pointer()
+                                        .bg(
+                                            if current_reaction == Some(MessageReaction::ThumbsUp) {
+                                                theme.colors.success.opacity(0.2)
+                                            } else {
+                                                gpui::transparent_black()
+                                            },
                                         )
-                                        // Thumbs down
-                                        .child(
-                                            div()
-                                                .id("reaction-down")
-                                                .px_2()
-                                                .py_1()
-                                                .rounded_sm()
-                                                .cursor_pointer()
-                                                .bg(if current_reaction == Some(MessageReaction::ThumbsDown) {
-                                                    theme.colors.error.opacity(0.2)
-                                                } else {
-                                                    gpui::transparent_black()
-                                                })
-                                                .hover(|s| s.bg(theme.colors.surface_hover))
-                                                .on_click(cx.listener(|this, _, _window, cx| {
-                                                    this.set_reaction(MessageReaction::ThumbsDown, cx);
-                                                }))
-                                                .child("👎")
+                                        .hover(|s| s.bg(theme.colors.surface_hover))
+                                        .on_click(cx.listener(|this, _, _window, cx| {
+                                            this.set_reaction(MessageReaction::ThumbsUp, cx);
+                                        }))
+                                        .child("👍"),
+                                )
+                                // Thumbs down
+                                .child(
+                                    div()
+                                        .id("reaction-down")
+                                        .px_2()
+                                        .py_1()
+                                        .rounded_sm()
+                                        .cursor_pointer()
+                                        .bg(
+                                            if current_reaction == Some(MessageReaction::ThumbsDown)
+                                            {
+                                                theme.colors.error.opacity(0.2)
+                                            } else {
+                                                gpui::transparent_black()
+                                            },
                                         )
-                                })
-                        )
+                                        .hover(|s| s.bg(theme.colors.surface_hover))
+                                        .on_click(cx.listener(|this, _, _window, cx| {
+                                            this.set_reaction(MessageReaction::ThumbsDown, cx);
+                                        }))
+                                        .child("👎"),
+                                )
+                        }))
                         // Right side - Actions
                         .child(
                             div()
@@ -226,8 +232,8 @@ impl Render for MessageView {
                                         .child(if is_bookmarked { "★" } else { "☆" })
                                 })
                                 // More actions button
-                                .child(self.render_more_button(&theme, cx))
-                        )
+                                .child(self.render_more_button(&theme, cx)),
+                        ),
                 )
             })
             // Context menu overlay

@@ -13,7 +13,8 @@ pub struct RollbackManager {
     /// Maximum number of checkpoints to keep
     pub(crate) max_checkpoints: usize,
     /// Custom rollback handlers
-    pub(crate) custom_handlers: HashMap<String, Box<dyn Fn(&serde_json::Value) -> Result<(), String> + Send + Sync>>,
+    pub(crate) custom_handlers:
+        HashMap<String, Box<dyn Fn(&serde_json::Value) -> Result<(), String> + Send + Sync>>,
 }
 
 impl Default for RollbackManager {
@@ -70,6 +71,9 @@ impl RollbackManager {
 
     /// Get current checkpoint operation count
     pub fn current_operations(&self) -> usize {
-        self.current.as_ref().map(|c| c.operation_count()).unwrap_or(0)
+        self.current
+            .as_ref()
+            .map(|c| c.operation_count())
+            .unwrap_or(0)
     }
 }

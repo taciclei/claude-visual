@@ -1,5 +1,5 @@
-use std::collections::VecDeque;
 use super::{Announcement, AnnouncementPriority, LiveRegion};
+use std::collections::VecDeque;
 
 /// Announcement manager for screen reader notifications
 #[derive(Debug, Default)]
@@ -32,7 +32,8 @@ impl AnnouncementManager {
     pub fn announce(&mut self, announcement: Announcement) {
         // If assertive, clear any pending polite announcements
         if announcement.priority == AnnouncementPriority::Assertive {
-            self.queue.retain(|a| a.priority == AnnouncementPriority::Assertive);
+            self.queue
+                .retain(|a| a.priority == AnnouncementPriority::Assertive);
             self.current = Some(announcement);
             return;
         }

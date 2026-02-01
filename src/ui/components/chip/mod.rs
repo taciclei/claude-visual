@@ -1,19 +1,19 @@
 //! Chip and filter components
 
-pub mod types;
 pub mod chip;
+pub mod choice_chips;
 pub mod filter_chip;
 pub mod filter_chip_group;
 pub mod input_chips;
-pub mod choice_chips;
+pub mod types;
 
 // Re-export public items
-pub use types::*;
 pub use chip::Chip;
+pub use choice_chips::ChoiceChips;
 pub use filter_chip::FilterChip;
 pub use filter_chip_group::FilterChipGroup;
 pub use input_chips::InputChips;
-pub use choice_chips::ChoiceChips;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -21,9 +21,7 @@ mod tests {
 
     #[test]
     fn test_filter_chip() {
-        let chip = FilterChip::new("Active")
-            .selected()
-            .count(5);
+        let chip = FilterChip::new("Active").selected().count(5);
 
         assert_eq!(chip.label, "Active");
         assert!(chip.selected);
@@ -54,8 +52,7 @@ mod tests {
 
     #[test]
     fn test_choice_chips() {
-        let chips = ChoiceChips::new(vec!["Small", "Medium", "Large"])
-            .selected(1);
+        let chips = ChoiceChips::new(vec!["Small", "Medium", "Large"]).selected(1);
 
         assert_eq!(chips.options.len(), 3);
         assert_eq!(chips.selected, Some(1));

@@ -1,8 +1,8 @@
 //! Simple code editor textarea
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 use crate::app::state::AppState;
 
@@ -112,7 +112,7 @@ impl Render for CodeTextarea {
                                 .text_color(theme.colors.text_muted)
                                 .text_right()
                                 .child(n.to_string())
-                        }))
+                        })),
                 )
             })
             // Code content
@@ -136,7 +136,11 @@ impl Render for CodeTextarea {
                                     .h(px(line_height))
                                     .text_xs()
                                     .text_color(theme.colors.text)
-                                    .child(if line.is_empty() { " ".to_string() } else { line })
+                                    .child(if line.is_empty() {
+                                        " ".to_string()
+                                    } else {
+                                        line
+                                    })
                             }))
                             .when(is_empty, |d| {
                                 d.child(
@@ -144,9 +148,9 @@ impl Render for CodeTextarea {
                                         .h(px(line_height))
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child(" ")
+                                        .child(" "),
                                 )
-                            })
+                            }),
                     )
             })
             // Language badge
@@ -162,7 +166,7 @@ impl Render for CodeTextarea {
                         .bg(theme.colors.accent.opacity(0.15))
                         .text_xs()
                         .text_color(theme.colors.accent)
-                        .child(lang)
+                        .child(lang),
                 )
             })
     }

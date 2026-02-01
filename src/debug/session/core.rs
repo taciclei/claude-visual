@@ -71,7 +71,9 @@ impl DebugSession {
     /// Set state and emit event
     pub(crate) fn set_state(&mut self, state: DebugState) {
         self.state = state;
-        let _ = self.session_event_sender.send(SessionEvent::StateChanged(state));
+        let _ = self
+            .session_event_sender
+            .send(SessionEvent::StateChanged(state));
     }
 
     /// Get breakpoints for a file

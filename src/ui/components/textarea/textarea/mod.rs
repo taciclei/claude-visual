@@ -1,8 +1,8 @@
 //! Textarea component module
 
-mod state;
-mod methods;
 mod events;
+mod methods;
 mod render;
+mod state;
 
 pub use state::Textarea;

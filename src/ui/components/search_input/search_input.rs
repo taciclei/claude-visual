@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Search input component
 pub struct SearchInput {
@@ -51,7 +51,11 @@ impl SearchInput {
     }
 
     /// Create with placeholder
-    pub fn with_placeholder(app_state: Arc<AppState>, placeholder: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_placeholder(
+        app_state: Arc<AppState>,
+        placeholder: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut input = Self::new(app_state, cx);
         input.placeholder = placeholder.into();
         input
@@ -115,7 +119,11 @@ impl SearchInput {
 
     /// Set result count
     pub fn set_result_count(&mut self, current: usize, total: usize, cx: &mut Context<Self>) {
-        self.result_count = if total > 0 { Some((current, total)) } else { None };
+        self.result_count = if total > 0 {
+            Some((current, total))
+        } else {
+            None
+        };
         cx.notify();
     }
 
@@ -133,7 +141,12 @@ impl SearchInput {
     }
 
     /// Handle key down
-    fn handle_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    fn handle_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if self.disabled {
             return;
         }
@@ -199,99 +212,97 @@ impl Render for SearchInput {
 
         let opacity = if self.disabled { 0.5 } else { 1.0 };
 
-        div()
-            .id("search-input")
-            .w_full()
-            .opacity(opacity)
-            .child(
-                div()
-                    .id("search-input-container")
-                    .track_focus(&self.focus_handle)
-                    .h(px(height))
-                    .w_full()
-                    .px_3()
-                    .rounded(px(6.0))
-                    .border_1()
-                    .border_color(border_color)
-                    .bg(theme.colors.surface)
-                    .flex()
-                    .items_center()
-                    .gap_2()
-                    .when(!self.disabled, |d| {
-                        d.hover(|s| s.border_color(theme.colors.accent.opacity(0.5)))
-                    })
-                    .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
-                        this.handle_key_down(event, window, cx);
-                    }))
-                    // Search icon or loading spinner
-                    .child(
+        div().id("search-input").w_full().opacity(opacity).child(
+            div()
+                .id("search-input-container")
+                .track_focus(&self.focus_handle)
+                .h(px(height))
+                .w_full()
+                .px_3()
+                .rounded(px(6.0))
+                .border_1()
+                .border_color(border_color)
+                .bg(theme.colors.surface)
+                .flex()
+                .items_center()
+                .gap_2()
+                .when(!self.disabled, |d| {
+                    d.hover(|s| s.border_color(theme.colors.accent.opacity(0.5)))
+                })
+                .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
+                    this.handle_key_down(event, window, cx);
+                }))
+                // Search icon or loading spinner
+                .child(
+                    div()
+                        .flex_shrink_0()
+                        .text_size(px(icon_size))
+                        .text_color(theme.colors.text_muted)
+                        .child(if self.loading { "◐" } else { "🔍" }),
+                )
+                // Input area
+                .child(
+                    div()
+                        .flex_1()
+                        .text_size(px(font_size))
+                        .when(has_query, |d| {
+                            d.text_color(theme.colors.text).child(self.query.clone())
+                        })
+                        .when(!has_query, |d| {
+                            d.text_color(theme.colors.text_muted)
+                                .child(self.placeholder.clone())
+                        }),
+                )
+                // Result count
+                .when_some(self.result_count, |d, (current, total)| {
+                    d.child(
                         div()
                             .flex_shrink_0()
-                            .text_size(px(icon_size))
+                            .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child(if self.loading { "◐" } else { "🔍" })
+                            .child(format!("{}/{}", current, total)),
                     )
-                    // Input area
-                    .child(
+                })
+                // Clear button
+                .when(self.show_clear && has_query, |d| {
+                    d.child(
                         div()
-                            .flex_1()
-                            .text_size(px(font_size))
-                            .when(has_query, |d| {
-                                d.text_color(theme.colors.text)
-                                    .child(self.query.clone())
+                            .id("search-clear")
+                            .flex_shrink_0()
+                            .size(px(16.0))
+                            .rounded(px(4.0))
+                            .flex()
+                            .items_center()
+                            .justify_center()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted)
+                            .cursor_pointer()
+                            .hover(|s| {
+                                s.bg(theme.colors.surface_hover)
+                                    .text_color(theme.colors.text)
                             })
-                            .when(!has_query, |d| {
-                                d.text_color(theme.colors.text_muted)
-                                    .child(self.placeholder.clone())
-                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.clear(cx);
+                            }))
+                            .child("×"),
                     )
-                    // Result count
-                    .when_some(self.result_count, |d, (current, total)| {
+                })
+                // Shortcut hint
+                .when_some(self.shortcut_hint.clone(), |d, hint| {
+                    d.when(!has_query && !is_focused, |d| {
                         d.child(
                             div()
                                 .flex_shrink_0()
-                                .text_xs()
-                                .text_color(theme.colors.text_muted)
-                                .child(format!("{}/{}", current, total))
-                        )
-                    })
-                    // Clear button
-                    .when(self.show_clear && has_query, |d| {
-                        d.child(
-                            div()
-                                .id("search-clear")
-                                .flex_shrink_0()
-                                .size(px(16.0))
+                                .px_1p5()
+                                .py_0p5()
                                 .rounded(px(4.0))
-                                .flex()
-                                .items_center()
-                                .justify_center()
+                                .bg(theme.colors.surface_hover)
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .cursor_pointer()
-                                .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
-                                .on_click(cx.listener(|this, _, _window, cx| {
-                                    this.clear(cx);
-                                }))
-                                .child("×")
+                                .child(hint),
                         )
                     })
-                    // Shortcut hint
-                    .when_some(self.shortcut_hint.clone(), |d, hint| {
-                        d.when(!has_query && !is_focused, |d| {
-                            d.child(
-                                div()
-                                    .flex_shrink_0()
-                                    .px_1p5()
-                                    .py_0p5()
-                                    .rounded(px(4.0))
-                                    .bg(theme.colors.surface_hover)
-                                    .text_xs()
-                                    .text_color(theme.colors.text_muted)
-                                    .child(hint)
-                            )
-                        })
-                    })
-            )
+                }),
+        )
     }
 }

@@ -1,9 +1,9 @@
 //! Diff preview rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::pct;
 use crate::ui::workspace::core::Workspace;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Workspace {
     /// Render diff preview overlay
@@ -60,7 +60,11 @@ impl Workspace {
             .child(
                 div()
                     .id("diff-preview-content")
-                    .w(if is_side_by_side { px(1000.0) } else { px(700.0) })
+                    .w(if is_side_by_side {
+                        px(1000.0)
+                    } else {
+                        px(700.0)
+                    })
                     .max_h(pct(80.0))
                     .rounded_xl()
                     .bg(theme.colors.surface)
@@ -100,7 +104,11 @@ impl Workspace {
                                             .cursor_pointer()
                                             .hover(|s| s.bg(theme.colors.accent.opacity(0.3)))
                                             .on_click(toggle_listener)
-                                            .child(if is_side_by_side { "Split" } else { "Unified" }),
+                                            .child(if is_side_by_side {
+                                                "Split"
+                                            } else {
+                                                "Unified"
+                                            }),
                                     )
                                     .child(
                                         div()
@@ -167,20 +175,11 @@ impl Workspace {
                                 .text_xs()
                                 .children(lines.iter().map(|line| {
                                     let (bg_color, text_color) = if line.starts_with('+') {
-                                        (
-                                            theme.colors.success.opacity(0.15),
-                                            theme.colors.success,
-                                        )
+                                        (theme.colors.success.opacity(0.15), theme.colors.success)
                                     } else if line.starts_with('-') {
-                                        (
-                                            theme.colors.error.opacity(0.15),
-                                            theme.colors.error,
-                                        )
+                                        (theme.colors.error.opacity(0.15), theme.colors.error)
                                     } else {
-                                        (
-                                            hsla(0.0, 0.0, 0.0, 0.0),
-                                            theme.colors.text_muted,
-                                        )
+                                        (hsla(0.0, 0.0, 0.0, 0.0), theme.colors.text_muted)
                                     };
 
                                     div()
@@ -194,90 +193,114 @@ impl Workspace {
                         )
                     })
                     // Diff content - Side-by-side view
-                    .when_some(if is_side_by_side { Some(side_by_side_lines.clone()) } else { None }, {
-                        let error_color = theme.colors.error;
-                        let error_bg = theme.colors.error.opacity(0.15);
-                        let success_color = theme.colors.success;
-                        let success_bg = theme.colors.success.opacity(0.15);
-                        let muted_color = theme.colors.text_muted;
-                        let surface_bg = theme.colors.surface.opacity(0.5);
-                        let border_color = theme.colors.border;
+                    .when_some(
+                        if is_side_by_side {
+                            Some(side_by_side_lines.clone())
+                        } else {
+                            None
+                        },
+                        {
+                            let error_color = theme.colors.error;
+                            let error_bg = theme.colors.error.opacity(0.15);
+                            let success_color = theme.colors.success;
+                            let success_bg = theme.colors.success.opacity(0.15);
+                            let muted_color = theme.colors.text_muted;
+                            let surface_bg = theme.colors.surface.opacity(0.5);
+                            let border_color = theme.colors.border;
 
-                        move |d, side_by_side_clone| {
-                            let side_by_side_owned: Vec<(String, String)> = side_by_side_clone.iter().map(|(a, b)| (a.clone(), b.clone())).collect();
+                            move |d, side_by_side_clone| {
+                                let side_by_side_owned: Vec<(String, String)> = side_by_side_clone
+                                    .iter()
+                                    .map(|(a, b)| (a.clone(), b.clone()))
+                                    .collect();
 
-                            // Pre-compute left children
-                            let left_children: Vec<_> = side_by_side_owned.iter().map(|(old, _)| {
-                                let (bg_color, text_color) = if old.starts_with('-') {
-                                    (error_bg, error_color)
-                                } else if old.is_empty() {
-                                    (surface_bg, muted_color)
-                                } else {
-                                    (hsla(0.0, 0.0, 0.0, 0.0), muted_color)
-                                };
-                                let content = if old.is_empty() { " ".to_string() } else { old.clone() };
+                                // Pre-compute left children
+                                let left_children: Vec<_> = side_by_side_owned
+                                    .iter()
+                                    .map(|(old, _)| {
+                                        let (bg_color, text_color) = if old.starts_with('-') {
+                                            (error_bg, error_color)
+                                        } else if old.is_empty() {
+                                            (surface_bg, muted_color)
+                                        } else {
+                                            (hsla(0.0, 0.0, 0.0, 0.0), muted_color)
+                                        };
+                                        let content = if old.is_empty() {
+                                            " ".to_string()
+                                        } else {
+                                            old.clone()
+                                        };
 
-                                div()
-                                    .w_full()
-                                    .px_2()
-                                    .py_0p5()
-                                    .bg(bg_color)
-                                    .text_color(text_color)
-                                    .whitespace_nowrap()
-                                    .child(content)
-                            }).collect();
-
-                            // Pre-compute right children
-                            let right_children: Vec<_> = side_by_side_owned.iter().map(|(_, new)| {
-                                let (bg_color, text_color) = if new.starts_with('+') {
-                                    (success_bg, success_color)
-                                } else if new.is_empty() {
-                                    (surface_bg, muted_color)
-                                } else {
-                                    (hsla(0.0, 0.0, 0.0, 0.0), muted_color)
-                                };
-                                let content = if new.is_empty() { " ".to_string() } else { new.clone() };
-
-                                div()
-                                    .w_full()
-                                    .px_2()
-                                    .py_0p5()
-                                    .bg(bg_color)
-                                    .text_color(text_color)
-                                    .whitespace_nowrap()
-                                    .child(content)
-                            }).collect();
-
-                            d.child(
-                                div()
-                                    .flex_1()
-                                    .id("scroll-diff-side-by-side")
-                                    .overflow_y_scroll()
-                                    .flex()
-                                    .flex_row()
-                                    // Left pane (old)
-                                    .child(
                                         div()
-                                            .flex_1()
-                                            .border_r_1()
-                                            .border_color(border_color)
-                                            .p_2()
-                                            .font_family("JetBrains Mono")
-                                            .text_xs()
-                                            .children(left_children)
-                                    )
-                                    // Right pane (new)
-                                    .child(
+                                            .w_full()
+                                            .px_2()
+                                            .py_0p5()
+                                            .bg(bg_color)
+                                            .text_color(text_color)
+                                            .whitespace_nowrap()
+                                            .child(content)
+                                    })
+                                    .collect();
+
+                                // Pre-compute right children
+                                let right_children: Vec<_> = side_by_side_owned
+                                    .iter()
+                                    .map(|(_, new)| {
+                                        let (bg_color, text_color) = if new.starts_with('+') {
+                                            (success_bg, success_color)
+                                        } else if new.is_empty() {
+                                            (surface_bg, muted_color)
+                                        } else {
+                                            (hsla(0.0, 0.0, 0.0, 0.0), muted_color)
+                                        };
+                                        let content = if new.is_empty() {
+                                            " ".to_string()
+                                        } else {
+                                            new.clone()
+                                        };
+
                                         div()
-                                            .flex_1()
-                                            .p_2()
-                                            .font_family("JetBrains Mono")
-                                            .text_xs()
-                                            .children(right_children)
-                                    )
-                            )
-                        }
-                    })
+                                            .w_full()
+                                            .px_2()
+                                            .py_0p5()
+                                            .bg(bg_color)
+                                            .text_color(text_color)
+                                            .whitespace_nowrap()
+                                            .child(content)
+                                    })
+                                    .collect();
+
+                                d.child(
+                                    div()
+                                        .flex_1()
+                                        .id("scroll-diff-side-by-side")
+                                        .overflow_y_scroll()
+                                        .flex()
+                                        .flex_row()
+                                        // Left pane (old)
+                                        .child(
+                                            div()
+                                                .flex_1()
+                                                .border_r_1()
+                                                .border_color(border_color)
+                                                .p_2()
+                                                .font_family("JetBrains Mono")
+                                                .text_xs()
+                                                .children(left_children),
+                                        )
+                                        // Right pane (new)
+                                        .child(
+                                            div()
+                                                .flex_1()
+                                                .p_2()
+                                                .font_family("JetBrains Mono")
+                                                .text_xs()
+                                                .children(right_children),
+                                        ),
+                                )
+                            }
+                        },
+                    ),
             )
     }
 }

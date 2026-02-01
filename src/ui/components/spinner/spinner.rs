@@ -1,8 +1,8 @@
 //! Basic loading spinner component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Basic loading spinner
 #[derive(Clone, IntoElement)]
@@ -74,7 +74,7 @@ impl RenderOnce for Spinner {
                             .border_2()
                             .border_color(hsla(0.0, 0.0, 0.0, 0.0))
                             .border_t_2()
-                            .border_color(spinner_color)
+                            .border_color(spinner_color),
                     )
                     .into_any_element()
             }
@@ -85,23 +85,18 @@ impl RenderOnce for Spinner {
                     .flex()
                     .items_center()
                     .gap(px(dot_size / 2.0))
+                    .child(div().size(px(dot_size)).rounded_full().bg(spinner_color))
                     .child(
                         div()
                             .size(px(dot_size))
                             .rounded_full()
-                            .bg(spinner_color)
+                            .bg(spinner_color.opacity(0.6)),
                     )
                     .child(
                         div()
                             .size(px(dot_size))
                             .rounded_full()
-                            .bg(spinner_color.opacity(0.6))
-                    )
-                    .child(
-                        div()
-                            .size(px(dot_size))
-                            .rounded_full()
-                            .bg(spinner_color.opacity(0.3))
+                            .bg(spinner_color.opacity(0.3)),
                     )
                     .into_any_element()
             }
@@ -119,40 +114,32 @@ impl RenderOnce for Spinner {
                             .w(px(bar_width))
                             .h(px(bar_height * 0.6))
                             .rounded(px(bar_width / 2.0))
-                            .bg(spinner_color)
+                            .bg(spinner_color),
                     )
                     .child(
                         div()
                             .w(px(bar_width))
                             .h(px(bar_height))
                             .rounded(px(bar_width / 2.0))
-                            .bg(spinner_color.opacity(0.7))
+                            .bg(spinner_color.opacity(0.7)),
                     )
                     .child(
                         div()
                             .w(px(bar_width))
                             .h(px(bar_height * 0.4))
                             .rounded(px(bar_width / 2.0))
-                            .bg(spinner_color.opacity(0.4))
+                            .bg(spinner_color.opacity(0.4)),
                     )
                     .into_any_element()
             }
         };
 
-        let mut container = div()
-            .flex()
-            .items_center()
-            .gap_2();
+        let mut container = div().flex().items_center().gap_2();
 
         container = container.child(spinner_element);
 
         if let Some(label_text) = self.label {
-            container = container.child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child(label_text)
-            );
+            container = container.child(div().text_sm().text_color(text_muted).child(label_text));
         }
 
         container

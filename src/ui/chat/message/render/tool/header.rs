@@ -1,11 +1,11 @@
 //! Tool header and action buttons rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
-use super::super::super::view::MessageView;
 use super::super::super::types::MessageViewEvent;
+use super::super::super::view::MessageView;
+use crate::app::theme::Theme;
 
 /// Get contextual skill suggestion based on tool name
 fn get_skill_for_tool(tool_name: &str) -> Option<(&'static str, &'static str, &'static str)> {
@@ -16,7 +16,9 @@ fn get_skill_for_tool(tool_name: &str) -> Option<(&'static str, &'static str, &'
         "write" | "edit" => Some(("👀", "Review", "/review")),
         "grep" | "glob" => Some(("🔍", "Explore", "/explore")),
         "task" => Some(("⚡", "APEX", "/apex")),
-        "websearch" | "webfetch" | "web_search" | "web_fetch" => Some(("💡", "Brainstorm", "/brainstorm")),
+        "websearch" | "webfetch" | "web_search" | "web_fetch" => {
+            Some(("💡", "Brainstorm", "/brainstorm"))
+        }
         _ => None,
     }
 }
@@ -53,18 +55,14 @@ pub(super) fn render_tool_header(
                 .py_px()
                 .rounded_sm()
                 .bg(border_color.opacity(0.1))
-                .child(
-                    div()
-                        .text_xs()
-                        .child(tool_icon_owned)
-                )
+                .child(div().text_xs().child(tool_icon_owned))
                 .child(
                     div()
                         .text_xs()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(border_color)
-                        .child(tool_label_owned)
-                )
+                        .child(tool_label_owned),
+                ),
         )
         // Tool description
         .when(!tool_desc.is_empty(), move |d| {
@@ -72,7 +70,7 @@ pub(super) fn render_tool_header(
                 div()
                     .text_xs()
                     .text_color(text_muted)
-                    .child(tool_desc_owned.clone())
+                    .child(tool_desc_owned.clone()),
             )
         })
         // Status badge for results
@@ -88,12 +86,8 @@ pub(super) fn render_tool_header(
                         success_color.opacity(0.1)
                     })
                     .text_xs()
-                    .text_color(if is_error {
-                        error_color
-                    } else {
-                        success_color
-                    })
-                    .child(if is_error { "Failed" } else { "Success" })
+                    .text_color(if is_error { error_color } else { success_color })
+                    .child(if is_error { "Failed" } else { "Success" }),
             )
         })
 }
@@ -144,7 +138,8 @@ pub(super) fn render_actions(
         })
     });
 
-    let copy_content = file_path.clone()
+    let copy_content = file_path
+        .clone()
         .or(command.clone())
         .or(pattern_str.clone())
         .unwrap_or_else(|| content.to_string());
@@ -179,7 +174,7 @@ pub(super) fn render_actions(
                         cx.emit(MessageViewEvent::ExecuteSkill(cmd_str.clone()));
                     }))
                     .child(icon)
-                    .child(label)
+                    .child(label),
             )
         })
         // Open file button (for file operations)
@@ -192,12 +187,10 @@ pub(super) fn render_actions(
                     .rounded_sm()
                     .text_xs()
                     .text_color(accent_color)
-                    .hover(move |s| {
-                        s.bg(accent_color.opacity(0.1))
-                    })
+                    .hover(move |s| s.bg(accent_color.opacity(0.1)))
                     .cursor_pointer()
                     .on_click(listener)
-                    .child("Open")
+                    .child("Open"),
             )
         })
         // Rerun button (for commands)
@@ -210,12 +203,10 @@ pub(super) fn render_actions(
                     .rounded_sm()
                     .text_xs()
                     .text_color(warning_color)
-                    .hover(move |s| {
-                        s.bg(warning_color.opacity(0.1))
-                    })
+                    .hover(move |s| s.bg(warning_color.opacity(0.1)))
                     .cursor_pointer()
                     .on_click(listener)
-                    .child("Run again")
+                    .child("Run again"),
             )
         })
         // Copy button
@@ -227,12 +218,9 @@ pub(super) fn render_actions(
                 .rounded_sm()
                 .text_xs()
                 .text_color(text_muted_color)
-                .hover(move |s| {
-                    s.bg(surface_hover_color)
-                        .text_color(text_color)
-                })
+                .hover(move |s| s.bg(surface_hover_color).text_color(text_color))
                 .cursor_pointer()
                 .on_click(copy_listener)
-                .child("Copy")
+                .child("Copy"),
         )
 }

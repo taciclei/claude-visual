@@ -1,12 +1,12 @@
 //! Empty state component for when there's no data
 
-mod types;
-mod state;
 mod placeholder;
+mod state;
+mod types;
 
-pub use types::*;
-pub use state::*;
 pub use placeholder::*;
+pub use state::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

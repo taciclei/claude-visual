@@ -1,9 +1,9 @@
 //! Minimal variant rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::components::audio_player::player::AudioPlayer;
 use super::AudioColors;
+use crate::ui::components::audio_player::player::AudioPlayer;
+use gpui::prelude::*;
+use gpui::*;
 
 pub(crate) fn render_minimal(player: &AudioPlayer) -> impl IntoElement {
     let colors = AudioColors::default();
@@ -35,8 +35,8 @@ pub(crate) fn render_minimal(player: &AudioPlayer) -> impl IntoElement {
                     div()
                         .text_size(px(button_size * 0.4))
                         .text_color(colors.primary_fg)
-                        .child(play_icon)
-                )
+                        .child(play_icon),
+                ),
         )
         .when(player.show_time, |el| {
             el.child(
@@ -47,7 +47,7 @@ pub(crate) fn render_minimal(player: &AudioPlayer) -> impl IntoElement {
                         "{} / {}",
                         AudioPlayer::format_time(player.current_time),
                         AudioPlayer::format_time(player.duration)
-                    ))
+                    )),
             )
         })
 }

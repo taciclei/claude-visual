@@ -1,8 +1,8 @@
 //! Progress spinner with percentage
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Progress spinner with percentage
 #[derive(Clone)]
@@ -53,7 +53,7 @@ impl RenderOnce for ProgressSpinner {
                     .inset_0()
                     .rounded_full()
                     .border(px(self.size.stroke_width()))
-                    .border_color(track)
+                    .border_color(track),
             )
             // Progress ring (simplified visual)
             .child(
@@ -66,7 +66,7 @@ impl RenderOnce for ProgressSpinner {
                     .border_color(accent)
                     .when(self.progress >= 25.0, |d| d.border_color(accent))
                     .when(self.progress >= 50.0, |d| d.border_color(accent))
-                    .when(self.progress >= 75.0, |d| d.border_color(accent))
+                    .when(self.progress >= 75.0, |d| d.border_color(accent)),
             )
             // Percentage text
             .when(self.show_percentage, |d| {
@@ -75,7 +75,7 @@ impl RenderOnce for ProgressSpinner {
                         .text_xs()
                         .font_weight(FontWeight::SEMIBOLD)
                         .text_color(text)
-                        .child(format!("{}%", self.progress as u32))
+                        .child(format!("{}%", self.progress as u32)),
                 )
             })
     }

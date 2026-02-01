@@ -72,7 +72,11 @@ impl ThemeBuilder {
         Theme {
             name: self.name,
             is_dark: self.is_dark,
-            variant: if self.is_dark { crate::app::theme::ThemeVariant::Dark } else { crate::app::theme::ThemeVariant::Light },
+            variant: if self.is_dark {
+                crate::app::theme::ThemeVariant::Dark
+            } else {
+                crate::app::theme::ThemeVariant::Light
+            },
             colors: self.colors.unwrap_or(base.colors),
             syntax: self.syntax.unwrap_or(base.syntax),
             accessibility: crate::app::theme::AccessibilitySettings::default(),

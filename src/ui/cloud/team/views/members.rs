@@ -1,10 +1,10 @@
 //! Members list view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::{Team, TeamRole};
 use super::super::TeamPanel;
+use crate::cloud::team::{Team, TeamRole};
 
 impl TeamPanel {
     /// Render members list
@@ -80,12 +80,9 @@ impl TeamPanel {
                                 div()
                                     .flex()
                                     .flex_col()
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(theme.colors.text)
-                                            .child(member.name.clone().unwrap_or_else(|| member.email.clone())),
-                                    )
+                                    .child(div().text_sm().text_color(theme.colors.text).child(
+                                        member.name.clone().unwrap_or_else(|| member.email.clone()),
+                                    ))
                                     .child(
                                         div()
                                             .text_xs()

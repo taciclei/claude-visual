@@ -1,7 +1,7 @@
 //! Types and data structures for MCP logs
 
-use std::time::{Duration, Instant};
 use gpui::Hsla;
+use std::time::{Duration, Instant};
 
 /// Log level for MCP server messages
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -27,10 +27,10 @@ impl LogLevel {
     pub fn color(&self) -> Hsla {
         use gpui::hsla;
         match self {
-            Self::Debug => hsla(0.0, 0.0, 0.5, 1.0),      // Gray
-            Self::Info => hsla(210.0 / 360.0, 0.6, 0.5, 1.0), // Blue
+            Self::Debug => hsla(0.0, 0.0, 0.5, 1.0),            // Gray
+            Self::Info => hsla(210.0 / 360.0, 0.6, 0.5, 1.0),   // Blue
             Self::Warning => hsla(45.0 / 360.0, 0.8, 0.5, 1.0), // Yellow
-            Self::Error => hsla(0.0, 0.7, 0.5, 1.0),      // Red
+            Self::Error => hsla(0.0, 0.7, 0.5, 1.0),            // Red
         }
     }
 

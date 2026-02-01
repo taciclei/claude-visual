@@ -1,17 +1,17 @@
 //! Number input and stepper components
 
-mod types;
 mod component;
+mod quantity_selector;
 mod render;
 mod simple_stepper;
-mod quantity_selector;
 mod spin_button;
+mod types;
 
-pub use types::*;
 pub use component::NumberInput;
-pub use simple_stepper::SimpleStepper;
 pub use quantity_selector::QuantitySelector;
+pub use simple_stepper::SimpleStepper;
 pub use spin_button::SpinButton;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -27,8 +27,7 @@ mod tests {
 
     #[test]
     fn test_quantity_selector() {
-        let selector = QuantitySelector::new(3)
-            .presets(vec![1, 5, 10, 25]);
+        let selector = QuantitySelector::new(3).presets(vec![1, 5, 10, 25]);
 
         assert_eq!(selector.value, 3);
         assert_eq!(selector.presets, vec![1, 5, 10, 25]);
@@ -36,8 +35,7 @@ mod tests {
 
     #[test]
     fn test_spin_button() {
-        let spin = SpinButton::new(42)
-            .label("Count");
+        let spin = SpinButton::new(42).label("Count");
 
         assert_eq!(spin.value, 42);
         assert_eq!(spin.label, Some("Count".to_string()));

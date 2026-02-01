@@ -1,9 +1,9 @@
 //! Textarea rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::components::textarea::types::*;
 use super::state::Textarea;
+use crate::ui::components::textarea::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 impl EventEmitter<TextareaEvent> for Textarea {}
 
@@ -67,7 +67,7 @@ impl Render for Textarea {
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(text_color)
                         .mb_1()
-                        .child(label)
+                        .child(label),
                 )
             })
             // Textarea container
@@ -95,44 +95,41 @@ impl Render for Textarea {
                             .w_full()
                             .text_sm()
                             .when(self.text.is_empty(), |d| {
-                                d.text_color(text_muted)
-                                    .child(self.placeholder.clone())
+                                d.text_color(text_muted).child(self.placeholder.clone())
                             })
                             .when(!self.text.is_empty(), |d| {
-                                d.text_color(text_color)
-                                    .child(self.text.clone())
-                            })
-                    )
+                                d.text_color(text_color).child(self.text.clone())
+                            }),
+                    ),
             )
             // Footer row (helper/error + count)
-            .when(self.helper.is_some() || self.error.is_some() || self.show_count, |d| {
-                d.child(
-                    div()
-                        .flex()
-                        .items_center()
-                        .justify_between()
-                        .text_xs()
-                        // Helper or error
-                        .child(
-                            div()
-                                .when_some(self.error.clone(), |d, err| {
-                                    d.text_color(error_color).child(err)
-                                })
-                                .when(self.error.is_none(), |d| {
-                                    d.when_some(self.helper.clone(), |d, help| {
-                                        d.text_color(text_muted).child(help)
-                                    })
-                                })
-                        )
-                        // Character count
-                        .when(self.show_count, |d| {
-                            d.child(
+            .when(
+                self.helper.is_some() || self.error.is_some() || self.show_count,
+                |d| {
+                    d.child(
+                        div()
+                            .flex()
+                            .items_center()
+                            .justify_between()
+                            .text_xs()
+                            // Helper or error
+                            .child(
                                 div()
-                                    .text_color(text_muted)
-                                    .child(count_text)
+                                    .when_some(self.error.clone(), |d, err| {
+                                        d.text_color(error_color).child(err)
+                                    })
+                                    .when(self.error.is_none(), |d| {
+                                        d.when_some(self.helper.clone(), |d, help| {
+                                            d.text_color(text_muted).child(help)
+                                        })
+                                    }),
                             )
-                        })
-                )
-            })
+                            // Character count
+                            .when(self.show_count, |d| {
+                                d.child(div().text_color(text_muted).child(count_text))
+                            }),
+                    )
+                },
+            )
     }
 }

@@ -1,7 +1,7 @@
 //! Native select - uses native browser select element styling
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{SelectOption, SelectSize};
 
@@ -64,7 +64,8 @@ impl RenderOnce for NativeSelect {
             SelectSize::Large => (44.0, 16.0),
         };
 
-        let display_text = self.selected
+        let display_text = self
+            .selected
             .as_ref()
             .and_then(|v| self.options.iter().find(|o| &o.value == v))
             .map(|o| o.label.clone())
@@ -85,13 +86,13 @@ impl RenderOnce for NativeSelect {
                 div()
                     .text_size(px(font_size))
                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                    .child(display_text)
+                    .child(display_text),
             )
             .child(
                 div()
                     .text_size(px(10.0))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("▼")
+                    .child("▼"),
             )
     }
 }

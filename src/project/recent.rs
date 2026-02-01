@@ -62,8 +62,8 @@ impl RecentProjects {
 
     /// Get storage path
     fn storage_path() -> Result<PathBuf> {
-        let data_dir = dirs::data_dir()
-            .ok_or_else(|| anyhow::anyhow!("Could not find data directory"))?;
+        let data_dir =
+            dirs::data_dir().ok_or_else(|| anyhow::anyhow!("Could not find data directory"))?;
         Ok(data_dir.join("claude-visual").join("recent.json"))
     }
 

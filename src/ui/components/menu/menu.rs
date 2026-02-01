@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Menu component
 pub struct Menu {
@@ -22,7 +22,11 @@ pub struct Menu {
 }
 
 impl Menu {
-    pub fn new(app_state: Arc<AppState>, items: Vec<MenuItemData>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        items: Vec<MenuItemData>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             items,
@@ -88,24 +92,20 @@ impl Render for Menu {
             .flex_col()
             .children(self.items.iter().enumerate().map(|(idx, item)| {
                 match &item.item_type {
-                    MenuItemType::Separator => {
-                        div()
-                            .id(SharedString::from(format!("menu-sep-{}", idx)))
-                            .h(px(1.0))
-                            .mx_2()
-                            .my_1()
-                            .bg(theme.colors.border)
-                    }
-                    MenuItemType::Header => {
-                        div()
-                            .id(SharedString::from(format!("menu-header-{}", idx)))
-                            .px_3()
-                            .py_1()
-                            .text_xs()
-                            .text_color(theme.colors.text_muted)
-                            .font_weight(FontWeight::MEDIUM)
-                            .child(item.label.clone())
-                    }
+                    MenuItemType::Separator => div()
+                        .id(SharedString::from(format!("menu-sep-{}", idx)))
+                        .h(px(1.0))
+                        .mx_2()
+                        .my_1()
+                        .bg(theme.colors.border),
+                    MenuItemType::Header => div()
+                        .id(SharedString::from(format!("menu-header-{}", idx)))
+                        .px_3()
+                        .py_1()
+                        .text_xs()
+                        .text_color(theme.colors.text_muted)
+                        .font_weight(FontWeight::MEDIUM)
+                        .child(item.label.clone()),
                     MenuItemType::Item => {
                         let item_id = item.id.clone();
                         let is_disabled = item.disabled;
@@ -127,7 +127,11 @@ impl Render for Menu {
                             .items_center()
                             .gap_3()
                             .text_sm()
-                            .text_color(if is_disabled { theme.colors.text_muted } else { text_color })
+                            .text_color(if is_disabled {
+                                theme.colors.text_muted
+                            } else {
+                                text_color
+                            })
                             .when(!is_disabled, |d| {
                                 d.cursor_pointer()
                                     .hover(|s| s.bg(theme.colors.surface_hover))
@@ -143,7 +147,7 @@ impl Render for Menu {
                                     div()
                                         .w(px(16.0))
                                         .text_color(theme.colors.accent)
-                                        .child(if checked { "✓" } else { "" })
+                                        .child(if checked { "✓" } else { "" }),
                                 )
                             })
                             // Icon
@@ -152,22 +156,18 @@ impl Render for Menu {
                                     div()
                                         .w(px(16.0))
                                         .text_color(theme.colors.text_muted)
-                                        .child(icon)
+                                        .child(icon),
                                 )
                             })
                             // Label
-                            .child(
-                                div()
-                                    .flex_1()
-                                    .child(item.label.clone())
-                            )
+                            .child(div().flex_1().child(item.label.clone()))
                             // Shortcut
                             .when_some(item.shortcut.clone(), |d, shortcut| {
                                 d.child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child(shortcut)
+                                        .child(shortcut),
                                 )
                             })
                     }
@@ -192,21 +192,13 @@ impl Render for Menu {
                                     div()
                                         .w(px(16.0))
                                         .text_color(theme.colors.text_muted)
-                                        .child(icon)
+                                        .child(icon),
                                 )
                             })
                             // Label
-                            .child(
-                                div()
-                                    .flex_1()
-                                    .child(item.label.clone())
-                            )
+                            .child(div().flex_1().child(item.label.clone()))
                             // Submenu arrow
-                            .child(
-                                div()
-                                    .text_color(theme.colors.text_muted)
-                                    .child("▸")
-                            )
+                            .child(div().text_color(theme.colors.text_muted).child("▸"))
                     }
                 }
             }))

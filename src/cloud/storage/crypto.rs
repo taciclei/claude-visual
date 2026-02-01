@@ -68,8 +68,8 @@ pub(super) fn encrypt_data(
             })
         }
         EncryptionAlgorithm::ChaCha20Poly1305 => {
-            use chacha20poly1305::{ChaCha20Poly1305, KeyInit as ChaChaKeyInit};
             use chacha20poly1305::aead::Aead as ChaChaAead;
+            use chacha20poly1305::{ChaCha20Poly1305, KeyInit as ChaChaKeyInit};
 
             // Generate random nonce
             let mut nonce_bytes = [0u8; 12];
@@ -131,8 +131,8 @@ pub(super) fn decrypt_data(encrypted: &EncryptedData, key: &[u8]) -> Result<Vec<
                 .map_err(|e| StorageError::Decryption(format!("Decryption failed: {}", e)))
         }
         EncryptionAlgorithm::ChaCha20Poly1305 => {
-            use chacha20poly1305::{ChaCha20Poly1305, KeyInit as ChaChaKeyInit};
             use chacha20poly1305::aead::Aead as ChaChaAead;
+            use chacha20poly1305::{ChaCha20Poly1305, KeyInit as ChaChaKeyInit};
 
             let key_array: [u8; 32] = key
                 .try_into()

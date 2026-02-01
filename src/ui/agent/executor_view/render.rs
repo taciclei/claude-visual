@@ -1,9 +1,9 @@
 //! Main render implementation
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::agent::executor::ExecutorState;
 use super::ExecutorView;
+use crate::agent::executor::ExecutorState;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for ExecutorView {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -30,18 +30,14 @@ impl Render for ExecutorView {
                             .flex()
                             .items_center()
                             .gap_2()
-                            .child(
-                                div()
-                                    .text_lg()
-                                    .child(state.icon())
-                            )
+                            .child(div().text_lg().child(state.icon()))
                             .child(
                                 div()
                                     .text_sm()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(self.theme.colors.text)
-                                    .child(format!("{:?}", state))
-                            )
+                                    .child(format!("{:?}", state)),
+                            ),
                     )
                     .child(
                         // Duration
@@ -52,8 +48,8 @@ impl Render for ExecutorView {
                                 .child(Self::format_duration(ms))
                         } else {
                             div()
-                        }
-                    )
+                        },
+                    ),
             )
             .child(
                 // Progress section
@@ -70,7 +66,7 @@ impl Render for ExecutorView {
                                 div()
                                     .text_xs()
                                     .text_color(self.theme.colors.text_muted)
-                                    .child("Progress")
+                                    .child("Progress"),
                             )
                             .child(
                                 div()
@@ -81,8 +77,8 @@ impl Render for ExecutorView {
                                         self.stats.completed_steps,
                                         self.stats.total_steps,
                                         percentage
-                                    ))
-                            )
+                                    )),
+                            ),
                     )
                     .child(
                         // Progress bar
@@ -103,9 +99,9 @@ impl Render for ExecutorView {
                                         self.theme.colors.accent
                                     })
                                     .rounded_full()
-                                    .w(relative(percentage / 100.0))
-                            )
-                    )
+                                    .w(relative(percentage / 100.0)),
+                            ),
+                    ),
             )
             .child(self.render_approval_prompt(cx))
             .child(self.render_controls(cx))

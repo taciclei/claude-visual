@@ -2,7 +2,7 @@
 
 #[cfg(test)]
 mod tests {
-    use super::super::{InlineComment, CommentThread, DiffComments};
+    use super::super::{CommentThread, DiffComments, InlineComment};
 
     #[test]
     fn test_inline_comment() {
@@ -15,7 +15,11 @@ mod tests {
     #[test]
     fn test_reply() {
         let parent = InlineComment::new("user1".to_string(), "Question about this".to_string());
-        let reply = InlineComment::reply(&parent.id, "user2".to_string(), "Here's the answer".to_string());
+        let reply = InlineComment::reply(
+            &parent.id,
+            "user2".to_string(),
+            "Here's the answer".to_string(),
+        );
 
         assert_eq!(reply.reply_to.as_ref().unwrap(), &parent.id);
     }
@@ -23,8 +27,14 @@ mod tests {
     #[test]
     fn test_comment_thread() {
         let mut thread = CommentThread::new(0, 5, "new");
-        thread.add_comment(InlineComment::new("user1".to_string(), "Comment 1".to_string()));
-        thread.add_comment(InlineComment::new("user2".to_string(), "Comment 2".to_string()));
+        thread.add_comment(InlineComment::new(
+            "user1".to_string(),
+            "Comment 1".to_string(),
+        ));
+        thread.add_comment(InlineComment::new(
+            "user2".to_string(),
+            "Comment 2".to_string(),
+        ));
 
         assert_eq!(thread.comment_count(), 2);
         assert!(thread.has_unresolved());

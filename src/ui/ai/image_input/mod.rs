@@ -10,8 +10,8 @@ pub use attachment::ImageAttachment;
 pub use events::ImageInputEvent;
 
 use colors::default_colors;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 use std::path::PathBuf;
 
 /// Image input component with drag & drop
@@ -146,101 +146,94 @@ impl Render for ImageInput {
             .gap_2()
             // Image preview grid (if any images)
             .when(has_images, |this| {
-                this.child(
-                    div()
-                        .flex()
-                        .flex_wrap()
-                        .gap_2()
-                        .children(self.images.iter().enumerate().map(|(index, image)| {
-                            let name = image.name.clone();
-                            let size = image.format_size();
-                            let is_too_large = image.is_too_large();
+                this.child(div().flex().flex_wrap().gap_2().children(
+                    self.images.iter().enumerate().map(|(index, image)| {
+                        let name = image.name.clone();
+                        let size = image.format_size();
+                        let is_too_large = image.is_too_large();
 
-                            let on_remove_click = cx.listener(move |this, _, _window, cx| {
-                                this.remove_image(index, cx);
-                            });
+                        let on_remove_click = cx.listener(move |this, _, _window, cx| {
+                            this.remove_image(index, cx);
+                        });
 
-                            div()
-                                .id(ElementId::Name(format!("image-{}", index).into()))
-                                .relative()
-                                .w(px(80.0))
-                                .h(px(80.0))
-                                .rounded_md()
-                                .overflow_hidden()
-                                .border_1()
-                                .border_color(if is_too_large {
-                                    error_color
-                                } else {
-                                    border_color
-                                })
-                                .bg(surface_color)
-                                .child(
-                                    div()
-                                        .size_full()
-                                        .flex()
-                                        .items_center()
-                                        .justify_center()
-                                        .bg(editor_background_color)
-                                        .child(
-                                            div()
-                                                .text_2xl()
-                                                .text_color(text_muted_color)
-                                                .child("🖼"),
-                                        ),
-                                )
-                                .child(
-                                    div()
-                                        .absolute()
-                                        .bottom_0()
-                                        .left_0()
-                                        .right_0()
-                                        .bg(hsla(0.0, 0.0, 0.0, 0.7))
-                                        .px_1()
-                                        .py_0p5()
-                                        .child(
-                                            div()
-                                                .flex()
-                                                .flex_col()
-                                                .child(
-                                                    div()
-                                                        .text_xs()
-                                                        .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                                        .text_ellipsis()
-                                                        .child(name),
-                                                )
-                                                .child(
-                                                    div()
-                                                        .text_xs()
-                                                        .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                                                        .child(size),
-                                                ),
-                                        ),
-                                )
-                                .child(
-                                    div()
-                                        .id(ElementId::Name(format!("remove-image-{}", index).into()))
-                                        .absolute()
-                                        .top_1()
-                                        .right_1()
-                                        .w(px(18.0))
-                                        .h(px(18.0))
-                                        .rounded_full()
-                                        .bg(error_color)
-                                        .flex()
-                                        .items_center()
-                                        .justify_center()
-                                        .cursor_pointer()
-                                        .hover(|style| style.bg(error_hover))
-                                        .on_click(on_remove_click)
-                                        .child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                                .child("×"),
-                                        ),
-                                )
-                        })),
-                )
+                        div()
+                            .id(ElementId::Name(format!("image-{}", index).into()))
+                            .relative()
+                            .w(px(80.0))
+                            .h(px(80.0))
+                            .rounded_md()
+                            .overflow_hidden()
+                            .border_1()
+                            .border_color(if is_too_large {
+                                error_color
+                            } else {
+                                border_color
+                            })
+                            .bg(surface_color)
+                            .child(
+                                div()
+                                    .size_full()
+                                    .flex()
+                                    .items_center()
+                                    .justify_center()
+                                    .bg(editor_background_color)
+                                    .child(
+                                        div().text_2xl().text_color(text_muted_color).child("🖼"),
+                                    ),
+                            )
+                            .child(
+                                div()
+                                    .absolute()
+                                    .bottom_0()
+                                    .left_0()
+                                    .right_0()
+                                    .bg(hsla(0.0, 0.0, 0.0, 0.7))
+                                    .px_1()
+                                    .py_0p5()
+                                    .child(
+                                        div()
+                                            .flex()
+                                            .flex_col()
+                                            .child(
+                                                div()
+                                                    .text_xs()
+                                                    .text_color(hsla(0.0, 0.0, 1.0, 1.0))
+                                                    .text_ellipsis()
+                                                    .child(name),
+                                            )
+                                            .child(
+                                                div()
+                                                    .text_xs()
+                                                    .text_color(hsla(0.0, 0.0, 0.7, 1.0))
+                                                    .child(size),
+                                            ),
+                                    ),
+                            )
+                            .child(
+                                div()
+                                    .id(ElementId::Name(format!("remove-image-{}", index).into()))
+                                    .absolute()
+                                    .top_1()
+                                    .right_1()
+                                    .w(px(18.0))
+                                    .h(px(18.0))
+                                    .rounded_full()
+                                    .bg(error_color)
+                                    .flex()
+                                    .items_center()
+                                    .justify_center()
+                                    .cursor_pointer()
+                                    .hover(|style| style.bg(error_hover))
+                                    .on_click(on_remove_click)
+                                    .child(
+                                        div()
+                                            .text_xs()
+                                            .text_color(hsla(0.0, 0.0, 1.0, 1.0))
+                                            .child("×"),
+                                    ),
+                            )
+                    }),
+                ))
             })
             // Drop zone
             .when(can_add, |this| {
@@ -280,16 +273,13 @@ impl Render for ImageInput {
                                         .text_color(text_muted_color)
                                         .child(if is_drag_over { "📥" } else { "🖼" }),
                                 )
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(text_muted_color)
-                                        .child(if is_drag_over {
-                                            "Drop images here"
-                                        } else {
-                                            "Drag & drop images"
-                                        }),
-                                ),
+                                .child(div().text_xs().text_color(text_muted_color).child(
+                                    if is_drag_over {
+                                        "Drop images here"
+                                    } else {
+                                        "Drag & drop images"
+                                    },
+                                )),
                         ),
                 )
             })

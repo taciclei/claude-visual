@@ -2,15 +2,19 @@
 
 use gpui::*;
 
-use super::ChatView;
 use super::types::NotificationType;
+use super::ChatView;
 
 impl ChatView {
     /// Enable extended thinking mode
     pub fn enable_think_mode(&mut self, cx: &mut Context<Self>) {
         self.think_mode_enabled = true;
         self.send_slash_command("/think", cx);
-        self.show_notification("Extended thinking enabled - Claude will reason more deeply", NotificationType::Info, cx);
+        self.show_notification(
+            "Extended thinking enabled - Claude will reason more deeply",
+            NotificationType::Info,
+            cx,
+        );
         cx.notify();
     }
 

@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Character counter for text inputs
 #[derive(IntoElement)]
@@ -91,9 +91,6 @@ impl RenderOnce for CharacterCount {
             format!("{}/{}", self.current, self.max)
         };
 
-        div()
-            .text_size(px(11.0))
-            .text_color(color)
-            .child(text)
+        div().text_size(px(11.0)).text_color(color).child(text)
     }
 }

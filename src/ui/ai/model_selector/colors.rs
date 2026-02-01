@@ -1,5 +1,5 @@
-use gpui::*;
 use super::types::SimpleColors;
+use gpui::*;
 
 pub(crate) fn default_colors() -> SimpleColors {
     SimpleColors {

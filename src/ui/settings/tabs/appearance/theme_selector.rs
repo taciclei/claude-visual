@@ -1,7 +1,7 @@
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::pct;
 use crate::ui::settings::SettingsModal;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render a theme option button
@@ -38,9 +38,7 @@ impl SettingsModal {
             .cursor_pointer()
             .border_2()
             .overflow_hidden()
-            .when(is_selected, |d| {
-                d.border_color(accent_color)
-            })
+            .when(is_selected, |d| d.border_color(accent_color))
             .when(!is_selected, |d| {
                 d.border_color(border_color)
                     .hover(|s| s.border_color(text_muted_color))
@@ -60,13 +58,7 @@ impl SettingsModal {
                             .flex()
                             .gap_1()
                             // Sidebar preview
-                            .child(
-                                div()
-                                    .w(px(24.0))
-                                    .h_full()
-                                    .rounded_sm()
-                                    .bg(surface),
-                            )
+                            .child(div().w(px(24.0)).h_full().rounded_sm().bg(surface))
                             // Content preview
                             .child(
                                 div()
@@ -81,13 +73,7 @@ impl SettingsModal {
                                             .rounded_sm()
                                             .bg(text.opacity(0.3)),
                                     )
-                                    .child(
-                                        div()
-                                            .w(pct(60.0))
-                                            .h(px(4.0))
-                                            .rounded_sm()
-                                            .bg(accent),
-                                    ),
+                                    .child(div().w(pct(60.0)).h(px(4.0)).rounded_sm().bg(accent)),
                             ),
                     )
                     // Color swatches
@@ -95,24 +81,9 @@ impl SettingsModal {
                         div()
                             .flex()
                             .gap_1()
-                            .child(
-                                div()
-                                    .size(px(10.0))
-                                    .rounded_full()
-                                    .bg(surface),
-                            )
-                            .child(
-                                div()
-                                    .size(px(10.0))
-                                    .rounded_full()
-                                    .bg(text),
-                            )
-                            .child(
-                                div()
-                                    .size(px(10.0))
-                                    .rounded_full()
-                                    .bg(accent),
-                            ),
+                            .child(div().size(px(10.0)).rounded_full().bg(surface))
+                            .child(div().size(px(10.0)).rounded_full().bg(text))
+                            .child(div().size(px(10.0)).rounded_full().bg(accent)),
                     ),
             )
             // Label
@@ -136,12 +107,7 @@ impl SettingsModal {
                             .child(label),
                     )
                     .when(is_selected, |d| {
-                        d.child(
-                            div()
-                                .text_xs()
-                                .text_color(accent_color)
-                                .child("✓"),
-                        )
+                        d.child(div().text_xs().text_color(accent_color).child("✓"))
                     }),
             )
             .on_click(on_click)
@@ -153,26 +119,26 @@ impl SettingsModal {
             "dark" => (
                 hsla(220.0 / 360.0, 0.13, 0.10, 1.0), // background
                 hsla(220.0 / 360.0, 0.13, 0.15, 1.0), // surface
-                hsla(0.0, 0.0, 0.93, 1.0),             // text
+                hsla(0.0, 0.0, 0.93, 1.0),            // text
                 hsla(210.0 / 360.0, 1.0, 0.56, 1.0),  // accent
             ),
             "light" => (
-                hsla(0.0, 0.0, 0.98, 1.0),             // background
-                hsla(0.0, 0.0, 1.0, 1.0),              // surface
-                hsla(0.0, 0.0, 0.1, 1.0),              // text
-                hsla(210.0 / 360.0, 1.0, 0.5, 1.0),   // accent
+                hsla(0.0, 0.0, 0.98, 1.0),          // background
+                hsla(0.0, 0.0, 1.0, 1.0),           // surface
+                hsla(0.0, 0.0, 0.1, 1.0),           // text
+                hsla(210.0 / 360.0, 1.0, 0.5, 1.0), // accent
             ),
             "high-contrast-dark" => (
-                hsla(0.0, 0.0, 0.0, 1.0),              // background
-                hsla(0.0, 0.0, 0.08, 1.0),             // surface
-                hsla(0.0, 0.0, 1.0, 1.0),              // text
-                hsla(60.0 / 360.0, 1.0, 0.5, 1.0),    // accent (yellow)
+                hsla(0.0, 0.0, 0.0, 1.0),          // background
+                hsla(0.0, 0.0, 0.08, 1.0),         // surface
+                hsla(0.0, 0.0, 1.0, 1.0),          // text
+                hsla(60.0 / 360.0, 1.0, 0.5, 1.0), // accent (yellow)
             ),
             "high-contrast-light" => (
-                hsla(0.0, 0.0, 1.0, 1.0),              // background
-                hsla(0.0, 0.0, 0.95, 1.0),             // surface
-                hsla(0.0, 0.0, 0.0, 1.0),              // text
-                hsla(240.0 / 360.0, 1.0, 0.35, 1.0),  // accent (blue)
+                hsla(0.0, 0.0, 1.0, 1.0),            // background
+                hsla(0.0, 0.0, 0.95, 1.0),           // surface
+                hsla(0.0, 0.0, 0.0, 1.0),            // text
+                hsla(240.0 / 360.0, 1.0, 0.35, 1.0), // accent (blue)
             ),
             _ => (
                 hsla(220.0 / 360.0, 0.13, 0.10, 1.0),
@@ -196,7 +162,12 @@ impl SettingsModal {
         let name_clone = name.to_string();
 
         // Get metadata for tooltip
-        let metadata = self.app_state.theme_loader.read().get_metadata(name).cloned();
+        let metadata = self
+            .app_state
+            .theme_loader
+            .read()
+            .get_metadata(name)
+            .cloned();
         let author = metadata.as_ref().and_then(|m| m.author.clone());
         let ext_id = metadata.as_ref().and_then(|m| m.extension_id.clone());
 
@@ -222,8 +193,7 @@ impl SettingsModal {
             .cursor_pointer()
             .border_2()
             .when(is_selected, |d| {
-                d.border_color(accent_color)
-                    .bg(accent_color.opacity(0.1))
+                d.border_color(accent_color).bg(accent_color.opacity(0.1))
             })
             .when(!is_selected, |d| {
                 d.border_color(border_color)
@@ -240,16 +210,11 @@ impl SettingsModal {
                     .child(name_owned),
             )
             .when(author.is_some() || ext_id.is_some(), |d| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(text_muted_color)
-                        .child(format!(
+                d.child(div().text_xs().text_color(text_muted_color).child(format!(
                             "{}{}",
                             author.as_deref().unwrap_or(""),
                             ext_id.as_ref().map(|id| format!(" ({})", id)).unwrap_or_default()
-                        )),
-                )
+                        )))
             })
             .on_click(on_click)
     }

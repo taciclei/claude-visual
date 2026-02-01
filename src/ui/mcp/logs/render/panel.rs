@@ -1,7 +1,7 @@
 //! Main panel Render trait implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::mcp::logs::core::McpLogsPanel;
 use crate::ui::mcp::logs::types::{LogLevel, McpLogsPanelEvent};
@@ -139,10 +139,7 @@ impl Render for McpLogsPanel {
                                     .rounded_sm()
                                     .cursor_pointer()
                                     .text_color(text_muted)
-                                    .hover(|s| {
-                                        s.bg(surface_hover)
-                                            .text_color(text_color)
-                                    })
+                                    .hover(|s| s.bg(surface_hover).text_color(text_color))
                                     .on_click(clear_logs_handler)
                                     .child("Clear"),
                             ),
@@ -176,10 +173,7 @@ impl Render for McpLogsPanel {
                             div()
                                 .text_xs()
                                 .text_color(text_muted)
-                                .child(format!(
-                                    "{} / {} logs",
-                                    log_count, total_count
-                                )),
+                                .child(format!("{} / {} logs", log_count, total_count)),
                         ),
                 )
             })

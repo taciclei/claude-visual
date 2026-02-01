@@ -1,9 +1,9 @@
 //! Main image component with placeholder and error states
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::{ImageFit, ImageState, ImageShape};
+use super::types::{ImageFit, ImageShape, ImageState};
 
 /// A basic image component with placeholder and error states
 #[derive(IntoElement)]

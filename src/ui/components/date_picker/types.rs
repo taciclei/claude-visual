@@ -50,9 +50,18 @@ impl DateValue {
 
     pub fn format_display(&self) -> String {
         let month_name = match self.month {
-            1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr",
-            5 => "May", 6 => "Jun", 7 => "Jul", 8 => "Aug",
-            9 => "Sep", 10 => "Oct", 11 => "Nov", 12 => "Dec",
+            1 => "Jan",
+            2 => "Feb",
+            3 => "Mar",
+            4 => "Apr",
+            5 => "May",
+            6 => "Jun",
+            7 => "Jul",
+            8 => "Aug",
+            9 => "Sep",
+            10 => "Oct",
+            11 => "Nov",
+            12 => "Dec",
             _ => "???",
         };
         format!("{} {}, {}", month_name, self.day, self.year)
@@ -82,11 +91,19 @@ pub struct TimeValue {
 
 impl TimeValue {
     pub fn new(hour: u8, minute: u8) -> Self {
-        Self { hour, minute, second: None }
+        Self {
+            hour,
+            minute,
+            second: None,
+        }
     }
 
     pub fn with_seconds(hour: u8, minute: u8, second: u8) -> Self {
-        Self { hour, minute, second: Some(second) }
+        Self {
+            hour,
+            minute,
+            second: Some(second),
+        }
     }
 
     pub fn format_24h(&self) -> String {

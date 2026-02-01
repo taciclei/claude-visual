@@ -2,15 +2,10 @@
 //!
 //! UI for displaying and selecting code actions (quick fixes, refactorings).
 
-mod types;
 mod core;
 mod render;
+mod types;
 
-pub use types::{
-    CodeActionKind,
-    CodeActionItem,
-    CodeActionsEvent,
-    CodeActionIndicator,
-};
+pub use types::{CodeActionIndicator, CodeActionItem, CodeActionKind, CodeActionsEvent};
 
 pub use core::CodeActionsPanel;

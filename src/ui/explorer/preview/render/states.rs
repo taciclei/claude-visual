@@ -48,17 +48,12 @@ impl FilePreviewPanel {
             .h_full()
             .child(self.render_header(&filename, None, None, cx))
             .child(
-                div()
-                    .flex_1()
-                    .flex()
-                    .items_center()
-                    .justify_center()
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(theme.colors.text_muted)
-                            .child("Loading..."),
-                    ),
+                div().flex_1().flex().items_center().justify_center().child(
+                    div()
+                        .text_sm()
+                        .text_color(theme.colors.text_muted)
+                        .child("Loading..."),
+                ),
             )
             .into_any_element()
     }
@@ -85,12 +80,7 @@ impl FilePreviewPanel {
             .flex()
             .flex_col()
             .h_full()
-            .child(self.render_header(
-                &filename,
-                Some(file_size),
-                language,
-                cx,
-            ))
+            .child(self.render_header(&filename, Some(file_size), language, cx))
             .child(self.render_stats(line_count, file_size, cx))
             .child(
                 // Content area with line numbers
@@ -116,14 +106,12 @@ impl FilePreviewPanel {
                                     .text_right()
                                     .border_r_1()
                                     .border_color(theme.colors.border)
-                                    .children(
-                                        content.lines().enumerate().map(|(i, _)| {
-                                            div()
-                                                .text_right()
-                                                .min_w(px(24.0))
-                                                .child(format!("{}", i + 1))
-                                        })
-                                    ),
+                                    .children(content.lines().enumerate().map(|(i, _)| {
+                                        div()
+                                            .text_right()
+                                            .min_w(px(24.0))
+                                            .child(format!("{}", i + 1))
+                                    })),
                             )
                             // Code content column
                             .child(
@@ -135,15 +123,13 @@ impl FilePreviewPanel {
                                     .font_family("JetBrains Mono")
                                     .text_color(theme.colors.text)
                                     .whitespace_nowrap()
-                                    .children(
-                                        content.lines().map(|line| {
-                                            div().child(if line.is_empty() {
-                                                " ".to_string()
-                                            } else {
-                                                line.to_string()
-                                            })
+                                    .children(content.lines().map(|line| {
+                                        div().child(if line.is_empty() {
+                                            " ".to_string()
+                                        } else {
+                                            line.to_string()
                                         })
-                                    ),
+                                    })),
                             ),
                     ),
             )
@@ -152,7 +138,12 @@ impl FilePreviewPanel {
     }
 
     /// Render binary file state
-    pub(super) fn render_binary(&self, path: &Path, file_size: u64, cx: &Context<Self>) -> AnyElement {
+    pub(super) fn render_binary(
+        &self,
+        path: &Path,
+        file_size: u64,
+        cx: &Context<Self>,
+    ) -> AnyElement {
         let theme = self.app_state.theme.read(cx);
         let filename = path
             .file_name()
@@ -197,7 +188,12 @@ impl FilePreviewPanel {
     }
 
     /// Render too large file state
-    pub(super) fn render_too_large(&self, path: &Path, file_size: u64, cx: &Context<Self>) -> AnyElement {
+    pub(super) fn render_too_large(
+        &self,
+        path: &Path,
+        file_size: u64,
+        cx: &Context<Self>,
+    ) -> AnyElement {
         let theme = self.app_state.theme.read(cx);
         let filename = path
             .file_name()
@@ -246,7 +242,12 @@ impl FilePreviewPanel {
     }
 
     /// Render error state
-    pub(super) fn render_error(&self, path: &Path, message: &str, cx: &Context<Self>) -> AnyElement {
+    pub(super) fn render_error(
+        &self,
+        path: &Path,
+        message: &str,
+        cx: &Context<Self>,
+    ) -> AnyElement {
         let theme = self.app_state.theme.read(cx);
         let filename = path
             .file_name()
@@ -267,12 +268,7 @@ impl FilePreviewPanel {
                     .items_center()
                     .justify_center()
                     .gap_2()
-                    .child(
-                        div()
-                            .text_2xl()
-                            .text_color(theme.colors.error)
-                            .child("❌"),
-                    )
+                    .child(div().text_2xl().text_color(theme.colors.error).child("❌"))
                     .child(
                         div()
                             .text_sm()

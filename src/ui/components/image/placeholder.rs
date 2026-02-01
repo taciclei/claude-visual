@@ -1,7 +1,7 @@
 //! Image placeholder component with icon
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::ImageShape;
 

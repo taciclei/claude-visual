@@ -1,9 +1,9 @@
 //! Completion dropdown rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use super::dropdown::CompletionDropdown;
 use super::types::{default_colors, CompletionDropdownEvent};
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for CompletionDropdown {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -66,9 +66,7 @@ impl Render for CompletionDropdown {
                             .px_2()
                             .py_1()
                             .cursor_pointer()
-                            .when(is_selected, |this| {
-                                this.bg(selection)
-                            })
+                            .when(is_selected, |this| this.bg(selection))
                             .hover(|style| style.bg(hover))
                             .child(
                                 div()
@@ -119,23 +117,13 @@ impl Render for CompletionDropdown {
                     })),
             )
             .when(self.items.len() > self.max_visible_items, |this| {
-                this.child(
-                    div()
-                        .px_2()
-                        .py_1()
-                        .border_t_1()
-                        .border_color(border)
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(format!(
-                                    "{}/{} items",
-                                    self.selected_index + 1,
-                                    self.items.len()
-                                )),
-                        ),
-                )
+                this.child(div().px_2().py_1().border_t_1().border_color(border).child(
+                    div().text_xs().text_color(text_muted).child(format!(
+                        "{}/{} items",
+                        self.selected_index + 1,
+                        self.items.len()
+                    )),
+                ))
             })
             .into_any_element()
     }

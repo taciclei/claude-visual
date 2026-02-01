@@ -1,9 +1,9 @@
 //! Model switching and connection status functionality for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::ChatView;
-use super::types::{ChatViewEvent, ModelInfo, ConnectionStatus};
+use super::types::{ChatViewEvent, ConnectionStatus, ModelInfo};
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     // ==================== Model Methods ====================
@@ -76,8 +76,14 @@ impl ChatView {
     // ==================== Rendering ====================
 
     /// Render model switcher dropdown
-    pub fn render_model_switcher(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
-        let current_model = self.session_info.as_ref()
+    pub fn render_model_switcher(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
+        let current_model = self
+            .session_info
+            .as_ref()
             .map(|i| i.model.as_str())
             .unwrap_or("Unknown");
 
@@ -109,15 +115,15 @@ impl ChatView {
                                     .text_sm()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text)
-                                    .child("Switch Model")
+                                    .child("Switch Model"),
                             )
                             .child(
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child(format!("Current: {}", current_model))
-                            )
-                    )
+                                    .child(format!("Current: {}", current_model)),
+                            ),
+                    ),
             )
             // Model list
             .child(
@@ -145,12 +151,7 @@ impl ChatView {
                                 this.select_model(&model_id, cx);
                             }))
                             // Icon
-                            .child(
-                                div()
-                                    .w(px(24.0))
-                                    .text_center()
-                                    .child(model.icon)
-                            )
+                            .child(div().w(px(24.0)).text_center().child(model.icon))
                             // Model info
                             .child(
                                 div()
@@ -164,25 +165,20 @@ impl ChatView {
                                             } else {
                                                 theme.colors.text
                                             })
-                                            .child(model.name.clone())
+                                            .child(model.name.clone()),
                                     )
                                     .child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted)
-                                            .child(model.description)
-                                    )
+                                            .child(model.description),
+                                    ),
                             )
                             // Current indicator
                             .when(is_current, |d| {
-                                d.child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.success)
-                                        .child("✓")
-                                )
+                                d.child(div().text_xs().text_color(theme.colors.success).child("✓"))
                             })
-                    }))
+                    })),
             )
             // Model recommendations
             .child(
@@ -199,37 +195,44 @@ impl ChatView {
                             .text_xs()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(theme.colors.text_muted)
-                            .child("💡 When to use each model:")
+                            .child("💡 When to use each model:"),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted.opacity(0.8))
-                            .child("• Opus: Complex tasks, /apex, /ultrathink")
+                            .child("• Opus: Complex tasks, /apex, /ultrathink"),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted.opacity(0.8))
-                            .child("• Sonnet: Balanced, /explore, /review")
+                            .child("• Sonnet: Balanced, /explore, /review"),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted.opacity(0.8))
-                            .child("• Haiku: Quick tasks, /search, /commit")
-                    )
+                            .child("• Haiku: Quick tasks, /search, /commit"),
+                    ),
             )
     }
 
     /// Get model recommendation based on skill
     pub fn get_recommended_model_for_skill(skill: &str) -> &'static str {
         let sl = skill.to_lowercase();
-        if sl.contains("apex") || sl.contains("ultrathink") || sl.contains("brainstorm") ||
-           sl.contains("architect") || sl.contains("plan") {
+        if sl.contains("apex")
+            || sl.contains("ultrathink")
+            || sl.contains("brainstorm")
+            || sl.contains("architect")
+            || sl.contains("plan")
+        {
             "opus"
-        } else if sl.contains("search") || sl.contains("commit") || sl.contains("quick") ||
-                  sl.contains("oneshot") {
+        } else if sl.contains("search")
+            || sl.contains("commit")
+            || sl.contains("quick")
+            || sl.contains("oneshot")
+        {
             "haiku"
         } else {
             "sonnet"

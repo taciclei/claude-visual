@@ -9,9 +9,21 @@ impl ChatView {
     /// Get conversation statistics
     pub fn get_conversation_stats(&self) -> ConversationStats {
         let message_count = self.messages.len();
-        let user_message_count = self.messages.iter().filter(|m| m.role == MessageRole::User).count();
-        let assistant_message_count = self.messages.iter().filter(|m| m.role == MessageRole::Assistant).count();
-        let tool_use_count = self.messages.iter().filter(|m| m.role == MessageRole::ToolUse).count();
+        let user_message_count = self
+            .messages
+            .iter()
+            .filter(|m| m.role == MessageRole::User)
+            .count();
+        let assistant_message_count = self
+            .messages
+            .iter()
+            .filter(|m| m.role == MessageRole::Assistant)
+            .count();
+        let tool_use_count = self
+            .messages
+            .iter()
+            .filter(|m| m.role == MessageRole::ToolUse)
+            .count();
 
         // Calculate word counts
         let mut word_count = 0;
@@ -106,11 +118,7 @@ impl ChatView {
         for message in &self.messages {
             if message.role == MessageRole::User {
                 // Extract first meaningful line as a topic
-                let first_line = message.content
-                    .lines()
-                    .next()
-                    .unwrap_or("")
-                    .trim();
+                let first_line = message.content.lines().next().unwrap_or("").trim();
 
                 // Skip if it's a slash command or too short
                 if first_line.starts_with('/') || first_line.len() < 10 {

@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Divider component
 pub struct Divider {
@@ -108,27 +108,17 @@ impl Render for Divider {
                         .gap_3()
                         .my(px(self.margin))
                         // Left line
-                        .child(
-                            div()
-                                .flex_1()
-                                .h(px(thickness))
-                                .bg(color)
-                        )
+                        .child(div().flex_1().h(px(thickness)).bg(color))
                         // Label
                         .child(
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
                                 .flex_shrink_0()
-                                .child(label.clone())
+                                .child(label.clone()),
                         )
                         // Right line
-                        .child(
-                            div()
-                                .flex_1()
-                                .h(px(thickness))
-                                .bg(color)
-                        )
+                        .child(div().flex_1().h(px(thickness)).bg(color))
                 } else {
                     // Simple horizontal line
                     div()
@@ -139,14 +129,12 @@ impl Render for Divider {
                         .my(px(self.margin))
                 }
             }
-            DividerOrientation::Vertical => {
-                div()
-                    .id("divider-vertical")
-                    .w(px(thickness))
-                    .h_full()
-                    .bg(color)
-                    .mx(px(self.margin))
-            }
+            DividerOrientation::Vertical => div()
+                .id("divider-vertical")
+                .w(px(thickness))
+                .h_full()
+                .bg(color)
+                .mx(px(self.margin)),
         }
     }
 }

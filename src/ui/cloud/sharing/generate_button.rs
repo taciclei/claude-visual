@@ -1,7 +1,7 @@
 //! Generate button rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::dialog::ShareDialog;
 
@@ -32,9 +32,7 @@ impl ShareDialog {
             .when(!self.is_generating, |this| {
                 this.hover(|this| this.opacity(0.9))
             })
-            .when(self.is_generating, |this| {
-                this.cursor_not_allowed()
-            })
+            .when(self.is_generating, |this| this.cursor_not_allowed())
             .on_click(cx.listener(|this, _event, _window, cx| {
                 if !this.is_generating {
                     this.generate_link(cx);

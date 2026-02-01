@@ -2,18 +2,18 @@
 //!
 //! Provides Vim-like modal editing with Normal, Insert, Visual, and Command modes.
 
-mod mode;
 mod keymaps;
+mod mode;
 
-pub use mode::{VimMode, VimState};
 pub use keymaps::{VimAction, VimKeyHandler};
+pub use mode::{VimMode, VimState};
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
-use std::sync::Arc;
 use crate::app::state::AppState;
+use std::sync::Arc;
 
 /// Events emitted by VimState
 pub enum VimEvent {
@@ -138,9 +138,10 @@ impl Render for VimStatusLine {
                 )
             })
             // Spacer
-            .when(self.mode != VimMode::Command && self.mode != VimMode::Search, |this| {
-                this.child(div().flex_1())
-            })
+            .when(
+                self.mode != VimMode::Command && self.mode != VimMode::Search,
+                |this| this.child(div().flex_1()),
+            )
             // Help hint
             .child(
                 div()

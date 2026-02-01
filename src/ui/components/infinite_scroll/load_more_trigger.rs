@@ -1,8 +1,8 @@
 //! Load more trigger component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Load more trigger component
 #[derive(IntoElement)]

@@ -10,7 +10,7 @@ mod utils;
 
 pub use core::Compressor;
 pub use types::{
-    CompressionAlgorithm, CompressionConfig, CompressionError, CompressionStats, CompressedData,
+    CompressedData, CompressionAlgorithm, CompressionConfig, CompressionError, CompressionStats,
 };
 
 #[cfg(test)]
@@ -81,7 +81,10 @@ mod tests {
     #[test]
     fn test_algorithm_names() {
         assert_eq!(CompressionAlgorithm::Lz4.name(), "lz4");
-        assert_eq!(CompressionAlgorithm::from_name("zstd"), Some(CompressionAlgorithm::Zstd));
+        assert_eq!(
+            CompressionAlgorithm::from_name("zstd"),
+            Some(CompressionAlgorithm::Zstd)
+        );
         assert_eq!(CompressionAlgorithm::from_name("unknown"), None);
     }
 }

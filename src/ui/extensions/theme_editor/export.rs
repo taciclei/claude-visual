@@ -3,8 +3,8 @@
 use gpui::*;
 
 use crate::ui::extensions::theme_editor::core::ThemeEditor;
-use crate::ui::extensions::theme_editor::types::ThemeEditorEvent;
 use crate::ui::extensions::theme_editor::helpers::hsla_to_hex;
+use crate::ui::extensions::theme_editor::types::ThemeEditorEvent;
 
 impl ThemeEditor {
     /// Apply theme for live preview

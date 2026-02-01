@@ -1,7 +1,7 @@
 //! Toast notification component for user feedback
 
-mod types;
 mod container;
+mod types;
 
-pub use types::{Toast, ToastEvent, ToastLevel};
 pub use container::ToastContainer;
+pub use types::{Toast, ToastEvent, ToastLevel};

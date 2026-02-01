@@ -1,12 +1,16 @@
 //! Overlay rendering: command palette, settings, shortcuts, diff preview, focus indicator, toasts
 
-use gpui::*;
-use gpui::prelude::*;
+use super::super::core::Workspace;
 use crate::app::theme::Theme;
 use crate::ui::pct;
-use super::super::core::Workspace;
+use gpui::prelude::*;
+use gpui::*;
 
-pub fn render_overlays(workspace: &Workspace, theme: &Theme, cx: &mut Context<Workspace>) -> Vec<Div> {
+pub fn render_overlays(
+    workspace: &Workspace,
+    theme: &Theme,
+    cx: &mut Context<Workspace>,
+) -> Vec<Div> {
     let mut overlays = Vec::new();
 
     // Command palette overlay
@@ -59,7 +63,7 @@ fn render_focus_indicator(theme: &Theme) -> Div {
             div()
                 .text_sm()
                 .text_color(theme.colors.text_muted)
-                .child("Focus Mode")
+                .child("Focus Mode"),
         )
         .child(
             div()
@@ -69,6 +73,6 @@ fn render_focus_indicator(theme: &Theme) -> Div {
                 .rounded_sm()
                 .bg(theme.colors.accent.opacity(0.2))
                 .text_color(theme.colors.accent)
-                .child("⇧⌘F to exit")
+                .child("⇧⌘F to exit"),
         )
 }

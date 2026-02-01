@@ -1,7 +1,7 @@
 //! Context Panel Main Rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::ContextPanel;
 use super::types::default_colors;
@@ -45,11 +45,11 @@ impl Render for ContextPanel {
                             .flex()
                             .items_center()
                             .gap_2()
-                            .child(
-                                div()
-                                    .text_color(theme.text_muted)
-                                    .child(if is_expanded { "▼" } else { "▶" }),
-                            )
+                            .child(div().text_color(theme.text_muted).child(if is_expanded {
+                                "▼"
+                            } else {
+                                "▶"
+                            }))
                             .child(
                                 div()
                                     .text_sm()
@@ -77,33 +77,33 @@ impl Render for ContextPanel {
                                 .gap_2()
                                 .text_xs()
                                 .text_color(theme.text_muted)
-                                .child(format!("{}K / {}K tokens", token_count / 1000, (token_count + remaining) / 1000))
+                                .child(format!(
+                                    "{}K / {}K tokens",
+                                    token_count / 1000,
+                                    (token_count + remaining) / 1000
+                                ))
                                 .child(
                                     // Progress bar
-                                    div()
-                                        .w_16()
-                                        .h_1()
-                                        .bg(theme.border)
-                                        .rounded_full()
-                                        .child(
-                                            div()
-                                                .h_full()
-                                                .rounded_full()
-                                                .bg(if token_count > remaining {
-                                                    theme.error
-                                                } else if token_count * 2 > remaining {
-                                                    theme.warning
-                                                } else {
-                                                    theme.success
-                                                })
-                                                .w(relative(token_count as f32 / (token_count + remaining) as f32)),
-                                        ),
+                                    div().w_16().h_1().bg(theme.border).rounded_full().child(
+                                        div()
+                                            .h_full()
+                                            .rounded_full()
+                                            .bg(if token_count > remaining {
+                                                theme.error
+                                            } else if token_count * 2 > remaining {
+                                                theme.warning
+                                            } else {
+                                                theme.success
+                                            })
+                                            .w(relative(
+                                                token_count as f32
+                                                    / (token_count + remaining) as f32,
+                                            )),
+                                    ),
                                 ),
                         )
                     }),
             )
-            .when(is_expanded, |el| {
-                el.child(self.render_content(&theme, cx))
-            })
+            .when(is_expanded, |el| el.child(self.render_content(&theme, cx)))
     }
 }

@@ -3,8 +3,8 @@
 use gpui::*;
 use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Container for managing split views
 pub struct SplitContainer {
@@ -244,7 +244,10 @@ impl SplitContainer {
                 if children.is_empty() {
                     1.0
                 } else {
-                    children.iter().map(|c| self.get_pane_weight(c)).sum::<f32>()
+                    children
+                        .iter()
+                        .map(|c| self.get_pane_weight(c))
+                        .sum::<f32>()
                         / children.len() as f32
                 }
             }

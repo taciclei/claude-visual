@@ -34,12 +34,7 @@ impl RenderOnce for SpinButton {
             .gap_2()
             // Label
             .when_some(self.label, |d, label| {
-                d.child(
-                    div()
-                        .text_sm()
-                        .text_color(text_muted)
-                        .child(label)
-                )
+                d.child(div().text_sm().text_color(text_muted).child(label))
             })
             // Spinner
             .child(
@@ -60,7 +55,7 @@ impl RenderOnce for SpinButton {
                             .justify_center()
                             .text_sm()
                             .text_color(text)
-                            .child(self.value.to_string())
+                            .child(self.value.to_string()),
                     )
                     // Buttons stack
                     .child(
@@ -82,14 +77,10 @@ impl RenderOnce for SpinButton {
                                     .text_color(text_muted)
                                     .cursor_pointer()
                                     .hover(|s| s.bg(surface_hover))
-                                    .child("▲")
+                                    .child("▲"),
                             )
                             // Divider
-                            .child(
-                                div()
-                                    .h(px(1.0))
-                                    .bg(border)
-                            )
+                            .child(div().h(px(1.0)).bg(border))
                             // Down
                             .child(
                                 div()
@@ -101,9 +92,9 @@ impl RenderOnce for SpinButton {
                                     .text_color(text_muted)
                                     .cursor_pointer()
                                     .hover(|s| s.bg(surface_hover))
-                                    .child("▼")
-                            )
-                    )
+                                    .child("▼"),
+                            ),
+                    ),
             )
     }
 }

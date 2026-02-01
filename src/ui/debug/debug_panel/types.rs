@@ -99,7 +99,9 @@ impl DebugPromptType {
     pub fn generate_prompt(&self, context: &DebugContext) -> String {
         match self {
             DebugPromptType::AnalyzeError => {
-                let mut prompt = "Analyze this debugging error and help me understand what went wrong:\n\n".to_string();
+                let mut prompt =
+                    "Analyze this debugging error and help me understand what went wrong:\n\n"
+                        .to_string();
                 if let Some(ref err) = context.last_error {
                     prompt.push_str(&format!("Error: {}\n\n", err));
                 }
@@ -130,7 +132,9 @@ impl DebugPromptType {
                 prompt
             }
             DebugPromptType::SuggestBreakpoints => {
-                let mut prompt = "Based on the current debugging session, suggest strategic breakpoints:\n\n".to_string();
+                let mut prompt =
+                    "Based on the current debugging session, suggest strategic breakpoints:\n\n"
+                        .to_string();
                 if let Some((ref file, _)) = context.current_location {
                     prompt.push_str(&format!("Current file: {}\n", file));
                 }
@@ -142,11 +146,14 @@ impl DebugPromptType {
                     }
                     prompt.push_str("```\n");
                 }
-                prompt.push_str("\nWhere should I set breakpoints to effectively debug this issue?");
+                prompt
+                    .push_str("\nWhere should I set breakpoints to effectively debug this issue?");
                 prompt
             }
             DebugPromptType::AnalyzeStackTrace => {
-                let mut prompt = "Analyze this stack trace and help me understand the execution flow:\n\n".to_string();
+                let mut prompt =
+                    "Analyze this stack trace and help me understand the execution flow:\n\n"
+                        .to_string();
                 if !context.stack_frames.is_empty() {
                     prompt.push_str("Stack frames:\n");
                     for (i, frame) in context.stack_frames.iter().enumerate() {
@@ -185,7 +192,9 @@ impl DebugPromptType {
                 prompt
             }
             DebugPromptType::ExplainVariables => {
-                let mut prompt = "Explain these variable values in the current debugging context:\n\n".to_string();
+                let mut prompt =
+                    "Explain these variable values in the current debugging context:\n\n"
+                        .to_string();
                 if !context.variables.is_empty() {
                     for (name, value) in &context.variables {
                         prompt.push_str(&format!("{} = {}\n", name, value));
@@ -199,7 +208,9 @@ impl DebugPromptType {
                 prompt
             }
             DebugPromptType::PerformanceAnalysis => {
-                let mut prompt = "Analyze the performance of this code based on the debug session:\n\n".to_string();
+                let mut prompt =
+                    "Analyze the performance of this code based on the debug session:\n\n"
+                        .to_string();
                 if let Some((ref file, line)) = context.current_location {
                     prompt.push_str(&format!("Location: {}:{}\n\n", file, line));
                 }
@@ -215,7 +226,8 @@ impl DebugPromptType {
                 prompt
             }
             DebugPromptType::MemoryAnalysis => {
-                let mut prompt = "Analyze memory usage based on this debug session:\n\n".to_string();
+                let mut prompt =
+                    "Analyze memory usage based on this debug session:\n\n".to_string();
                 if !context.variables.is_empty() {
                     prompt.push_str("Variables:\n");
                     for (name, value) in &context.variables {

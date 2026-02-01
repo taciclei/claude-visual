@@ -1,8 +1,8 @@
 //! Corner resize handle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::CornerPosition;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Corner resize handle for windows/dialogs
 #[derive(IntoElement)]
@@ -64,8 +64,12 @@ impl RenderOnce for CornerResizeHandle {
         });
 
         let cursor = match self.position {
-            CornerPosition::TopLeft | CornerPosition::BottomRight => CursorStyle::ResizeUpLeftDownRight,
-            CornerPosition::TopRight | CornerPosition::BottomLeft => CursorStyle::ResizeUpRightDownLeft,
+            CornerPosition::TopLeft | CornerPosition::BottomRight => {
+                CursorStyle::ResizeUpLeftDownRight
+            }
+            CornerPosition::TopRight | CornerPosition::BottomLeft => {
+                CursorStyle::ResizeUpRightDownLeft
+            }
         };
 
         // Position the handle in the corner

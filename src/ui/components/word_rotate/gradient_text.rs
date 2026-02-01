@@ -1,7 +1,7 @@
 //! GradientText component - animated gradient text
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Gradient text animation
 #[derive(IntoElement)]

@@ -1,8 +1,8 @@
 //! Tab management methods for Workspace
 
-use gpui::*;
-use crate::ui::chat::view::{ChatView, ChatViewEvent};
 use super::workspace::Workspace;
+use crate::ui::chat::view::{ChatView, ChatViewEvent};
+use gpui::*;
 
 impl Workspace {
     /// Get active chat view
@@ -43,15 +43,11 @@ impl Workspace {
                     tracing::info!("Opening file: {}", path);
                     #[cfg(target_os = "macos")]
                     {
-                        let _ = std::process::Command::new("open")
-                            .arg(&path)
-                            .spawn();
+                        let _ = std::process::Command::new("open").arg(&path).spawn();
                     }
                     #[cfg(target_os = "linux")]
                     {
-                        let _ = std::process::Command::new("xdg-open")
-                            .arg(&path)
-                            .spawn();
+                        let _ = std::process::Command::new("xdg-open").arg(&path).spawn();
                     }
                     #[cfg(target_os = "windows")]
                     {
@@ -64,7 +60,10 @@ impl Workspace {
                     // Track file in context - the chat view handles this internally
                     tracing::debug!("File attached to context: {}", path);
                 }
-                ChatViewEvent::PermissionResponse { request_id, granted } => {
+                ChatViewEvent::PermissionResponse {
+                    request_id,
+                    granted,
+                } => {
                     // Send permission response back to Claude CLI
                     tracing::info!("Permission response: {} = {}", request_id, granted);
                 }

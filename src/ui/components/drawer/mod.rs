@@ -1,14 +1,14 @@
 //! Drawer component for slide-out panels
 
-mod types;
 mod drawer_panel;
 mod navigation_drawer;
 mod settings_drawer;
+mod types;
 
-pub use types::*;
 pub use drawer_panel::*;
 pub use navigation_drawer::*;
 pub use settings_drawer::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -38,14 +38,14 @@ mod tests {
 
     #[test]
     fn test_settings_drawer() {
-        let settings = SettingsDrawer::new("Settings")
-            .section("General", vec![
-                SettingsItem {
-                    label: "Dark Mode".to_string(),
-                    description: Some("Enable dark theme".to_string()),
-                    item_type: SettingsItemType::Toggle(true),
-                },
-            ]);
+        let settings = SettingsDrawer::new("Settings").section(
+            "General",
+            vec![SettingsItem {
+                label: "Dark Mode".to_string(),
+                description: Some("Enable dark theme".to_string()),
+                item_type: SettingsItemType::Toggle(true),
+            }],
+        );
 
         assert_eq!(settings.sections.len(), 1);
         assert_eq!(settings.sections[0].items.len(), 1);

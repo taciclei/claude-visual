@@ -8,7 +8,11 @@ pub enum SideBySideDiffEvent {
     /// Hunk action performed
     HunkActionPerformed { hunk_id: usize, action: HunkAction },
     /// Comment added
-    CommentAdded { hunk_id: usize, line_index: usize, side: String },
+    CommentAdded {
+        hunk_id: usize,
+        line_index: usize,
+        side: String,
+    },
     /// File clicked
     FileClicked(String),
     /// Apply changes requested

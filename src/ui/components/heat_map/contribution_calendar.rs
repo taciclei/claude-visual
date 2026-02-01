@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::HeatMapScale;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Contribution calendar (GitHub style)
 #[derive(IntoElement)]
@@ -100,37 +100,31 @@ impl RenderOnce for ContributionCalendar {
                     .flex()
                     .gap_1()
                     .when(self.show_day_labels, |d| {
-                        d.child(
-                            div()
-                                .flex()
-                                .flex_col()
-                                .gap_1()
-                                .w(px(24.0))
-                                .children(day_labels.iter().map(|label| {
-                                    div()
-                                        .h(px(self.cell_size * 2.0 + 2.0))
-                                        .text_xs()
-                                        .text_color(rgba(0x888888ff))
-                                        .flex()
-                                        .items_center()
-                                        .child(*label)
-                                })),
-                        )
+                        d.child(div().flex().flex_col().gap_1().w(px(24.0)).children(
+                            day_labels.iter().map(|label| {
+                                div()
+                                    .h(px(self.cell_size * 2.0 + 2.0))
+                                    .text_xs()
+                                    .text_color(rgba(0x888888ff))
+                                    .flex()
+                                    .items_center()
+                                    .child(*label)
+                            }),
+                        ))
                     })
                     .child(
                         // Weeks grid placeholder
-                        div().flex().gap_1().children((0..self.weeks_to_show.min(52)).map(|_week| {
-                            div()
-                                .flex()
-                                .flex_col()
-                                .gap_1()
-                                .children((0..7).map(|_day| {
+                        div()
+                            .flex()
+                            .gap_1()
+                            .children((0..self.weeks_to_show.min(52)).map(|_week| {
+                                div().flex().flex_col().gap_1().children((0..7).map(|_day| {
                                     div()
                                         .size(px(self.cell_size))
                                         .rounded(px(2.0))
                                         .bg(self.scale.color_for_level(0))
                                 }))
-                        })),
+                            })),
                     ),
             )
     }

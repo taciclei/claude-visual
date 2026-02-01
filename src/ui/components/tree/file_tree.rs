@@ -1,7 +1,7 @@
 //! Simple file tree for stateless rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::FileTreeItem;
 
@@ -49,12 +49,20 @@ impl RenderOnce for FileTree {
             .flex_col()
             .children(self.items.into_iter().map(|item| {
                 let icon = if item.is_dir {
-                    if item.expanded { "📂" } else { "📁" }
+                    if item.expanded {
+                        "📂"
+                    } else {
+                        "📁"
+                    }
                 } else {
                     "📄"
                 };
                 let chevron = if item.is_dir {
-                    if item.expanded { "▼" } else { "▶" }
+                    if item.expanded {
+                        "▼"
+                    } else {
+                        "▶"
+                    }
                 } else {
                     " "
                 };
@@ -75,13 +83,9 @@ impl RenderOnce for FileTree {
                             .w(px(14.0))
                             .text_xs()
                             .text_color(text_muted)
-                            .child(chevron)
+                            .child(chevron),
                     )
-                    .child(
-                        div()
-                            .text_sm()
-                            .child(icon)
-                    )
+                    .child(div().text_sm().child(icon))
                     .child(
                         div()
                             .flex_1()
@@ -89,7 +93,7 @@ impl RenderOnce for FileTree {
                             .text_color(text)
                             .overflow_hidden()
                             .text_ellipsis()
-                            .child(item.name)
+                            .child(item.name),
                     )
             }))
     }

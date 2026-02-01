@@ -1,7 +1,7 @@
 //! Inline change indicator component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Inline change indicator
 #[derive(IntoElement)]

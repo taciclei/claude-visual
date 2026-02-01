@@ -1,9 +1,9 @@
 //! Rendering implementation
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::TerminalView;
 use super::types::default_colors;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for TerminalView {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -54,12 +54,7 @@ impl Render for TerminalView {
                                     .child(div().w_3().h_3().rounded_full().bg(rgb(0xFFBD2E)))
                                     .child(div().w_3().h_3().rounded_full().bg(rgb(0x27C93F))),
                             )
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(rgb(0xCCCCCC))
-                                    .child("Terminal"),
-                            ),
+                            .child(div().text_sm().text_color(rgb(0xCCCCCC)).child("Terminal")),
                     )
                     .child(
                         // Status indicator
@@ -67,17 +62,11 @@ impl Render for TerminalView {
                             .flex()
                             .items_center()
                             .gap_2()
-                            .child(
-                                div()
-                                    .w_2()
-                                    .h_2()
-                                    .rounded_full()
-                                    .bg(if is_running {
-                                        rgb(0x27C93F) // Green
-                                    } else {
-                                        rgb(0x666666) // Gray
-                                    }),
-                            )
+                            .child(div().w_2().h_2().rounded_full().bg(if is_running {
+                                rgb(0x27C93F) // Green
+                            } else {
+                                rgb(0x666666) // Gray
+                            }))
                             .child(
                                 div()
                                     .text_xs()
@@ -107,12 +96,7 @@ impl Render for TerminalView {
                     .bg(rgb(0x2d2d2d))
                     .border_t_1()
                     .border_color(rgb(0x404040))
-                    .child(
-                        div()
-                            .text_color(rgb(0x27C93F))
-                            .text_sm()
-                            .child("$ "),
-                    )
+                    .child(div().text_color(rgb(0x27C93F)).text_sm().child("$ "))
                     .child(
                         div()
                             .flex_1()
@@ -123,10 +107,7 @@ impl Render for TerminalView {
                     .when(is_focused, |el| {
                         el.child(
                             // Cursor
-                            div()
-                                .w_2()
-                                .h_4()
-                                .bg(rgb(0xCCCCCC)),
+                            div().w_2().h_4().bg(rgb(0xCCCCCC)),
                         )
                     }),
             )
@@ -154,27 +135,28 @@ impl TerminalView {
                         .text_color(rgb((r as u32) << 16 | (g as u32) << 8 | b as u32))
                         .when(span.style.bold, |el| el.font_weight(FontWeight::BOLD))
                         .when(span.style.italic, |el| el.italic())
-                        .when(span.style.underline, |el| {
-                            el                        })
+                        .when(span.style.underline, |el| el)
                         .child(span.text.clone())
                 }))
             }))
             .child(
                 // Current line being built
-                div().flex().children(self.current_line.spans.iter().map(|span| {
-                    let (r, g, b) = span
-                        .style
-                        .fg_color
-                        .as_ref()
-                        .map(|c| c.to_rgb())
-                        .unwrap_or((204, 204, 204));
+                div()
+                    .flex()
+                    .children(self.current_line.spans.iter().map(|span| {
+                        let (r, g, b) = span
+                            .style
+                            .fg_color
+                            .as_ref()
+                            .map(|c| c.to_rgb())
+                            .unwrap_or((204, 204, 204));
 
-                    div()
-                        .text_color(rgb((r as u32) << 16 | (g as u32) << 8 | b as u32))
-                        .when(span.style.bold, |el| el.font_weight(FontWeight::BOLD))
-                        .when(span.style.italic, |el| el.italic())
-                        .child(span.text.clone())
-                })),
+                        div()
+                            .text_color(rgb((r as u32) << 16 | (g as u32) << 8 | b as u32))
+                            .when(span.style.bold, |el| el.font_weight(FontWeight::BOLD))
+                            .when(span.style.italic, |el| el.italic())
+                            .child(span.text.clone())
+                    })),
             )
     }
 }

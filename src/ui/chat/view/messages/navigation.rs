@@ -9,7 +9,10 @@ impl ChatView {
     pub fn navigate_back(&mut self, cx: &mut Context<Self>) {
         if self.navigation_history_position > 0 {
             self.navigation_history_position -= 1;
-            if let Some(&message_index) = self.navigation_history.get(self.navigation_history_position) {
+            if let Some(&message_index) = self
+                .navigation_history
+                .get(self.navigation_history_position)
+            {
                 self.selected_message_index = Some(message_index);
                 self.highlighted_message = Some((message_index, std::time::Instant::now()));
                 self.update_message_selection_states(cx);
@@ -22,7 +25,10 @@ impl ChatView {
     pub fn navigate_forward(&mut self, cx: &mut Context<Self>) {
         if self.navigation_history_position < self.navigation_history.len() {
             self.navigation_history_position += 1;
-            if let Some(&message_index) = self.navigation_history.get(self.navigation_history_position) {
+            if let Some(&message_index) = self
+                .navigation_history
+                .get(self.navigation_history_position)
+            {
                 self.selected_message_index = Some(message_index);
                 self.highlighted_message = Some((message_index, std::time::Instant::now()));
                 self.update_message_selection_states(cx);

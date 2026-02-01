@@ -1,7 +1,7 @@
 //! Core types for explorer diagnostics
 
-use serde::{Deserialize, Serialize};
 use crate::lsp::protocol::{Diagnostic, DiagnosticSeverity};
+use serde::{Deserialize, Serialize};
 
 /// Diagnostic counts for a file or directory
 #[derive(Debug, Clone, Default)]

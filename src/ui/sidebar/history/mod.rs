@@ -2,15 +2,15 @@
 
 use gpui::*;
 
-mod types;
 mod core;
-mod search;
 mod filters;
-mod utils;
 mod render;
+mod search;
+mod types;
+mod utils;
 
-pub use types::HistorySidebarEvent;
 pub use core::HistorySidebar;
+pub use types::HistorySidebarEvent;
 
 impl EventEmitter<HistorySidebarEvent> for HistorySidebar {}
 

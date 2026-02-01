@@ -1,14 +1,19 @@
 //! Rendering implementations for MCP resources panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::McpResourcesPanel;
 use super::types::{McpResourcesPanelEvent, PromptItem, ResourceItem, ResourcesTab};
 
 impl McpResourcesPanel {
     /// Render a resource item
-    pub(crate) fn render_resource_item(&self, resource: &ResourceItem, index: usize, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_resource_item(
+        &self,
+        resource: &ResourceItem,
+        index: usize,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx).clone();
         let is_selected = self.selected_index == Some(index);
         let server = resource.server.clone();
@@ -74,7 +79,12 @@ impl McpResourcesPanel {
     }
 
     /// Render a prompt item
-    pub(crate) fn render_prompt_item(&self, prompt: &PromptItem, index: usize, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_prompt_item(
+        &self,
+        prompt: &PromptItem,
+        index: usize,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx).clone();
         let is_selected = self.selected_index == Some(index);
         let server = prompt.server.clone();
@@ -130,28 +140,26 @@ impl McpResourcesPanel {
                     })
                     .when_some(prompt.prompt.arguments.clone(), |this, args| {
                         if !args.is_empty() {
-                            this.child(
-                                div()
-                                    .flex()
-                                    .flex_row()
-                                    .flex_wrap()
-                                    .gap_1()
-                                    .mt_1()
-                                    .children(args.iter().map(|arg| {
-                                        div()
-                                            .px_2()
-                                            .py_0p5()
-                                            .rounded_md()
-                                            .bg(theme.colors.surface)
-                                            .text_xs()
-                                            .text_color(theme.colors.text_muted)
-                                            .child(format!(
-                                                "{}{}",
-                                                arg.name,
-                                                if arg.required.unwrap_or(false) { "*" } else { "" }
-                                            ))
-                                    })),
-                            )
+                            this.child(div().flex().flex_row().flex_wrap().gap_1().mt_1().children(
+                                args.iter().map(|arg| {
+                                    div()
+                                        .px_2()
+                                        .py_0p5()
+                                        .rounded_md()
+                                        .bg(theme.colors.surface)
+                                        .text_xs()
+                                        .text_color(theme.colors.text_muted)
+                                        .child(format!(
+                                            "{}{}",
+                                            arg.name,
+                                            if arg.required.unwrap_or(false) {
+                                                "*"
+                                            } else {
+                                                ""
+                                            }
+                                        ))
+                                }),
+                            ))
                         } else {
                             div()
                         }
@@ -246,8 +254,6 @@ impl McpResourcesPanel {
                             .child("MCP Resources & Prompts"),
                     ),
             )
-            .when(self.expanded, |this| {
-                this.child(self.render_tabs(cx))
-            })
+            .when(self.expanded, |this| this.child(self.render_tabs(cx)))
     }
 }

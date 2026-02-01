@@ -1,8 +1,8 @@
 //! Timeline separator for step indicators
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Timeline separator for step indicators
 #[derive(IntoElement)]
@@ -86,18 +86,8 @@ impl RenderOnce for TimelineSeparator {
         };
 
         match self.orientation {
-            SeparatorOrientation::Vertical => {
-                div()
-                    .w(px(2.0))
-                    .h(px(self.length))
-                    .bg(color)
-            }
-            SeparatorOrientation::Horizontal => {
-                div()
-                    .h(px(2.0))
-                    .w(px(self.length))
-                    .bg(color)
-            }
+            SeparatorOrientation::Vertical => div().w(px(2.0)).h(px(self.length)).bg(color),
+            SeparatorOrientation::Horizontal => div().h(px(2.0)).w(px(self.length)).bg(color),
         }
     }
 }

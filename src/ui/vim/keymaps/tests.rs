@@ -49,8 +49,14 @@ mod tests {
         let mut handler = VimKeyHandler::new();
 
         // dd should delete line
-        assert_eq!(handler.handle_normal("d", 1, None), Some(VimAction::SetOperator('d')));
-        assert_eq!(handler.handle_normal("d", 1, Some('d')), Some(VimAction::DeleteLine));
+        assert_eq!(
+            handler.handle_normal("d", 1, None),
+            Some(VimAction::SetOperator('d'))
+        );
+        assert_eq!(
+            handler.handle_normal("d", 1, Some('d')),
+            Some(VimAction::DeleteLine)
+        );
     }
 
     #[test]
@@ -58,7 +64,10 @@ mod tests {
         let mut handler = VimKeyHandler::new();
 
         assert_eq!(handler.handle_normal("g", 1, None), None); // Wait for next key
-        assert_eq!(handler.handle_normal("g", 1, None), Some(VimAction::MoveToTop));
+        assert_eq!(
+            handler.handle_normal("g", 1, None),
+            Some(VimAction::MoveToTop)
+        );
     }
 
     #[test]

@@ -1,8 +1,8 @@
 //! Tag input component - combobox that shows selected items as tags
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Tag input - combobox that shows selected items as tags
 #[derive(IntoElement)]
@@ -93,7 +93,8 @@ impl RenderOnce for TagInput {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.15, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.3, 1.0));
 
-        let selected_labels: Vec<SharedString> = self.selected
+        let selected_labels: Vec<SharedString> = self
+            .selected
             .iter()
             .filter_map(|v| self.items.iter().find(|i| &i.value == v))
             .map(|i| i.label.clone())
@@ -114,9 +115,7 @@ impl RenderOnce for TagInput {
             .border_1()
             .border_color(border)
             .bg(bg)
-            .when(self.disabled, |el| {
-                el.opacity(0.5).cursor_not_allowed()
-            })
+            .when(self.disabled, |el| el.opacity(0.5).cursor_not_allowed())
             .children(selected_labels.into_iter().map(|label| {
                 div()
                     .px(px(8.0))
@@ -134,7 +133,7 @@ impl RenderOnce for TagInput {
                             .text_size(px(10.0))
                             .text_color(hsla(0.0, 0.0, 0.6, 1.0))
                             .cursor_pointer()
-                            .child("×")
+                            .child("×"),
                     )
             }))
             .when(can_add_more, |el| {
@@ -152,7 +151,7 @@ impl RenderOnce for TagInput {
                             self.placeholder.clone()
                         } else {
                             self.query.clone()
-                        })
+                        }),
                 )
             })
     }

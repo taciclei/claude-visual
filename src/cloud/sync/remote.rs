@@ -1,10 +1,13 @@
-use super::types::*;
 use super::manager::SyncManager;
+use super::types::*;
 use crate::cloud::storage::{StorageItemType, StorageMetadata};
 
 impl SyncManager {
     /// Fetch remote changes
-    pub(super) async fn fetch_remote_changes(&self, downloaded: &mut usize) -> Result<(), SyncError> {
+    pub(super) async fn fetch_remote_changes(
+        &self,
+        downloaded: &mut usize,
+    ) -> Result<(), SyncError> {
         let storage = self.storage.read().await;
         let state = self.state.read().await;
 
@@ -108,7 +111,10 @@ impl SyncManager {
     }
 
     /// Download a new remote item
-    pub(super) async fn download_new_item(&self, remote: &StorageMetadata) -> Result<(), SyncError> {
+    pub(super) async fn download_new_item(
+        &self,
+        remote: &StorageMetadata,
+    ) -> Result<(), SyncError> {
         let storage = self.storage.read().await;
         let data = storage
             .download(&remote.id)
@@ -123,14 +129,12 @@ impl SyncManager {
         // Update mappings
         let mut state = self.state.write().await;
         state.id_mapping.insert(local_id.clone(), remote.id.clone());
-        state.reverse_mapping.insert(remote.id.clone(), local_id.clone());
+        state
+            .reverse_mapping
+            .insert(remote.id.clone(), local_id.clone());
         state.versions.insert(local_id.clone(), remote.version);
 
-        tracing::info!(
-            "Downloaded new item {} ({} bytes)",
-            remote.id,
-            data.len()
-        );
+        tracing::info!("Downloaded new item {} ({} bytes)", remote.id, data.len());
 
         Ok(())
     }

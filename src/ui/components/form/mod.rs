@@ -2,21 +2,21 @@
 //!
 //! Provides form layout and validation components.
 
-mod types;
-mod form;
-mod field;
-mod section;
 mod actions;
-mod row;
+mod field;
 mod fieldset;
+mod form;
+mod row;
+mod section;
+mod types;
 
-pub use types::*;
-pub use form::*;
-pub use field::*;
-pub use section::*;
 pub use actions::*;
-pub use row::*;
+pub use field::*;
 pub use fieldset::*;
+pub use form::*;
+pub use row::*;
+pub use section::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -37,8 +37,7 @@ mod tests {
 
     #[test]
     fn test_form_field_invalid() {
-        let state = FormFieldState::new("password")
-            .invalid("Password too short");
+        let state = FormFieldState::new("password").invalid("Password too short");
 
         assert_eq!(state.validation, ValidationState::Invalid);
         assert_eq!(state.error.unwrap().as_ref(), "Password too short");

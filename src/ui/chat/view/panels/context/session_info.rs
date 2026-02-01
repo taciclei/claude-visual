@@ -1,14 +1,18 @@
 //! Context panel session info component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use crate::app::theme::Theme;
 use crate::claude::message::SessionInfo;
 
 impl ChatView {
-    pub(super) fn render_session_info(&self, theme: &Theme, info: &SessionInfo) -> impl IntoElement {
+    pub(super) fn render_session_info(
+        &self,
+        theme: &Theme,
+        info: &SessionInfo,
+    ) -> impl IntoElement {
         div()
             .child(
                 div()
@@ -22,8 +26,8 @@ impl ChatView {
                             .text_xs()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(theme.colors.text_muted)
-                            .child("Session Info")
-                    )
+                            .child("Session Info"),
+                    ),
             )
             .child(
                 div()
@@ -45,15 +49,15 @@ impl ChatView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child("Model")
+                                    .child("Model"),
                             )
                             .child(
                                 div()
                                     .text_xs()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text)
-                                    .child(info.model.clone())
-                            )
+                                    .child(info.model.clone()),
+                            ),
                     )
                     .child(
                         div()
@@ -64,7 +68,7 @@ impl ChatView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child("Working Directory")
+                                    .child("Working Directory"),
                             )
                             .child(
                                 div()
@@ -73,8 +77,8 @@ impl ChatView {
                                     .text_color(theme.colors.text)
                                     .max_w(px(250.0))
                                     .overflow_hidden()
-                                    .child(info.cwd.clone())
-                            )
+                                    .child(info.cwd.clone()),
+                            ),
                     )
                     .when(!info.session_id.is_empty(), |d| {
                         d.child(
@@ -86,17 +90,20 @@ impl ChatView {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child("Session ID")
+                                        .child("Session ID"),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .font_family("monospace")
                                         .text_color(theme.colors.text)
-                                        .child(info.session_id.chars().take(16).collect::<String>() + "...")
-                                )
+                                        .child(
+                                            info.session_id.chars().take(16).collect::<String>()
+                                                + "...",
+                                        ),
+                                ),
                         )
-                    })
+                    }),
             )
     }
 }

@@ -1,7 +1,7 @@
 //! Type definitions for terminal view
 
-use gpui::*;
 use crate::terminal::TextStyle;
+use gpui::*;
 
 /// Simple color palette for terminal
 #[derive(Debug, Clone)]

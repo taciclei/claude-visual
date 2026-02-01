@@ -76,9 +76,9 @@ impl RenderOnce for LogoCarousel {
                             .child(
                                 div()
                                     .text_size(px(self.logo_size * 0.6))
-                                    .child(logo.clone())
+                                    .child(logo.clone()),
                             )
-                    }))
+                    })),
             )
     }
 }

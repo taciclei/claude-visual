@@ -57,7 +57,7 @@ impl RenderOnce for QuantitySelector {
                             .text_color(text)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .child("−")
+                            .child("−"),
                     )
                     // Value
                     .child(
@@ -67,7 +67,7 @@ impl RenderOnce for QuantitySelector {
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text)
                             .text_center()
-                            .child(self.value.to_string())
+                            .child(self.value.to_string()),
                     )
                     // Increment
                     .child(
@@ -83,8 +83,8 @@ impl RenderOnce for QuantitySelector {
                             .text_color(text)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .child("+")
-                    )
+                            .child("+"),
+                    ),
             )
             // Presets
             .when(!self.presets.is_empty(), |d| {
@@ -100,9 +100,7 @@ impl RenderOnce for QuantitySelector {
                                 .py_1()
                                 .rounded(px(4.0))
                                 .text_sm()
-                                .when(is_selected, |d| {
-                                    d.bg(accent).text_color(white())
-                                })
+                                .when(is_selected, |d| d.bg(accent).text_color(white()))
                                 .when(!is_selected, |d| {
                                     d.bg(surface)
                                         .text_color(text_muted)
@@ -110,7 +108,7 @@ impl RenderOnce for QuantitySelector {
                                         .hover(|s| s.bg(surface_hover))
                                 })
                                 .child(preset.to_string())
-                        }))
+                        })),
                 )
             })
     }

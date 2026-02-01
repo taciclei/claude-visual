@@ -1,9 +1,9 @@
 //! Unified diff viewer component
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::types::*;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Unified diff viewer component
 #[derive(IntoElement)]
@@ -130,8 +130,7 @@ impl DiffViewer {
             .w_full()
             .bg(background)
             .when(show_line_numbers, |d| {
-                d.child(old_line_el)
-                    .child(new_line_el)
+                d.child(old_line_el).child(new_line_el)
             })
             .child(
                 div()
@@ -180,21 +179,18 @@ impl RenderOnce for DiffViewer {
                     .bg(rgba(0x8888880d))
                     .border_b_1()
                     .border_color(rgba(0x8888881a))
-                    .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap_2()
-                            .when_some(self.file_path.clone(), |d, path| {
-                                d.child(
-                                    div()
-                                        .text_sm()
-                                        .font_weight(gpui::FontWeight::MEDIUM)
-                                        .text_color(rgba(0xccccccff))
-                                        .child(path),
-                                )
-                            }),
-                    )
+                    .child(div().flex().items_center().gap_2().when_some(
+                        self.file_path.clone(),
+                        |d, path| {
+                            d.child(
+                                div()
+                                    .text_sm()
+                                    .font_weight(gpui::FontWeight::MEDIUM)
+                                    .text_color(rgba(0xccccccff))
+                                    .child(path),
+                            )
+                        },
+                    ))
                     .child(
                         div()
                             .flex()

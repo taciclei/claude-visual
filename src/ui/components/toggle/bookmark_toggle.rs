@@ -1,8 +1,8 @@
 //! Bookmark toggle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Bookmark toggle
 #[derive(IntoElement)]
@@ -68,11 +68,6 @@ impl RenderOnce for BookmarkToggle {
             button = button.opacity(0.5).cursor_not_allowed();
         }
 
-        button.child(
-            div()
-                .text_size(px(icon_size))
-                .text_color(color)
-                .child(icon)
-        )
+        button.child(div().text_size(px(icon_size)).text_color(color).child(icon))
     }
 }

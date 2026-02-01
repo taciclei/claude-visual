@@ -5,9 +5,9 @@ use tokio::sync::{mpsc, Mutex};
 
 use crate::agent::task::TaskTree;
 
-use super::executor::AgentExecutor;
 use super::super::traits::ToolExecutor;
 use super::super::types::{ExecutorEvent, ExecutorState};
+use super::executor::AgentExecutor;
 
 impl AgentExecutor {
     /// Create a new executor

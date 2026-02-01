@@ -1,11 +1,11 @@
 //! Content rendering for different message types
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::super::view::MessageView;
 use crate::app::theme::Theme;
 use crate::markdown::renderer::MarkdownRenderer;
-use super::super::view::MessageView;
 
 impl MessageView {
     pub(in crate::ui::chat::message) fn render_user_content(&self, theme: &Theme) -> Div {
@@ -18,10 +18,10 @@ impl MessageView {
     }
 
     pub(in crate::ui::chat::message) fn render_assistant_content(&self, theme: &Theme) -> Div {
-        div()
-            .px_3()
-            .py_2()
-            .child(MarkdownRenderer::new(&self.message.content, self.app_state.clone()))
+        div().px_3().py_2().child(MarkdownRenderer::new(
+            &self.message.content,
+            self.app_state.clone(),
+        ))
     }
 
     /// Render thinking content (Claude's reasoning)
@@ -55,18 +55,14 @@ impl MessageView {
                                     .items_center()
                                     .gap_2()
                                     // Brain icon
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .child("🧠")
-                                    )
+                                    .child(div().text_sm().child("🧠"))
                                     .child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.warning)
                                             .font_weight(FontWeight::SEMIBOLD)
-                                            .child("Extended Thinking")
-                                    )
+                                            .child("Extended Thinking"),
+                                    ),
                             )
                             // Stats badges
                             .child(
@@ -82,7 +78,7 @@ impl MessageView {
                                             .bg(theme.colors.warning.opacity(0.1))
                                             .text_xs()
                                             .text_color(theme.colors.warning.opacity(0.8))
-                                            .child(format!("{} words", word_count))
+                                            .child(format!("{} words", word_count)),
                                     )
                                     .child(
                                         div()
@@ -92,15 +88,18 @@ impl MessageView {
                                             .bg(theme.colors.warning.opacity(0.1))
                                             .text_xs()
                                             .text_color(theme.colors.warning.opacity(0.8))
-                                            .child(format!("{} lines", line_count))
+                                            .child(format!("{} lines", line_count)),
                                     )
                                     .child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted.opacity(0.6))
-                                            .child(format!("~{} tokens", (word_count as f64 * 1.3).ceil() as usize))
-                                    )
-                            )
+                                            .child(format!(
+                                                "~{} tokens",
+                                                (word_count as f64 * 1.3).ceil() as usize
+                                            )),
+                                    ),
+                            ),
                     )
                     // Content with proper formatting
                     .child(
@@ -115,8 +114,8 @@ impl MessageView {
                             .text_color(theme.colors.text_muted)
                             .max_h(px(300.0))
                             .overflow_y_scroll()
-                            .child(content.clone())
-                    )
+                            .child(content.clone()),
+                    ),
             )
     }
 

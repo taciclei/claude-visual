@@ -1,7 +1,7 @@
 //! Year picker component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Year picker
 #[derive(Clone)]
@@ -65,14 +65,14 @@ impl RenderOnce for YearPicker {
                             .text_color(text_muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .child("‹")
+                            .child("‹"),
                     )
                     .child(
                         div()
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text)
-                            .child(format!("{} - {}", self.start_year, self.start_year + 11))
+                            .child(format!("{} - {}", self.start_year, self.start_year + 11)),
                     )
                     .child(
                         div()
@@ -84,8 +84,8 @@ impl RenderOnce for YearPicker {
                             .text_color(text_muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .child("›")
-                    )
+                            .child("›"),
+                    ),
             )
             // Years grid (3 columns x 4 rows)
             .child(
@@ -94,32 +94,28 @@ impl RenderOnce for YearPicker {
                     .flex()
                     .flex_wrap()
                     .gap_1()
-                    .children(
-                        years.into_iter().map(move |year| {
-                            let is_selected = selected == Some(year);
-                            let is_current = year == self.current_year;
+                    .children(years.into_iter().map(move |year| {
+                        let is_selected = selected == Some(year);
+                        let is_current = year == self.current_year;
 
-                            div()
-                                .w(px(70.0))
-                                .py_2()
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .rounded(px(4.0))
-                                .text_sm()
-                                .cursor_pointer()
-                                .when(is_selected, |d| {
-                                    d.bg(accent).text_color(gpui::white())
-                                })
-                                .when(!is_selected && is_current, |d| {
-                                    d.border_1().border_color(accent).text_color(accent)
-                                })
-                                .when(!is_selected && !is_current, |d| {
-                                    d.text_color(text).hover(|s| s.bg(surface_hover))
-                                })
-                                .child(format!("{}", year))
-                        })
-                    )
+                        div()
+                            .w(px(70.0))
+                            .py_2()
+                            .flex()
+                            .items_center()
+                            .justify_center()
+                            .rounded(px(4.0))
+                            .text_sm()
+                            .cursor_pointer()
+                            .when(is_selected, |d| d.bg(accent).text_color(gpui::white()))
+                            .when(!is_selected && is_current, |d| {
+                                d.border_1().border_color(accent).text_color(accent)
+                            })
+                            .when(!is_selected && !is_current, |d| {
+                                d.text_color(text).hover(|s| s.bg(surface_hover))
+                            })
+                            .child(format!("{}", year))
+                    })),
             )
     }
 }

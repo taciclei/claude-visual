@@ -1,7 +1,7 @@
 //! Quick actions bar component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Quick actions bar - simplified toolbar for common actions
 #[derive(IntoElement)]
@@ -54,43 +54,46 @@ impl RenderOnce for QuickActions {
             .py(px(4.0))
             .rounded(px(8.0))
             .bg(bg)
-            .children(self.items.into_iter().enumerate().map(|(i, (icon, label))| {
-                let is_selected = self.selected == Some(i);
+            .children(
+                self.items
+                    .into_iter()
+                    .enumerate()
+                    .map(|(i, (icon, label))| {
+                        let is_selected = self.selected == Some(i);
 
-                div()
-                    .px(px(12.0))
-                    .py(px(6.0))
-                    .flex()
-                    .items_center()
-                    .gap(px(6.0))
-                    .rounded(px(6.0))
-                    .cursor_pointer()
-                    .when(is_selected, |el| {
-                        el.bg(hsla(0.6, 0.5, 0.4, 0.3))
-                    })
-                    .when(!is_selected, |el| {
-                        el.hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
-                    })
-                    .child(
                         div()
-                            .text_size(px(14.0))
-                            .text_color(if is_selected {
-                                hsla(0.6, 0.7, 0.6, 1.0)
-                            } else {
-                                hsla(0.0, 0.0, 0.6, 1.0)
+                            .px(px(12.0))
+                            .py(px(6.0))
+                            .flex()
+                            .items_center()
+                            .gap(px(6.0))
+                            .rounded(px(6.0))
+                            .cursor_pointer()
+                            .when(is_selected, |el| el.bg(hsla(0.6, 0.5, 0.4, 0.3)))
+                            .when(!is_selected, |el| {
+                                el.hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
                             })
-                            .child(icon)
-                    )
-                    .child(
-                        div()
-                            .text_size(px(13.0))
-                            .text_color(if is_selected {
-                                hsla(0.0, 0.0, 0.95, 1.0)
-                            } else {
-                                hsla(0.0, 0.0, 0.7, 1.0)
-                            })
-                            .child(label)
-                    )
-            }))
+                            .child(
+                                div()
+                                    .text_size(px(14.0))
+                                    .text_color(if is_selected {
+                                        hsla(0.6, 0.7, 0.6, 1.0)
+                                    } else {
+                                        hsla(0.0, 0.0, 0.6, 1.0)
+                                    })
+                                    .child(icon),
+                            )
+                            .child(
+                                div()
+                                    .text_size(px(13.0))
+                                    .text_color(if is_selected {
+                                        hsla(0.0, 0.0, 0.95, 1.0)
+                                    } else {
+                                        hsla(0.0, 0.0, 0.7, 1.0)
+                                    })
+                                    .child(label),
+                            )
+                    }),
+            )
     }
 }

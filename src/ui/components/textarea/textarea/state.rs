@@ -1,9 +1,9 @@
 //! Textarea state and constructors
 
-use std::sync::Arc;
-use gpui::*;
 use crate::app::state::AppState;
 use crate::ui::components::textarea::types::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Textarea component for multiline text input
 pub struct Textarea {
@@ -63,7 +63,11 @@ impl Textarea {
     }
 
     /// Create with placeholder
-    pub fn with_placeholder(app_state: Arc<AppState>, placeholder: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_placeholder(
+        app_state: Arc<AppState>,
+        placeholder: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut textarea = Self::new(app_state, cx);
         textarea.placeholder = placeholder.into();
         textarea

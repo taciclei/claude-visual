@@ -1,11 +1,11 @@
 //! Main card component for content containers
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Card component for content containers
 pub struct Card {
@@ -47,7 +47,11 @@ impl Card {
     }
 
     /// Create a card with a header
-    pub fn with_header(app_state: Arc<AppState>, title: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_header(
+        app_state: Arc<AppState>,
+        title: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut card = Self::new(app_state, cx);
         card.header_title = Some(title.into());
         card
@@ -123,31 +127,11 @@ impl Render for Card {
 
         // Determine styles based on variant
         let (bg_color, border_color, shadow) = match self.variant {
-            CardVariant::Default => (
-                theme.colors.surface,
-                Some(theme.colors.border),
-                false,
-            ),
-            CardVariant::Elevated => (
-                theme.colors.surface,
-                None,
-                true,
-            ),
-            CardVariant::Outlined => (
-                theme.colors.background,
-                Some(theme.colors.border),
-                false,
-            ),
-            CardVariant::Ghost => (
-                gpui::transparent_black(),
-                None,
-                false,
-            ),
-            CardVariant::Interactive => (
-                theme.colors.surface,
-                Some(theme.colors.border),
-                false,
-            ),
+            CardVariant::Default => (theme.colors.surface, Some(theme.colors.border), false),
+            CardVariant::Elevated => (theme.colors.surface, None, true),
+            CardVariant::Outlined => (theme.colors.background, Some(theme.colors.border), false),
+            CardVariant::Ghost => (gpui::transparent_black(), None, false),
+            CardVariant::Interactive => (theme.colors.surface, Some(theme.colors.border), false),
         };
 
         // Selected state overrides
@@ -168,13 +152,14 @@ impl Render for Card {
             .when_some(final_border, |d, color| d.border_1().border_color(color))
             .when(shadow, |d| {
                 // Simulate shadow with darker border
-                d.border_1()
-                    .border_color(theme.colors.border.opacity(0.5))
+                d.border_1().border_color(theme.colors.border.opacity(0.5))
             })
             .opacity(opacity)
             .when(is_interactive && !self.disabled, |d| {
-                d.cursor_pointer()
-                    .hover(|s| s.bg(theme.colors.surface_hover).border_color(theme.colors.accent.opacity(0.5)))
+                d.cursor_pointer().hover(|s| {
+                    s.bg(theme.colors.surface_hover)
+                        .border_color(theme.colors.accent.opacity(0.5))
+                })
             })
             .when(is_interactive && !self.disabled, |d| {
                 d.on_click(cx.listener(|_this, _, _window, cx| {
@@ -189,7 +174,9 @@ impl Render for Card {
                 d.child(
                     div()
                         .p(px(padding))
-                        .when(self.has_header() && padding > 0.0, |d| d.border_b_1().border_color(theme.colors.border))
+                        .when(self.has_header() && padding > 0.0, |d| {
+                            d.border_b_1().border_color(theme.colors.border)
+                        })
                         .flex()
                         .items_center()
                         .gap_3()
@@ -204,7 +191,7 @@ impl Render for Card {
                                     .items_center()
                                     .justify_center()
                                     .text_color(theme.colors.text_muted)
-                                    .child(icon)
+                                    .child(icon),
                             )
                         })
                         // Title/Subtitle
@@ -220,7 +207,7 @@ impl Render for Card {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child(title)
+                                            .child(title),
                                     )
                                 })
                                 .when_some(self.header_subtitle.clone(), |d, subtitle| {
@@ -228,18 +215,14 @@ impl Render for Card {
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted)
-                                            .child(subtitle)
+                                            .child(subtitle),
                                     )
-                                })
-                        )
+                                }),
+                        ),
                 )
             })
             // Body (where children would go in a real implementation)
-            .child(
-                div()
-                    .when(padding > 0.0, |d| d.p(px(padding)))
-                    .flex_1()
-            )
+            .child(div().when(padding > 0.0, |d| d.p(px(padding))).flex_1())
             // Footer
             .when_some(self.footer.clone(), |d, footer| {
                 d.child(
@@ -249,7 +232,7 @@ impl Render for Card {
                         .border_color(theme.colors.border)
                         .text_xs()
                         .text_color(theme.colors.text_muted)
-                        .child(footer)
+                        .child(footer),
                 )
             })
     }

@@ -1,9 +1,9 @@
 //! Shortcut hint component with label
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::KbdSize;
 use super::keyboard_shortcut::KeyboardShortcut;
+use super::types::KbdSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Shortcut hint with label
 #[derive(Clone, IntoElement)]
@@ -38,30 +38,16 @@ impl RenderOnce for ShortcutHint {
         let text = hsla(0.0, 0.0, 0.9, 1.0);
         let _text_muted = hsla(0.0, 0.0, 0.5, 1.0);
 
-        let mut container = div()
-            .flex()
-            .items_center()
-            .justify_between()
-            .gap_4();
+        let mut container = div().flex().items_center().justify_between().gap_4();
 
         if self.align_right {
             container = container
-                .child(
-                    div()
-                        .text_sm()
-                        .text_color(text)
-                        .child(self.label)
-                )
+                .child(div().text_sm().text_color(text).child(self.label))
                 .child(self.shortcut);
         } else {
             container = container
                 .child(self.shortcut)
-                .child(
-                    div()
-                        .text_sm()
-                        .text_color(text)
-                        .child(self.label)
-                );
+                .child(div().text_sm().text_color(text).child(self.label));
         }
 
         container

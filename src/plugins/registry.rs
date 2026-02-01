@@ -1,9 +1,9 @@
 //! Extension registry for managing installed and available extensions
 
 use anyhow::Result;
+use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::sync::Arc;
-use parking_lot::RwLock;
 
 use super::{Extension, ExtensionLoader, ExtensionManifest, PluginHost};
 
@@ -46,7 +46,9 @@ impl ExtensionRegistry {
         let id = self.loader.install_from_path(path)?;
 
         // Load the extension
-        let manifest = self.loader.load_manifest(&self.loader.extension_path(&id))?;
+        let manifest = self
+            .loader
+            .load_manifest(&self.loader.extension_path(&id))?;
         let extension = Extension::new(manifest, self.loader.extension_path(&id));
 
         self.installed.write().insert(id.clone(), extension);

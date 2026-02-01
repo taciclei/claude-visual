@@ -1,10 +1,10 @@
 //! Shortcuts panel rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::state::ShortcutsPanel;
 use super::types::*;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for ShortcutsPanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -174,55 +174,47 @@ impl Render for ShortcutsPanel {
                                             ),
                                     )
                                     // Shortcuts in group
-                                    .child(
-                                        div()
-                                            .flex()
-                                            .flex_wrap()
-                                            .gap_2()
-                                            .children(shortcuts.iter().map(|shortcut| {
-                                                div()
-                                                    .flex()
-                                                    .items_center()
-                                                    .gap_3()
-                                                    .px_3()
-                                                    .py_2()
-                                                    .rounded_lg()
-                                                    .bg(theme.colors.background)
-                                                    .border_1()
-                                                    .border_color(border_opacity)
-                                                    .hover(move |s| s.border_color(accent_opacity))
-                                                    .min_w(px(200.0))
-                                                    .child(
-                                                        // Key combination
-                                                        div()
-                                                            .flex()
-                                                            .items_center()
-                                                            .gap_1()
-                                                            .children(
-                                                                shortcut.keys.split('+').map(|key| {
-                                                                    div()
-                                                                        .px_1p5()
-                                                                        .py_0p5()
-                                                                        .rounded_sm()
-                                                                        .bg(theme.colors.surface)
-                                                                        .border_1()
-                                                                        .border_color(theme.colors.border)
-                                                                        .text_xs()
-                                                                        .font_weight(FontWeight::MEDIUM)
-                                                                        .text_color(theme.colors.text)
-                                                                        .child(key.to_string())
-                                                                })
-                                                            ),
-                                                    )
-                                                    .child(
-                                                        // Description
-                                                        div()
-                                                            .text_xs()
-                                                            .text_color(theme.colors.text_muted)
-                                                            .child(shortcut.description),
-                                                    )
-                                            })),
-                                    )
+                                    .child(div().flex().flex_wrap().gap_2().children(
+                                        shortcuts.iter().map(|shortcut| {
+                                            div()
+                                                .flex()
+                                                .items_center()
+                                                .gap_3()
+                                                .px_3()
+                                                .py_2()
+                                                .rounded_lg()
+                                                .bg(theme.colors.background)
+                                                .border_1()
+                                                .border_color(border_opacity)
+                                                .hover(move |s| s.border_color(accent_opacity))
+                                                .min_w(px(200.0))
+                                                .child(
+                                                    // Key combination
+                                                    div().flex().items_center().gap_1().children(
+                                                        shortcut.keys.split('+').map(|key| {
+                                                            div()
+                                                                .px_1p5()
+                                                                .py_0p5()
+                                                                .rounded_sm()
+                                                                .bg(theme.colors.surface)
+                                                                .border_1()
+                                                                .border_color(theme.colors.border)
+                                                                .text_xs()
+                                                                .font_weight(FontWeight::MEDIUM)
+                                                                .text_color(theme.colors.text)
+                                                                .child(key.to_string())
+                                                        }),
+                                                    ),
+                                                )
+                                                .child(
+                                                    // Description
+                                                    div()
+                                                        .text_xs()
+                                                        .text_color(theme.colors.text_muted)
+                                                        .child(shortcut.description),
+                                                )
+                                        }),
+                                    ))
                             })),
                     )
                     // Footer
@@ -270,15 +262,15 @@ impl Render for ShortcutsPanel {
                                             .child("Type to search"),
                                     ),
                             )
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(theme.colors.text_muted)
-                                    .child(format!(
+                            .child(div().text_xs().text_color(theme.colors.text_muted).child(
+                                format!(
                                         "{} shortcuts",
-                                        SHORTCUT_GROUPS.iter().map(|g| g.shortcuts.len()).sum::<usize>()
-                                    )),
-                            ),
+                                        SHORTCUT_GROUPS
+                                            .iter()
+                                            .map(|g| g.shortcuts.len())
+                                            .sum::<usize>()
+                                    ),
+                            )),
                     ),
             )
     }

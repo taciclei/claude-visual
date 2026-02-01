@@ -1,8 +1,8 @@
 //! Language dropdown menu component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Language dropdown menu
 #[derive(IntoElement)]
@@ -93,11 +93,7 @@ impl RenderOnce for LanguageDropdown {
                     .cursor_pointer()
                     // Flag
                     .when_some(lang.flag.clone(), |el, flag| {
-                        el.child(
-                            div()
-                                .text_size(px(20.0))
-                                .child(flag)
-                        )
+                        el.child(div().text_size(px(20.0)).child(flag))
                     })
                     // Names
                     .child(
@@ -109,16 +105,19 @@ impl RenderOnce for LanguageDropdown {
                                 div()
                                     .text_size(px(14.0))
                                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(lang.name.clone())
+                                    .child(lang.name.clone()),
                             )
-                            .when(self.show_native_name && lang.name != lang.native_name, |el| {
-                                el.child(
-                                    div()
-                                        .text_size(px(12.0))
-                                        .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                                        .child(lang.native_name.clone())
-                                )
-                            })
+                            .when(
+                                self.show_native_name && lang.name != lang.native_name,
+                                |el| {
+                                    el.child(
+                                        div()
+                                            .text_size(px(12.0))
+                                            .text_color(hsla(0.0, 0.0, 0.6, 1.0))
+                                            .child(lang.native_name.clone()),
+                                    )
+                                },
+                            ),
                     )
                     // Code
                     .when(self.show_code, |el| {
@@ -126,7 +125,7 @@ impl RenderOnce for LanguageDropdown {
                             div()
                                 .text_size(px(11.0))
                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .child(lang.code.as_ref().to_uppercase())
+                                .child(lang.code.as_ref().to_uppercase()),
                         )
                     })
                     // Selected indicator
@@ -135,7 +134,7 @@ impl RenderOnce for LanguageDropdown {
                             div()
                                 .text_size(px(14.0))
                                 .text_color(hsla(0.6, 0.7, 0.5, 1.0))
-                                .child("✓")
+                                .child("✓"),
                         )
                     })
             }))

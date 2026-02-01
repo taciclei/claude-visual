@@ -1,7 +1,7 @@
 //! Simple details/summary component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple details/summary component
 #[derive(IntoElement)]

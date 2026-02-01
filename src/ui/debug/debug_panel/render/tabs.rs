@@ -1,14 +1,18 @@
 //! Tab navigation rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::debug::debug_panel::DebugPanel;
 use crate::ui::debug::debug_panel::types::DebugTab;
+use crate::ui::debug::debug_panel::DebugPanel;
 
 impl DebugPanel {
     /// Render tabs
-    pub(in crate::ui::debug::debug_panel) fn render_tabs(&self, theme: &crate::app::theme::Theme, cx: &Context<Self>) -> impl IntoElement {
+    pub(in crate::ui::debug::debug_panel) fn render_tabs(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let tabs = [
             DebugTab::Console,
             DebugTab::Variables,

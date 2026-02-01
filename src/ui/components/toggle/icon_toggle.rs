@@ -1,8 +1,8 @@
 //! Icon toggle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Icon toggle - toggle with only an icon
 #[derive(IntoElement)]
@@ -99,11 +99,6 @@ impl RenderOnce for IconToggle {
             button = button.opacity(0.5).cursor_not_allowed();
         }
 
-        button.child(
-            div()
-                .text_size(px(icon_size))
-                .text_color(color)
-                .child(icon)
-        )
+        button.child(div().text_size(px(icon_size)).text_color(color).child(icon))
     }
 }

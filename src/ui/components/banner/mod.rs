@@ -1,14 +1,14 @@
 //! Banner component for system-wide notifications
 
-mod types;
 mod banner;
-mod notification_banner;
 mod cookie_banner;
+mod notification_banner;
+mod types;
 
-pub use types::*;
 pub use banner::Banner;
-pub use notification_banner::NotificationBanner;
 pub use cookie_banner::CookieBanner;
+pub use notification_banner::NotificationBanner;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -16,8 +16,7 @@ mod tests {
 
     #[test]
     fn test_notification_banner() {
-        let banner = NotificationBanner::success("Operation completed!")
-            .not_dismissible();
+        let banner = NotificationBanner::success("Operation completed!").not_dismissible();
 
         assert_eq!(banner.message, "Operation completed!");
         assert!(!banner.dismissible);

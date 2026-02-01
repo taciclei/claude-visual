@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Security watermark with user info
 #[derive(IntoElement)]
@@ -107,15 +107,12 @@ impl RenderOnce for SecurityWatermark {
                 .justify_center()
                 .gap(px(80.0))
                 .children((0..5).map(|_row| {
-                    div()
-                        .flex()
-                        .gap(px(120.0))
-                        .children((0..3).map(|_col| {
-                            div()
-                                .text_xs()
-                                .text_color(self.color.opacity(self.opacity))
-                                .child(text.clone())
-                        }))
+                    div().flex().gap(px(120.0)).children((0..3).map(|_col| {
+                        div()
+                            .text_xs()
+                            .text_color(self.color.opacity(self.opacity))
+                            .child(text.clone())
+                    }))
                 }))
         } else {
             div()

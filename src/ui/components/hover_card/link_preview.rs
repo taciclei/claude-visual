@@ -1,7 +1,7 @@
 //! Link preview hover card component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Link preview hover card
 #[derive(IntoElement)]
@@ -117,18 +117,12 @@ impl RenderOnce for LinkPreviewCard {
                             .items_center()
                             .gap_1()
                             .when_some(self.favicon, |d, _| {
-                                d.child(
-                                    div()
-                                        .w(px(14.0))
-                                        .h(px(14.0))
-                                        .rounded(px(2.0))
-                                        .bg(Hsla {
-                                            h: 0.0,
-                                            s: 0.0,
-                                            l: 0.3,
-                                            a: 1.0,
-                                        }),
-                                )
+                                d.child(div().w(px(14.0)).h(px(14.0)).rounded(px(2.0)).bg(Hsla {
+                                    h: 0.0,
+                                    s: 0.0,
+                                    l: 0.3,
+                                    a: 1.0,
+                                }))
                             })
                             .child(
                                 div()

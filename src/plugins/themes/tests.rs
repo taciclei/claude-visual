@@ -75,7 +75,9 @@ fn test_theme_metadata() {
     }"#;
 
     let mut loader = ThemeLoader::new();
-    loader.load_json_with_metadata(theme_json, Some("my-extension"), None).unwrap();
+    loader
+        .load_json_with_metadata(theme_json, Some("my-extension"), None)
+        .unwrap();
 
     let metadata = loader.get_metadata("Meta Theme - Dark").unwrap();
     assert_eq!(metadata.extension_id.as_deref(), Some("my-extension"));
@@ -98,7 +100,9 @@ fn test_unload_extension_themes() {
     }"#;
 
     let mut loader = ThemeLoader::new();
-    loader.load_json_with_metadata(theme_json, Some("test-ext"), None).unwrap();
+    loader
+        .load_json_with_metadata(theme_json, Some("test-ext"), None)
+        .unwrap();
     assert_eq!(loader.len(), 2);
 
     let removed = loader.unload_extension("test-ext");

@@ -1,8 +1,8 @@
 //! Progress bar component for video player
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Build the progress bar with buffered and playback progress
 pub(crate) fn build_progress_bar(progress: f32, buffered: f32) -> Div {
@@ -22,7 +22,7 @@ pub(crate) fn build_progress_bar(progress: f32, buffered: f32) -> Div {
                 .bottom_0()
                 .w(pct(buffered * 100.0))
                 .bg(hsla(0.0, 0.0, 0.4, 1.0))
-                .rounded_full()
+                .rounded_full(),
         )
         // Progress
         .child(
@@ -33,7 +33,7 @@ pub(crate) fn build_progress_bar(progress: f32, buffered: f32) -> Div {
                 .bottom_0()
                 .w(pct(progress * 100.0))
                 .bg(hsla(0.0, 0.7, 0.5, 1.0))
-                .rounded_full()
+                .rounded_full(),
         )
 }
 
@@ -50,6 +50,6 @@ pub(crate) fn build_thumbnail_progress(progress: f32) -> Div {
             div()
                 .h_full()
                 .w(pct(progress * 100.0))
-                .bg(hsla(0.0, 0.7, 0.5, 1.0))
+                .bg(hsla(0.0, 0.7, 0.5, 1.0)),
         )
 }

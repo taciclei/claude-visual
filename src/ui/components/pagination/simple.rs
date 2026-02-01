@@ -1,7 +1,7 @@
 //! Simple pagination display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple pagination display
 #[derive(Clone)]
@@ -52,14 +52,14 @@ impl RenderOnce for SimplePagination {
                         .when(can_prev, |d| {
                             d.cursor_pointer().hover(|s| s.bg(surface_hover))
                         })
-                        .child("‹")
+                        .child("‹"),
                 )
             })
             .child(
                 div()
                     .text_sm()
                     .text_color(text_muted)
-                    .child(format!("{} / {}", self.current, self.total))
+                    .child(format!("{} / {}", self.current, self.total)),
             )
             .when(self.show_buttons, |d| {
                 d.child(
@@ -74,7 +74,7 @@ impl RenderOnce for SimplePagination {
                         .when(can_next, |d| {
                             d.cursor_pointer().hover(|s| s.bg(surface_hover))
                         })
-                        .child("›")
+                        .child("›"),
                 )
             })
     }

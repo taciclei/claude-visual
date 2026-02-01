@@ -1,12 +1,16 @@
 //! Tags editor panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_tags_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_tags_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let current_tags = self.get_tags();
         let suggested_tags = self.suggest_tags();
 
@@ -56,8 +60,8 @@ impl ChatView {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Conversation Tags")
-                                    )
+                                            .child("Conversation Tags"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -72,8 +76,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_tags_editor(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Current tags
                     .child(
@@ -88,7 +92,7 @@ impl ChatView {
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text_muted)
                                     .mb_2()
-                                    .child("Current Tags")
+                                    .child("Current Tags"),
                             )
                             .child(
                                 div()
@@ -100,7 +104,7 @@ impl ChatView {
                                             div()
                                                 .text_sm()
                                                 .text_color(theme.colors.text_muted)
-                                                .child("No tags added")
+                                                .child("No tags added"),
                                         )
                                     })
                                     .children(current_tags.iter().enumerate().map(|(i, tag)| {
@@ -118,22 +122,26 @@ impl ChatView {
                                                 div()
                                                     .text_xs()
                                                     .text_color(theme.colors.accent)
-                                                    .child(tag.clone())
+                                                    .child(tag.clone()),
                                             )
                                             .child(
                                                 div()
-                                                    .id(ElementId::Name(format!("remove-tag-{}", i).into()))
+                                                    .id(ElementId::Name(
+                                                        format!("remove-tag-{}", i).into(),
+                                                    ))
                                                     .cursor_pointer()
                                                     .text_xs()
                                                     .text_color(theme.colors.text_muted)
                                                     .hover(|s| s.text_color(theme.colors.error))
-                                                    .on_click(cx.listener(move |this, _, _window, cx| {
-                                                        this.remove_tag(&tag_clone, cx);
-                                                    }))
-                                                    .child("×")
+                                                    .on_click(cx.listener(
+                                                        move |this, _, _window, cx| {
+                                                            this.remove_tag(&tag_clone, cx);
+                                                        },
+                                                    ))
+                                                    .child("×"),
                                             )
-                                    }))
-                            )
+                                    })),
+                            ),
                     )
                     // Suggested tags
                     .child(
@@ -147,7 +155,7 @@ impl ChatView {
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text_muted)
                                     .mb_2()
-                                    .child("Suggested Tags")
+                                    .child("Suggested Tags"),
                             )
                             .child(
                                 div()
@@ -159,42 +167,55 @@ impl ChatView {
                                             div()
                                                 .text_sm()
                                                 .text_color(theme.colors.text_muted)
-                                                .child("Add messages to get suggestions")
+                                                .child("Add messages to get suggestions"),
                                         )
                                     })
-                                    .children(suggested_tags.iter().filter(|t| !current_tags.contains(&t.to_string())).map(|tag| {
-                                        let tag_str = tag.to_string();
-                                        div()
-                                            .id(ElementId::Name(format!("suggest-tag-{}", tag).into()))
-                                            .px_2()
-                                            .py_0p5()
-                                            .rounded_md()
-                                            .bg(theme.colors.surface_hover)
-                                            .cursor_pointer()
-                                            .hover(|s| s.bg(theme.colors.accent.opacity(0.15)))
-                                            .child(
+                                    .children(
+                                        suggested_tags
+                                            .iter()
+                                            .filter(|t| !current_tags.contains(&t.to_string()))
+                                            .map(|tag| {
+                                                let tag_str = tag.to_string();
                                                 div()
-                                                    .flex()
-                                                    .items_center()
-                                                    .gap_1()
+                                                    .id(ElementId::Name(
+                                                        format!("suggest-tag-{}", tag).into(),
+                                                    ))
+                                                    .px_2()
+                                                    .py_0p5()
+                                                    .rounded_md()
+                                                    .bg(theme.colors.surface_hover)
+                                                    .cursor_pointer()
+                                                    .hover(|s| {
+                                                        s.bg(theme.colors.accent.opacity(0.15))
+                                                    })
                                                     .child(
                                                         div()
-                                                            .text_xs()
-                                                            .text_color(theme.colors.text_muted)
-                                                            .child("+")
+                                                            .flex()
+                                                            .items_center()
+                                                            .gap_1()
+                                                            .child(
+                                                                div()
+                                                                    .text_xs()
+                                                                    .text_color(
+                                                                        theme.colors.text_muted,
+                                                                    )
+                                                                    .child("+"),
+                                                            )
+                                                            .child(
+                                                                div()
+                                                                    .text_xs()
+                                                                    .text_color(theme.colors.text)
+                                                                    .child(*tag),
+                                                            ),
                                                     )
-                                                    .child(
-                                                        div()
-                                                            .text_xs()
-                                                            .text_color(theme.colors.text)
-                                                            .child(*tag)
-                                                    )
-                                            )
-                                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                                this.add_tag(tag_str.clone(), cx);
-                                            }))
-                                    }))
-                            )
+                                                    .on_click(cx.listener(
+                                                        move |this, _, _window, cx| {
+                                                            this.add_tag(tag_str.clone(), cx);
+                                                        },
+                                                    ))
+                                            }),
+                                    ),
+                            ),
                     )
                     // Quick add common tags
                     .child(
@@ -209,37 +230,41 @@ impl ChatView {
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text_muted)
                                     .mb_2()
-                                    .child("Quick Add")
+                                    .child("Quick Add"),
                             )
                             .child(
-                                div()
-                                    .flex()
-                                    .flex_wrap()
-                                    .gap_1()
-                                    .children(["important", "todo", "review", "archived"].iter().filter(|t| !current_tags.contains(&t.to_string())).map(|tag| {
-                                        let tag_str = tag.to_string();
-                                        div()
-                                            .id(ElementId::Name(format!("quick-tag-{}", tag).into()))
-                                            .px_2()
-                                            .py_0p5()
-                                            .rounded_md()
-                                            .border_1()
-                                            .border_color(theme.colors.border)
-                                            .cursor_pointer()
-                                            .hover(|s| s.bg(theme.colors.surface_hover))
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .text_color(theme.colors.text_muted)
-                                                    .child(*tag)
-                                            )
-                                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                                this.add_tag(tag_str.clone(), cx);
-                                            }))
-                                    }))
-                            )
-                    )
+                                div().flex().flex_wrap().gap_1().children(
+                                    ["important", "todo", "review", "archived"]
+                                        .iter()
+                                        .filter(|t| !current_tags.contains(&t.to_string()))
+                                        .map(|tag| {
+                                            let tag_str = tag.to_string();
+                                            div()
+                                                .id(ElementId::Name(
+                                                    format!("quick-tag-{}", tag).into(),
+                                                ))
+                                                .px_2()
+                                                .py_0p5()
+                                                .rounded_md()
+                                                .border_1()
+                                                .border_color(theme.colors.border)
+                                                .cursor_pointer()
+                                                .hover(|s| s.bg(theme.colors.surface_hover))
+                                                .child(
+                                                    div()
+                                                        .text_xs()
+                                                        .text_color(theme.colors.text_muted)
+                                                        .child(*tag),
+                                                )
+                                                .on_click(cx.listener(
+                                                    move |this, _, _window, cx| {
+                                                        this.add_tag(tag_str.clone(), cx);
+                                                    },
+                                                ))
+                                        }),
+                                ),
+                            ),
+                    ),
             )
     }
-
 }

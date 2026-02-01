@@ -1,8 +1,8 @@
 //! Standalone resize handle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Resize handle component (standalone)
 #[derive(IntoElement)]
@@ -93,23 +93,25 @@ impl RenderOnce for ResizeHandle {
         let mut handle = div().flex_shrink_0().flex().items_center().justify_center();
 
         if is_horizontal {
-            handle = handle
-                .w(px(self.size))
-                .h_full()
-                .cursor_ew_resize();
+            handle = handle.w(px(self.size)).h_full().cursor_ew_resize();
         } else {
-            handle = handle
-                .h(px(self.size))
-                .w_full()
-                .cursor_ns_resize();
+            handle = handle.h(px(self.size)).w_full().cursor_ns_resize();
         }
 
         let indicator = match self.style {
             HandleStyle::Line => {
                 if is_horizontal {
-                    div().w(px(2.0)).h(px(24.0)).bg(display_color).rounded_full()
+                    div()
+                        .w(px(2.0))
+                        .h(px(24.0))
+                        .bg(display_color)
+                        .rounded_full()
                 } else {
-                    div().h(px(2.0)).w(px(24.0)).bg(display_color).rounded_full()
+                    div()
+                        .h(px(2.0))
+                        .w(px(24.0))
+                        .bg(display_color)
+                        .rounded_full()
                 }
             }
             HandleStyle::Dots => div()
@@ -123,8 +125,20 @@ impl RenderOnce for ResizeHandle {
                 .flex()
                 .flex_col()
                 .gap(px(2.0))
-                .child(div().w(px(12.0)).h(px(2.0)).bg(display_color).rounded_full())
-                .child(div().w(px(12.0)).h(px(2.0)).bg(display_color).rounded_full()),
+                .child(
+                    div()
+                        .w(px(12.0))
+                        .h(px(2.0))
+                        .bg(display_color)
+                        .rounded_full(),
+                )
+                .child(
+                    div()
+                        .w(px(12.0))
+                        .h(px(2.0))
+                        .bg(display_color)
+                        .rounded_full(),
+                ),
             HandleStyle::Hidden => div(),
         };
 

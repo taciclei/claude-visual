@@ -1,9 +1,9 @@
 //! UI toggle and display settings methods for ChatView
 
-use gpui::Context;
-use crate::claude::message::MessageRole;
 use super::core::ChatView;
 use super::types::NotificationType;
+use crate::claude::message::MessageRole;
+use gpui::Context;
 
 impl ChatView {
     /// Toggle the stats bar visibility
@@ -51,7 +51,9 @@ impl ChatView {
         if self.message_views.is_empty() {
             return true;
         }
-        self.message_views.iter().all(|v| !v.read(cx).is_collapsed())
+        self.message_views
+            .iter()
+            .all(|v| !v.read(cx).is_collapsed())
     }
 
     /// Collapse tool messages only (tool_use and tool_result)
@@ -79,11 +81,14 @@ impl ChatView {
     /// Toggle collapse state of tool messages
     pub(crate) fn toggle_collapse_tool_messages(&mut self, cx: &mut Context<Self>) {
         // Check if any tool message is expanded
-        let any_expanded = self.message_views.iter()
-            .zip(self.messages.iter())
-            .any(|(view, msg)| {
-                matches!(msg.role, MessageRole::ToolUse | MessageRole::ToolResult) && !view.read(cx).is_collapsed()
-            });
+        let any_expanded =
+            self.message_views
+                .iter()
+                .zip(self.messages.iter())
+                .any(|(view, msg)| {
+                    matches!(msg.role, MessageRole::ToolUse | MessageRole::ToolResult)
+                        && !view.read(cx).is_collapsed()
+                });
 
         if any_expanded {
             self.collapse_tool_messages(cx);
@@ -116,7 +121,8 @@ impl ChatView {
 
     /// Count of tool messages
     pub(crate) fn tool_message_count(&self) -> usize {
-        self.messages.iter()
+        self.messages
+            .iter()
             .filter(|m| matches!(m.role, MessageRole::ToolUse | MessageRole::ToolResult))
             .count()
     }
@@ -194,7 +200,11 @@ impl ChatView {
         if self.focus_mode {
             self.show_notification("Focus mode enabled".to_string(), NotificationType::Info, cx);
         } else {
-            self.show_notification("Focus mode disabled".to_string(), NotificationType::Info, cx);
+            self.show_notification(
+                "Focus mode disabled".to_string(),
+                NotificationType::Info,
+                cx,
+            );
         }
         cx.notify();
     }
@@ -212,7 +222,7 @@ impl ChatView {
         self.show_notification(
             "History search: Use ↑/↓ in input to browse history",
             NotificationType::Info,
-            cx
+            cx,
         );
         // Focus the input to allow using arrow keys for history
         self.input.update(cx, |_input, cx| {

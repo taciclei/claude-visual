@@ -7,13 +7,11 @@ use std::sync::Arc;
 use gpui::*;
 
 use crate::app::state::AppState;
-use crate::cloud::team::{
-    Team, TeamInvitation, TeamRole,
-};
+use crate::cloud::team::{Team, TeamInvitation, TeamRole};
 
+mod render;
 mod types;
 mod views;
-mod render;
 
 pub use types::{TeamPanelEvent, TeamViewMode};
 

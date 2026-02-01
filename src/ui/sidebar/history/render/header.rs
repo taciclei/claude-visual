@@ -1,7 +1,7 @@
 //! Header rendering for history sidebar
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::HistorySidebar;
 use super::super::types::{DisplayMode, HistorySidebarEvent};
@@ -28,9 +28,7 @@ impl HistorySidebar {
             .child(self.render_title_row(display_mode, cx))
             .child(self.render_search_input(search_query, display_mode, _window, cx))
             .child(self.render_quick_actions(cx))
-            .when(self.show_filters, |d| {
-                d.child(self.render_filter_panel(cx))
-            })
+            .when(self.show_filters, |d| d.child(self.render_filter_panel(cx)))
     }
 
     fn render_quick_actions(&mut self, cx: &mut Context<Self>) -> impl IntoElement {
@@ -62,7 +60,7 @@ impl HistorySidebar {
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(HistorySidebarEvent::SendSkillCommand("/resume".to_string()));
                     }))
-                    .child("▶ Resume")
+                    .child("▶ Resume"),
             )
             // Compact context button
             .child(
@@ -79,9 +77,11 @@ impl HistorySidebar {
                     .text_color(info)
                     .hover(move |s| s.bg(info.opacity(0.25)).border_color(info.opacity(0.5)))
                     .on_click(cx.listener(|_this, _, _window, cx| {
-                        cx.emit(HistorySidebarEvent::SendSkillCommand("/compact".to_string()));
+                        cx.emit(HistorySidebarEvent::SendSkillCommand(
+                            "/compact".to_string(),
+                        ));
                     }))
-                    .child("🗜️ Compact")
+                    .child("🗜️ Compact"),
             )
             // Usage stats button
             .child(
@@ -96,11 +96,14 @@ impl HistorySidebar {
                     .border_color(success.opacity(0.3))
                     .text_xs()
                     .text_color(success)
-                    .hover(move |s| s.bg(success.opacity(0.25)).border_color(success.opacity(0.5)))
+                    .hover(move |s| {
+                        s.bg(success.opacity(0.25))
+                            .border_color(success.opacity(0.5))
+                    })
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(HistorySidebarEvent::SendSkillCommand("/usage".to_string()));
                     }))
-                    .child("📊 Usage")
+                    .child("📊 Usage"),
             )
             // Memory button
             .child(
@@ -115,11 +118,16 @@ impl HistorySidebar {
                     .border_color(warning.opacity(0.3))
                     .text_xs()
                     .text_color(warning)
-                    .hover(move |s| s.bg(warning.opacity(0.25)).border_color(warning.opacity(0.5)))
+                    .hover(move |s| {
+                        s.bg(warning.opacity(0.25))
+                            .border_color(warning.opacity(0.5))
+                    })
                     .on_click(cx.listener(|_this, _, _window, cx| {
-                        cx.emit(HistorySidebarEvent::SendSkillCommand("/claude-memory".to_string()));
+                        cx.emit(HistorySidebarEvent::SendSkillCommand(
+                            "/claude-memory".to_string(),
+                        ));
                     }))
-                    .child("📝 Memory")
+                    .child("📝 Memory"),
             )
     }
 
@@ -178,7 +186,11 @@ impl HistorySidebar {
                             .on_click(cx.listener(|this, _, _window, cx| {
                                 this.toggle_filters(cx);
                             }))
-                            .child(if filter_active { "⚙ Filter" } else { "Filter" })
+                            .child(if filter_active {
+                                "⚙ Filter"
+                            } else {
+                                "Filter"
+                            })
                     })
                     .child(
                         div()

@@ -1,7 +1,7 @@
 //! FAQ-style accordion component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::FaqItem;
 
@@ -52,20 +52,15 @@ impl RenderOnce for FaqAccordion {
                             .items_start()
                             .gap_3()
                             .cursor_pointer()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(text_muted)
-                                    .child("Q:")
-                            )
+                            .child(div().text_sm().text_color(text_muted).child("Q:"))
                             .child(
                                 div()
                                     .flex_1()
                                     .text_sm()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(text)
-                                    .child(item.question)
-                            )
+                                    .child(item.question),
+                            ),
                     )
                     // Answer
                     .child(
@@ -74,7 +69,7 @@ impl RenderOnce for FaqAccordion {
                             .ml(px(24.0))
                             .text_sm()
                             .text_color(text_muted)
-                            .child(item.answer)
+                            .child(item.answer),
                     )
             }))
     }

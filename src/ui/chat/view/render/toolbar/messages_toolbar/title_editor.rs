@@ -1,8 +1,8 @@
 //! Title editor render functions
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Renders the title section (display mode or edit mode)
@@ -64,7 +64,7 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.text_muted.opacity(0.5))
                     .ml_1()
-                    .child("✎")
+                    .child("✎"),
             )
     }
 
@@ -109,15 +109,15 @@ impl ChatView {
                                 "Enter title...".to_string()
                             } else {
                                 format!("{}_", title_edit_buffer) // Show cursor
-                            })
-                    )
+                            }),
+                    ),
             )
             // Hint text
             .child(
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted.opacity(0.6))
-                    .child("Enter to save · Esc to cancel")
+                    .child("Enter to save · Esc to cancel"),
             )
             // Save button
             .child(
@@ -134,7 +134,7 @@ impl ChatView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.save_edited_title(cx);
                     }))
-                    .child("Save")
+                    .child("Save"),
             )
             // Cancel button
             .child(
@@ -150,7 +150,7 @@ impl ChatView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.cancel_editing_title(cx);
                     }))
-                    .child("Cancel")
+                    .child("Cancel"),
             )
     }
 }

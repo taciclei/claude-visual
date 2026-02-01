@@ -1,8 +1,8 @@
 //! Main Sheet component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Bottom sheet component
 #[derive(Clone)]
@@ -92,21 +92,13 @@ impl RenderOnce for Sheet {
 
         // Backdrop
         let backdrop_el = if self.show_backdrop {
-            div()
-                .absolute()
-                .inset_0()
-                .bg(backdrop)
-                .into_any_element()
+            div().absolute().inset_0().bg(backdrop).into_any_element()
         } else {
             div().into_any_element()
         };
 
         // Build sheet panel
-        let mut sheet = div()
-            .bg(surface)
-            .flex()
-            .flex_col()
-            .overflow_hidden();
+        let mut sheet = div().bg(surface).flex().flex_col().overflow_hidden();
 
         // Size
         if is_horizontal {
@@ -158,8 +150,8 @@ impl RenderOnce for Sheet {
                             .w(px(36.0))
                             .h(px(4.0))
                             .rounded(px(2.0))
-                            .bg(drag_handle_color)
-                    )
+                            .bg(drag_handle_color),
+                    ),
             );
         }
 
@@ -180,7 +172,7 @@ impl RenderOnce for Sheet {
                                 .text_base()
                                 .font_weight(FontWeight::SEMIBOLD)
                                 .text_color(text)
-                                .child(title)
+                                .child(title),
                         )
                     })
                     .when(!has_title, |d| {
@@ -198,9 +190,9 @@ impl RenderOnce for Sheet {
                                 .text_color(text_muted)
                                 .cursor_pointer()
                                 .hover(|s| s.bg(hsla(0.0, 0.0, 0.18, 1.0)).text_color(text))
-                                .child("×")
+                                .child("×"),
                         )
-                    })
+                    }),
             );
         }
 
@@ -212,14 +204,11 @@ impl RenderOnce for Sheet {
                 .pb_4()
                 .id("scroll-sheet-content")
                 .overflow_y_scroll()
-                .child("Sheet content...")
+                .child("Sheet content..."),
         );
 
         // Container positioning
-        let mut container = div()
-            .relative()
-            .size_full()
-            .flex();
+        let mut container = div().relative().size_full().flex();
 
         match self.position {
             SheetPosition::Bottom => {
@@ -236,8 +225,6 @@ impl RenderOnce for Sheet {
             }
         }
 
-        container
-            .child(backdrop_el)
-            .child(sheet)
+        container.child(backdrop_el).child(sheet)
     }
 }

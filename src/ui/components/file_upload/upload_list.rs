@@ -1,8 +1,8 @@
 //! File upload list component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::preview::FilePreview;
+use gpui::prelude::*;
+use gpui::*;
 
 /// File upload list with multiple files
 #[derive(Clone)]
@@ -61,7 +61,7 @@ impl RenderOnce for FileUploadList {
                         .text_xs()
                         .text_color(text_muted)
                         .child(format!("{} file(s)", file_count))
-                        .child(format!("Total: {}", FilePreview::format_size(total_size)))
+                        .child(format!("Total: {}", FilePreview::format_size(total_size))),
                 )
             })
     }

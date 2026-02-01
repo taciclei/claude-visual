@@ -44,10 +44,14 @@ impl ChatView {
             }
         }
 
-        let messages: Vec<serde_json::Value> = self.messages.iter()
+        let messages: Vec<serde_json::Value> = self
+            .messages
+            .iter()
             .filter(|m| {
                 // Filter based on export settings
-                if !self.export.include_tools && matches!(m.role, MessageRole::ToolUse | MessageRole::ToolResult) {
+                if !self.export.include_tools
+                    && matches!(m.role, MessageRole::ToolUse | MessageRole::ToolResult)
+                {
                     return false;
                 }
                 if !self.export.include_thinking && matches!(m.role, MessageRole::Thinking) {

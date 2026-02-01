@@ -1,7 +1,7 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::{Steps, StepStatus};
+use super::{StepStatus, Steps};
 
 impl Steps {
     pub(super) fn status_color(&self, status: StepStatus) -> gpui::Hsla {
@@ -37,12 +37,14 @@ impl Steps {
                 .items_center()
                 .justify_center()
                 .text_size(px(font_size))
-                .when(status == StepStatus::Current || status == StepStatus::Completed, |d| {
-                    d.bg(color).text_color(rgb(0xffffff))
-                })
-                .when(status == StepStatus::Pending || status == StepStatus::Skipped, |d| {
-                    d.border_2().border_color(color).text_color(color)
-                })
+                .when(
+                    status == StepStatus::Current || status == StepStatus::Completed,
+                    |d| d.bg(color).text_color(rgb(0xffffff)),
+                )
+                .when(
+                    status == StepStatus::Pending || status == StepStatus::Skipped,
+                    |d| d.border_2().border_color(color).text_color(color),
+                )
                 .when(status == StepStatus::Error, |d| {
                     d.bg(color).text_color(rgb(0xffffff))
                 })
@@ -79,7 +81,9 @@ impl Steps {
 
         match self.orientation {
             super::StepsOrientation::Horizontal => div().h(px(thickness)).flex_1().mx_2().bg(color),
-            super::StepsOrientation::Vertical => div().w(px(thickness)).h(px(20.0)).my_1().bg(color),
+            super::StepsOrientation::Vertical => {
+                div().w(px(thickness)).h(px(20.0)).my_1().bg(color)
+            }
         }
     }
 }
@@ -95,11 +99,8 @@ impl RenderOnce for Steps {
         let base = div().id(id);
 
         match self.orientation {
-            super::StepsOrientation::Horizontal => base
-                .flex()
-                .items_center()
-                .w_full()
-                .children(self.steps.iter().enumerate().flat_map(|(i, step)| {
+            super::StepsOrientation::Horizontal => base.flex().items_center().w_full().children(
+                self.steps.iter().enumerate().flat_map(|(i, step)| {
                     let status = if i < self.current {
                         StepStatus::Completed
                     } else if i == self.current {
@@ -108,41 +109,42 @@ impl RenderOnce for Steps {
                         StepStatus::Pending
                     };
 
-                    let mut elements: Vec<Box<dyn FnOnce() -> gpui::AnyElement>> = vec![Box::new({
-                        let indicator = self.render_indicator(i, status);
-                        let title = step.title.clone();
-                        let description = step.description.clone();
-                        let clickable = self.clickable;
-                        move || {
-                            div()
-                                .flex()
-                                .flex_col()
-                                .items_center()
-                                .gap_1()
-                                .when(clickable, |d| d.cursor_pointer())
-                                .child(indicator)
-                                .child(
-                                    div()
-                                        .text_size(px(font_size))
-                                        .text_color(text_color)
-                                        .font_weight(if status == StepStatus::Current {
-                                            gpui::FontWeight::SEMIBOLD
-                                        } else {
-                                            gpui::FontWeight::NORMAL
-                                        })
-                                        .child(title),
-                                )
-                                .when_some(description, |d, desc| {
-                                    d.child(
+                    let mut elements: Vec<Box<dyn FnOnce() -> gpui::AnyElement>> =
+                        vec![Box::new({
+                            let indicator = self.render_indicator(i, status);
+                            let title = step.title.clone();
+                            let description = step.description.clone();
+                            let clickable = self.clickable;
+                            move || {
+                                div()
+                                    .flex()
+                                    .flex_col()
+                                    .items_center()
+                                    .gap_1()
+                                    .when(clickable, |d| d.cursor_pointer())
+                                    .child(indicator)
+                                    .child(
                                         div()
-                                            .text_size(px(font_size - 2.0))
-                                            .text_color(desc_color)
-                                            .child(desc),
+                                            .text_size(px(font_size))
+                                            .text_color(text_color)
+                                            .font_weight(if status == StepStatus::Current {
+                                                gpui::FontWeight::SEMIBOLD
+                                            } else {
+                                                gpui::FontWeight::NORMAL
+                                            })
+                                            .child(title),
                                     )
-                                })
-                                .into_any_element()
-                        }
-                    })];
+                                    .when_some(description, |d, desc| {
+                                        d.child(
+                                            div()
+                                                .text_size(px(font_size - 2.0))
+                                                .text_color(desc_color)
+                                                .child(desc),
+                                        )
+                                    })
+                                    .into_any_element()
+                            }
+                        })];
 
                     if i < self.steps.len() - 1 {
                         let connector = self.render_connector(i < self.current);
@@ -150,74 +152,79 @@ impl RenderOnce for Steps {
                     }
 
                     elements.into_iter().map(|f| f())
-                })),
+                }),
+            ),
 
-            super::StepsOrientation::Vertical => base
-                .flex()
-                .flex_col()
-                .children(self.steps.iter().enumerate().flat_map(|(i, step)| {
-                    let status = if i < self.current {
-                        StepStatus::Completed
-                    } else if i == self.current {
-                        step.status
-                    } else {
-                        StepStatus::Pending
-                    };
+            super::StepsOrientation::Vertical => {
+                base.flex()
+                    .flex_col()
+                    .children(self.steps.iter().enumerate().flat_map(|(i, step)| {
+                        let status = if i < self.current {
+                            StepStatus::Completed
+                        } else if i == self.current {
+                            step.status
+                        } else {
+                            StepStatus::Pending
+                        };
 
-                    let mut elements: Vec<Box<dyn FnOnce() -> gpui::AnyElement>> = vec![Box::new({
-                        let indicator = self.render_indicator(i, status);
-                        let title = step.title.clone();
-                        let description = step.description.clone();
-                        let clickable = self.clickable;
-                        move || {
-                            div()
-                                .flex()
-                                .items_center()
-                                .gap_3()
-                                .when(clickable, |d| d.cursor_pointer())
-                                .child(indicator)
-                                .child(
+                        let mut elements: Vec<Box<dyn FnOnce() -> gpui::AnyElement>> =
+                            vec![Box::new({
+                                let indicator = self.render_indicator(i, status);
+                                let title = step.title.clone();
+                                let description = step.description.clone();
+                                let clickable = self.clickable;
+                                move || {
                                     div()
                                         .flex()
-                                        .flex_col()
+                                        .items_center()
+                                        .gap_3()
+                                        .when(clickable, |d| d.cursor_pointer())
+                                        .child(indicator)
                                         .child(
                                             div()
-                                                .text_size(px(font_size))
-                                                .text_color(text_color)
-                                                .font_weight(if status == StepStatus::Current {
-                                                    gpui::FontWeight::SEMIBOLD
-                                                } else {
-                                                    gpui::FontWeight::NORMAL
-                                                })
-                                                .child(title),
+                                                .flex()
+                                                .flex_col()
+                                                .child(
+                                                    div()
+                                                        .text_size(px(font_size))
+                                                        .text_color(text_color)
+                                                        .font_weight(
+                                                            if status == StepStatus::Current {
+                                                                gpui::FontWeight::SEMIBOLD
+                                                            } else {
+                                                                gpui::FontWeight::NORMAL
+                                                            },
+                                                        )
+                                                        .child(title),
+                                                )
+                                                .when_some(description, |d, desc| {
+                                                    d.child(
+                                                        div()
+                                                            .text_size(px(font_size - 2.0))
+                                                            .text_color(desc_color)
+                                                            .child(desc),
+                                                    )
+                                                }),
                                         )
-                                        .when_some(description, |d, desc| {
-                                            d.child(
-                                                div()
-                                                    .text_size(px(font_size - 2.0))
-                                                    .text_color(desc_color)
-                                                    .child(desc),
-                                            )
-                                        }),
-                                )
-                                .into_any_element()
+                                        .into_any_element()
+                                }
+                            })];
+
+                        if i < self.steps.len() - 1 {
+                            let connector = self.render_connector(i < self.current);
+                            let indicator_size = self.size.indicator_size();
+                            elements.push(Box::new(move || {
+                                div()
+                                    .flex()
+                                    .ml(px(indicator_size / 2.0 - 1.0))
+                                    .child(connector)
+                                    .into_any_element()
+                            }));
                         }
-                    })];
 
-                    if i < self.steps.len() - 1 {
-                        let connector = self.render_connector(i < self.current);
-                        let indicator_size = self.size.indicator_size();
-                        elements.push(Box::new(move || {
-                            div()
-                                .flex()
-                                .ml(px(indicator_size / 2.0 - 1.0))
-                                .child(connector)
-                                .into_any_element()
-                        }));
-                    }
-
-                    elements.into_iter().map(|f| f())
-                })),
+                        elements.into_iter().map(|f| f())
+                    }))
+            }
         }
     }
 }

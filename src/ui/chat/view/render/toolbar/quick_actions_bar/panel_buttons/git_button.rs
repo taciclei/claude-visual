@@ -1,8 +1,8 @@
 //! Git status panel button
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render git status panel button (🌿 with branch and status info)
@@ -50,15 +50,13 @@ impl ChatView {
                 .rounded_md()
                 .cursor_pointer()
                 .text_xs()
-                .text_color(
-                    if self.show_git_panel {
-                        text_color_active
-                    } else if is_dirty {
-                        text_color_dirty
-                    } else {
-                        text_color_inactive
-                    }
-                )
+                .text_color(if self.show_git_panel {
+                    text_color_active
+                } else if is_dirty {
+                    text_color_dirty
+                } else {
+                    text_color_inactive
+                })
                 .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
                 .on_click(on_click)
                 .child("🌿")
@@ -75,7 +73,7 @@ impl ChatView {
                             .rounded_sm()
                             .bg(info_bg)
                             .text_color(info_color)
-                            .child(sync)
+                            .child(sync),
                     )
                 })
                 // Change indicators
@@ -86,7 +84,7 @@ impl ChatView {
                             .rounded_sm()
                             .bg(success_bg)
                             .text_color(success_color)
-                            .child(format!("+{}", staged))
+                            .child(format!("+{}", staged)),
                     )
                 })
                 .when(modified > 0, move |d| {
@@ -96,7 +94,7 @@ impl ChatView {
                             .rounded_sm()
                             .bg(warning_bg)
                             .text_color(warning_color)
-                            .child(format!("~{}", modified))
+                            .child(format!("~{}", modified)),
                     )
                 })
                 .when(untracked > 0, move |d| {
@@ -106,9 +104,9 @@ impl ChatView {
                             .rounded_sm()
                             .bg(text_muted_bg)
                             .text_color(text_muted_color)
-                            .child(format!("?{}", untracked))
+                            .child(format!("?{}", untracked)),
                     )
-                })
+                }),
         )
     }
 }

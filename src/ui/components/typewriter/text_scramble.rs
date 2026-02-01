@@ -1,7 +1,7 @@
 //! TextScramble component - random characters before revealing
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Text scramble effect (random characters before revealing)
 #[derive(IntoElement)]
@@ -81,13 +81,9 @@ impl RenderOnce for TextScramble {
             .id(id)
             .text_size(px(font_size))
             .font_family("monospace")
-            .when(is_complete, |d| {
-                d.text_color(text_color)
-                    .child(target_text)
-            })
+            .when(is_complete, |d| d.text_color(text_color).child(target_text))
             .when(!is_complete, |d| {
-                d.text_color(scramble_color)
-                    .child(current_text)
+                d.text_color(scramble_color).child(current_text)
             })
     }
 }

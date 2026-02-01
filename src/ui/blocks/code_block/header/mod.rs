@@ -1,10 +1,10 @@
 //! Code block header rendering
 
-mod title;
 mod actions;
+mod title;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::CodeDisplayMode;
 use super::view::CodeBlockView;

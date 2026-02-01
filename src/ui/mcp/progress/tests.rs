@@ -4,8 +4,11 @@ use super::types::{ActiveExecution, ExecutionPhase};
 
 #[test]
 fn test_active_execution() {
-    let execution =
-        ActiveExecution::new("test-1".to_string(), "read_file".to_string(), "fs".to_string());
+    let execution = ActiveExecution::new(
+        "test-1".to_string(),
+        "read_file".to_string(),
+        "fs".to_string(),
+    );
 
     assert!(execution.phase.is_active());
     assert_eq!(execution.phase, ExecutionPhase::Preparing);

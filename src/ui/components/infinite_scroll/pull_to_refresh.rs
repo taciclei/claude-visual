@@ -1,8 +1,8 @@
 //! Pull to refresh component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Pull to refresh component
 #[derive(IntoElement)]

@@ -2,12 +2,12 @@
 //!
 //! Visual editor for application settings.
 
-mod types;
+mod components;
 mod core;
+mod dialogs;
 mod render;
 mod tabs;
-mod components;
-mod dialogs;
+mod types;
 
-pub use types::{SettingsTab, SettingsModalEvent};
 pub use core::SettingsModal;
+pub use types::{SettingsModalEvent, SettingsTab};

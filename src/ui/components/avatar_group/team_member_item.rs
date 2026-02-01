@@ -1,8 +1,8 @@
 //! Team member list item component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Team member list item
 #[derive(Clone)]
@@ -94,9 +94,9 @@ impl RenderOnce for TeamMemberItem {
                                     hsla(0.0, 0.0, 0.4, 1.0)
                                 })
                                 .border_2()
-                                .border_color(border_color)
+                                .border_color(border_color),
                         )
-                    })
+                    }),
             )
             // Info
             .child(
@@ -110,25 +110,15 @@ impl RenderOnce for TeamMemberItem {
                             .text_sm()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(text)
-                            .child(name)
+                            .child(name),
                     )
                     .when_some(self.role, |d, role| {
-                        d.child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(role)
-                        )
-                    })
+                        d.child(div().text_xs().text_color(text_muted).child(role))
+                    }),
             )
             // Email
             .when_some(self.email, |d, email| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(text_muted)
-                        .child(email)
-                )
+                d.child(div().text_xs().text_color(text_muted).child(email))
             })
     }
 }

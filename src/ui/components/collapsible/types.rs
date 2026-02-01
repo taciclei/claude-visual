@@ -1,7 +1,7 @@
 //! Animation types for collapsible components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Animation duration for expand/collapse
 #[derive(Debug, Clone, Copy, Default, PartialEq)]

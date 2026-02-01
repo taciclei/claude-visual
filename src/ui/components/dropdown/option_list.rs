@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// A simple option list for inline selection
 pub struct OptionList {
@@ -20,7 +20,11 @@ pub struct OptionList {
 }
 
 impl OptionList {
-    pub fn new(app_state: Arc<AppState>, options: Vec<DropdownOption>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        options: Vec<DropdownOption>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             options,
@@ -58,12 +62,8 @@ impl Render for OptionList {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
-        div()
-            .id("option-list")
-            .flex()
-            .flex_col()
-            .gap_1()
-            .children(self.options.iter().enumerate().map(|(i, option)| {
+        div().id("option-list").flex().flex_col().gap_1().children(
+            self.options.iter().enumerate().map(|(i, option)| {
                 let is_selected = self.selected.as_ref() == Some(&option.id);
                 let option_id = option.id.clone();
 
@@ -101,18 +101,17 @@ impl Render for OptionList {
                             .size(px(16.0))
                             .rounded_full()
                             .border_2()
-                            .border_color(if is_selected { theme.colors.accent } else { theme.colors.border })
+                            .border_color(if is_selected {
+                                theme.colors.accent
+                            } else {
+                                theme.colors.border
+                            })
                             .flex()
                             .items_center()
                             .justify_center()
                             .when(is_selected, |d| {
-                                d.child(
-                                    div()
-                                        .size(px(8.0))
-                                        .rounded_full()
-                                        .bg(theme.colors.accent)
-                                )
-                            })
+                                d.child(div().size(px(8.0)).rounded_full().bg(theme.colors.accent))
+                            }),
                     )
                     // Icon
                     .when_some(option.icon.clone(), |d, icon| {
@@ -128,17 +127,18 @@ impl Render for OptionList {
                                 div()
                                     .text_sm()
                                     .text_color(theme.colors.text)
-                                    .child(option.label.clone())
+                                    .child(option.label.clone()),
                             )
                             .when_some(option.description.clone(), |d, desc| {
                                 d.child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child(desc)
+                                        .child(desc),
                                 )
-                            })
+                            }),
                     )
-            }))
+            }),
+        )
     }
 }

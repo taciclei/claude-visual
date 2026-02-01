@@ -1,7 +1,7 @@
 //! Drawer types and enums
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Drawer position/direction
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
@@ -39,19 +39,39 @@ impl DrawerSize {
 
         match self {
             DrawerSize::Small => {
-                if is_horizontal { px(280.0).into() } else { Length::Auto }
+                if is_horizontal {
+                    px(280.0).into()
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Medium => {
-                if is_horizontal { px(320.0).into() } else { Length::Auto }
+                if is_horizontal {
+                    px(320.0).into()
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Large => {
-                if is_horizontal { px(480.0).into() } else { Length::Auto }
+                if is_horizontal {
+                    px(480.0).into()
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Full => {
-                if is_horizontal { Length::Definite(DefiniteLength::Fraction(1.0)) } else { Length::Auto }
+                if is_horizontal {
+                    Length::Definite(DefiniteLength::Fraction(1.0))
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Custom(size) => {
-                if is_horizontal { px(*size).into() } else { Length::Auto }
+                if is_horizontal {
+                    px(*size).into()
+                } else {
+                    Length::Auto
+                }
             }
         }
     }
@@ -61,19 +81,39 @@ impl DrawerSize {
 
         match self {
             DrawerSize::Small => {
-                if is_vertical { px(200.0).into() } else { Length::Auto }
+                if is_vertical {
+                    px(200.0).into()
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Medium => {
-                if is_vertical { px(280.0).into() } else { Length::Auto }
+                if is_vertical {
+                    px(280.0).into()
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Large => {
-                if is_vertical { px(400.0).into() } else { Length::Auto }
+                if is_vertical {
+                    px(400.0).into()
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Full => {
-                if is_vertical { Length::Definite(DefiniteLength::Fraction(1.0)) } else { Length::Auto }
+                if is_vertical {
+                    Length::Definite(DefiniteLength::Fraction(1.0))
+                } else {
+                    Length::Auto
+                }
             }
             DrawerSize::Custom(size) => {
-                if is_vertical { px(*size).into() } else { Length::Auto }
+                if is_vertical {
+                    px(*size).into()
+                } else {
+                    Length::Auto
+                }
             }
         }
     }

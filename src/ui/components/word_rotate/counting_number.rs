@@ -1,7 +1,7 @@
 //! CountingNumber component - animated counting numbers
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Counting number animation
 #[derive(IntoElement)]
@@ -71,16 +71,12 @@ impl RenderOnce for CountingNumber {
             format!("{}", self.value as i64)
         };
 
-        div()
-            .id(self.id)
-            .flex()
-            .items_baseline()
-            .child(
-                div()
-                    .text_size(px(self.font_size))
-                    .font_weight(self.font_weight)
-                    .text_color(color)
-                    .child(format!("{}{}{}", self.prefix, formatted, self.suffix))
-            )
+        div().id(self.id).flex().items_baseline().child(
+            div()
+                .text_size(px(self.font_size))
+                .font_weight(self.font_weight)
+                .text_color(color)
+                .child(format!("{}{}{}", self.prefix, formatted, self.suffix)),
+        )
     }
 }

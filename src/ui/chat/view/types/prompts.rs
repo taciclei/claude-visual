@@ -56,7 +56,12 @@ pub struct PromptTemplate {
 
 impl PromptTemplate {
     /// Create a new template
-    pub fn new(name: impl Into<String>, content: impl Into<String>, category: &'static str, icon: &'static str) -> Self {
+    pub fn new(
+        name: impl Into<String>,
+        content: impl Into<String>,
+        category: &'static str,
+        icon: &'static str,
+    ) -> Self {
         Self {
             id: uuid::Uuid::new_v4().to_string(),
             name: name.into(),
@@ -69,7 +74,12 @@ impl PromptTemplate {
     }
 
     /// Create a built-in template
-    pub fn builtin(name: &'static str, content: &'static str, category: &'static str, icon: &'static str) -> Self {
+    pub fn builtin(
+        name: &'static str,
+        content: &'static str,
+        category: &'static str,
+        icon: &'static str,
+    ) -> Self {
         Self {
             id: format!("builtin-{}", name.to_lowercase().replace(' ', "-")),
             name: name.to_string(),

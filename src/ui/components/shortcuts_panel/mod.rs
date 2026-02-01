@@ -1,8 +1,8 @@
 //! Keyboard shortcuts help panel
 
-mod types;
-mod state;
 mod render;
+mod state;
+mod types;
 
-pub use types::{Shortcut, ShortcutGroup, ShortcutsPanelEvent, SHORTCUT_GROUPS};
 pub use state::ShortcutsPanel;
+pub use types::{Shortcut, ShortcutGroup, ShortcutsPanelEvent, SHORTCUT_GROUPS};

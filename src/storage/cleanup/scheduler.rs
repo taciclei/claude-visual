@@ -1,7 +1,7 @@
 //! Cleanup scheduling
 
-use chrono::{DateTime, Duration, Utc};
 use super::types::CleanupConfig;
+use chrono::{DateTime, Duration, Utc};
 
 /// Cleanup scheduler
 pub struct CleanupScheduler {
@@ -47,7 +47,8 @@ impl CleanupScheduler {
         self.last_cleanup = Some(now);
 
         if self.config.auto_cleanup_enabled {
-            self.next_cleanup = Some(now + Duration::hours(self.config.auto_cleanup_interval_hours as i64));
+            self.next_cleanup =
+                Some(now + Duration::hours(self.config.auto_cleanup_interval_hours as i64));
         }
     }
 
@@ -72,7 +73,8 @@ impl CleanupScheduler {
     pub fn set_config(&mut self, config: CleanupConfig) {
         self.config = config;
         if self.config.auto_cleanup_enabled {
-            self.next_cleanup = Some(Utc::now() + Duration::hours(self.config.auto_cleanup_interval_hours as i64));
+            self.next_cleanup =
+                Some(Utc::now() + Duration::hours(self.config.auto_cleanup_interval_hours as i64));
         } else {
             self.next_cleanup = None;
         }

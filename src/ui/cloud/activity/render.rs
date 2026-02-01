@@ -1,7 +1,7 @@
 //! Main render implementation for ActivityPanel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::{ActivityPanel, ActivityPanelEvent};
 
@@ -17,12 +17,7 @@ impl ActivityPanel {
             .items_center()
             .justify_center()
             .py_8()
-            .child(
-                div()
-                    .text_2xl()
-                    .text_color(text_muted)
-                    .child("📋"),
-            )
+            .child(div().text_2xl().text_color(text_muted).child("📋"))
             .child(
                 div()
                     .text_sm()
@@ -44,17 +39,12 @@ impl ActivityPanel {
         let theme = self.app_state.theme.read(cx);
         let text_muted = theme.colors.text_muted;
 
-        div()
-            .flex()
-            .items_center()
-            .justify_center()
-            .py_8()
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child("Loading activity..."),
-            )
+        div().flex().items_center().justify_center().py_8().child(
+            div()
+                .text_sm()
+                .text_color(text_muted)
+                .child("Loading activity..."),
+        )
     }
 }
 
@@ -139,9 +129,11 @@ impl Render for ActivityPanel {
                         div()
                             .flex()
                             .flex_col()
-                            .children(filtered.into_iter().map(|entry| {
-                                self.render_activity_entry(entry, cx)
-                            }))
+                            .children(
+                                filtered
+                                    .into_iter()
+                                    .map(|entry| self.render_activity_entry(entry, cx)),
+                            )
                             .into_any_element()
                     }),
             )

@@ -1,8 +1,8 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::*;
 use super::panel::ExtensionsPanel;
+use super::types::*;
 
 impl ExtensionsPanel {
     /// Render the installed tab
@@ -76,12 +76,10 @@ impl ExtensionsPanel {
                                         ),
                                 )
                             })
-                            .children(
-                                filtered.into_iter().map(|ext| {
-                                    let is_selected = selected_id.as_deref() == Some(&ext.manifest.id);
-                                    self.render_extension_item(ext, is_selected, cx)
-                                })
-                            ),
+                            .children(filtered.into_iter().map(|ext| {
+                                let is_selected = selected_id.as_deref() == Some(&ext.manifest.id);
+                                self.render_extension_item(ext, is_selected, cx)
+                            })),
                     ),
             )
             // Details panel
@@ -92,20 +90,19 @@ impl ExtensionsPanel {
                     .id("scroll-extension-details")
                     .overflow_y_scroll()
                     .when(self.selected.is_none(), |d| {
-                        d.flex()
-                            .items_center()
-                            .justify_center()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.colors.text_muted)
-                                    .child("Select an extension to view details"),
-                            )
+                        d.flex().items_center().justify_center().child(
+                            div()
+                                .text_sm()
+                                .text_color(theme.colors.text_muted)
+                                .child("Select an extension to view details"),
+                        )
                     })
                     .when(self.selected.is_some(), |d| {
-                        if let Some(ext) = self.installed.iter().find(|e| {
-                            self.selected.as_ref() == Some(&e.manifest.id)
-                        }) {
+                        if let Some(ext) = self
+                            .installed
+                            .iter()
+                            .find(|e| self.selected.as_ref() == Some(&e.manifest.id))
+                        {
                             d.child(self.render_extension_details(ext, cx))
                         } else {
                             d

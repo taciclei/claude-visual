@@ -31,7 +31,9 @@ impl ChatView {
 
         for message in &self.messages {
             // Filter based on export settings
-            if !self.export.include_tools && matches!(message.role, MessageRole::ToolUse | MessageRole::ToolResult) {
+            if !self.export.include_tools
+                && matches!(message.role, MessageRole::ToolUse | MessageRole::ToolResult)
+            {
                 continue;
             }
             if !self.export.include_thinking && matches!(message.role, MessageRole::Thinking) {
@@ -48,7 +50,11 @@ impl ChatView {
                 MessageRole::System => "SYSTEM",
             };
 
-            text.push_str(&format!("[{}] {}\n", role_name, message.timestamp.format("%H:%M:%S")));
+            text.push_str(&format!(
+                "[{}] {}\n",
+                role_name,
+                message.timestamp.format("%H:%M:%S")
+            ));
             if let Some(ref tool) = message.tool_name {
                 text.push_str(&format!("Tool: {}\n", tool));
             }

@@ -9,7 +9,9 @@ pub mod file_block;
 pub mod lazy_block;
 pub mod tool_result_block;
 
-pub use code_block::{CodeBlockEvent, CodeBlockView, CodeDisplayMode, HighlightStyle, HighlightedRange};
+pub use code_block::{
+    CodeBlockEvent, CodeBlockView, CodeDisplayMode, HighlightStyle, HighlightedRange,
+};
 pub use lazy_block::{LazyBlock, LazyBlockConfig, LazyBlockEvent, LazyState, VisibilityObserver};
 pub use tool_result_block::{
     ToolExecutionStatus, ToolResult, ToolResultBlock, ToolResultBlockEvent,

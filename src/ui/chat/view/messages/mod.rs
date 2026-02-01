@@ -5,15 +5,15 @@
 //!
 //! Note: Bookmark, pinning, and filtering methods have been moved to view/bookmarks.rs
 
-mod selection;
-mod navigation;
 mod editing;
 mod groups;
+mod navigation;
+mod selection;
 mod statistics;
 
 // Re-export all impl blocks
-pub use selection::*;
-pub use navigation::*;
 pub use editing::*;
 pub use groups::*;
+pub use navigation::*;
+pub use selection::*;
 pub use statistics::*;

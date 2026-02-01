@@ -1,11 +1,11 @@
 //! Trait implementations for UpdateNotification
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::update::UpdateStatus;
 use super::core::UpdateNotification;
 use super::types::{default_colors, UpdateNotificationEvent};
+use crate::update::UpdateStatus;
 
 impl Render for UpdateNotification {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

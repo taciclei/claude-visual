@@ -55,14 +55,14 @@ impl GitStatus {
     /// Get status color (as RGB)
     pub fn color(&self) -> (u8, u8, u8) {
         match self {
-            GitStatus::Clean => (128, 128, 128),       // Gray
-            GitStatus::Modified => (209, 154, 102),    // Yellow/Orange
-            GitStatus::Added => (98, 181, 67),         // Green
-            GitStatus::Deleted => (224, 108, 117),     // Red
-            GitStatus::Renamed => (97, 175, 239),      // Blue
-            GitStatus::Untracked => (152, 195, 121),   // Light green
-            GitStatus::Ignored => (92, 99, 112),       // Dim gray
-            GitStatus::Conflicted => (198, 120, 221),  // Purple
+            GitStatus::Clean => (128, 128, 128),      // Gray
+            GitStatus::Modified => (209, 154, 102),   // Yellow/Orange
+            GitStatus::Added => (98, 181, 67),        // Green
+            GitStatus::Deleted => (224, 108, 117),    // Red
+            GitStatus::Renamed => (97, 175, 239),     // Blue
+            GitStatus::Untracked => (152, 195, 121),  // Light green
+            GitStatus::Ignored => (92, 99, 112),      // Dim gray
+            GitStatus::Conflicted => (198, 120, 221), // Purple
         }
     }
 }

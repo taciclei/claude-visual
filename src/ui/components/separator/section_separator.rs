@@ -1,7 +1,7 @@
 //! Section separator with icon
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Section separator with icon
 #[derive(IntoElement)]
@@ -72,11 +72,7 @@ impl RenderOnce for SectionSeparator {
 
         let line = || div().h(px(1.0)).flex_1().bg(line_color);
 
-        let mut container = div()
-            .flex()
-            .items_center()
-            .w_full()
-            .my_4();
+        let mut container = div().flex().items_center().w_full().my_4();
 
         container = container.child(line());
 

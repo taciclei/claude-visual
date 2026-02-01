@@ -1,7 +1,7 @@
 //! Channel mention component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Channel mention component
 #[derive(IntoElement)]
@@ -59,14 +59,14 @@ impl RenderOnce for ChannelMention {
                     .text_size(px(14.0))
                     .text_color(hsla(0.55, 0.7, 0.6, 1.0))
                     .font_weight(gpui::FontWeight::MEDIUM)
-                    .child(format!("{}{}", prefix, self.name))
+                    .child(format!("{}{}", prefix, self.name)),
             )
             .when_some(self.member_count, |el, count| {
                 el.child(
                     div()
                         .text_size(px(11.0))
                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child(format!("({} members)", count))
+                        .child(format!("({} members)", count)),
                 )
             })
     }

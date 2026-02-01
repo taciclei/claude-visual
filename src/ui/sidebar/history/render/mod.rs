@@ -1,14 +1,14 @@
 //! Render implementation for history sidebar
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::HistorySidebar;
 use super::types::DisplayMode;
 
-mod header;
-mod filters;
 mod content;
+mod filters;
+mod header;
 
 impl Render for HistorySidebar {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

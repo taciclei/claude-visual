@@ -2,8 +2,8 @@
 
 use std::path::PathBuf;
 
-use super::types::*;
 use super::manager::RollbackManager;
+use super::types::*;
 
 #[test]
 fn test_rollback_operation_description() {
@@ -73,14 +73,18 @@ fn test_rollback_manager_discard() {
 #[test]
 fn test_operation_types() {
     assert_eq!(
-        RollbackOperation::FileCreated { path: PathBuf::new() }.operation_type(),
+        RollbackOperation::FileCreated {
+            path: PathBuf::new()
+        }
+        .operation_type(),
         "file_created"
     );
     assert_eq!(
         RollbackOperation::GitCommit {
             repo_path: PathBuf::new(),
             commit_hash: String::new()
-        }.operation_type(),
+        }
+        .operation_type(),
         "git_commit"
     );
 }

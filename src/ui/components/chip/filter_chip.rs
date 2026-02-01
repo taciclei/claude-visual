@@ -1,7 +1,7 @@
 //! Simple filter chip component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple filter chip
 #[derive(Clone)]
@@ -57,33 +57,33 @@ impl RenderOnce for FilterChip {
             .items_center()
             .gap_2()
             .cursor_pointer()
-            .hover(|s| s.bg(if self.selected { accent.opacity(0.2) } else { surface_hover }))
+            .hover(|s| {
+                s.bg(if self.selected {
+                    accent.opacity(0.2)
+                } else {
+                    surface_hover
+                })
+            })
             // Checkmark when selected
             .when(self.selected, |d| {
-                d.child(
-                    div()
-                        .text_xs()
-                        .text_color(text_col)
-                        .child("✓")
-                )
+                d.child(div().text_xs().text_color(text_col).child("✓"))
             })
             // Label
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_col)
-                    .child(self.label)
-            )
+            .child(div().text_sm().text_color(text_col).child(self.label))
             // Count badge
             .when_some(self.count, |d, count| {
                 d.child(
                     div()
                         .px_1p5()
                         .rounded_full()
-                        .bg(if self.selected { accent.opacity(0.3) } else { surface_hover })
+                        .bg(if self.selected {
+                            accent.opacity(0.3)
+                        } else {
+                            surface_hover
+                        })
                         .text_xs()
                         .text_color(if self.selected { accent } else { text_muted })
-                        .child(count.to_string())
+                        .child(count.to_string()),
                 )
             })
     }

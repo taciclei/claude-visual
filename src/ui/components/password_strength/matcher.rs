@@ -1,7 +1,7 @@
 //! Password confirmation matcher component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Password confirmation matcher
 #[derive(IntoElement)]
@@ -36,33 +36,21 @@ impl RenderOnce for PasswordMatcher {
         let is_empty = self.confirmation.is_empty();
         let matches = !is_empty && self.password == self.confirmation;
 
-        div()
-            .id(self.id)
-            .when(!is_empty, |el| {
-                let (icon, text, color) = if matches {
-                    ("✓", "Passwords match", hsla(0.35, 0.7, 0.45, 1.0))
-                } else {
-                    ("✕", "Passwords don't match", hsla(0.0, 0.7, 0.5, 1.0))
-                };
+        div().id(self.id).when(!is_empty, |el| {
+            let (icon, text, color) = if matches {
+                ("✓", "Passwords match", hsla(0.35, 0.7, 0.45, 1.0))
+            } else {
+                ("✕", "Passwords don't match", hsla(0.0, 0.7, 0.5, 1.0))
+            };
 
-                el.child(
-                    div()
-                        .flex()
-                        .items_center()
-                        .gap(px(6.0))
-                        .child(
-                            div()
-                                .text_size(px(12.0))
-                                .text_color(color)
-                                .child(icon)
-                        )
-                        .child(
-                            div()
-                                .text_size(px(12.0))
-                                .text_color(color)
-                                .child(text)
-                        )
-                )
-            })
+            el.child(
+                div()
+                    .flex()
+                    .items_center()
+                    .gap(px(6.0))
+                    .child(div().text_size(px(12.0)).text_color(color).child(icon))
+                    .child(div().text_size(px(12.0)).text_color(color).child(text)),
+            )
+        })
     }
 }

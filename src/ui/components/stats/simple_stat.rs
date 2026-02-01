@@ -1,7 +1,7 @@
 //! SimpleStat component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple stat display
 #[derive(Clone)]
@@ -47,27 +47,21 @@ impl RenderOnce for SimpleStat {
                     .flex()
                     .items_center()
                     .gap_2()
-                    .when_some(self.icon, |d, icon| {
-                        d.child(
-                            div()
-                                .text_base()
-                                .child(icon)
-                        )
-                    })
+                    .when_some(self.icon, |d, icon| d.child(div().text_base().child(icon)))
                     .child(
                         div()
                             .text_xs()
                             .text_color(text_muted)
                             .font_weight(FontWeight::MEDIUM)
-                            .child(self.label)
-                    )
+                            .child(self.label),
+                    ),
             )
             .child(
                 div()
                     .text_2xl()
                     .font_weight(FontWeight::BOLD)
                     .text_color(text)
-                    .child(self.value)
+                    .child(self.value),
             )
     }
 }

@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Radio group with card-style options
 #[derive(IntoElement)]
@@ -188,11 +188,7 @@ impl RenderOnce for RadioCardGroup {
             let mut left_content = div().flex().items_center().gap_2();
 
             if let Some(icon) = &option.icon {
-                left_content = left_content.child(
-                    div()
-                        .text_size(px(20.0))
-                        .child(icon.clone()),
-                );
+                left_content = left_content.child(div().text_size(px(20.0)).child(icon.clone()));
             }
 
             left_content = left_content.child(

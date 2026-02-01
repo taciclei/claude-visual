@@ -57,15 +57,29 @@ impl PasswordStrength {
         let mut score = 0;
 
         // Length checks
-        if password.len() >= 8 { score += 1; }
-        if password.len() >= 12 { score += 1; }
-        if password.len() >= 16 { score += 1; }
+        if password.len() >= 8 {
+            score += 1;
+        }
+        if password.len() >= 12 {
+            score += 1;
+        }
+        if password.len() >= 16 {
+            score += 1;
+        }
 
         // Character variety checks
-        if password.chars().any(|c| c.is_lowercase()) { score += 1; }
-        if password.chars().any(|c| c.is_uppercase()) { score += 1; }
-        if password.chars().any(|c| c.is_numeric()) { score += 1; }
-        if password.chars().any(|c| !c.is_alphanumeric()) { score += 1; }
+        if password.chars().any(|c| c.is_lowercase()) {
+            score += 1;
+        }
+        if password.chars().any(|c| c.is_uppercase()) {
+            score += 1;
+        }
+        if password.chars().any(|c| c.is_numeric()) {
+            score += 1;
+        }
+        if password.chars().any(|c| !c.is_alphanumeric()) {
+            score += 1;
+        }
 
         match score {
             0..=1 => Self::VeryWeak,

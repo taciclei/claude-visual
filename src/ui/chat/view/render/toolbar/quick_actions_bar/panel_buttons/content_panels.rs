@@ -1,8 +1,8 @@
 //! Content management panel buttons - context, export, notes
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render context panel button (📚 Context with file count and usage indicator)
@@ -40,15 +40,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_context_panel {
-                    text_color_active
-                } else if self.context_used > 0 {
-                    usage_color
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_context_panel {
+                text_color_active
+            } else if self.context_used > 0 {
+                usage_color
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("📚")
@@ -83,15 +81,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_export_panel {
-                    text_color_active
-                } else if has_msgs {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_export_panel {
+                text_color_active
+            } else if has_msgs {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("💾")
@@ -125,15 +121,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_notes_panel {
-                    text_color_active
-                } else if has_notes {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_notes_panel {
+                text_color_active
+            } else if has_notes {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("📝")

@@ -1,7 +1,7 @@
 //! MCP panel footer rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
@@ -18,7 +18,7 @@ pub(crate) fn render_footer(theme: &Theme) -> impl IntoElement {
             div()
                 .text_xs()
                 .text_color(theme.colors.text_muted)
-                .child("Click a server to see tools • Click tool to use")
+                .child("Click a server to see tools • Click tool to use"),
         )
         .child(
             div()
@@ -28,6 +28,6 @@ pub(crate) fn render_footer(theme: &Theme) -> impl IntoElement {
                 .text_xs()
                 .text_color(theme.colors.text_muted)
                 .child("⎋")
-                .child("Close")
+                .child("Close"),
         )
 }

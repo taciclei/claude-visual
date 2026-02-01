@@ -27,8 +27,8 @@ mod ui;
 mod update;
 
 use anyhow::Result;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 
 use app::state::AppState;

@@ -1,10 +1,10 @@
 //! Core LSP integration logic
 
+use crate::lsp::protocol::{Location, Position, Range};
 use gpui::*;
-use crate::lsp::protocol::{Position, Location, Range};
 
-use super::types::{CodeLspEvent, CodeToken, CodeLspConfig};
 use super::tokenizer;
+use super::types::{CodeLspConfig, CodeLspEvent, CodeToken};
 
 /// Code block LSP integration component
 pub struct CodeLspIntegration {
@@ -42,14 +42,16 @@ impl CodeLspIntegration {
 
     /// Find token at byte offset
     pub fn token_at_offset(&self, offset: usize) -> Option<&CodeToken> {
-        self.tokens.iter().find(|t| offset >= t.start && offset < t.end)
+        self.tokens
+            .iter()
+            .find(|t| offset >= t.start && offset < t.end)
     }
 
     /// Find token at line/column
     pub fn token_at_position(&self, line: usize, column: usize) -> Option<&CodeToken> {
-        self.tokens.iter().find(|t| {
-            t.line == line && column >= t.column && column < t.column + t.text.len()
-        })
+        self.tokens
+            .iter()
+            .find(|t| t.line == line && column >= t.column && column < t.column + t.text.len())
     }
 
     /// Get position from byte offset
@@ -71,11 +73,19 @@ impl CodeLspIntegration {
             current_offset += ch.len_utf8();
         }
 
-        Position { line: line as u32, character: col as u32 }
+        Position {
+            line: line as u32,
+            character: col as u32,
+        }
     }
 
     /// Handle mouse click at position
-    pub fn handle_click(&mut self, line: usize, column: usize, modifiers: Modifiers) -> Option<CodeLspEvent> {
+    pub fn handle_click(
+        &mut self,
+        line: usize,
+        column: usize,
+        modifiers: Modifiers,
+    ) -> Option<CodeLspEvent> {
         if !self.config.enable_goto_definition {
             return None;
         }
@@ -92,7 +102,9 @@ impl CodeLspIntegration {
                     };
 
                     return Some(CodeLspEvent::GoToDefinition(Location {
-                        uri: self.config.virtual_file_path
+                        uri: self
+                            .config
+                            .virtual_file_path
                             .as_ref()
                             .map(|p| format!("file://{}", p.display()))
                             .unwrap_or_else(|| "file:///unknown".to_string()),
@@ -117,9 +129,10 @@ impl CodeLspIntegration {
             return None;
         }
 
-        let token_idx = self.tokens.iter().position(|t| {
-            t.line == line && column >= t.column && column < t.column + t.text.len()
-        });
+        let token_idx = self
+            .tokens
+            .iter()
+            .position(|t| t.line == line && column >= t.column && column < t.column + t.text.len());
 
         if self.hovered_token != token_idx {
             self.hovered_token = token_idx;
@@ -132,7 +145,13 @@ impl CodeLspIntegration {
     }
 
     /// Handle symbol selection for highlighting
-    pub fn handle_selection(&mut self, start_line: usize, start_col: usize, end_line: usize, end_col: usize) -> Option<CodeLspEvent> {
+    pub fn handle_selection(
+        &mut self,
+        start_line: usize,
+        start_col: usize,
+        end_line: usize,
+        end_col: usize,
+    ) -> Option<CodeLspEvent> {
         if !self.config.enable_symbol_highlight {
             return None;
         }

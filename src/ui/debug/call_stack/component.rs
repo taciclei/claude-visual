@@ -6,8 +6,8 @@ use std::sync::Arc;
 
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::{CallStackViewEvent, StackFrameItem, ThreadItem};
+use crate::app::state::AppState;
 
 impl EventEmitter<CallStackViewEvent> for CallStackView {}
 
@@ -53,7 +53,12 @@ impl CallStackView {
     }
 
     /// Update frames for a thread
-    pub fn set_frames(&mut self, thread_id: i64, frames: Vec<StackFrameItem>, cx: &mut Context<Self>) {
+    pub fn set_frames(
+        &mut self,
+        thread_id: i64,
+        frames: Vec<StackFrameItem>,
+        cx: &mut Context<Self>,
+    ) {
         if let Some(thread) = self.threads.iter_mut().find(|t| t.id == thread_id) {
             thread.frames = frames;
         }

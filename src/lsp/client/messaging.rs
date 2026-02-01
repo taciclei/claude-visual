@@ -12,7 +12,11 @@ use super::types::*;
 
 impl LspClient {
     /// Send a request and wait for response
-    pub(crate) async fn request<T: for<'de> Deserialize<'de>>(&self, method: &str, params: Option<Value>) -> Result<T, String> {
+    pub(crate) async fn request<T: for<'de> Deserialize<'de>>(
+        &self,
+        method: &str,
+        params: Option<Value>,
+    ) -> Result<T, String> {
         let id = self.next_id.fetch_add(1, Ordering::SeqCst);
 
         let request = JsonRpcRequest {

@@ -2,8 +2,8 @@
 
 use std::path::PathBuf;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::explorer::preview::core::FilePreviewPanel;
 use crate::ui::explorer::preview::types::FilePreviewEvent;
@@ -96,7 +96,12 @@ impl FilePreviewPanel {
     }
 
     /// Render file stats
-    pub(super) fn render_stats(&self, line_count: usize, file_size: u64, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_stats(
+        &self,
+        line_count: usize,
+        file_size: u64,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
         div()

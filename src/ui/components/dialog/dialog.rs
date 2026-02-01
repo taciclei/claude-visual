@@ -1,8 +1,8 @@
 //! Generic dialog component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Generic dialog component
 #[derive(Clone, IntoElement)]
@@ -142,7 +142,7 @@ impl RenderOnce for Dialog {
                                     .justify_center()
                                     .text_lg()
                                     .flex_shrink_0()
-                                    .child(icon)
+                                    .child(icon),
                             )
                         })
                         // Title and description
@@ -157,16 +157,11 @@ impl RenderOnce for Dialog {
                                         .text_base()
                                         .font_weight(FontWeight::SEMIBOLD)
                                         .text_color(text)
-                                        .child(self.title)
+                                        .child(self.title),
                                 )
                                 .when_some(self.description, |d, desc| {
-                                    d.child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(text_muted)
-                                            .child(desc)
-                                    )
-                                })
+                                    d.child(div().text_sm().text_color(text_muted).child(desc))
+                                }),
                         )
                         // Close button
                         .when(self.show_close, |d| {
@@ -181,9 +176,9 @@ impl RenderOnce for Dialog {
                                     .text_color(text_muted)
                                     .cursor_pointer()
                                     .hover(|s| s.bg(surface_hover).text_color(text))
-                                    .child("×")
+                                    .child("×"),
                             )
-                        })
+                        }),
                 )
                 // Buttons
                 .when(!self.buttons.is_empty(), |d| {
@@ -196,64 +191,62 @@ impl RenderOnce for Dialog {
                             .items_center()
                             .justify_end()
                             .gap_2()
-                            .children(
-                                self.buttons.into_iter().map(|btn| {
-                                    let mut button = div()
-                                        .px_4()
-                                        .py_2()
-                                        .rounded(px(6.0))
-                                        .text_sm()
-                                        .font_weight(FontWeight::MEDIUM)
-                                        .cursor_pointer();
+                            .children(self.buttons.into_iter().map(|btn| {
+                                let mut button = div()
+                                    .px_4()
+                                    .py_2()
+                                    .rounded(px(6.0))
+                                    .text_sm()
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .cursor_pointer();
 
-                                    if btn.disabled || btn.loading {
-                                        button = button.opacity(0.5).cursor_default();
+                                if btn.disabled || btn.loading {
+                                    button = button.opacity(0.5).cursor_default();
+                                }
+
+                                match btn.style {
+                                    DialogButtonStyle::Primary => {
+                                        button = button
+                                            .bg(accent)
+                                            .text_color(gpui::white())
+                                            .when(!btn.disabled && !btn.loading, |d| {
+                                                d.hover(|s| s.opacity(0.9))
+                                            });
                                     }
-
-                                    match btn.style {
-                                        DialogButtonStyle::Primary => {
-                                            button = button
-                                                .bg(accent)
-                                                .text_color(gpui::white())
-                                                .when(!btn.disabled && !btn.loading, |d| {
-                                                    d.hover(|s| s.opacity(0.9))
-                                                });
-                                        }
-                                        DialogButtonStyle::Secondary => {
-                                            button = button
-                                                .border_1()
-                                                .border_color(border)
-                                                .text_color(text)
-                                                .when(!btn.disabled && !btn.loading, |d| {
-                                                    d.hover(|s| s.bg(surface_hover))
-                                                });
-                                        }
-                                        DialogButtonStyle::Destructive => {
-                                            button = button
-                                                .bg(danger)
-                                                .text_color(gpui::white())
-                                                .when(!btn.disabled && !btn.loading, |d| {
-                                                    d.hover(|s| s.opacity(0.9))
-                                                });
-                                        }
-                                        DialogButtonStyle::Ghost => {
-                                            button = button
-                                                .text_color(text_muted)
-                                                .when(!btn.disabled && !btn.loading, |d| {
-                                                    d.hover(|s| s.text_color(text))
-                                                });
-                                        }
+                                    DialogButtonStyle::Secondary => {
+                                        button = button
+                                            .border_1()
+                                            .border_color(border)
+                                            .text_color(text)
+                                            .when(!btn.disabled && !btn.loading, |d| {
+                                                d.hover(|s| s.bg(surface_hover))
+                                            });
                                     }
+                                    DialogButtonStyle::Destructive => {
+                                        button = button
+                                            .bg(danger)
+                                            .text_color(gpui::white())
+                                            .when(!btn.disabled && !btn.loading, |d| {
+                                                d.hover(|s| s.opacity(0.9))
+                                            });
+                                    }
+                                    DialogButtonStyle::Ghost => {
+                                        button = button
+                                            .text_color(text_muted)
+                                            .when(!btn.disabled && !btn.loading, |d| {
+                                                d.hover(|s| s.text_color(text))
+                                            });
+                                    }
+                                }
 
-                                    button.child(if btn.loading {
-                                        "Loading...".to_string()
-                                    } else {
-                                        btn.label
-                                    })
+                                button.child(if btn.loading {
+                                    "Loading...".to_string()
+                                } else {
+                                    btn.label
                                 })
-                            )
+                            })),
                     )
-                })
+                }),
         )
     }
 }

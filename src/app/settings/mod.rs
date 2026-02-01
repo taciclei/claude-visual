@@ -1,14 +1,14 @@
 //! User settings management
 
-mod keybindings;
 mod editor;
-mod ui;
+mod keybindings;
 mod language;
+mod ui;
 
-pub use keybindings::Keybindings;
 pub use editor::EditorSettings;
-pub use ui::UISettings;
+pub use keybindings::Keybindings;
 pub use language::LanguageSetting;
+pub use ui::UISettings;
 
 use std::path::PathBuf;
 
@@ -59,8 +59,8 @@ impl Default for UserSettings {
 impl UserSettings {
     /// Get the settings file path
     pub fn config_path() -> Result<PathBuf> {
-        let config_dir = dirs::config_dir()
-            .ok_or_else(|| anyhow::anyhow!("Could not find config directory"))?;
+        let config_dir =
+            dirs::config_dir().ok_or_else(|| anyhow::anyhow!("Could not find config directory"))?;
         Ok(config_dir.join("claude-visual").join("settings.toml"))
     }
 
@@ -115,7 +115,10 @@ impl UserSettings {
     /// Get the default export filename with timestamp
     pub fn default_export_filename() -> String {
         let now = chrono::Local::now();
-        format!("claude-visual-settings-{}.json", now.format("%Y%m%d-%H%M%S"))
+        format!(
+            "claude-visual-settings-{}.json",
+            now.format("%Y%m%d-%H%M%S")
+        )
     }
 
     /// Increase UI font size

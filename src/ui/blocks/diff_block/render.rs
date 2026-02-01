@@ -1,10 +1,10 @@
 //! DiffBlockView Render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::component::DiffBlockView;
-use super::render_content::{render_content, prepare_hunk_data};
+use super::render_content::{prepare_hunk_data, render_content};
 
 impl Render for DiffBlockView {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

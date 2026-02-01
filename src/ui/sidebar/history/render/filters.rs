@@ -1,10 +1,10 @@
 //! Filter panel rendering for history sidebar
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::storage::models::DateRangeFilter;
 use super::super::core::HistorySidebar;
+use crate::storage::models::DateRangeFilter;
 
 impl HistorySidebar {
     pub(super) fn render_filter_panel(&mut self, cx: &mut Context<Self>) -> impl IntoElement {
@@ -53,45 +53,39 @@ impl HistorySidebar {
                     .text_color(theme.colors.text_muted)
                     .child("Date Range"),
             )
-            .child(
-                div()
-                    .flex()
-                    .flex_wrap()
-                    .gap_1()
-                    .children(DateRangeFilter::all().into_iter().map(|filter| {
-                        let is_selected = filter == current_date_filter;
-                        div()
-                            .id(ElementId::Name(
-                                format!("date-filter-{:?}", filter).into(),
-                            ))
-                            .px_2()
-                            .py_1()
-                            .rounded_sm()
-                            .text_xs()
-                            .bg(if is_selected {
-                                theme.colors.accent
+            .child(div().flex().flex_wrap().gap_1().children(
+                DateRangeFilter::all().into_iter().map(|filter| {
+                    let is_selected = filter == current_date_filter;
+                    div()
+                        .id(ElementId::Name(format!("date-filter-{:?}", filter).into()))
+                        .px_2()
+                        .py_1()
+                        .rounded_sm()
+                        .text_xs()
+                        .bg(if is_selected {
+                            theme.colors.accent
+                        } else {
+                            theme.colors.surface
+                        })
+                        .text_color(if is_selected {
+                            theme.colors.background
+                        } else {
+                            theme.colors.text_muted
+                        })
+                        .hover(|style| {
+                            style.bg(if is_selected {
+                                theme.colors.accent_hover
                             } else {
-                                theme.colors.surface
+                                theme.colors.surface_hover
                             })
-                            .text_color(if is_selected {
-                                theme.colors.background
-                            } else {
-                                theme.colors.text_muted
-                            })
-                            .hover(|style| {
-                                style.bg(if is_selected {
-                                    theme.colors.accent_hover
-                                } else {
-                                    theme.colors.surface_hover
-                                })
-                            })
-                            .cursor_pointer()
-                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                this.set_date_filter(filter, cx);
-                            }))
-                            .child(filter.display_name())
-                    })),
-            )
+                        })
+                        .cursor_pointer()
+                        .on_click(cx.listener(move |this, _, _window, cx| {
+                            this.set_date_filter(filter, cx);
+                        }))
+                        .child(filter.display_name())
+                }),
+            ))
     }
 
     fn render_project_filter(

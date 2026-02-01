@@ -1,9 +1,9 @@
 //! Tree state management
 
-use std::sync::Arc;
-use gpui::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::*;
+use std::sync::Arc;
 
 /// Tree component
 pub struct Tree {

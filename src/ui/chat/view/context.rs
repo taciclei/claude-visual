@@ -8,10 +8,10 @@
 //! - Input processing (text operations)
 //! - Slash commands (insert into input)
 
-use std::path::Path;
-use gpui::*;
 use super::core::ChatView;
-use super::types::{ContextFile, RecentFile, FilePickerItem};
+use super::types::{ContextFile, FilePickerItem, RecentFile};
+use gpui::*;
+use std::path::Path;
 
 impl ChatView {
     // ==================== Context Panel ====================
@@ -75,7 +75,8 @@ impl ChatView {
         }
 
         // Sort by access time (most recent first)
-        self.recent_files.sort_by(|a, b| b.accessed_at.cmp(&a.accessed_at));
+        self.recent_files
+            .sort_by(|a, b| b.accessed_at.cmp(&a.accessed_at));
 
         // Limit to max recent files
         self.recent_files.truncate(self.max_recent_files);
@@ -151,8 +152,8 @@ impl ChatView {
                 self.file_picker.results = all_files
                     .into_iter()
                     .filter(|f| {
-                        f.name.to_lowercase().contains(&query_lower) ||
-                        f.path.to_lowercase().contains(&query_lower)
+                        f.name.to_lowercase().contains(&query_lower)
+                            || f.path.to_lowercase().contains(&query_lower)
                     })
                     .take(50)
                     .collect();
@@ -189,9 +190,20 @@ impl ChatView {
 
 /// Ignore patterns for file collection
 const IGNORE_PATTERNS: &[&str] = &[
-    "node_modules", ".git", "target", "dist", "build",
-    ".next", ".nuxt", ".cache", "__pycache__", ".venv",
-    "venv", ".env", "coverage", ".nyc_output",
+    "node_modules",
+    ".git",
+    "target",
+    "dist",
+    "build",
+    ".next",
+    ".nuxt",
+    ".cache",
+    "__pycache__",
+    ".venv",
+    "venv",
+    ".env",
+    "coverage",
+    ".nyc_output",
 ];
 
 /// Collect project files for the file picker
@@ -234,7 +246,8 @@ fn collect_files_recursive(
         if path.is_file() {
             // Get relative path from base
             if let Ok(relative) = path.strip_prefix(base) {
-                let extension = path.extension()
+                let extension = path
+                    .extension()
                     .and_then(|e| e.to_str())
                     .map(|s| s.to_lowercase());
 

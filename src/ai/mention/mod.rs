@@ -2,12 +2,12 @@
 //!
 //! Parses @file, @snippet, @url mentions in chat input.
 
-mod types;
 mod parser;
+mod types;
 mod utils;
 
+pub use parser::{get_mention_at_cursor, parse_mentions};
 pub use types::{Mention, MentionKind, PartialMention, PartialMentionKind};
-pub use parser::{parse_mentions, get_mention_at_cursor};
 
 #[cfg(test)]
 mod tests {

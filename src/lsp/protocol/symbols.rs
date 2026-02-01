@@ -1,7 +1,7 @@
 //! Symbol types for document outline
 
-use serde::{Deserialize, Serialize};
 use super::types::Range;
+use serde::{Deserialize, Serialize};
 
 /// Symbol kind
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

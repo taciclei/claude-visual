@@ -1,9 +1,9 @@
 //! Stepper render implementation
 
-use gpui::*;
-use gpui::prelude::*;
 use super::component::Stepper;
 use super::types::StepperOrientation;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for Stepper {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

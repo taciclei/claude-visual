@@ -1,12 +1,12 @@
 //! Message header rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
+use super::super::utils::{tool_description, tool_icon};
+use super::super::view::MessageView;
 use crate::app::theme::Theme;
 use crate::claude::message::MessageRole;
-use super::super::view::MessageView;
-use super::super::utils::{tool_icon, tool_description};
 
 impl MessageView {
     pub(in crate::ui::chat::message) fn render_header(&self, theme: &Theme) -> Div {
@@ -25,7 +25,10 @@ impl MessageView {
             MessageRole::ToolResult => (theme.colors.warning.opacity(0.2), theme.colors.warning),
             MessageRole::Error => (theme.colors.error.opacity(0.2), theme.colors.error),
             MessageRole::Thinking => (theme.colors.warning.opacity(0.15), theme.colors.warning),
-            MessageRole::System => (theme.colors.text_muted.opacity(0.2), theme.colors.text_muted),
+            MessageRole::System => (
+                theme.colors.text_muted.opacity(0.2),
+                theme.colors.text_muted,
+            ),
         };
 
         div()
@@ -67,23 +70,19 @@ impl MessageView {
                                 .flex()
                                 .items_center()
                                 .gap_1()
-                                .child(
-                                    div()
-                                        .text_sm()
-                                        .child(icon)
-                                )
+                                .child(div().text_sm().child(icon))
                                 .child(
                                     div()
                                         .text_sm()
                                         .font_weight(FontWeight::SEMIBOLD)
                                         .text_color(theme.colors.text)
-                                        .child(tool_name)
+                                        .child(tool_name),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child(format!("- {}", desc))
+                                        .child(format!("- {}", desc)),
                                 ),
                         )
                     })
@@ -107,7 +106,7 @@ impl MessageView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted.opacity(0.6))
-                                .child(format!("{} words", word_count))
+                                .child(format!("{} words", word_count)),
                         )
                     })
                     // Code blocks indicator (for assistant messages)
@@ -126,14 +125,14 @@ impl MessageView {
                                         .text_xs()
                                         .text_color(theme.colors.info)
                                         .font_family("monospace")
-                                        .child("{ }")
+                                        .child("{ }"),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.info)
-                                        .child(format!("{}", code_blocks))
-                                )
+                                        .child(format!("{}", code_blocks)),
+                                ),
                         )
                     })
                     // Word count for assistant messages (when > 50 words)
@@ -142,7 +141,7 @@ impl MessageView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted.opacity(0.6))
-                                .child(format!("{} words", word_count))
+                                .child(format!("{} words", word_count)),
                         )
                     })
                     // Token/cost estimate for user and assistant messages (when > 20 words)
@@ -162,26 +161,21 @@ impl MessageView {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.warning.opacity(0.8))
-                                        .child(format!("~{} tok", Self::format_tokens(tokens)))
+                                        .child(format!("~{} tok", Self::format_tokens(tokens))),
                                 )
                                 .when(cost > 0.0001, |d| {
                                     d.child(
                                         div()
                                             .text_xs()
                                             .text_color(theme.colors.text_muted.opacity(0.5))
-                                            .child(format!("(${:.4})", cost))
+                                            .child(format!("(${:.4})", cost)),
                                     )
-                                })
+                                }),
                         )
                     })
                     // Bookmark indicator
                     .when(self.bookmarked, |this| {
-                        this.child(
-                            div()
-                                .text_xs()
-                                .text_color(theme.colors.warning)
-                                .child("★"),
-                        )
+                        this.child(div().text_xs().text_color(theme.colors.warning).child("★"))
                     }),
             )
     }

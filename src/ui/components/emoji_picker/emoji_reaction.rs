@@ -54,11 +54,7 @@ impl RenderOnce for EmojiReaction {
             .border_color(border)
             .rounded(px(12.0))
             .cursor_pointer()
-            .child(
-                div()
-                    .text_size(px(14.0))
-                    .child(self.emoji.clone())
-            )
+            .child(div().text_size(px(14.0)).child(self.emoji.clone()))
             .child(
                 div()
                     .text_size(px(12.0))
@@ -68,7 +64,7 @@ impl RenderOnce for EmojiReaction {
                     } else {
                         hsla(0.0, 0.0, 0.7, 1.0)
                     })
-                    .child(self.count.to_string())
+                    .child(self.count.to_string()),
             )
     }
 }

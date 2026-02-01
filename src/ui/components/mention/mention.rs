@@ -1,8 +1,8 @@
 //! Mention chip component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Mention chip component - displays a mentioned entity
 #[derive(IntoElement)]
@@ -103,7 +103,7 @@ impl RenderOnce for Mention {
                         .items_center()
                         .justify_center()
                         .text_size(px(avatar_size * 0.6))
-                        .child(avatar)
+                        .child(avatar),
                 )
             })
             .child(
@@ -111,7 +111,7 @@ impl RenderOnce for Mention {
                     .text_size(px(font_size))
                     .text_color(text)
                     .font_weight(gpui::FontWeight::MEDIUM)
-                    .child(format!("{}{}", prefix, self.name))
+                    .child(format!("{}{}", prefix, self.name)),
             )
     }
 }

@@ -1,7 +1,7 @@
 //! Simple data table component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple data table for stateless rendering
 #[derive(Clone)]
@@ -21,7 +21,8 @@ impl DataTable {
     }
 
     pub fn row(mut self, cells: Vec<impl Into<String>>) -> Self {
-        self.rows.push(cells.into_iter().map(|c| c.into()).collect());
+        self.rows
+            .push(cells.into_iter().map(|c| c.into()).collect());
         self
     }
 
@@ -63,7 +64,7 @@ impl RenderOnce for DataTable {
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text_muted)
                             .child(header.clone())
-                    }))
+                    })),
             )
             // Rows
             .children(self.rows.into_iter().enumerate().map(|(idx, cells)| {

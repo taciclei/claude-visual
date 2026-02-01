@@ -1,9 +1,9 @@
 //! Streaming response types
 
-use std::pin::Pin;
-use futures::Stream;
 use super::error::AIError;
 use super::response::{StopReason, Usage};
+use futures::Stream;
+use std::pin::Pin;
 
 /// Streaming chunk
 #[derive(Debug, Clone)]

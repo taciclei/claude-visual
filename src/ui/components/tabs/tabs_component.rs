@@ -4,8 +4,8 @@ use std::sync::Arc;
 
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Tabs component
 pub struct Tabs {
@@ -121,9 +121,9 @@ impl Tabs {
 
     /// Get active tab
     pub fn active_tab(&self) -> Option<&TabItem> {
-        self.active.as_ref().and_then(|id| {
-            self.tabs.iter().find(|t| &t.id == id)
-        })
+        self.active
+            .as_ref()
+            .and_then(|id| self.tabs.iter().find(|t| &t.id == id))
     }
 
     /// Get active tab ID

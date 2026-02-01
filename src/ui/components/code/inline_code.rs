@@ -1,8 +1,8 @@
 //! Inline code display component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Inline code element
 #[derive(Clone)]

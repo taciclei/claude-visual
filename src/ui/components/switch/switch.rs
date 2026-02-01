@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Switch/Toggle component
 pub struct Switch {
@@ -36,7 +36,11 @@ impl Switch {
     }
 
     /// Create a switch with label
-    pub fn with_label(app_state: Arc<AppState>, label: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_label(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut switch = Self::new(app_state, cx);
         switch.label = Some(label.into());
         switch
@@ -95,7 +99,11 @@ impl Render for Switch {
         let track_width = self.size.track_width();
         let track_height = self.size.track_height();
         let thumb_size = self.size.thumb_size();
-        let thumb_offset = if self.checked { self.size.thumb_offset() } else { 2.0 };
+        let thumb_offset = if self.checked {
+            self.size.thumb_offset()
+        } else {
+            2.0
+        };
 
         let track_color = if self.checked {
             theme.colors.accent
@@ -123,7 +131,11 @@ impl Render for Switch {
                     .rounded_full()
                     .bg(track_color)
                     .border_1()
-                    .border_color(if self.checked { theme.colors.accent } else { theme.colors.border })
+                    .border_color(if self.checked {
+                        theme.colors.accent
+                    } else {
+                        theme.colors.border
+                    })
                     .relative()
                     .flex_shrink_0()
                     // Thumb
@@ -135,8 +147,8 @@ impl Render for Switch {
                             .size(px(thumb_size))
                             .rounded_full()
                             .bg(gpui::white())
-                            .shadow_sm()
-                    )
+                            .shadow_sm(),
+                    ),
             )
             // Label and description
             .when(self.label.is_some() || self.description.is_some(), |d| {
@@ -146,21 +158,16 @@ impl Render for Switch {
                         .flex_col()
                         .gap_0p5()
                         .when_some(self.label.clone(), |d, label| {
-                            d.child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.colors.text)
-                                    .child(label)
-                            )
+                            d.child(div().text_sm().text_color(theme.colors.text).child(label))
                         })
                         .when_some(self.description.clone(), |d, desc| {
                             d.child(
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child(desc)
+                                    .child(desc),
                             )
-                        })
+                        }),
                 )
             })
     }

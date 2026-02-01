@@ -2,16 +2,16 @@
 //!
 //! Provides iOS-style segmented controls for switching between views.
 
-mod types;
-mod segmented_control;
-mod icon_segmented_control;
 mod button_group;
+mod icon_segmented_control;
+mod segmented_control;
+mod types;
 mod view_switcher;
 
-pub use types::{Segment, SegmentedSize, SegmentedVariant};
-pub use segmented_control::SegmentedControl;
-pub use icon_segmented_control::IconSegmentedControl;
 pub use button_group::ButtonGroup;
+pub use icon_segmented_control::IconSegmentedControl;
+pub use segmented_control::SegmentedControl;
+pub use types::{Segment, SegmentedSize, SegmentedVariant};
 pub use view_switcher::ViewSwitcher;
 
 #[cfg(test)]
@@ -46,9 +46,7 @@ mod tests {
 
     #[test]
     fn test_segment_with_badge() {
-        let segment = Segment::new("inbox", "Inbox")
-            .icon("📥")
-            .badge("5");
+        let segment = Segment::new("inbox", "Inbox").icon("📥").badge("5");
 
         assert!(segment.icon.is_some());
         assert!(segment.badge.is_some());
@@ -57,11 +55,7 @@ mod tests {
     #[test]
     fn test_icon_segmented_control() {
         let control = IconSegmentedControl::new("isc")
-            .icons(vec![
-                ("grid", "▦"),
-                ("list", "☰"),
-                ("cards", "▣"),
-            ])
+            .icons(vec![("grid", "▦"), ("list", "☰"), ("cards", "▣")])
             .selected("list");
 
         assert_eq!(control.icons.len(), 3);

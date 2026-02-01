@@ -1,7 +1,7 @@
 //! Simple horizontal split layout component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple horizontal split layout
 #[derive(Clone)]
@@ -35,12 +35,7 @@ impl RenderOnce for HorizontalSplit {
             .flex()
             .flex_row()
             // Left pane
-            .child(
-                div()
-                    .h_full()
-                    .flex_1()
-                    .overflow_hidden()
-            )
+            .child(div().h_full().flex_1().overflow_hidden())
             // Divider
             .child(
                 div()
@@ -49,14 +44,9 @@ impl RenderOnce for HorizontalSplit {
                     .bg(border)
                     .flex_shrink_0()
                     .cursor(CursorStyle::ResizeLeftRight)
-                    .hover(|s| s.bg(hover))
+                    .hover(|s| s.bg(hover)),
             )
             // Right pane
-            .child(
-                div()
-                    .h_full()
-                    .flex_1()
-                    .overflow_hidden()
-            )
+            .child(div().h_full().flex_1().overflow_hidden())
     }
 }

@@ -50,7 +50,7 @@ impl Render for NumberInput {
                         .text_sm()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(text_color)
-                        .child(label)
+                        .child(label),
                 )
             })
             .child(
@@ -69,7 +69,11 @@ impl Render for NumberInput {
                     })
                     .when(self.show_stepper, |d| {
                         let can_dec = self.can_decrement();
-                        let dec_text_color = if can_dec { text_color } else { text_muted_color };
+                        let dec_text_color = if can_dec {
+                            text_color
+                        } else {
+                            text_muted_color
+                        };
                         d.child(
                             div()
                                 .id("number-dec")
@@ -87,7 +91,7 @@ impl Render for NumberInput {
                                         .hover(|s| s.bg(surface_hover_color))
                                         .on_click(on_decrement)
                                 })
-                                .child("−")
+                                .child("−"),
                         )
                     })
                     .when_some(self.prefix.clone(), |d, prefix| {
@@ -96,7 +100,7 @@ impl Render for NumberInput {
                                 .pl_2()
                                 .text_size(px(font_size))
                                 .text_color(text_muted_color)
-                                .child(prefix)
+                                .child(prefix),
                         )
                     })
                     .child(
@@ -106,7 +110,7 @@ impl Render for NumberInput {
                             .text_size(px(font_size))
                             .text_color(text_color)
                             .text_center()
-                            .child(formatted)
+                            .child(formatted),
                     )
                     .when_some(self.suffix.clone(), |d, suffix| {
                         d.child(
@@ -114,12 +118,16 @@ impl Render for NumberInput {
                                 .pr_2()
                                 .text_size(px(font_size))
                                 .text_color(text_muted_color)
-                                .child(suffix)
+                                .child(suffix),
                         )
                     })
                     .when(self.show_stepper, |d| {
                         let can_inc = self.can_increment();
-                        let inc_text_color = if can_inc { text_color } else { text_muted_color };
+                        let inc_text_color = if can_inc {
+                            text_color
+                        } else {
+                            text_muted_color
+                        };
                         d.child(
                             div()
                                 .id("number-inc")
@@ -137,9 +145,9 @@ impl Render for NumberInput {
                                         .hover(|s| s.bg(surface_hover_color))
                                         .on_click(on_increment)
                                 })
-                                .child("+")
+                                .child("+"),
                         )
-                    })
+                    }),
             )
     }
 }

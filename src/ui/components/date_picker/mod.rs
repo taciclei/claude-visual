@@ -2,28 +2,22 @@
 //!
 //! Provides date picker, time picker, and datetime picker components.
 
-mod types;
 mod calendar;
 mod date_picker;
 mod date_range_picker;
-mod time_picker;
 mod date_time_picker;
+mod time_picker;
+mod types;
 
 // Re-export types
-pub use types::{
-    DatePickerMode,
-    DatePickerSize,
-    DateValue,
-    DateRange,
-    TimeValue,
-};
+pub use types::{DatePickerMode, DatePickerSize, DateRange, DateValue, TimeValue};
 
 // Re-export components
 pub use calendar::CalendarMonth;
 pub use date_picker::DatePicker;
 pub use date_range_picker::DateRangePicker;
-pub use time_picker::TimePicker;
 pub use date_time_picker::DateTimePicker;
+pub use time_picker::TimePicker;
 
 #[cfg(test)]
 mod tests {

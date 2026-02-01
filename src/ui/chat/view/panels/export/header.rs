@@ -1,13 +1,17 @@
 //! Export panel header component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::chat::view::core::ChatView;
 
 impl ChatView {
-    pub(super) fn render_export_header(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_export_header(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let on_close = cx.listener(|this, _, _window, cx| {
             this.toggle_export_panel(cx);
         });
@@ -31,8 +35,8 @@ impl ChatView {
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(theme.colors.text)
-                            .child("Export Conversation")
-                    )
+                            .child("Export Conversation"),
+                    ),
             )
             .child(
                 div()
@@ -45,7 +49,7 @@ impl ChatView {
                     .text_color(theme.colors.text_muted)
                     .hover(|s| s.bg(theme.colors.surface_hover))
                     .on_click(on_close)
-                    .child("×")
+                    .child("×"),
             )
     }
 }

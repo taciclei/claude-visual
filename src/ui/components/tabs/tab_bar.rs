@@ -1,7 +1,7 @@
 //! Simple stateless tab bar component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple stateless tab bar
 #[derive(Clone)]
@@ -11,9 +11,15 @@ pub struct TabBar {
 }
 
 impl TabBar {
-    pub fn new(tabs: Vec<(impl Into<String>, impl Into<String>)>, active: impl Into<String>) -> Self {
+    pub fn new(
+        tabs: Vec<(impl Into<String>, impl Into<String>)>,
+        active: impl Into<String>,
+    ) -> Self {
         Self {
-            tabs: tabs.into_iter().map(|(id, label)| (id.into(), label.into())).collect(),
+            tabs: tabs
+                .into_iter()
+                .map(|(id, label)| (id.into(), label.into()))
+                .collect(),
             active: active.into(),
         }
     }

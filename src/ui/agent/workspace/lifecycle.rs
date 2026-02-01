@@ -1,8 +1,8 @@
 //! Agent workspace lifecycle methods
 
-use gpui::*;
 use super::state::AgentWorkspace;
 use super::types::*;
+use gpui::*;
 
 impl AgentWorkspace {
     /// Enable agent mode

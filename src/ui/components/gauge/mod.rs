@@ -2,22 +2,22 @@
 //!
 //! Provides gauge meters, speedometers, circular progress, and radial charts.
 
-mod types;
 mod basic;
-mod speed;
 mod circular;
-mod radial;
 mod multi;
+mod radial;
+mod speed;
+mod types;
 
 // Re-export types
-pub use types::{GaugeStyle, GaugeSize, GaugeZone};
+pub use types::{GaugeSize, GaugeStyle, GaugeZone};
 
 // Re-export components
 pub use basic::Gauge;
-pub use speed::SpeedGauge;
 pub use circular::CircularProgress;
+pub use multi::{GaugeRing, MultiGauge};
 pub use radial::{RadialChart, RadialSegment};
-pub use multi::{MultiGauge, GaugeRing};
+pub use speed::SpeedGauge;
 
 #[cfg(test)]
 mod tests {

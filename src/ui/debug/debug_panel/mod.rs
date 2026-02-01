@@ -9,11 +9,11 @@ use gpui::*;
 use crate::app::state::AppState;
 use crate::debug::{DebugState, SessionEvent};
 
-mod types;
 mod render;
+mod types;
 
-pub use types::{DebugContext, DebugPanelEvent, DebugPromptType, DebugTab};
 use types::OutputLine;
+pub use types::{DebugContext, DebugPanelEvent, DebugPromptType, DebugTab};
 
 impl EventEmitter<DebugPanelEvent> for DebugPanel {}
 
@@ -127,7 +127,11 @@ impl DebugPanel {
                     self.output.remove(0);
                 }
             }
-            SessionEvent::Stopped { reason, thread_id, description } => {
+            SessionEvent::Stopped {
+                reason,
+                thread_id,
+                description,
+            } => {
                 self.state = DebugState::Stopped;
                 if let Some(desc) = description {
                     self.output.push(OutputLine {

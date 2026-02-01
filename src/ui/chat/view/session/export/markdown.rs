@@ -38,27 +38,48 @@ impl ChatView {
         }
         if !self.messages.is_empty() {
             if let Some(first) = self.messages.first() {
-                md.push_str(&format!("| Started | {} |\n", first.timestamp.format("%Y-%m-%d %H:%M:%S UTC")));
+                md.push_str(&format!(
+                    "| Started | {} |\n",
+                    first.timestamp.format("%Y-%m-%d %H:%M:%S UTC")
+                ));
             }
             if let Some(last) = self.messages.last() {
-                md.push_str(&format!("| Last Message | {} |\n", last.timestamp.format("%Y-%m-%d %H:%M:%S UTC")));
+                md.push_str(&format!(
+                    "| Last Message | {} |\n",
+                    last.timestamp.format("%Y-%m-%d %H:%M:%S UTC")
+                ));
             }
         }
         md.push_str(&format!("| Duration | {} |\n", stats.format_duration()));
         md.push_str(&format!("| Total Messages | {} |\n", stats.message_count));
-        md.push_str(&format!("| User Messages | {} |\n", stats.user_message_count));
-        md.push_str(&format!("| Assistant Messages | {} |\n", stats.assistant_message_count));
+        md.push_str(&format!(
+            "| User Messages | {} |\n",
+            stats.user_message_count
+        ));
+        md.push_str(&format!(
+            "| Assistant Messages | {} |\n",
+            stats.assistant_message_count
+        ));
         md.push_str(&format!("| Tool Calls | {} |\n", stats.tool_use_count));
         md.push_str(&format!("| Total Words | {} |\n", stats.format_words()));
-        md.push_str(&format!("| Estimated Tokens | ~{} |\n", stats.format_tokens()));
+        md.push_str(&format!(
+            "| Estimated Tokens | ~{} |\n",
+            stats.format_tokens()
+        ));
 
         // Cost info if available
         if self.stats.cost > 0.0 {
             md.push_str(&format!("| Session Cost | ${:.4} |\n", self.stats.cost));
         }
         if self.stats.input_tokens > 0 || self.stats.output_tokens > 0 {
-            md.push_str(&format!("| Input Tokens | {} |\n", Self::format_token_count(self.stats.input_tokens)));
-            md.push_str(&format!("| Output Tokens | {} |\n", Self::format_token_count(self.stats.output_tokens)));
+            md.push_str(&format!(
+                "| Input Tokens | {} |\n",
+                Self::format_token_count(self.stats.input_tokens)
+            ));
+            md.push_str(&format!(
+                "| Output Tokens | {} |\n",
+                Self::format_token_count(self.stats.output_tokens)
+            ));
         }
 
         md.push_str("\n---\n\n");

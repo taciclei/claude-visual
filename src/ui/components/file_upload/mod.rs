@@ -1,16 +1,16 @@
 //! File upload and dropzone components
 
-mod types;
 mod dropzone;
-mod preview;
-mod upload_list;
 mod image;
+mod preview;
+mod types;
+mod upload_list;
 
-pub use types::*;
 pub use dropzone::FileDropzone;
-pub use preview::FilePreview;
-pub use upload_list::FileUploadList;
 pub use image::ImageUpload;
+pub use preview::FilePreview;
+pub use types::*;
+pub use upload_list::FileUploadList;
 
 #[cfg(test)]
 mod tests {

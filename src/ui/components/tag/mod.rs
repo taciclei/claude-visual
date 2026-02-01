@@ -1,12 +1,12 @@
 //! Tag/Chip component for labels and categories
 
-mod types;
 mod tag;
 mod tag_group;
+mod types;
 
-pub use types::{TagColor, TagSize, TagEvent, TagGroupItem};
 pub use tag::Tag;
 pub use tag_group::TagGroup;
+pub use types::{TagColor, TagEvent, TagGroupItem, TagSize};
 
 #[cfg(test)]
 mod tests {

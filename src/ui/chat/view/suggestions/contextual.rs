@@ -150,7 +150,11 @@ impl ChatView {
         if self.contextual_suggestions.len() < 3 {
             if let Some(ref info) = self.session_info {
                 // Suggest explore agent if available
-                if info.agents.iter().any(|a| a.contains("explore") || a.contains("Explore")) {
+                if info
+                    .agents
+                    .iter()
+                    .any(|a| a.contains("explore") || a.contains("Explore"))
+                {
                     self.contextual_suggestions.push(ContextualSuggestion::new(
                         "Explore and understand this codebase",
                         "🔍",
@@ -184,8 +188,11 @@ impl ChatView {
             let content_lower = last_msg.content.to_lowercase();
 
             // Suggest /think for complex analysis or architecture discussions
-            if content_lower.contains("architect") || content_lower.contains("design") ||
-               content_lower.contains("complex") || content_lower.contains("strategy") {
+            if content_lower.contains("architect")
+                || content_lower.contains("design")
+                || content_lower.contains("complex")
+                || content_lower.contains("strategy")
+            {
                 self.contextual_suggestions.push(ContextualSuggestion::new(
                     "/think - Deep analysis mode",
                     "🧠",
@@ -195,8 +202,11 @@ impl ChatView {
             }
 
             // Suggest /memory when discussing important context
-            if content_lower.contains("remember") || content_lower.contains("important") ||
-               content_lower.contains("always") || content_lower.contains("note that") {
+            if content_lower.contains("remember")
+                || content_lower.contains("important")
+                || content_lower.contains("always")
+                || content_lower.contains("note that")
+            {
                 self.contextual_suggestions.push(ContextualSuggestion::new(
                     "/memory - Save to memory",
                     "💾",
@@ -206,8 +216,11 @@ impl ChatView {
             }
 
             // Suggest /debug for troubleshooting
-            if content_lower.contains("doesn't work") || content_lower.contains("not working") ||
-               content_lower.contains("broken") || content_lower.contains("crash") {
+            if content_lower.contains("doesn't work")
+                || content_lower.contains("not working")
+                || content_lower.contains("broken")
+                || content_lower.contains("crash")
+            {
                 self.contextual_suggestions.push(ContextualSuggestion::new(
                     "/debug - Debug this issue",
                     "🐛",
@@ -217,8 +230,11 @@ impl ChatView {
             }
 
             // Suggest /test for code implementation discussions
-            if content_lower.contains("implement") || content_lower.contains("function") ||
-               content_lower.contains("method") || content_lower.contains("class") {
+            if content_lower.contains("implement")
+                || content_lower.contains("function")
+                || content_lower.contains("method")
+                || content_lower.contains("class")
+            {
                 self.contextual_suggestions.push(ContextualSuggestion::new(
                     "Write tests for this",
                     "🧪",
@@ -228,8 +244,11 @@ impl ChatView {
             }
 
             // Suggest /docs for API or interface discussions
-            if content_lower.contains("api") || content_lower.contains("interface") ||
-               content_lower.contains("documentation") || content_lower.contains("readme") {
+            if content_lower.contains("api")
+                || content_lower.contains("interface")
+                || content_lower.contains("documentation")
+                || content_lower.contains("readme")
+            {
                 self.contextual_suggestions.push(ContextualSuggestion::new(
                     "Generate documentation",
                     "📖",
@@ -239,8 +258,11 @@ impl ChatView {
             }
 
             // Suggest /refactor for code quality discussions
-            if content_lower.contains("ugly") || content_lower.contains("messy") ||
-               content_lower.contains("clean up") || content_lower.contains("improve") {
+            if content_lower.contains("ugly")
+                || content_lower.contains("messy")
+                || content_lower.contains("clean up")
+                || content_lower.contains("improve")
+            {
                 self.contextual_suggestions.push(ContextualSuggestion::new(
                     "Refactor this code",
                     "♻️",
@@ -262,7 +284,9 @@ impl ChatView {
         }
 
         // Suggest /resume if disconnected and has recent sessions
-        if matches!(self.connection_status, ConnectionStatus::Disconnected) && !self.recent_sessions.is_empty() {
+        if matches!(self.connection_status, ConnectionStatus::Disconnected)
+            && !self.recent_sessions.is_empty()
+        {
             self.contextual_suggestions.push(ContextualSuggestion::new(
                 "/resume - Resume previous session",
                 "▶️",
@@ -272,7 +296,8 @@ impl ChatView {
         }
 
         // Sort by priority (highest first)
-        self.contextual_suggestions.sort_by(|a, b| b.priority.cmp(&a.priority));
+        self.contextual_suggestions
+            .sort_by(|a, b| b.priority.cmp(&a.priority));
 
         // Keep only top 4
         self.contextual_suggestions.truncate(4);

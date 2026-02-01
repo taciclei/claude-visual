@@ -1,12 +1,16 @@
 //! Favorites panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_favorites_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_favorites_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let favorites = self.favorites_by_usage();
         let has_favorites = !favorites.is_empty();
 
@@ -56,7 +60,7 @@ impl ChatView {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Favorite Prompts")
+                                            .child("Favorite Prompts"),
                                     )
                                     .when(has_favorites, |d| {
                                         d.child(
@@ -67,9 +71,9 @@ impl ChatView {
                                                 .bg(theme.colors.accent.opacity(0.15))
                                                 .text_xs()
                                                 .text_color(theme.colors.accent)
-                                                .child(format!("{}", favorites.len()))
+                                                .child(format!("{}", favorites.len())),
                                         )
-                                    })
+                                    }),
                             )
                             .child(
                                 div()
@@ -84,8 +88,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_favorites_panel(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Favorites list
                     .child(
@@ -106,14 +110,16 @@ impl ChatView {
                                             div()
                                                 .text_sm()
                                                 .text_color(theme.colors.text_muted)
-                                                .child("No favorites yet")
+                                                .child("No favorites yet"),
                                         )
                                         .child(
                                             div()
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
-                                                .child("Use ⌘K → 'Save to Favorites' to save prompts")
-                                        )
+                                                .child(
+                                                    "Use ⌘K → 'Save to Favorites' to save prompts",
+                                                ),
+                                        ),
                                 )
                             })
                             .when(has_favorites, |d| {
@@ -146,7 +152,7 @@ impl ChatView {
                                                                 .font_weight(FontWeight::MEDIUM)
                                                                 .text_color(theme.colors.text)
                                                                 .mb_1()
-                                                                .child(fav.label.clone())
+                                                                .child(fav.label.clone()),
                                                         )
                                                         .child(
                                                             div()
@@ -155,11 +161,14 @@ impl ChatView {
                                                                 .max_w(px(350.0))
                                                                 .overflow_hidden()
                                                                 .child(if fav.text.len() > 100 {
-                                                                    format!("{}...", &fav.text[..100])
+                                                                    format!(
+                                                                        "{}...",
+                                                                        &fav.text[..100]
+                                                                    )
                                                                 } else {
                                                                     fav.text.clone()
-                                                                })
-                                                        )
+                                                                }),
+                                                        ),
                                                 )
                                                 .child(
                                                     div()
@@ -170,27 +179,40 @@ impl ChatView {
                                                             div()
                                                                 .text_xs()
                                                                 .text_color(theme.colors.text_muted)
-                                                                .child(format!("×{}", fav.usage_count))
+                                                                .child(format!(
+                                                                    "×{}",
+                                                                    fav.usage_count
+                                                                )),
                                                         )
                                                         .child(
                                                             div()
-                                                                .id(ElementId::Name(format!("del-fav-{}", fav.id).into()))
+                                                                .id(ElementId::Name(
+                                                                    format!("del-fav-{}", fav.id)
+                                                                        .into(),
+                                                                ))
                                                                 .px_1()
                                                                 .rounded_sm()
                                                                 .cursor_pointer()
                                                                 .text_xs()
                                                                 .text_color(theme.colors.text_muted)
-                                                                .hover(|s| s.text_color(theme.colors.error))
-                                                                .on_click(cx.listener(move |this, _, _window, cx| {
-                                                                    this.remove_favorite(&fav_id_delete, cx);
-                                                                }))
-                                                                .child("×")
-                                                        )
-                                                )
+                                                                .hover(|s| {
+                                                                    s.text_color(theme.colors.error)
+                                                                })
+                                                                .on_click(cx.listener(
+                                                                    move |this, _, _window, cx| {
+                                                                        this.remove_favorite(
+                                                                            &fav_id_delete,
+                                                                            cx,
+                                                                        );
+                                                                    },
+                                                                ))
+                                                                .child("×"),
+                                                        ),
+                                                ),
                                         )
                                 }))
-                            })
-                    )
+                            }),
+                    ),
             )
     }
 }

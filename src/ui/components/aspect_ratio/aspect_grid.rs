@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::aspect_ratio::AspectRatio;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Grid of aspect-ratio maintained items
 #[derive(IntoElement)]
@@ -37,10 +37,7 @@ impl AspectGrid {
 
 impl RenderOnce for AspectGrid {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        let mut container = div()
-            .flex()
-            .flex_wrap()
-            .gap(px(self.gap));
+        let mut container = div().flex().flex_wrap().gap(px(self.gap));
 
         for item in self.items {
             container = container.child(item);

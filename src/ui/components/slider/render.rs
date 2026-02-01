@@ -1,10 +1,10 @@
 //! Slider rendering implementation
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::slider::Slider;
-use super::types::{SliderEvent};
+use super::types::SliderEvent;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl EventEmitter<SliderEvent> for Slider {}
 
@@ -32,21 +32,16 @@ impl Render for Slider {
                         .items_center()
                         .justify_between()
                         .when_some(self.label.clone(), |d, label| {
-                            d.child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.colors.text)
-                                    .child(label)
-                            )
+                            d.child(div().text_sm().text_color(theme.colors.text).child(label))
                         })
                         .when(self.show_value, |d| {
                             d.child(
                                 div()
                                     .text_sm()
                                     .text_color(theme.colors.text_muted)
-                                    .child(self.format_value())
+                                    .child(self.format_value()),
                             )
-                        })
+                        }),
                 )
             })
             // Track and thumb
@@ -67,7 +62,7 @@ impl Render for Slider {
                             .right_0()
                             .h(px(track_height))
                             .rounded_full()
-                            .bg(theme.colors.surface_hover)
+                            .bg(theme.colors.surface_hover),
                     )
                     // Track fill
                     .child(
@@ -77,7 +72,7 @@ impl Render for Slider {
                             .h(px(track_height))
                             .w(pct(percent))
                             .rounded_full()
-                            .bg(theme.colors.accent)
+                            .bg(theme.colors.accent),
                     )
                     // Marks
                     .children(self.marks.iter().map(|mark| {
@@ -107,35 +102,31 @@ impl Render for Slider {
                             .bg(gpui::white())
                             .border_2()
                             .border_color(theme.colors.accent)
-                            .shadow_sm()
-                    )
+                            .shadow_sm(),
+                    ),
             )
             // Mark labels
             .when(!self.marks.is_empty(), |d| {
                 let has_labels = self.marks.iter().any(|m| m.label.is_some());
                 if has_labels {
-                    d.child(
-                        div()
-                            .w_full()
-                            .relative()
-                            .h(px(20.0))
-                            .children(self.marks.iter().filter_map(|mark| {
-                                mark.label.as_ref().map(|label| {
-                                    let mark_percent = if self.max > self.min {
-                                        ((mark.value - self.min) / (self.max - self.min)) * 100.0
-                                    } else {
-                                        0.0
-                                    };
+                    d.child(div().w_full().relative().h(px(20.0)).children(
+                        self.marks.iter().filter_map(|mark| {
+                            mark.label.as_ref().map(|label| {
+                                let mark_percent = if self.max > self.min {
+                                    ((mark.value - self.min) / (self.max - self.min)) * 100.0
+                                } else {
+                                    0.0
+                                };
 
-                                    div()
-                                        .absolute()
-                                        .left(pct(mark_percent))
-                                        .text_xs()
-                                        .text_color(theme.colors.text_muted)
-                                        .child(label.clone())
-                                })
-                            }))
-                    )
+                                div()
+                                    .absolute()
+                                    .left(pct(mark_percent))
+                                    .text_xs()
+                                    .text_color(theme.colors.text_muted)
+                                    .child(label.clone())
+                            })
+                        }),
+                    ))
                 } else {
                     d
                 }

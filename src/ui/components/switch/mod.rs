@@ -1,16 +1,16 @@
 //! Switch/Toggle component module
 
-mod types;
-mod switch;
 mod checkbox;
 mod radio_button;
 mod radio_group;
+mod switch;
+mod types;
 
-pub use types::*;
-pub use switch::Switch;
 pub use checkbox::Checkbox;
 pub use radio_button::RadioButton;
 pub use radio_group::RadioGroup;
+pub use switch::Switch;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

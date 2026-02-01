@@ -60,18 +60,14 @@ impl RenderOnce for CookieBanner {
             .items_center()
             .gap_4()
             // Cookie icon
-            .child(
-                div()
-                    .text_2xl()
-                    .child("🍪")
-            )
+            .child(div().text_2xl().child("🍪"))
             // Message
             .child(
                 div()
                     .flex_1()
                     .text_sm()
                     .text_color(text)
-                    .child(self.message)
+                    .child(self.message),
             )
             // Buttons
             .child(
@@ -92,7 +88,7 @@ impl RenderOnce for CookieBanner {
                                 .text_color(text)
                                 .cursor_pointer()
                                 .hover(|s| s.bg(surface_hover))
-                                .child(label)
+                                .child(label),
                         )
                     })
                     // Accept
@@ -106,8 +102,8 @@ impl RenderOnce for CookieBanner {
                             .text_color(gpui::white())
                             .cursor_pointer()
                             .hover(|s| s.opacity(0.9))
-                            .child(self.accept_label)
-                    )
+                            .child(self.accept_label),
+                    ),
             )
     }
 }

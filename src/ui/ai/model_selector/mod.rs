@@ -8,8 +8,8 @@ mod render;
 mod traits;
 mod types;
 
-pub use types::{ModelCategory, ModelSelectorEvent, ProviderInfo};
 pub use core::ModelSelector;
+pub use types::{ModelCategory, ModelSelectorEvent, ProviderInfo};
 
 #[cfg(test)]
 mod tests {

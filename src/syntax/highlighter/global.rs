@@ -21,6 +21,8 @@ impl SyntaxHighlighter {
         syntax_colors: &SyntaxColors,
     ) -> Vec<HighlightedSpan> {
         let highlighter = HIGHLIGHTER.get_or_init(|| parking_lot::Mutex::new(Highlighter::new()));
-        highlighter.lock().highlight_line(code, language, syntax_colors)
+        highlighter
+            .lock()
+            .highlight_line(code, language, syntax_colors)
     }
 }

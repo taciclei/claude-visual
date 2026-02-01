@@ -32,70 +32,72 @@ const BASH_HIGHLIGHTS: &str = include_str!("../queries/bash.scm");
 static LANGUAGE_CONFIGS: OnceLock<Vec<LanguageConfig>> = OnceLock::new();
 
 pub(crate) fn language_configs() -> &'static [LanguageConfig] {
-    LANGUAGE_CONFIGS.get_or_init(|| vec![
-        LanguageConfig {
-            name: "rust",
-            aliases: &["rs"],
-            language: tree_sitter_rust::LANGUAGE.into(),
-            highlights: RUST_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "javascript",
-            aliases: &["js", "jsx", "mjs", "cjs"],
-            language: tree_sitter_javascript::LANGUAGE.into(),
-            highlights: JS_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "typescript",
-            aliases: &["ts"],
-            language: tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),
-            highlights: TS_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "tsx",
-            aliases: &[],
-            language: tree_sitter_typescript::LANGUAGE_TSX.into(),
-            highlights: TS_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "python",
-            aliases: &["py", "pyw", "pyi"],
-            language: tree_sitter_python::LANGUAGE.into(),
-            highlights: PYTHON_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "json",
-            aliases: &["jsonc"],
-            language: tree_sitter_json::LANGUAGE.into(),
-            highlights: JSON_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "toml",
-            aliases: &[],
-            language: tree_sitter_toml_ng::LANGUAGE.into(),
-            highlights: TOML_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-        LanguageConfig {
-            name: "bash",
-            aliases: &["sh", "shell", "zsh"],
-            language: tree_sitter_bash::LANGUAGE.into(),
-            highlights: BASH_HIGHLIGHTS,
-            injections: None,
-            locals: None,
-        },
-    ])
+    LANGUAGE_CONFIGS.get_or_init(|| {
+        vec![
+            LanguageConfig {
+                name: "rust",
+                aliases: &["rs"],
+                language: tree_sitter_rust::LANGUAGE.into(),
+                highlights: RUST_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "javascript",
+                aliases: &["js", "jsx", "mjs", "cjs"],
+                language: tree_sitter_javascript::LANGUAGE.into(),
+                highlights: JS_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "typescript",
+                aliases: &["ts"],
+                language: tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),
+                highlights: TS_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "tsx",
+                aliases: &[],
+                language: tree_sitter_typescript::LANGUAGE_TSX.into(),
+                highlights: TS_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "python",
+                aliases: &["py", "pyw", "pyi"],
+                language: tree_sitter_python::LANGUAGE.into(),
+                highlights: PYTHON_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "json",
+                aliases: &["jsonc"],
+                language: tree_sitter_json::LANGUAGE.into(),
+                highlights: JSON_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "toml",
+                aliases: &[],
+                language: tree_sitter_toml_ng::LANGUAGE.into(),
+                highlights: TOML_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+            LanguageConfig {
+                name: "bash",
+                aliases: &["sh", "shell", "zsh"],
+                language: tree_sitter_bash::LANGUAGE.into(),
+                highlights: BASH_HIGHLIGHTS,
+                injections: None,
+                locals: None,
+            },
+        ]
+    })
 }

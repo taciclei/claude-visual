@@ -1,7 +1,7 @@
 //! FlipWords component - flip animation between words
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Flip words component - flip animation between words
 #[derive(IntoElement)]
@@ -48,20 +48,18 @@ impl FlipWords {
 impl RenderOnce for FlipWords {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let color = self.text_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0));
-        let current_word = self.words
+        let current_word = self
+            .words
             .get(self.current_index)
             .cloned()
             .unwrap_or("".into());
 
-        div()
-            .id(self.id)
-            .overflow_hidden()
-            .child(
-                div()
-                    .text_size(px(self.font_size))
-                    .font_weight(gpui::FontWeight::BOLD)
-                    .text_color(color)
-                    .child(current_word)
-            )
+        div().id(self.id).overflow_hidden().child(
+            div()
+                .text_size(px(self.font_size))
+                .font_weight(gpui::FontWeight::BOLD)
+                .text_color(color)
+                .child(current_word),
+        )
     }
 }

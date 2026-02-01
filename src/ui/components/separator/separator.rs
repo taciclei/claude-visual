@@ -1,8 +1,8 @@
 //! Basic separator component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A basic separator component
 #[derive(IntoElement)]
@@ -84,10 +84,7 @@ impl RenderOnce for Separator {
 
         match self.orientation {
             SeparatorOrientation::Horizontal => {
-                let mut sep = div()
-                    .h(px(thickness))
-                    .my(px(self.margin))
-                    .bg(color);
+                let mut sep = div().h(px(thickness)).my(px(self.margin)).bg(color);
 
                 if let Some(length) = self.length {
                     sep = sep.w(px(length));
@@ -98,10 +95,7 @@ impl RenderOnce for Separator {
                 sep
             }
             SeparatorOrientation::Vertical => {
-                let mut sep = div()
-                    .w(px(thickness))
-                    .mx(px(self.margin))
-                    .bg(color);
+                let mut sep = div().w(px(thickness)).mx(px(self.margin)).bg(color);
 
                 if let Some(length) = self.length {
                     sep = sep.h(px(length));

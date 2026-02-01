@@ -1,9 +1,9 @@
 //! ConfirmSheet component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::action_sheet::ActionSheet;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Confirmation sheet
 #[derive(Clone)]
@@ -47,13 +47,11 @@ impl RenderOnce for ConfirmSheet {
         ActionSheet::new()
             .title(self.title)
             .message(self.message)
-            .action(
-                if self.destructive {
-                    SheetAction::new(self.confirm_label).destructive()
-                } else {
-                    SheetAction::new(self.confirm_label)
-                }
-            )
+            .action(if self.destructive {
+                SheetAction::new(self.confirm_label).destructive()
+            } else {
+                SheetAction::new(self.confirm_label)
+            })
             .cancel_label(self.cancel_label)
     }
 }

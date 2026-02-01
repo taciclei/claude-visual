@@ -1,7 +1,7 @@
 //! Thumbnail image component with optional badge
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::image::Image;
 use super::types::{ImageShape, ImageState};

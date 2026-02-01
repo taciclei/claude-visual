@@ -71,8 +71,8 @@ impl RenderOnce for NewsTicker {
                             .text_size(px(12.0))
                             .font_weight(gpui::FontWeight::BOLD)
                             .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                            .child(self.label.clone())
-                    )
+                            .child(self.label.clone()),
+                    ),
             )
             .child(
                 // Scrolling content
@@ -83,31 +83,27 @@ impl RenderOnce for NewsTicker {
                     .flex()
                     .items_center()
                     .px(px(16.0))
-                    .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap(px(32.0))
-                            .children(self.headlines.into_iter().map(|headline| {
-                                div()
-                                    .flex()
-                                    .items_center()
-                                    .gap(px(32.0))
-                                    .child(
-                                        div()
-                                            .text_size(px(13.0))
-                                            .text_color(hsla(0.0, 0.0, 0.8, 1.0))
-                                            .whitespace_nowrap()
-                                            .child(headline)
-                                    )
-                                    .child(
-                                        div()
-                                            .text_size(px(8.0))
-                                            .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                            .child("•")
-                                    )
-                            }))
-                    )
+                    .child(div().flex().items_center().gap(px(32.0)).children(
+                        self.headlines.into_iter().map(|headline| {
+                            div()
+                                .flex()
+                                .items_center()
+                                .gap(px(32.0))
+                                .child(
+                                    div()
+                                        .text_size(px(13.0))
+                                        .text_color(hsla(0.0, 0.0, 0.8, 1.0))
+                                        .whitespace_nowrap()
+                                        .child(headline),
+                                )
+                                .child(
+                                    div()
+                                        .text_size(px(8.0))
+                                        .text_color(hsla(0.0, 0.0, 0.4, 1.0))
+                                        .child("•"),
+                                )
+                        }),
+                    )),
             )
     }
 }

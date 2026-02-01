@@ -1,9 +1,9 @@
 //! Single-value slider component
 
-use std::sync::Arc;
-use gpui::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::*;
+use std::sync::Arc;
 
 /// Slider component for range input
 pub struct Slider {
@@ -48,7 +48,12 @@ impl Slider {
     }
 
     /// Create a slider with range
-    pub fn with_range(app_state: Arc<AppState>, min: f32, max: f32, cx: &mut Context<Self>) -> Self {
+    pub fn with_range(
+        app_state: Arc<AppState>,
+        min: f32,
+        max: f32,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut slider = Self::new(app_state, cx);
         slider.min = min;
         slider.max = max;

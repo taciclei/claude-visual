@@ -1,8 +1,8 @@
 //! Toolbar group component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Toolbar group - groups related toolbar items
 #[derive(IntoElement)]
@@ -121,7 +121,7 @@ impl RenderOnce for ToolbarGroup {
                     } else {
                         hsla(0.0, 0.0, 0.7, 1.0)
                     })
-                    .child(item.icon.clone())
+                    .child(item.icon.clone()),
             )
         }))
     }

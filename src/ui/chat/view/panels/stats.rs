@@ -1,12 +1,16 @@
 //! Statistics panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_stats_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_stats_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let stats = self.get_conversation_stats();
 
         div()
@@ -55,8 +59,8 @@ impl ChatView {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Conversation Statistics")
-                                    )
+                                            .child("Conversation Statistics"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -71,8 +75,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_stats_panel(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Messages section
                     .child(
@@ -87,18 +91,38 @@ impl ChatView {
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text_muted)
                                     .mb_2()
-                                    .child("Messages")
+                                    .child("Messages"),
                             )
                             .child(
                                 div()
                                     .flex()
                                     .flex_wrap()
                                     .gap_3()
-                                    .child(self.render_stat_card("Total", &format!("{}", stats.message_count), "💬", &theme))
-                                    .child(self.render_stat_card("You", &format!("{}", stats.user_message_count), "👤", &theme))
-                                    .child(self.render_stat_card("Claude", &format!("{}", stats.assistant_message_count), "🤖", &theme))
-                                    .child(self.render_stat_card("Tools", &format!("{}", stats.tool_use_count), "🔧", &theme))
-                            )
+                                    .child(self.render_stat_card(
+                                        "Total",
+                                        &format!("{}", stats.message_count),
+                                        "💬",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "You",
+                                        &format!("{}", stats.user_message_count),
+                                        "👤",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Claude",
+                                        &format!("{}", stats.assistant_message_count),
+                                        "🤖",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Tools",
+                                        &format!("{}", stats.tool_use_count),
+                                        "🔧",
+                                        &theme,
+                                    )),
+                            ),
                     )
                     // Tokens section
                     .child(
@@ -113,17 +137,32 @@ impl ChatView {
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text_muted)
                                     .mb_2()
-                                    .child("Token Usage")
+                                    .child("Token Usage"),
                             )
                             .child(
                                 div()
                                     .flex()
                                     .flex_wrap()
                                     .gap_3()
-                                    .child(self.render_stat_card("Input", &Self::format_token_count(stats.input_tokens), "📥", &theme))
-                                    .child(self.render_stat_card("Output", &Self::format_token_count(stats.output_tokens), "📤", &theme))
-                                    .child(self.render_stat_card("Cost", &format!("${:.4}", stats.total_cost), "💵", &theme))
-                            )
+                                    .child(self.render_stat_card(
+                                        "Input",
+                                        &Self::format_token_count(stats.input_tokens),
+                                        "📥",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Output",
+                                        &Self::format_token_count(stats.output_tokens),
+                                        "📤",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Cost",
+                                        &format!("${:.4}", stats.total_cost),
+                                        "💵",
+                                        &theme,
+                                    )),
+                            ),
                     )
                     // Organization section
                     .child(
@@ -136,18 +175,38 @@ impl ChatView {
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(theme.colors.text_muted)
                                     .mb_2()
-                                    .child("Organization")
+                                    .child("Organization"),
                             )
                             .child(
                                 div()
                                     .flex()
                                     .flex_wrap()
                                     .gap_3()
-                                    .child(self.render_stat_card("Pinned", &format!("{}", stats.pinned_count), "📌", &theme))
-                                    .child(self.render_stat_card("Bookmarked", &format!("{}", stats.bookmarked_count), "🔖", &theme))
-                                    .child(self.render_stat_card("Tags", &format!("{}", stats.tags_count), "🏷️", &theme))
-                                    .child(self.render_stat_card("Words", &format!("{}", stats.word_count), "📏", &theme))
-                            )
+                                    .child(self.render_stat_card(
+                                        "Pinned",
+                                        &format!("{}", stats.pinned_count),
+                                        "📌",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Bookmarked",
+                                        &format!("{}", stats.bookmarked_count),
+                                        "🔖",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Tags",
+                                        &format!("{}", stats.tags_count),
+                                        "🏷️",
+                                        &theme,
+                                    ))
+                                    .child(self.render_stat_card(
+                                        "Words",
+                                        &format!("{}", stats.word_count),
+                                        "📏",
+                                        &theme,
+                                    )),
+                            ),
                     )
                     // Topics section (conversation summary)
                     .child({
@@ -167,26 +226,21 @@ impl ChatView {
                                         .font_weight(FontWeight::MEDIUM)
                                         .text_color(theme.colors.text_muted)
                                         .mb_2()
-                                        .child("Topics Discussed")
+                                        .child("Topics Discussed"),
                                 )
                                 .child(
-                                    div()
-                                        .flex()
-                                        .flex_col()
-                                        .gap_1()
-                                        .mb_3()
-                                        .children(
-                                            topics.into_iter().map(|topic| {
-                                                div()
-                                                    .text_xs()
-                                                    .text_color(theme.colors.text)
-                                                    .px_2()
-                                                    .py_1()
-                                                    .rounded_sm()
-                                                    .bg(theme.colors.surface_hover)
-                                                    .child(format!("• {}", topic))
-                                            })
-                                        )
+                                    div().flex().flex_col().gap_1().mb_3().children(
+                                        topics.into_iter().map(|topic| {
+                                            div()
+                                                .text_xs()
+                                                .text_color(theme.colors.text)
+                                                .px_2()
+                                                .py_1()
+                                                .rounded_sm()
+                                                .bg(theme.colors.surface_hover)
+                                                .child(format!("• {}", topic))
+                                        }),
+                                    ),
                                 )
                             })
                             // Tools used
@@ -197,35 +251,35 @@ impl ChatView {
                                         .font_weight(FontWeight::MEDIUM)
                                         .text_color(theme.colors.text_muted)
                                         .mb_2()
-                                        .child("Tools Used")
+                                        .child("Tools Used"),
                                 )
                                 .child(
-                                    div()
-                                        .flex()
-                                        .flex_wrap()
-                                        .gap_1()
-                                        .children(
-                                            tools.into_iter().map(|tool| {
-                                                div()
-                                                    .text_xs()
-                                                    .text_color(theme.colors.info)
-                                                    .px_2()
-                                                    .py(px(2.0))
-                                                    .rounded_sm()
-                                                    .bg(theme.colors.info.opacity(0.1))
-                                                    .child(tool)
-                                            })
-                                        )
+                                    div().flex().flex_wrap().gap_1().children(
+                                        tools.into_iter().map(|tool| {
+                                            div()
+                                                .text_xs()
+                                                .text_color(theme.colors.info)
+                                                .px_2()
+                                                .py(px(2.0))
+                                                .rounded_sm()
+                                                .bg(theme.colors.info.opacity(0.1))
+                                                .child(tool)
+                                        }),
+                                    ),
                                 )
                             })
                     })
                     // Quick actions footer
-                    .child(self.render_stats_quick_actions(theme, cx))
+                    .child(self.render_stats_quick_actions(theme, cx)),
             )
     }
 
     /// Render quick action buttons for the stats panel
-    fn render_stats_quick_actions(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    fn render_stats_quick_actions(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         use super::super::types::ChatViewEvent;
 
         let ctx_usage = self.context_usage_percentage();
@@ -539,7 +593,13 @@ impl ChatView {
     }
 
     /// Render a stat card
-    pub fn render_stat_card(&self, label: &str, value: &str, icon: &str, theme: &crate::app::theme::Theme) -> Div {
+    pub fn render_stat_card(
+        &self,
+        label: &str,
+        value: &str,
+        icon: &str,
+        theme: &crate::app::theme::Theme,
+    ) -> Div {
         div()
             .flex()
             .flex_col()
@@ -549,24 +609,19 @@ impl ChatView {
             .rounded_md()
             .bg(theme.colors.surface_hover)
             .min_w(px(70.0))
-            .child(
-                div()
-                    .text_sm()
-                    .child(icon.to_string())
-            )
+            .child(div().text_sm().child(icon.to_string()))
             .child(
                 div()
                     .text_sm()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text)
-                    .child(value.to_string())
+                    .child(value.to_string()),
             )
             .child(
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child(label.to_string())
+                    .child(label.to_string()),
             )
     }
-
 }

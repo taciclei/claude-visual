@@ -1,8 +1,8 @@
 //! Command palette and keyboard event handlers
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::PaletteCommand;
+use gpui::*;
 
 impl ChatView {
     /// Handle key events for command palette
@@ -17,11 +17,14 @@ impl ChatView {
         let filtered_count = if query.is_empty() {
             commands.len()
         } else {
-            commands.iter().filter(|cmd| {
-                cmd.label.to_lowercase().contains(&query) ||
-                cmd.description.to_lowercase().contains(&query) ||
-                cmd.category.to_lowercase().contains(&query)
-            }).count()
+            commands
+                .iter()
+                .filter(|cmd| {
+                    cmd.label.to_lowercase().contains(&query)
+                        || cmd.description.to_lowercase().contains(&query)
+                        || cmd.category.to_lowercase().contains(&query)
+                })
+                .count()
         };
 
         match key {
@@ -53,11 +56,14 @@ impl ChatView {
                 let filtered: Vec<&PaletteCommand> = if query.is_empty() {
                     commands.iter().collect()
                 } else {
-                    commands.iter().filter(|cmd| {
-                        cmd.label.to_lowercase().contains(&query) ||
-                        cmd.description.to_lowercase().contains(&query) ||
-                        cmd.category.to_lowercase().contains(&query)
-                    }).collect()
+                    commands
+                        .iter()
+                        .filter(|cmd| {
+                            cmd.label.to_lowercase().contains(&query)
+                                || cmd.description.to_lowercase().contains(&query)
+                                || cmd.category.to_lowercase().contains(&query)
+                        })
+                        .collect()
                 };
 
                 if let Some(cmd) = filtered.get(self.palette.selected_index) {
@@ -78,7 +84,7 @@ impl ChatView {
                 cx.notify();
                 true
             }
-            _ => false
+            _ => false,
         }
     }
 
@@ -110,10 +116,13 @@ impl ChatView {
         let filtered_count = if query.is_empty() {
             commands.len()
         } else {
-            commands.iter().filter(|cmd| {
-                cmd.label.to_lowercase().contains(&query) ||
-                cmd.description.to_lowercase().contains(&query)
-            }).count()
+            commands
+                .iter()
+                .filter(|cmd| {
+                    cmd.label.to_lowercase().contains(&query)
+                        || cmd.description.to_lowercase().contains(&query)
+                })
+                .count()
         };
 
         if self.palette.selected_index > 0 {
@@ -134,10 +143,13 @@ impl ChatView {
         let filtered_count = if query.is_empty() {
             commands.len()
         } else {
-            commands.iter().filter(|cmd| {
-                cmd.label.to_lowercase().contains(&query) ||
-                cmd.description.to_lowercase().contains(&query)
-            }).count()
+            commands
+                .iter()
+                .filter(|cmd| {
+                    cmd.label.to_lowercase().contains(&query)
+                        || cmd.description.to_lowercase().contains(&query)
+                })
+                .count()
         };
 
         if self.palette.selected_index + 1 < filtered_count {
@@ -158,10 +170,13 @@ impl ChatView {
         let filtered: Vec<&PaletteCommand> = if query.is_empty() {
             commands.iter().collect()
         } else {
-            commands.iter().filter(|cmd| {
-                cmd.label.to_lowercase().contains(&query) ||
-                cmd.description.to_lowercase().contains(&query)
-            }).collect()
+            commands
+                .iter()
+                .filter(|cmd| {
+                    cmd.label.to_lowercase().contains(&query)
+                        || cmd.description.to_lowercase().contains(&query)
+                })
+                .collect()
         };
 
         if let Some(cmd) = filtered.get(self.palette.selected_index) {
@@ -171,7 +186,12 @@ impl ChatView {
     }
 
     /// Handle key events during title edit
-    pub(crate) fn handle_title_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn handle_title_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if !self.editing_title {
             return;
         }
@@ -192,7 +212,12 @@ impl ChatView {
     }
 
     /// Handle text input during title edit
-    pub(crate) fn handle_title_input(&mut self, text: &str, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn handle_title_input(
+        &mut self,
+        text: &str,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if !self.editing_title {
             return;
         }

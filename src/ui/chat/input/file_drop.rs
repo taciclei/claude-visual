@@ -2,12 +2,17 @@
 
 use gpui::*;
 
-use crate::ui::explorer::{DraggedFile, DraggedFiles};
 use super::{ChatInput, ChatInputEvent};
+use crate::ui::explorer::{DraggedFile, DraggedFiles};
 
 impl ChatInput {
     /// Handle file dropped from file explorer
-    pub fn handle_file_drop(&mut self, file: &DraggedFile, _window: &mut Window, cx: &mut Context<Self>) {
+    pub fn handle_file_drop(
+        &mut self,
+        file: &DraggedFile,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.is_drag_over = false;
         // Add file mention
         let mention_text = format!("@file:{} ", file.path.display());
@@ -20,7 +25,12 @@ impl ChatInput {
     }
 
     /// Handle multiple files dropped
-    pub fn handle_files_drop(&mut self, files: &DraggedFiles, _window: &mut Window, cx: &mut Context<Self>) {
+    pub fn handle_files_drop(
+        &mut self,
+        files: &DraggedFiles,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         self.is_drag_over = false;
         // Add file mentions
         for file in &files.files {

@@ -1,8 +1,10 @@
 //! Mention parsing logic
 
-use std::path::PathBuf;
 use super::types::{Mention, MentionKind, PartialMention, PartialMentionKind};
-use super::utils::{find_word_end, find_path_end, find_url_end, find_identifier_end, parse_line_range};
+use super::utils::{
+    find_identifier_end, find_path_end, find_url_end, find_word_end, parse_line_range,
+};
+use std::path::PathBuf;
 
 /// Parse mentions from input text
 pub fn parse_mentions(text: &str) -> Vec<Mention> {

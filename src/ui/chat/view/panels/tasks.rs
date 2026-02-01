@@ -1,14 +1,18 @@
 //! Tasks panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::pct;
 use super::super::core::ChatView;
 use super::super::types::ChatViewEvent;
+use crate::ui::pct;
 
 impl ChatView {
-    pub fn render_tasks_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_tasks_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let tasks = &self.active_tasks;
 
         div()
@@ -57,7 +61,7 @@ impl ChatView {
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Active Tasks")
+                                            .child("Active Tasks"),
                                     )
                                     .when(!tasks.is_empty(), |d| {
                                         d.child(
@@ -68,9 +72,9 @@ impl ChatView {
                                                 .bg(theme.colors.accent.opacity(0.2))
                                                 .text_xs()
                                                 .text_color(theme.colors.accent)
-                                                .child(format!("{} running", tasks.len()))
+                                                .child(format!("{} running", tasks.len())),
                                         )
-                                    })
+                                    }),
                             )
                             .child(
                                 div()
@@ -85,8 +89,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_tasks_panel(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Tasks list
                     .child(
@@ -98,11 +102,16 @@ impl ChatView {
                                 d.child(self.render_empty_tasks_state(theme, cx))
                             })
                             .children(tasks.iter().enumerate().map(|(idx, task)| {
-                                let elapsed = chrono::Utc::now().signed_duration_since(task.started_at);
+                                let elapsed =
+                                    chrono::Utc::now().signed_duration_since(task.started_at);
                                 let elapsed_str = if elapsed.num_seconds() < 60 {
                                     format!("{}s", elapsed.num_seconds())
                                 } else {
-                                    format!("{}m {}s", elapsed.num_minutes(), elapsed.num_seconds() % 60)
+                                    format!(
+                                        "{}m {}s",
+                                        elapsed.num_minutes(),
+                                        elapsed.num_seconds() % 60
+                                    )
                                 };
 
                                 div()
@@ -130,22 +139,22 @@ impl ChatView {
                                                         div()
                                                             .size(px(12.0))
                                                             .rounded_full()
-                                                            .bg(theme.colors.accent)
+                                                            .bg(theme.colors.accent),
                                                     )
                                                     .child(
                                                         div()
                                                             .text_sm()
                                                             .font_weight(FontWeight::MEDIUM)
                                                             .text_color(theme.colors.text)
-                                                            .child(task.description.clone())
-                                                    )
+                                                            .child(task.description.clone()),
+                                                    ),
                                             )
                                             .child(
                                                 div()
                                                     .text_xs()
                                                     .text_color(theme.colors.text_muted)
-                                                    .child(elapsed_str)
-                                            )
+                                                    .child(elapsed_str),
+                                            ),
                                     )
                                     // Progress bar (if available)
                                     .when_some(task.progress, |d, progress| {
@@ -160,8 +169,8 @@ impl ChatView {
                                                         .h_full()
                                                         .w(pct(progress as f32))
                                                         .rounded_full()
-                                                        .bg(theme.colors.accent)
-                                                )
+                                                        .bg(theme.colors.accent),
+                                                ),
                                         )
                                     })
                                     // Status message (if available)
@@ -170,18 +179,22 @@ impl ChatView {
                                             div()
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
-                                                .child(status)
+                                                .child(status),
                                         )
                                     })
-                            }))
+                            })),
                     )
                     // Quick skills footer
-                    .child(self.render_task_quick_skills(theme, cx))
+                    .child(self.render_task_quick_skills(theme, cx)),
             )
     }
 
     /// Render empty tasks state with skill suggestions
-    fn render_empty_tasks_state(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    fn render_empty_tasks_state(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .px_4()
             .py_6()
@@ -200,14 +213,14 @@ impl ChatView {
                         div()
                             .text_sm()
                             .text_color(theme.colors.text_muted)
-                            .child("No active tasks")
+                            .child("No active tasks"),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted.opacity(0.7))
-                            .child("Start a skill to run parallel agents")
-                    )
+                            .child("Start a skill to run parallel agents"),
+                    ),
             )
             // Suggested skills to start
             .child(
@@ -222,7 +235,7 @@ impl ChatView {
                             .text_xs()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(theme.colors.text_muted)
-                            .child("Start with a skill:")
+                            .child("Start with a skill:"),
                     )
                     .child(
                         div()
@@ -252,7 +265,7 @@ impl ChatView {
                                         cx.emit(ChatViewEvent::Submit("/apex".to_string()));
                                     }))
                                     .child("⚡")
-                                    .child("APEX")
+                                    .child("APEX"),
                             )
                             // Explore - parallel search
                             .child(
@@ -276,7 +289,7 @@ impl ChatView {
                                         cx.emit(ChatViewEvent::Submit("/explore".to_string()));
                                     }))
                                     .child("🔍")
-                                    .child("Explore")
+                                    .child("Explore"),
                             )
                             // Review - parallel code review
                             .child(
@@ -300,7 +313,7 @@ impl ChatView {
                                         cx.emit(ChatViewEvent::Submit("/review".to_string()));
                                     }))
                                     .child("👀")
-                                    .child("Review")
+                                    .child("Review"),
                             )
                             // Brainstorm - research agents
                             .child(
@@ -324,14 +337,18 @@ impl ChatView {
                                         cx.emit(ChatViewEvent::Submit("/brainstorm".to_string()));
                                     }))
                                     .child("💡")
-                                    .child("Brainstorm")
-                            )
-                    )
+                                    .child("Brainstorm"),
+                            ),
+                    ),
             )
     }
 
     /// Render quick skills footer for the tasks panel
-    fn render_task_quick_skills(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    fn render_task_quick_skills(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .px_4()
             .py_3()
@@ -350,7 +367,7 @@ impl ChatView {
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child("Quick:")
+                            .child("Quick:"),
                     )
                     // Refactor (parallel file processing)
                     .child(
@@ -372,7 +389,7 @@ impl ChatView {
                                 cx.emit(ChatViewEvent::Submit("/refactor".to_string()));
                             }))
                             .child("🔄")
-                            .child("Refactor")
+                            .child("Refactor"),
                     )
                     // Docs (parallel doc research)
                     .child(
@@ -394,8 +411,8 @@ impl ChatView {
                                 cx.emit(ChatViewEvent::Submit("/docs".to_string()));
                             }))
                             .child("📚")
-                            .child("Docs")
-                    )
+                            .child("Docs"),
+                    ),
             )
             // Task list button
             .child(
@@ -415,8 +432,7 @@ impl ChatView {
                         this.toggle_tasks_panel(cx);
                         cx.emit(ChatViewEvent::Submit("/tasks".to_string()));
                     }))
-                    .child("View all tasks →")
+                    .child("View all tasks →"),
             )
     }
-
 }

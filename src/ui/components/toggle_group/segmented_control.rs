@@ -1,8 +1,8 @@
 //! Segmented control (iOS-style toggle group)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Segmented control (iOS-style toggle group)
 #[derive(IntoElement)]

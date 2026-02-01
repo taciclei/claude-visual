@@ -39,12 +39,18 @@ impl CommentThread {
 
     /// Get root comments (not replies)
     pub fn root_comments(&self) -> Vec<&InlineComment> {
-        self.comments.iter().filter(|c| c.reply_to.is_none()).collect()
+        self.comments
+            .iter()
+            .filter(|c| c.reply_to.is_none())
+            .collect()
     }
 
     /// Get replies to a specific comment
     pub fn replies_to(&self, parent_id: &str) -> Vec<&InlineComment> {
-        self.comments.iter().filter(|c| c.reply_to.as_deref() == Some(parent_id)).collect()
+        self.comments
+            .iter()
+            .filter(|c| c.reply_to.as_deref() == Some(parent_id))
+            .collect()
     }
 
     /// Mark all comments as resolved

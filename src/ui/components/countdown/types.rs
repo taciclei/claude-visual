@@ -1,7 +1,7 @@
 //! Countdown type definitions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Countdown size variants
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
@@ -34,7 +34,12 @@ pub struct TimeRemaining {
 
 impl TimeRemaining {
     pub fn new(days: u32, hours: u32, minutes: u32, seconds: u32) -> Self {
-        Self { days, hours, minutes, seconds }
+        Self {
+            days,
+            hours,
+            minutes,
+            seconds,
+        }
     }
 
     pub fn from_seconds(total_seconds: u64) -> Self {
@@ -42,7 +47,12 @@ impl TimeRemaining {
         let hours = ((total_seconds % 86400) / 3600) as u32;
         let minutes = ((total_seconds % 3600) / 60) as u32;
         let seconds = (total_seconds % 60) as u32;
-        Self { days, hours, minutes, seconds }
+        Self {
+            days,
+            hours,
+            minutes,
+            seconds,
+        }
     }
 
     pub fn total_seconds(&self) -> u64 {

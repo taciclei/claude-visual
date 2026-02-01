@@ -50,7 +50,11 @@ pub(super) fn parse_diff(diff_text: &str) -> (Vec<DiffHunk>, usize, usize) {
                 old_line += 1;
                 deletions += 1;
             } else if line.starts_with(' ') || line.is_empty() {
-                let content = if line.is_empty() { String::new() } else { line[1..].to_string() };
+                let content = if line.is_empty() {
+                    String::new()
+                } else {
+                    line[1..].to_string()
+                };
                 hunk.lines.push(DiffLine::Context {
                     content,
                     old_line,

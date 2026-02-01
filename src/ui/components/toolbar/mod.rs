@@ -2,19 +2,19 @@
 //!
 //! Provides toolbar components for grouping actions and tools.
 
-mod types;
+mod floating_toolbar;
+mod quick_actions;
 mod toolbar;
 mod toolbar_group;
 mod toolbar_separator;
-mod floating_toolbar;
-mod quick_actions;
+mod types;
 
-pub use types::*;
+pub use floating_toolbar::FloatingToolbar;
+pub use quick_actions::QuickActions;
 pub use toolbar::Toolbar;
 pub use toolbar_group::ToolbarGroup;
 pub use toolbar_separator::ToolbarSeparator;
-pub use floating_toolbar::FloatingToolbar;
-pub use quick_actions::QuickActions;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -56,13 +56,8 @@ mod tests {
 
     #[test]
     fn test_toolbar_group() {
-        let items = vec![
-            ToolbarItem::new("a", "A"),
-            ToolbarItem::new("b", "B"),
-        ];
-        let group = ToolbarGroup::new()
-            .items(items)
-            .vertical(true);
+        let items = vec![ToolbarItem::new("a", "A"), ToolbarItem::new("b", "B")];
+        let group = ToolbarGroup::new().items(items).vertical(true);
 
         assert!(group.vertical);
         assert_eq!(group.items.len(), 2);
@@ -70,8 +65,7 @@ mod tests {
 
     #[test]
     fn test_floating_toolbar() {
-        let toolbar = FloatingToolbar::new("float")
-            .position(100.0, 200.0);
+        let toolbar = FloatingToolbar::new("float").position(100.0, 200.0);
 
         assert_eq!(toolbar.position, (100.0, 200.0));
     }

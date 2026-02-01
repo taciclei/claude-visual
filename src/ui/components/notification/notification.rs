@@ -1,8 +1,8 @@
 //! Single notification component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Single notification
 #[derive(Clone, IntoElement)]
@@ -113,12 +113,10 @@ impl RenderOnce for Notification {
                         .h(px(8.0))
                         .rounded_full()
                         .bg(unread_indicator)
-                        .mt_1()
+                        .mt_1(),
                 )
             })
-            .when(self.read, |d| {
-                d.child(div().w(px(8.0)))
-            })
+            .when(self.read, |d| d.child(div().w(px(8.0))))
             // Avatar or icon
             .child(
                 div()
@@ -130,7 +128,10 @@ impl RenderOnce for Notification {
                     .justify_center()
                     .text_color(type_color)
                     .flex_shrink_0()
-                    .child(self.avatar.unwrap_or_else(|| self.notification_type.icon().to_string()))
+                    .child(
+                        self.avatar
+                            .unwrap_or_else(|| self.notification_type.icon().to_string()),
+                    ),
             )
             // Content
             .child(
@@ -152,28 +153,27 @@ impl RenderOnce for Notification {
                                 div()
                                     .flex_1()
                                     .text_sm()
-                                    .font_weight(if self.read { FontWeight::NORMAL } else { FontWeight::SEMIBOLD })
+                                    .font_weight(if self.read {
+                                        FontWeight::NORMAL
+                                    } else {
+                                        FontWeight::SEMIBOLD
+                                    })
                                     .text_color(text)
                                     .overflow_hidden()
                                     .text_ellipsis()
-                                    .child(self.title)
+                                    .child(self.title),
                             )
                             .child(
                                 div()
                                     .flex_shrink_0()
                                     .text_xs()
                                     .text_color(text_muted)
-                                    .child(self.timestamp)
-                            )
+                                    .child(self.timestamp),
+                            ),
                     )
                     // Source (if any)
                     .when_some(self.source, |d, source| {
-                        d.child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(source)
-                        )
+                        d.child(div().text_xs().text_color(text_muted).child(source))
                     })
                     // Message
                     .when_some(self.message, |d, msg| {
@@ -182,44 +182,37 @@ impl RenderOnce for Notification {
                                 .text_sm()
                                 .text_color(text_muted)
                                 .line_clamp(2)
-                                .child(msg)
+                                .child(msg),
                         )
                     })
                     // Actions
                     .when(has_actions, |d| {
-                        d.child(
-                            div()
-                                .pt_2()
-                                .flex()
-                                .items_center()
-                                .gap_2()
-                                .children(
-                                    self.actions.into_iter().map(|action| {
-                                        let mut btn = div()
-                                            .px_3()
-                                            .py_1()
-                                            .rounded(px(4.0))
-                                            .text_xs()
-                                            .cursor_pointer();
+                        d.child(div().pt_2().flex().items_center().gap_2().children(
+                            self.actions.into_iter().map(|action| {
+                                let mut btn = div()
+                                    .px_3()
+                                    .py_1()
+                                    .rounded(px(4.0))
+                                    .text_xs()
+                                    .cursor_pointer();
 
-                                        if action.primary {
-                                            btn = btn
-                                                .bg(type_color)
-                                                .text_color(gpui::white())
-                                                .hover(|s| s.opacity(0.9));
-                                        } else {
-                                            btn = btn
-                                                .border_1()
-                                                .border_color(border)
-                                                .text_color(text_muted)
-                                                .hover(|s| s.bg(surface_hover).text_color(text));
-                                        }
+                                if action.primary {
+                                    btn = btn
+                                        .bg(type_color)
+                                        .text_color(gpui::white())
+                                        .hover(|s| s.opacity(0.9));
+                                } else {
+                                    btn = btn
+                                        .border_1()
+                                        .border_color(border)
+                                        .text_color(text_muted)
+                                        .hover(|s| s.bg(surface_hover).text_color(text));
+                                }
 
-                                        btn.child(action.label)
-                                    })
-                                )
-                        )
-                    })
+                                btn.child(action.label)
+                            }),
+                        ))
+                    }),
             )
             // Dismiss button
             .child(
@@ -233,7 +226,7 @@ impl RenderOnce for Notification {
                     .text_color(text_muted)
                     .cursor_pointer()
                     .hover(|s| s.bg(surface_hover).text_color(text))
-                    .child("×")
+                    .child("×"),
             )
     }
 }

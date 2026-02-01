@@ -1,6 +1,6 @@
 //! View state types
 
-use super::{ConversationSearchResult, MessageFilter, ExportFormat, FilePickerItem};
+use super::{ConversationSearchResult, ExportFormat, FilePickerItem, MessageFilter};
 use crate::app::theme::Theme;
 
 /// Connection status to Claude CLI

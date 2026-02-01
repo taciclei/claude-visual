@@ -1,8 +1,8 @@
 //! Scroll navigation buttons
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Scroll to top/bottom buttons
 #[derive(IntoElement)]
@@ -89,12 +89,14 @@ impl RenderOnce for ScrollButtons {
                 .items_center()
                 .justify_center()
                 .cursor_pointer()
-                .hover(|s| s.bg(Hsla {
-                    h: 0.0,
-                    s: 0.0,
-                    l: 0.3,
-                    a: 0.9,
-                }))
+                .hover(|s| {
+                    s.bg(Hsla {
+                        h: 0.0,
+                        s: 0.0,
+                        l: 0.3,
+                        a: 0.9,
+                    })
+                })
                 .child(
                     div()
                         .text_size(px(14.0))

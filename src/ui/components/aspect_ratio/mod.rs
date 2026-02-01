@@ -1,20 +1,20 @@
 //! Aspect ratio container components
 
-mod types;
+mod aspect_card;
+mod aspect_grid;
 mod aspect_ratio;
-mod video_placeholder;
 mod embed_container;
 mod ratio_image;
-mod aspect_grid;
-mod aspect_card;
+mod types;
+mod video_placeholder;
 
-pub use types::{Ratio, ImageFit};
+pub use aspect_card::AspectCard;
+pub use aspect_grid::AspectGrid;
 pub use aspect_ratio::AspectRatio;
-pub use video_placeholder::VideoPlaceholder;
 pub use embed_container::EmbedContainer;
 pub use ratio_image::RatioImage;
-pub use aspect_grid::AspectGrid;
-pub use aspect_card::AspectCard;
+pub use types::{ImageFit, Ratio};
+pub use video_placeholder::VideoPlaceholder;
 
 #[cfg(test)]
 mod tests {
@@ -69,9 +69,7 @@ mod tests {
 
     #[test]
     fn test_aspect_card() {
-        let card = AspectCard::new()
-            .header_ratio(Ratio::Classic)
-            .width(350.0);
+        let card = AspectCard::new().header_ratio(Ratio::Classic).width(350.0);
         assert_eq!(card.width, 350.0);
         assert_eq!(card.header_ratio, Ratio::Classic);
     }

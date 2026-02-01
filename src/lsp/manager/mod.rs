@@ -2,15 +2,15 @@
 //!
 //! Manages multiple language server connections.
 
-mod language;
-mod events;
-mod types;
-mod state;
-mod lifecycle;
 mod documents;
+mod events;
+mod language;
+mod lifecycle;
 mod operations;
+mod state;
+mod types;
 
-pub use language::Language;
 pub use events::LspManagerEvent;
-pub use types::LanguageServer;
+pub use language::Language;
 pub use state::LspManager;
+pub use types::LanguageServer;

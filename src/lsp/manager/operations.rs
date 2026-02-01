@@ -8,7 +8,12 @@ use super::state::LspManager;
 
 impl LspManager {
     /// Get completions
-    pub async fn completions(&self, path: &PathBuf, line: u32, character: u32) -> Result<Vec<CompletionItem>, String> {
+    pub async fn completions(
+        &self,
+        path: &PathBuf,
+        line: u32,
+        character: u32,
+    ) -> Result<Vec<CompletionItem>, String> {
         let uri = format!("file://{}", path.display());
 
         let doc = {
@@ -28,7 +33,12 @@ impl LspManager {
     }
 
     /// Get hover info
-    pub async fn hover(&self, path: &PathBuf, line: u32, character: u32) -> Result<Option<Hover>, String> {
+    pub async fn hover(
+        &self,
+        path: &PathBuf,
+        line: u32,
+        character: u32,
+    ) -> Result<Option<Hover>, String> {
         let uri = format!("file://{}", path.display());
 
         let doc = {
@@ -48,7 +58,12 @@ impl LspManager {
     }
 
     /// Go to definition
-    pub async fn definition(&self, path: &PathBuf, line: u32, character: u32) -> Result<Vec<Location>, String> {
+    pub async fn definition(
+        &self,
+        path: &PathBuf,
+        line: u32,
+        character: u32,
+    ) -> Result<Vec<Location>, String> {
         let uri = format!("file://{}", path.display());
 
         let doc = {
@@ -68,7 +83,12 @@ impl LspManager {
     }
 
     /// Find references
-    pub async fn references(&self, path: &PathBuf, line: u32, character: u32) -> Result<Vec<Location>, String> {
+    pub async fn references(
+        &self,
+        path: &PathBuf,
+        line: u32,
+        character: u32,
+    ) -> Result<Vec<Location>, String> {
         let uri = format!("file://{}", path.display());
 
         let doc = {
@@ -81,7 +101,9 @@ impl LspManager {
         let clients = self.clients.lock().await;
         if let Some(client) = clients.get(&doc.language) {
             let c = client.lock().await;
-            return c.references(&uri, Position::new(line, character), true).await;
+            return c
+                .references(&uri, Position::new(line, character), true)
+                .await;
         }
 
         Ok(vec![])

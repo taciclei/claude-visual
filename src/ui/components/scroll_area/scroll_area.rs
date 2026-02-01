@@ -1,8 +1,8 @@
 //! Main scrollable area component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A scrollable area with custom styled scrollbars
 #[derive(IntoElement)]
@@ -152,7 +152,9 @@ impl RenderOnce for ScrollArea {
         // Apply overflow based on direction
         let mut container = match self.direction {
             ScrollDirection::Vertical => container.id("scroll-area-vertical").overflow_y_scroll(),
-            ScrollDirection::Horizontal => container.id("scroll-area-horizontal").overflow_x_scroll(),
+            ScrollDirection::Horizontal => {
+                container.id("scroll-area-horizontal").overflow_x_scroll()
+            }
             ScrollDirection::Both => container.id("scroll-area-both").overflow_scroll(),
         };
 

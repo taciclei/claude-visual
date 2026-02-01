@@ -103,7 +103,11 @@ impl SimpleDate {
     pub fn first_weekday(year: i32, month: u32) -> u32 {
         // Simplified calculation
         let y = if month < 3 { year - 1 } else { year };
-        let m = if month < 3 { month as i32 + 12 } else { month as i32 };
+        let m = if month < 3 {
+            month as i32 + 12
+        } else {
+            month as i32
+        };
 
         let q = 1i32; // First day
         let k = y % 100;

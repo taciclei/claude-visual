@@ -1,7 +1,7 @@
 //! Accessors for VimState cursor, buffers, and focus
 
-use gpui::*;
 use super::vim_state::VimState;
+use gpui::*;
 
 impl VimState {
     /// Get command buffer

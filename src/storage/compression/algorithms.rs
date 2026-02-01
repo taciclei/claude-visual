@@ -1,5 +1,5 @@
-use std::io::Read;
 use super::types::CompressionError;
+use std::io::Read;
 
 /// Simple deflate encoder (for demonstration)
 pub(crate) struct DeflateEncoder<R> {
@@ -48,9 +48,7 @@ pub(crate) fn compress_lz4(data: &[u8]) -> Result<Vec<u8>, CompressionError> {
         let byte = data[i];
         let mut count = 1u8;
 
-        while i + (count as usize) < data.len()
-            && data[i + (count as usize)] == byte
-            && count < 255
+        while i + (count as usize) < data.len() && data[i + (count as usize)] == byte && count < 255
         {
             count += 1;
         }
@@ -77,7 +75,10 @@ pub(crate) fn compress_lz4(data: &[u8]) -> Result<Vec<u8>, CompressionError> {
     Ok(output)
 }
 
-pub(crate) fn decompress_lz4(data: &[u8], _original_size: usize) -> Result<Vec<u8>, CompressionError> {
+pub(crate) fn decompress_lz4(
+    data: &[u8],
+    _original_size: usize,
+) -> Result<Vec<u8>, CompressionError> {
     let mut output = Vec::new();
     let mut i = 0;
 
@@ -122,7 +123,8 @@ pub(crate) fn compress_deflate(data: &[u8]) -> Result<Vec<u8>, CompressionError>
     // Simple deflate implementation
     let mut encoder = DeflateEncoder::new(Cursor::new(data));
     let mut compressed = Vec::new();
-    encoder.read_to_end(&mut compressed)
+    encoder
+        .read_to_end(&mut compressed)
         .map_err(|_| CompressionError::CompressionFailed)?;
 
     Ok(compressed)
@@ -133,7 +135,8 @@ pub(crate) fn decompress_deflate(data: &[u8]) -> Result<Vec<u8>, CompressionErro
 
     let mut decoder = DeflateDecoder::new(Cursor::new(data));
     let mut decompressed = Vec::new();
-    decoder.read_to_end(&mut decompressed)
+    decoder
+        .read_to_end(&mut decompressed)
         .map_err(|_| CompressionError::DecompressionFailed)?;
 
     Ok(decompressed)

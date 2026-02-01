@@ -1,8 +1,8 @@
 //! Form actions - container for submit/cancel buttons
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::FormActionsAlignment;
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct FormActions {
@@ -49,11 +49,7 @@ impl Default for FormActions {
 
 impl RenderOnce for FormActions {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        let mut actions = div()
-            .flex()
-            .items_center()
-            .gap(px(12.0))
-            .pt(px(16.0));
+        let mut actions = div().flex().items_center().gap(px(12.0)).pt(px(16.0));
 
         actions = match self.alignment {
             FormActionsAlignment::Left => actions,

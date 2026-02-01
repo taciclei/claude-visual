@@ -34,11 +34,7 @@ pub struct AttachableResource {
 
 impl AttachableResource {
     /// Create a new attachable resource
-    pub fn new(
-        server: impl Into<String>,
-        uri: impl Into<String>,
-        name: impl Into<String>,
-    ) -> Self {
+    pub fn new(server: impl Into<String>, uri: impl Into<String>, name: impl Into<String>) -> Self {
         Self {
             server: server.into(),
             uri: uri.into(),
@@ -72,10 +68,7 @@ impl AttachableResource {
 /// Events emitted by the context attachment panel
 pub enum McpContextAttachEvent {
     /// Request to read a resource
-    ReadResource {
-        server: String,
-        uri: String,
-    },
+    ReadResource { server: String, uri: String },
     /// Resource content received
     ResourceReceived {
         server: String,

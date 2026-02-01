@@ -3,8 +3,8 @@
 use gpui::*;
 
 use crate::app::theme::ThemeVariant;
-use crate::ui::extensions::theme_editor::ThemeEditor;
 use crate::ui::extensions::theme_editor::types::EditingColor;
+use crate::ui::extensions::theme_editor::ThemeEditor;
 
 impl ThemeEditor {
     /// Render colors tab
@@ -37,29 +37,45 @@ impl ThemeEditor {
                     ),
             )
             // Color sections
-            .child(self.render_color_section("Background & Surface", &[
-                EditingColor::Background,
-                EditingColor::Surface,
-                EditingColor::SurfaceHover,
-                EditingColor::Border,
-            ], theme, cx))
-            .child(self.render_color_section("Text", &[
-                EditingColor::Text,
-                EditingColor::TextMuted,
-            ], theme, cx))
-            .child(self.render_color_section("Accent", &[
-                EditingColor::Accent,
-                EditingColor::AccentHover,
-            ], theme, cx))
-            .child(self.render_color_section("Status", &[
-                EditingColor::Success,
-                EditingColor::Warning,
-                EditingColor::Error,
-                EditingColor::Info,
-            ], theme, cx))
-            .child(self.render_color_section("Interaction", &[
-                EditingColor::FocusRing,
-                EditingColor::Selection,
-            ], theme, cx))
+            .child(self.render_color_section(
+                "Background & Surface",
+                &[
+                    EditingColor::Background,
+                    EditingColor::Surface,
+                    EditingColor::SurfaceHover,
+                    EditingColor::Border,
+                ],
+                theme,
+                cx,
+            ))
+            .child(self.render_color_section(
+                "Text",
+                &[EditingColor::Text, EditingColor::TextMuted],
+                theme,
+                cx,
+            ))
+            .child(self.render_color_section(
+                "Accent",
+                &[EditingColor::Accent, EditingColor::AccentHover],
+                theme,
+                cx,
+            ))
+            .child(self.render_color_section(
+                "Status",
+                &[
+                    EditingColor::Success,
+                    EditingColor::Warning,
+                    EditingColor::Error,
+                    EditingColor::Info,
+                ],
+                theme,
+                cx,
+            ))
+            .child(self.render_color_section(
+                "Interaction",
+                &[EditingColor::FocusRing, EditingColor::Selection],
+                theme,
+                cx,
+            ))
     }
 }

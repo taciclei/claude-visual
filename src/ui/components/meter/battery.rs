@@ -1,9 +1,9 @@
 //! Battery indicator component
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::types::MeterSize;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Battery indicator component
 #[derive(IntoElement)]
@@ -78,13 +78,7 @@ impl RenderOnce for BatteryIndicator {
                     .border_color(hsla(0.0, 0.0, 0.4, 1.0))
                     .p(px(2.0))
                     .flex()
-                    .child(
-                        div()
-                            .h_full()
-                            .w(pct(self.level))
-                            .rounded(px(1.0))
-                            .bg(color)
-                    )
+                    .child(div().h_full().w(pct(self.level)).rounded(px(1.0)).bg(color)),
             )
             .child(
                 // Battery tip
@@ -92,14 +86,14 @@ impl RenderOnce for BatteryIndicator {
                     .w(px(2.0))
                     .h(px(height * 0.5))
                     .rounded_r(px(1.0))
-                    .bg(hsla(0.0, 0.0, 0.4, 1.0))
+                    .bg(hsla(0.0, 0.0, 0.4, 1.0)),
             )
             .when(self.charging, |el| {
                 el.child(
                     div()
                         .text_size(px(height * 0.8))
                         .text_color(hsla(0.12, 0.8, 0.5, 1.0))
-                        .child("⚡")
+                        .child("⚡"),
                 )
             })
             .when(self.show_percentage, |el| {
@@ -107,7 +101,7 @@ impl RenderOnce for BatteryIndicator {
                     div()
                         .text_size(px(height * 0.7))
                         .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                        .child(format!("{}%", self.level as u32))
+                        .child(format!("{}%", self.level as u32)),
                 )
             })
     }

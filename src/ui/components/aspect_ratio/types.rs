@@ -3,14 +3,14 @@ use gpui::*;
 /// Common aspect ratios
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub enum Ratio {
-    Square,      // 1:1
+    Square, // 1:1
     #[default]
-    Video,       // 16:9
-    Classic,     // 4:3
-    Portrait,    // 3:4
-    Widescreen,  // 21:9
-    Photo,       // 3:2
-    Golden,      // 1.618:1
+    Video, // 16:9
+    Classic, // 4:3
+    Portrait, // 3:4
+    Widescreen, // 21:9
+    Photo,  // 3:2
+    Golden, // 1.618:1
     Custom(f32), // Custom ratio (width/height)
 }
 

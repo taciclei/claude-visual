@@ -1,7 +1,7 @@
 //! Content rendering for server configuration editor
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::mcp::server_config::core::ServerConfigEditor;
@@ -117,12 +117,7 @@ impl ServerConfigEditor {
                                     .shadow_sm(),
                             ),
                     )
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(text_color)
-                            .child("Enabled"),
-                    ),
+                    .child(div().text_sm().text_color(text_color).child("Enabled")),
             )
             // Error message
             .when_some(self.error.clone(), |d, error| {

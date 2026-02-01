@@ -1,9 +1,9 @@
 //! Type definitions for chat input completion
 
-use std::path::PathBuf;
-use serde::{Deserialize, Serialize};
-use crate::lsp::protocol::{CompletionItem, CompletionItemKind};
 use super::utils::fuzzy_match;
+use crate::lsp::protocol::{CompletionItem, CompletionItemKind};
+use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 
 /// Completion trigger types
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -60,7 +60,8 @@ pub struct ChatCompletionItem {
 impl ChatCompletionItem {
     /// Create a file completion
     pub fn file(path: PathBuf) -> Self {
-        let name = path.file_name()
+        let name = path
+            .file_name()
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_default();
         let is_dir = path.is_dir();
@@ -73,14 +74,20 @@ impl ChatCompletionItem {
             } else {
                 ChatCompletionKind::File
             },
-            detail: Some(path.parent()
-                .map(|p| p.display().to_string())
-                .unwrap_or_default()),
+            detail: Some(
+                path.parent()
+                    .map(|p| p.display().to_string())
+                    .unwrap_or_default(),
+            ),
             documentation: None,
             filter_text: Some(name),
             sort_text: None,
             preview: None,
-            icon: if is_dir { Some("folder".to_string()) } else { Some("file".to_string()) },
+            icon: if is_dir {
+                Some("folder".to_string())
+            } else {
+                Some("file".to_string())
+            },
         }
     }
 
@@ -118,7 +125,10 @@ impl ChatCompletionItem {
     pub fn from_lsp(item: &CompletionItem) -> Self {
         Self {
             label: item.label.clone(),
-            insert_text: item.insert_text.clone().unwrap_or_else(|| item.label.clone()),
+            insert_text: item
+                .insert_text
+                .clone()
+                .unwrap_or_else(|| item.label.clone()),
             kind: ChatCompletionKind::from_lsp(item.kind),
             detail: item.detail.clone(),
             documentation: item.documentation.as_ref().map(|d| match d {
@@ -174,7 +184,9 @@ impl ChatCompletionKind {
             Some(CompletionItemKind::Folder) => Self::Folder,
             Some(CompletionItemKind::Variable) => Self::Variable,
             Some(CompletionItemKind::Function) | Some(CompletionItemKind::Method) => Self::Function,
-            Some(CompletionItemKind::Class) | Some(CompletionItemKind::Interface) | Some(CompletionItemKind::Struct) => Self::Type,
+            Some(CompletionItemKind::Class)
+            | Some(CompletionItemKind::Interface)
+            | Some(CompletionItemKind::Struct) => Self::Type,
             Some(CompletionItemKind::Keyword) => Self::Keyword,
             Some(CompletionItemKind::Snippet) => Self::Snippet,
             _ => Self::Other,

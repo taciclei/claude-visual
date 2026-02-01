@@ -1,6 +1,6 @@
 //! Diagnostic badge rendering
 
-use crate::ui::sidebar::explorer_diagnostics::{DiagnosticCounts, BadgeStyle};
+use crate::ui::sidebar::explorer_diagnostics::{BadgeStyle, DiagnosticCounts};
 
 /// Diagnostic badge for file explorer
 #[derive(Debug, Clone)]

@@ -1,7 +1,7 @@
 //! Streaming suggestions - contextual skill suggestions during streaming
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::ChatViewEvent;
@@ -52,8 +52,12 @@ pub fn get_content_suggestions(content: &str) -> Vec<(&'static str, &'static str
     let content_lower = content.to_lowercase();
 
     // Code-related content
-    if content.contains("```") || content.contains("fn ") || content.contains("function ")
-        || content.contains("class ") || content.contains("def ") {
+    if content.contains("```")
+        || content.contains("fn ")
+        || content.contains("function ")
+        || content.contains("class ")
+        || content.contains("def ")
+    {
         return vec![
             ("👀", "Review", "/review-code"),
             ("🧪", "Tests", "Write tests for this"),
@@ -62,8 +66,10 @@ pub fn get_content_suggestions(content: &str) -> Vec<(&'static str, &'static str
     }
 
     // Error-related content
-    if content_lower.contains("error") || content_lower.contains("failed")
-        || content_lower.contains("exception") {
+    if content_lower.contains("error")
+        || content_lower.contains("failed")
+        || content_lower.contains("exception")
+    {
         return vec![
             ("🐛", "Debug", "/debug"),
             ("🔧", "Fix", "Fix this error"),
@@ -72,8 +78,11 @@ pub fn get_content_suggestions(content: &str) -> Vec<(&'static str, &'static str
     }
 
     // Git-related content
-    if content_lower.contains("commit") || content_lower.contains("branch")
-        || content_lower.contains("merge") || content_lower.contains("pull request") {
+    if content_lower.contains("commit")
+        || content_lower.contains("branch")
+        || content_lower.contains("merge")
+        || content_lower.contains("pull request")
+    {
         return vec![
             ("📦", "Commit", "/commit"),
             ("🔀", "PR", "/create-pr"),
@@ -109,7 +118,11 @@ pub fn get_content_suggestions(content: &str) -> Vec<(&'static str, &'static str
 
 impl ChatView {
     /// Render streaming suggestions bar
-    pub fn render_streaming_suggestions(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_streaming_suggestions(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         if !self.streaming.is_streaming {
             return div();
         }
@@ -147,7 +160,7 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted.opacity(0.5))
-                    .child("Next:")
+                    .child("Next:"),
             )
             // Suggestions
             .children(suggestions.into_iter().map(|(icon, label, action)| {
@@ -197,21 +210,29 @@ impl ChatView {
                             .border_1()
                             .border_color(theme.colors.border.opacity(0.3))
                             .font_family("monospace")
-                            .child("⌘.")
+                            .child("⌘."),
                     )
-                    .child("stop")
+                    .child("stop"),
             )
     }
 
     /// Render post-response suggestions based on what Claude did
-    pub fn render_post_response_suggestions(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_post_response_suggestions(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         // Only show if not streaming and we have a recent response
         if self.streaming.is_streaming || self.messages.is_empty() {
             return div();
         }
 
         // Check last message for context-aware suggestions
-        let last_content = self.messages.last().map(|m| m.content.clone()).unwrap_or_default();
+        let last_content = self
+            .messages
+            .last()
+            .map(|m| m.content.clone())
+            .unwrap_or_default();
         let content_lower = last_content.to_lowercase();
         let is_truncated = self.is_last_response_truncated();
 
@@ -274,7 +295,7 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted.opacity(0.6))
-                    .child("Follow up:")
+                    .child("Follow up:"),
             )
             // Suggestions
             .children(suggestions.into_iter().map(|(icon, label, action)| {
@@ -326,7 +347,7 @@ impl ChatView {
                         .child("⚠️")
                         .child(ctx_display.clone())
                         .child("·")
-                        .child("/compact")
+                        .child("/compact"),
                 )
             })
     }

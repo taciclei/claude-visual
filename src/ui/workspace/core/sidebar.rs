@@ -1,8 +1,8 @@
 //! Sidebar operations for Workspace
 
-use gpui::*;
-use super::workspace::Workspace;
 use super::super::types::SidebarTab;
+use super::workspace::Workspace;
+use gpui::*;
 
 impl Workspace {
     /// Switch to a specific sidebar tab

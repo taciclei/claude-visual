@@ -1,7 +1,7 @@
 //! Description list component (definition list)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::DescriptionLayout;
 
@@ -26,7 +26,10 @@ impl DescriptionList {
     }
 
     pub fn items(mut self, items: Vec<(impl Into<String>, impl Into<String>)>) -> Self {
-        self.items = items.into_iter().map(|(t, d)| (t.into(), d.into())).collect();
+        self.items = items
+            .into_iter()
+            .map(|(t, d)| (t.into(), d.into()))
+            .collect();
         self
     }
 
@@ -55,31 +58,23 @@ impl RenderOnce for DescriptionList {
                     .flex()
                     .flex_col()
                     .gap_3()
-                    .children(
-                        self.items.into_iter().map(|(term, desc)| {
-                            div()
-                                .w_full()
-                                .flex()
-                                .items_start()
-                                .gap_4()
-                                .child(
-                                    div()
-                                        .w(px(120.0))
-                                        .flex_shrink_0()
-                                        .text_sm()
-                                        .font_weight(FontWeight::MEDIUM)
-                                        .text_color(text_muted)
-                                        .child(term)
-                                )
-                                .child(
-                                    div()
-                                        .flex_1()
-                                        .text_sm()
-                                        .text_color(text)
-                                        .child(desc)
-                                )
-                        })
-                    )
+                    .children(self.items.into_iter().map(|(term, desc)| {
+                        div()
+                            .w_full()
+                            .flex()
+                            .items_start()
+                            .gap_4()
+                            .child(
+                                div()
+                                    .w(px(120.0))
+                                    .flex_shrink_0()
+                                    .text_sm()
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .text_color(text_muted)
+                                    .child(term),
+                            )
+                            .child(div().flex_1().text_sm().text_color(text).child(desc))
+                    }))
             }
             DescriptionLayout::Vertical => {
                 div()
@@ -87,27 +82,20 @@ impl RenderOnce for DescriptionList {
                     .flex()
                     .flex_col()
                     .gap_4()
-                    .children(
-                        self.items.into_iter().map(|(term, desc)| {
-                            div()
-                                .flex()
-                                .flex_col()
-                                .gap_1()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .font_weight(FontWeight::SEMIBOLD)
-                                        .text_color(text_muted)
-                                        .child(term.to_uppercase())
-                                )
-                                .child(
-                                    div()
-                                        .text_sm()
-                                        .text_color(text)
-                                        .child(desc)
-                                )
-                        })
-                    )
+                    .children(self.items.into_iter().map(|(term, desc)| {
+                        div()
+                            .flex()
+                            .flex_col()
+                            .gap_1()
+                            .child(
+                                div()
+                                    .text_xs()
+                                    .font_weight(FontWeight::SEMIBOLD)
+                                    .text_color(text_muted)
+                                    .child(term.to_uppercase()),
+                            )
+                            .child(div().text_sm().text_color(text).child(desc))
+                    }))
             }
             DescriptionLayout::Grid => {
                 div()
@@ -115,32 +103,25 @@ impl RenderOnce for DescriptionList {
                     .flex()
                     .flex_wrap()
                     .gap_4()
-                    .children(
-                        self.items.into_iter().map(|(term, desc)| {
-                            div()
-                                .w(px(200.0))
-                                .p_3()
-                                .border_1()
-                                .border_color(border)
-                                .rounded(px(6.0))
-                                .flex()
-                                .flex_col()
-                                .gap_1()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .font_weight(FontWeight::SEMIBOLD)
-                                        .text_color(text_muted)
-                                        .child(term)
-                                )
-                                .child(
-                                    div()
-                                        .text_sm()
-                                        .text_color(text)
-                                        .child(desc)
-                                )
-                        })
-                    )
+                    .children(self.items.into_iter().map(|(term, desc)| {
+                        div()
+                            .w(px(200.0))
+                            .p_3()
+                            .border_1()
+                            .border_color(border)
+                            .rounded(px(6.0))
+                            .flex()
+                            .flex_col()
+                            .gap_1()
+                            .child(
+                                div()
+                                    .text_xs()
+                                    .font_weight(FontWeight::SEMIBOLD)
+                                    .text_color(text_muted)
+                                    .child(term),
+                            )
+                            .child(div().text_sm().text_color(text).child(desc))
+                    }))
             }
         }
     }

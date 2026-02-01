@@ -1,12 +1,12 @@
 //! Right section of status bar - session stats, usage, health, latency, vim mode
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
-use super::types::StatusBarEvent;
-use super::helpers::{format_duration, render_usage_bar, health_indicator, latency_indicator};
+use super::helpers::{format_duration, health_indicator, latency_indicator, render_usage_bar};
 use super::status_bar::StatusBar;
+use super::types::StatusBarEvent;
+use crate::app::theme::Theme;
 
 /// Render right section of status bar
 pub(crate) fn render_right_section(
@@ -39,32 +39,26 @@ pub(crate) fn render_right_section(
                 .child(
                     div()
                         .text_color(theme.colors.warning)
-                        .child(format!("${:.2}", session_cost))
+                        .child(format!("${:.2}", session_cost)),
                 )
                 .child(
                     div()
                         .text_color(theme.colors.text_muted)
-                        .child(format!("{}k", tokens_k))
-                )
+                        .child(format!("{}k", tokens_k)),
+                ),
         )
         // Usage bar
-        .child(
-            div()
-                .text_color(theme.colors.accent)
-                .child(usage_bar)
-        )
+        .child(div().text_color(theme.colors.accent).child(usage_bar))
         // Usage percentage and duration
         .child(
             div()
                 .text_color(theme.colors.text_muted)
-                .child(format!("{}% ({})", usage_percent, duration_display))
+                .child(format!("{}% ({})", usage_percent, duration_display)),
         )
         // Session health indicator
         .child({
             let (icon, _label) = health_indicator(session_health);
-            div()
-                .text_xs()
-                .child(icon)
+            div().text_xs().child(icon)
         })
         // Response latency indicator
         .when_some(latency_indicator(response_latency_ms), |d, (icon, text)| {
@@ -76,7 +70,7 @@ pub(crate) fn render_right_section(
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .child(icon)
-                    .child(text)
+                    .child(text),
             )
         })
         // Vim mode indicator (clickable to toggle)
@@ -94,7 +88,7 @@ pub(crate) fn render_right_section(
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(StatusBarEvent::ToggleVimMode);
                     }))
-                    .child("VIM")
+                    .child("VIM"),
             )
         })
 }

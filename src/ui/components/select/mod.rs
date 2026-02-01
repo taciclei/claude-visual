@@ -2,19 +2,19 @@
 //!
 //! Provides select/combobox components for choosing from a list of options.
 
-mod types;
-mod select;
-mod multi_select;
-mod grouped_select;
-mod native_select;
 mod dropdown;
+mod grouped_select;
+mod multi_select;
+mod native_select;
+mod select;
+mod types;
 
-pub use types::{SelectSize, SelectVariant, SelectOption, SelectGroup};
-pub use select::Select;
-pub use multi_select::MultiSelect;
-pub use grouped_select::GroupedSelect;
-pub use native_select::NativeSelect;
 pub use dropdown::SelectDropdown;
+pub use grouped_select::GroupedSelect;
+pub use multi_select::MultiSelect;
+pub use native_select::NativeSelect;
+pub use select::Select;
+pub use types::{SelectGroup, SelectOption, SelectSize, SelectVariant};
 
 #[cfg(test)]
 mod tests {

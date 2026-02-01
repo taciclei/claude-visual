@@ -1,7 +1,7 @@
 //! Action list component for menus and command palettes
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{ActionItem, ListSize};
 
@@ -50,78 +50,64 @@ impl RenderOnce for ActionList {
             .w_full()
             .flex()
             .flex_col()
-            .children(
-                self.items.into_iter().map(move |item| {
-                    let is_disabled = item.disabled;
-                    let is_danger = item.danger;
-                    let text_color = if is_danger { danger } else { text };
+            .children(self.items.into_iter().map(move |item| {
+                let is_disabled = item.disabled;
+                let is_danger = item.danger;
+                let text_color = if is_danger { danger } else { text };
 
-                    let mut row = div()
-                        .w_full()
-                        .px(px(px_h))
-                        .py(px(py_v))
-                        .flex()
-                        .items_center()
-                        .gap_3()
-                        .rounded(px(4.0));
+                let mut row = div()
+                    .w_full()
+                    .px(px(px_h))
+                    .py(px(py_v))
+                    .flex()
+                    .items_center()
+                    .gap_3()
+                    .rounded(px(4.0));
 
-                    if !is_disabled {
-                        row = row
-                            .cursor_pointer()
-                            .hover(|s| s.bg(surface_hover));
-                    } else {
-                        row = row.opacity(0.5);
-                    }
+                if !is_disabled {
+                    row = row.cursor_pointer().hover(|s| s.bg(surface_hover));
+                } else {
+                    row = row.opacity(0.5);
+                }
 
-                    // Icon
-                    if let Some(icon) = item.icon {
-                        row = row.child(
-                            div()
-                                .w(px(20.0))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_color(text_muted)
-                                .child(icon)
-                        );
-                    }
-
-                    // Label and description
+                // Icon
+                if let Some(icon) = item.icon {
                     row = row.child(
                         div()
-                            .flex_1()
+                            .w(px(20.0))
                             .flex()
-                            .flex_col()
-                            .gap(px(2.0))
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(text_color)
-                                    .child(item.label)
-                            )
-                            .when_some(item.description, |d, desc| {
-                                d.child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(text_muted)
-                                        .child(desc)
-                                )
-                            })
+                            .items_center()
+                            .justify_center()
+                            .text_color(text_muted)
+                            .child(icon),
                     );
+                }
 
-                    // Shortcut
-                    if let Some(shortcut) = item.shortcut {
-                        row = row.child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .font_family("monospace")
-                                .child(shortcut)
-                        );
-                    }
+                // Label and description
+                row = row.child(
+                    div()
+                        .flex_1()
+                        .flex()
+                        .flex_col()
+                        .gap(px(2.0))
+                        .child(div().text_sm().text_color(text_color).child(item.label))
+                        .when_some(item.description, |d, desc| {
+                            d.child(div().text_xs().text_color(text_muted).child(desc))
+                        }),
+                );
 
-                    row
-                })
-            )
+                // Shortcut
+                if let Some(shortcut) = item.shortcut {
+                    row = row.child(
+                        div()
+                            .text_xs()
+                            .text_color(text_muted)
+                            .font_family("monospace")
+                            .child(shortcut),
+                    );
+                }
+
+                row
+            }))
     }
 }

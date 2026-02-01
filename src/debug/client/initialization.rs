@@ -33,15 +33,19 @@ impl DapClient {
         }
 
         // Spawn process
-        let mut child = cmd.spawn().map_err(|e| DapClientError::SpawnError(e.to_string()))?;
+        let mut child = cmd
+            .spawn()
+            .map_err(|e| DapClientError::SpawnError(e.to_string()))?;
 
-        let stdin = child.stdin.take().ok_or_else(|| {
-            DapClientError::SpawnError("Failed to get stdin".to_string())
-        })?;
+        let stdin = child
+            .stdin
+            .take()
+            .ok_or_else(|| DapClientError::SpawnError("Failed to get stdin".to_string()))?;
 
-        let stdout = child.stdout.take().ok_or_else(|| {
-            DapClientError::SpawnError("Failed to get stdout".to_string())
-        })?;
+        let stdout = child
+            .stdout
+            .take()
+            .ok_or_else(|| DapClientError::SpawnError("Failed to get stdout".to_string()))?;
 
         // Create event channel
         let (event_tx, event_rx) = mpsc::unbounded_channel();
@@ -60,10 +64,7 @@ impl DapClient {
     }
 
     /// Initialize the debug adapter
-    pub async fn initialize(
-        &mut self,
-        adapter_id: &str,
-    ) -> Result<Capabilities, DapClientError> {
+    pub async fn initialize(&mut self, adapter_id: &str) -> Result<Capabilities, DapClientError> {
         let args = InitializeArguments {
             adapter_id: adapter_id.to_string(),
             ..Default::default()

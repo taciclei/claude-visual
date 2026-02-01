@@ -37,11 +37,13 @@ impl ChatView {
         let mut bookmarks: Vec<usize> = self.bookmarked_messages.iter().copied().collect();
         bookmarks.sort();
 
-        let current = self.selected_message_index.or(
-            self.highlighted_message.map(|(idx, _)| idx)
-        ).unwrap_or(0);
+        let current = self
+            .selected_message_index
+            .or(self.highlighted_message.map(|(idx, _)| idx))
+            .unwrap_or(0);
 
-        let next = bookmarks.iter()
+        let next = bookmarks
+            .iter()
             .find(|&&idx| idx > current)
             .or_else(|| bookmarks.first())
             .copied();
@@ -65,11 +67,13 @@ impl ChatView {
         bookmarks.sort();
         bookmarks.reverse();
 
-        let current = self.selected_message_index.or(
-            self.highlighted_message.map(|(idx, _)| idx)
-        ).unwrap_or(self.messages.len());
+        let current = self
+            .selected_message_index
+            .or(self.highlighted_message.map(|(idx, _)| idx))
+            .unwrap_or(self.messages.len());
 
-        let prev = bookmarks.iter()
+        let prev = bookmarks
+            .iter()
             .find(|&&idx| idx < current)
             .or_else(|| bookmarks.first())
             .copied();

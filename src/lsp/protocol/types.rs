@@ -32,7 +32,10 @@ impl Range {
     }
 
     pub fn point(pos: Position) -> Self {
-        Self { start: pos, end: pos }
+        Self {
+            start: pos,
+            end: pos,
+        }
     }
 }
 

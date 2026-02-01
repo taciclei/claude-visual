@@ -1,8 +1,8 @@
 //! Executor view component definition
 
-use gpui::*;
 use crate::agent::executor::{ExecutorState, ExecutorStats};
 use crate::app::theme::Theme;
+use gpui::*;
 
 /// Executor view component
 pub struct ExecutorView {

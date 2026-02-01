@@ -28,6 +28,9 @@ impl VimMode {
 
     /// Check if this is a visual mode
     pub fn is_visual(&self) -> bool {
-        matches!(self, VimMode::Visual | VimMode::VisualLine | VimMode::VisualBlock)
+        matches!(
+            self,
+            VimMode::Visual | VimMode::VisualLine | VimMode::VisualBlock
+        )
     }
 }

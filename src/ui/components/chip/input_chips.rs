@@ -1,7 +1,7 @@
 //! Input chips component (for email-like inputs)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Input chips (for email-like inputs)
 #[derive(Clone)]
@@ -74,12 +74,7 @@ impl RenderOnce for InputChips {
                     .flex()
                     .items_center()
                     .gap_1()
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(text)
-                            .child(value)
-                    )
+                    .child(div().text_sm().text_color(text).child(value))
                     .child(
                         div()
                             .size(px(16.0))
@@ -91,7 +86,7 @@ impl RenderOnce for InputChips {
                             .text_color(text_muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover))
-                            .child("×")
+                            .child("×"),
                     )
             }))
             // Input placeholder
@@ -102,7 +97,7 @@ impl RenderOnce for InputChips {
                     .items_center()
                     .text_sm()
                     .text_color(text_muted)
-                    .child(self.placeholder)
+                    .child(self.placeholder),
             )
     }
 }

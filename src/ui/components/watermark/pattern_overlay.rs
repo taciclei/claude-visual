@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::PatternType;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Pattern overlay (stripes, dots, grid)
 #[derive(IntoElement)]
@@ -69,12 +69,11 @@ impl RenderOnce for PatternOverlay {
                         .flex_wrap()
                         .gap(px(self.spacing))
                         .p(px(self.spacing / 2.0))
-                        .children((0..100).map(|_| {
-                            div()
-                                .size(px(self.size))
-                                .rounded_full()
-                                .bg(pattern_color)
-                        }))
+                        .children(
+                            (0..100).map(|_| {
+                                div().size(px(self.size)).rounded_full().bg(pattern_color)
+                            }),
+                        )
                 }
                 PatternType::Grid => {
                     // Grid lines
@@ -83,9 +82,7 @@ impl RenderOnce for PatternOverlay {
                         .flex()
                         .flex_col()
                         .gap(px(self.spacing))
-                        .children((0..20).map(|_| {
-                            div().w_full().h(px(1.0)).bg(pattern_color)
-                        }))
+                        .children((0..20).map(|_| div().w_full().h(px(1.0)).bg(pattern_color)))
                 }
                 PatternType::HorizontalStripes => {
                     div()
@@ -101,16 +98,13 @@ impl RenderOnce for PatternOverlay {
                         }))
                 }
                 PatternType::VerticalStripes => {
-                    div()
-                        .size_full()
-                        .flex()
-                        .children((0..30).map(|i| {
-                            div()
-                                .h_full()
-                                .w(px(self.size))
-                                .when(i % 2 == 0, |d| d.bg(pattern_color))
-                                .mr(px(self.spacing))
-                        }))
+                    div().size_full().flex().children((0..30).map(|i| {
+                        div()
+                            .h_full()
+                            .w(px(self.size))
+                            .when(i % 2 == 0, |d| d.bg(pattern_color))
+                            .mr(px(self.spacing))
+                    }))
                 }
                 _ => {
                     // Default to dots for other patterns
@@ -119,12 +113,11 @@ impl RenderOnce for PatternOverlay {
                         .flex()
                         .flex_wrap()
                         .gap(px(self.spacing))
-                        .children((0..100).map(|_| {
-                            div()
-                                .size(px(self.size))
-                                .rounded_full()
-                                .bg(pattern_color)
-                        }))
+                        .children(
+                            (0..100).map(|_| {
+                                div().size(px(self.size)).rounded_full().bg(pattern_color)
+                            }),
+                        )
                 }
             })
     }

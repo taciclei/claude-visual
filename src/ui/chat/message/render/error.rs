@@ -1,16 +1,20 @@
 //! Error message rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
-use crate::ui::chat::view::types::ErrorCategory;
-use super::super::view::MessageView;
 use super::super::types::MessageViewEvent;
 use super::super::utils::categorize_error;
+use super::super::view::MessageView;
+use crate::app::theme::Theme;
+use crate::ui::chat::view::types::ErrorCategory;
 
 impl MessageView {
-    pub(in crate::ui::chat::message) fn render_error_content(&self, theme: &Theme, cx: &mut Context<Self>) -> Div {
+    pub(in crate::ui::chat::message) fn render_error_content(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let content = self.message.content.clone();
 
         // Categorize the error
@@ -38,18 +42,14 @@ impl MessageView {
                             .flex()
                             .items_center()
                             .gap_2()
-                            .child(
-                                div()
-                                    .text_base()
-                                    .child(error_icon)
-                            )
+                            .child(div().text_base().child(error_icon))
                             .child(
                                 div()
                                     .text_sm()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(theme.colors.error)
-                                    .child(error_title)
-                            )
+                                    .child(error_title),
+                            ),
                     )
                     // Error message
                     .child(
@@ -57,7 +57,7 @@ impl MessageView {
                             .text_sm()
                             .text_color(theme.colors.text_muted)
                             .font_family("JetBrains Mono")
-                            .child(content)
+                            .child(content),
                     )
                     // Action buttons
                     .child(
@@ -89,8 +89,8 @@ impl MessageView {
                                                 .items_center()
                                                 .gap_1()
                                                 .child("🔄")
-                                                .child("Retry")
-                                        )
+                                                .child("Retry"),
+                                        ),
                                 )
                             })
                             // Copy error button
@@ -116,9 +116,9 @@ impl MessageView {
                                             .items_center()
                                             .gap_1()
                                             .child("📋")
-                                            .child("Copy Error")
-                                    )
-                            )
+                                            .child("Copy Error"),
+                                    ),
+                            ),
                     )
                     // Skill suggestions for error recovery
                     .child(
@@ -135,15 +135,12 @@ impl MessageView {
                                 div()
                                     .text_xs()
                                     .text_color(theme.colors.text_muted)
-                                    .child("Recovery suggestions:")
+                                    .child("Recovery suggestions:"),
                             )
                             // Skill buttons
-                            .child(
-                                div()
-                                    .flex()
-                                    .flex_wrap()
-                                    .gap_2()
-                                    .children(skill_suggestions.into_iter().enumerate().map(|(idx, (icon, label, cmd, desc))| {
+                            .child(div().flex().flex_wrap().gap_2().children(
+                                skill_suggestions.into_iter().enumerate().map(
+                                    |(idx, (icon, label, cmd, desc))| {
                                         let cmd_str = cmd.to_string();
                                         div()
                                             .id(SharedString::from(format!("error-skill-{}", idx)))
@@ -161,23 +158,22 @@ impl MessageView {
                                             .cursor_pointer()
                                             .hover(|s| s.bg(theme.colors.accent.opacity(0.2)))
                                             .on_click(cx.listener(move |_this, _, _window, cx| {
-                                                cx.emit(MessageViewEvent::ExecuteSkill(cmd_str.clone()));
+                                                cx.emit(MessageViewEvent::ExecuteSkill(
+                                                    cmd_str.clone(),
+                                                ));
                                             }))
                                             .child(icon)
                                             .child(
-                                                div()
-                                                    .flex()
-                                                    .flex_col()
-                                                    .child(label)
-                                                    .child(
-                                                        div()
-                                                            .text_xs()
-                                                            .text_color(theme.colors.text_muted)
-                                                            .child(desc)
-                                                    )
+                                                div().flex().flex_col().child(label).child(
+                                                    div()
+                                                        .text_xs()
+                                                        .text_color(theme.colors.text_muted)
+                                                        .child(desc),
+                                                ),
                                             )
-                                    }))
-                            )
+                                    },
+                                ),
+                            ))
                             // Pro tip
                             .child(
                                 div()
@@ -188,9 +184,9 @@ impl MessageView {
                                     .bg(theme.colors.info.opacity(0.1))
                                     .text_xs()
                                     .text_color(theme.colors.info)
-                                    .child(tip)
-                            )
-                    )
+                                    .child(tip),
+                            ),
+                    ),
             )
     }
 }

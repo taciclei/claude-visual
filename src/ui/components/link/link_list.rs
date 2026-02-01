@@ -1,10 +1,10 @@
 //! Link list component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::LinkListDirection;
 use super::footer_link::FooterLink;
+use super::types::LinkListDirection;
 
 /// Link list for navigation or footer
 #[derive(IntoElement)]

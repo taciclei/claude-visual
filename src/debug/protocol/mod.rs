@@ -2,21 +2,21 @@
 //!
 //! Protocol definitions for DAP communication.
 
-mod messages;
 mod arguments;
-mod types;
-mod events;
 mod capabilities;
+mod events;
+mod messages;
+mod types;
 
 // Re-export all public types
-pub use messages::{DapMessage, DapRequest, DapResponse, DapEvent};
-pub use arguments::{InitializeArguments, LaunchArguments, AttachArguments};
-pub use types::{
-    Source, BreakpointLocation, Breakpoint, StackFrame, Scope,
-    Variable, VariablePresentationHint, Thread,
-};
-pub use events::{StoppedEventBody, OutputEventBody, TerminatedEventBody};
+pub use arguments::{AttachArguments, InitializeArguments, LaunchArguments};
 pub use capabilities::{Capabilities, ExceptionBreakpointsFilter};
+pub use events::{OutputEventBody, StoppedEventBody, TerminatedEventBody};
+pub use messages::{DapEvent, DapMessage, DapRequest, DapResponse};
+pub use types::{
+    Breakpoint, BreakpointLocation, Scope, Source, StackFrame, Thread, Variable,
+    VariablePresentationHint,
+};
 
 #[cfg(test)]
 mod tests {

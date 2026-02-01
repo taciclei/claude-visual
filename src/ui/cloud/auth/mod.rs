@@ -2,11 +2,11 @@
 //!
 //! Login/signup dialog for cloud authentication.
 
+mod buttons;
 mod dialog;
 mod events;
-mod buttons;
-mod header;
 mod feedback;
+mod header;
 mod layout;
 
 pub use dialog::{AuthDialog, AuthMode};

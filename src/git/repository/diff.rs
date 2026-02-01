@@ -34,7 +34,9 @@ impl Repository {
         // If no unstaged changes, try staged changes
         if diff_output.is_empty() {
             let head = self.repo.head()?.peel_to_tree()?;
-            let diff = self.repo.diff_tree_to_index(Some(&head), None, Some(&mut opts))?;
+            let diff = self
+                .repo
+                .diff_tree_to_index(Some(&head), None, Some(&mut opts))?;
 
             diff.print(git2::DiffFormat::Patch, |_delta, _hunk, line| {
                 let prefix = match line.origin() {

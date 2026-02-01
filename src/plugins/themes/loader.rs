@@ -4,10 +4,10 @@ use anyhow::{Context, Result};
 use std::collections::HashMap;
 use std::path::Path;
 
+use super::converter::convert_variant;
+use super::types::{ThemeMetadata, ZedThemeFile};
 use crate::app::theme::Theme;
 use crate::plugins::ExtensionManifest;
-use super::types::{ThemeMetadata, ZedThemeFile};
-use super::converter::convert_variant;
 
 /// Theme loader for Zed-compatible themes
 pub struct ThemeLoader {
@@ -29,10 +29,10 @@ impl ThemeLoader {
     /// Load themes from an extension directory
     pub fn load_extension(&mut self, extension_path: &Path) -> Result<Vec<String>> {
         let manifest_path = extension_path.join("extension.toml");
-        let manifest_content = std::fs::read_to_string(&manifest_path)
-            .context("Failed to read extension.toml")?;
-        let manifest: ExtensionManifest = toml::from_str(&manifest_content)
-            .context("Failed to parse extension.toml")?;
+        let manifest_content =
+            std::fs::read_to_string(&manifest_path).context("Failed to read extension.toml")?;
+        let manifest: ExtensionManifest =
+            toml::from_str(&manifest_content).context("Failed to parse extension.toml")?;
 
         let mut loaded_names = Vec::new();
 
@@ -63,8 +63,7 @@ impl ThemeLoader {
         path: &Path,
         extension_id: Option<&str>,
     ) -> Result<Vec<String>> {
-        let content = std::fs::read_to_string(path)
-            .context("Failed to read theme file")?;
+        let content = std::fs::read_to_string(path).context("Failed to read theme file")?;
 
         self.load_json_with_metadata(&content, extension_id, Some(path.to_path_buf()))
     }
@@ -86,8 +85,8 @@ impl ThemeLoader {
         extension_id: Option<&str>,
         file_path: Option<std::path::PathBuf>,
     ) -> Result<Vec<String>> {
-        let theme_file: ZedThemeFile = serde_json::from_str(json)
-            .context("Failed to parse theme JSON")?;
+        let theme_file: ZedThemeFile =
+            serde_json::from_str(json).context("Failed to parse theme JSON")?;
 
         let mut loaded_names = Vec::new();
 

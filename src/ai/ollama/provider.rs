@@ -3,12 +3,11 @@
 use async_trait::async_trait;
 use futures::StreamExt;
 
-use crate::ai::provider::{
-    AIError, AIProvider, AIRequest, AIResponse, AIStream, ModelInfo, StopReason, StreamChunk,
-    Usage,
-};
 use super::core::OllamaProvider;
 use super::types::{OllamaChatResponse, OllamaStreamEvent};
+use crate::ai::provider::{
+    AIError, AIProvider, AIRequest, AIResponse, AIStream, ModelInfo, StopReason, StreamChunk, Usage,
+};
 
 #[async_trait]
 impl AIProvider for OllamaProvider {
@@ -82,10 +81,7 @@ impl AIProvider for OllamaProvider {
     }
 
     fn default_model(&self) -> &str {
-        self.config
-            .default_model
-            .as_deref()
-            .unwrap_or("llama3.2")
+        self.config.default_model.as_deref().unwrap_or("llama3.2")
     }
 
     fn is_configured(&self) -> bool {

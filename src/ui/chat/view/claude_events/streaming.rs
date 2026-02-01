@@ -33,23 +33,28 @@ impl ChatView {
         // Start animation timer
         cx.spawn(async move |this, cx| {
             loop {
-                cx.background_executor().timer(std::time::Duration::from_millis(300)).await;
-                let should_continue = this.update(cx, |view, cx| {
-                    // Continue animation if streaming or has active tasks
-                    if view.streaming.is_streaming || !view.active_tasks.is_empty() {
-                        view.streaming.streaming_dots = (view.streaming.streaming_dots + 1) % 4;
-                        cx.notify();
-                        true
-                    } else {
-                        view.streaming.streaming_dots = 0;
-                        false
-                    }
-                }).unwrap_or(false);
+                cx.background_executor()
+                    .timer(std::time::Duration::from_millis(300))
+                    .await;
+                let should_continue = this
+                    .update(cx, |view, cx| {
+                        // Continue animation if streaming or has active tasks
+                        if view.streaming.is_streaming || !view.active_tasks.is_empty() {
+                            view.streaming.streaming_dots = (view.streaming.streaming_dots + 1) % 4;
+                            cx.notify();
+                            true
+                        } else {
+                            view.streaming.streaming_dots = 0;
+                            false
+                        }
+                    })
+                    .unwrap_or(false);
 
                 if !should_continue {
                     break;
                 }
             }
-        }).detach();
+        })
+        .detach();
     }
 }

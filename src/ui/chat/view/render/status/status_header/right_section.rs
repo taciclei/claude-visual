@@ -1,16 +1,22 @@
 //! Right section rendering (tasks and indicators)
 
-use gpui::*;
-use gpui::prelude::*;
+use super::super::super::super::core::ChatView;
+use super::helpers::{format_elapsed_time, get_spinner, shorten_with_ellipsis};
 use crate::app::theme::Theme;
 use crate::claude::message::SessionInfo;
 use crate::ui::chat::view::types::ActiveTask;
-use super::super::super::super::core::ChatView;
-use super::helpers::{get_spinner, format_elapsed_time, shorten_with_ellipsis};
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render a single active task item
-    pub(super) fn render_active_task(&self, idx: usize, task: &ActiveTask, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_active_task(
+        &self,
+        idx: usize,
+        task: &ActiveTask,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let elapsed = chrono::Utc::now().signed_duration_since(task.started_at);
         let elapsed_str = format_elapsed_time(elapsed.num_seconds());
         let spinner = get_spinner(self.streaming.streaming_dots);
@@ -30,12 +36,7 @@ impl ChatView {
             .cursor_pointer()
             .hover(|s| s.bg(theme.colors.info.opacity(0.15)))
             // Animated spinner
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(theme.colors.info)
-                    .child(spinner)
-            )
+            .child(div().text_xs().text_color(theme.colors.info).child(spinner))
             // Task description
             .child(
                 div()
@@ -43,7 +44,7 @@ impl ChatView {
                     .text_color(theme.colors.info)
                     .max_w(px(150.0))
                     .overflow_hidden()
-                    .child(task.description.clone())
+                    .child(task.description.clone()),
             )
             // Progress bar (if available)
             .when_some(task.progress, |d, progress| {
@@ -58,8 +59,8 @@ impl ChatView {
                                 .h_full()
                                 .w(px(40.0 * progress as f32 / 100.0))
                                 .rounded_sm()
-                                .bg(theme.colors.info)
-                        )
+                                .bg(theme.colors.info),
+                        ),
                 )
             })
             // Elapsed time
@@ -67,7 +68,7 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child(elapsed_str)
+                    .child(elapsed_str),
             )
             // Task ID badge (if available)
             .when_some(task_id.clone(), |d, id| {
@@ -76,7 +77,7 @@ impl ChatView {
                         .text_xs()
                         .text_color(theme.colors.text_muted.opacity(0.6))
                         .font_family("monospace")
-                        .child(format!("#{}", &id[..id.len().min(6)]))
+                        .child(format!("#{}", &id[..id.len().min(6)])),
                 )
             })
             // Cancel button
@@ -93,7 +94,10 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.error.opacity(0.6))
                     .cursor_pointer()
-                    .hover(|s| s.bg(theme.colors.error.opacity(0.2)).text_color(theme.colors.error))
+                    .hover(|s| {
+                        s.bg(theme.colors.error.opacity(0.2))
+                            .text_color(theme.colors.error)
+                    })
                     .on_click(cx.listener(move |this, _, _window, cx| {
                         this.cancel_task(cancel_task_id.clone(), cx);
                     }))
@@ -119,14 +123,14 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child("🔑")
+                    .child("🔑"),
             )
             .child(
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .font_family("monospace")
-                    .child(short_id)
+                    .child(short_id),
             )
     }
 
@@ -147,12 +151,17 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .font_family("monospace")
-                    .child(format!("v{}", info.version))
+                    .child(format!("v{}", info.version)),
             )
     }
 
     /// Render the session cost indicator
-    pub(super) fn render_cost_indicator(&self, cost: f64, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_cost_indicator(
+        &self,
+        cost: f64,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let cost_color = if cost > 1.0 {
             theme.colors.error
         } else if cost > 0.1 {
@@ -175,18 +184,13 @@ impl ChatView {
             .on_click(cx.listener(|this, _, _window, cx| {
                 this.toggle_session_details(cx);
             }))
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(cost_color)
-                    .child("💰")
-            )
+            .child(div().text_xs().text_color(cost_color).child("💰"))
             .child(
                 div()
                     .text_xs()
                     .font_family("monospace")
                     .text_color(cost_color)
-                    .child(format!("${:.4}", cost))
+                    .child(format!("${:.4}", cost)),
             )
     }
 }

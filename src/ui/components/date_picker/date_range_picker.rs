@@ -1,8 +1,8 @@
 //! Date range picker component
 
-use gpui::*;
+use super::types::{DatePickerSize, DateRange, DateValue};
 use gpui::prelude::*;
-use super::types::{DateValue, DateRange, DatePickerSize};
+use gpui::*;
 
 /// Date range picker component
 #[derive(IntoElement)]
@@ -116,7 +116,7 @@ impl RenderOnce for DateRangePicker {
                 div()
                     .text_size(px(font_size))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("📅")
+                    .child("📅"),
             )
             .child(
                 div()
@@ -126,13 +126,13 @@ impl RenderOnce for DateRangePicker {
                     } else {
                         hsla(0.0, 0.0, 0.5, 1.0)
                     })
-                    .child(start_text)
+                    .child(start_text),
             )
             .child(
                 div()
                     .text_size(px(font_size))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("→")
+                    .child("→"),
             )
             .child(
                 div()
@@ -142,7 +142,7 @@ impl RenderOnce for DateRangePicker {
                     } else {
                         hsla(0.0, 0.0, 0.5, 1.0)
                     })
-                    .child(end_text)
+                    .child(end_text),
             )
     }
 }

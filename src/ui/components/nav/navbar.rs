@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::NavItem;
 
@@ -99,51 +99,41 @@ impl RenderOnce for Navbar {
                     .flex()
                     .items_center()
                     .gap(px(24.0))
-                    .when(self.logo.is_some(), |el| {
-                        el.child(self.logo.unwrap())
-                    })
-                    .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap(px(4.0))
-                            .children(self.items.into_iter().map(|item| {
-                                div()
-                                    .px(px(12.0))
-                                    .py(px(8.0))
-                                    .flex()
-                                    .items_center()
-                                    .gap(px(6.0))
-                                    .rounded(px(6.0))
-                                    .cursor_pointer()
-                                    .when(item.active, |el| {
-                                        el.bg(hsla(0.0, 0.0, 0.2, 1.0))
-                                    })
-                                    .when(!item.active && !item.disabled, |el| {
-                                        el.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
-                                    })
-                                    .when(item.disabled, |el| {
-                                        el.opacity(0.5).cursor_not_allowed()
-                                    })
-                                    .when(item.icon.is_some(), |el| {
-                                        el.child(
-                                            div()
-                                                .text_size(px(14.0))
-                                                .child(item.icon.clone().unwrap_or_default())
-                                        )
-                                    })
-                                    .child(
+                    .when(self.logo.is_some(), |el| el.child(self.logo.unwrap()))
+                    .child(div().flex().items_center().gap(px(4.0)).children(
+                        self.items.into_iter().map(|item| {
+                            div()
+                                .px(px(12.0))
+                                .py(px(8.0))
+                                .flex()
+                                .items_center()
+                                .gap(px(6.0))
+                                .rounded(px(6.0))
+                                .cursor_pointer()
+                                .when(item.active, |el| el.bg(hsla(0.0, 0.0, 0.2, 1.0)))
+                                .when(!item.active && !item.disabled, |el| {
+                                    el.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
+                                })
+                                .when(item.disabled, |el| el.opacity(0.5).cursor_not_allowed())
+                                .when(item.icon.is_some(), |el| {
+                                    el.child(
                                         div()
                                             .text_size(px(14.0))
-                                            .text_color(if item.active {
-                                                hsla(0.0, 0.0, 1.0, 1.0)
-                                            } else {
-                                                hsla(0.0, 0.0, 0.7, 1.0)
-                                            })
-                                            .child(item.label.clone())
+                                            .child(item.icon.clone().unwrap_or_default()),
                                     )
-                            }))
-                    )
+                                })
+                                .child(
+                                    div()
+                                        .text_size(px(14.0))
+                                        .text_color(if item.active {
+                                            hsla(0.0, 0.0, 1.0, 1.0)
+                                        } else {
+                                            hsla(0.0, 0.0, 0.7, 1.0)
+                                        })
+                                        .child(item.label.clone()),
+                                )
+                        }),
+                    )),
             )
             .child(
                 // Right section: actions
@@ -151,7 +141,7 @@ impl RenderOnce for Navbar {
                     .flex()
                     .items_center()
                     .gap(px(8.0))
-                    .children(self.actions)
+                    .children(self.actions),
             )
     }
 }

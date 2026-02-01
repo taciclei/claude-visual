@@ -2,21 +2,21 @@
 //!
 //! Handles offline-first synchronization of conversations with the cloud.
 
-mod types;
+mod conflict;
 mod manager;
+mod persistence;
 mod queue;
 mod remote;
-mod conflict;
-mod persistence;
+mod types;
 
-pub use types::*;
 pub use manager::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::HashMap;
     use crate::cloud::storage::StorageItemType;
+    use std::collections::HashMap;
 
     #[test]
     fn test_sync_state_default() {

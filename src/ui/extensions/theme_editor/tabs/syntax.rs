@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use crate::ui::extensions::theme_editor::ThemeEditor;
 use crate::ui::extensions::theme_editor::types::EditingColor;
+use crate::ui::extensions::theme_editor::ThemeEditor;
 
 impl ThemeEditor {
     /// Render syntax tab
@@ -15,7 +15,12 @@ impl ThemeEditor {
             .flex_col()
             .gap_4()
             // Syntax colors
-            .child(self.render_color_section("Syntax Highlighting", EditingColor::all_syntax_colors(), theme, cx))
+            .child(self.render_color_section(
+                "Syntax Highlighting",
+                EditingColor::all_syntax_colors(),
+                theme,
+                cx,
+            ))
             // Preview
             .child(
                 div()

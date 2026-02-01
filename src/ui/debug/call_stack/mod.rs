@@ -2,9 +2,9 @@
 //!
 //! UI for displaying the call stack during debugging.
 
-mod types;
 mod component;
 mod render;
+mod types;
 
-pub use types::{CallStackViewEvent, StackFrameItem, ThreadItem};
 pub use component::CallStackView;
+pub use types::{CallStackViewEvent, StackFrameItem, ThreadItem};

@@ -1,7 +1,7 @@
 //! Share dialog header rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::dialog::ShareDialog;
 use super::types::ShareDialogEvent;

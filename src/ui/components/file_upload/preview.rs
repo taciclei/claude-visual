@@ -1,7 +1,7 @@
 //! File preview component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// File preview item
 #[derive(Clone, IntoElement)]
@@ -112,7 +112,7 @@ impl RenderOnce for FilePreview {
                     .items_center()
                     .justify_center()
                     .text_lg()
-                    .child(Self::file_icon(&self.file_type))
+                    .child(Self::file_icon(&self.file_type)),
             )
             // File info
             .child(
@@ -130,7 +130,7 @@ impl RenderOnce for FilePreview {
                             .text_color(text)
                             .overflow_hidden()
                             .text_ellipsis()
-                            .child(self.filename.clone())
+                            .child(self.filename.clone()),
                     )
                     // Size or error
                     .child(
@@ -141,7 +141,7 @@ impl RenderOnce for FilePreview {
                                 err.clone()
                             } else {
                                 Self::format_size(self.size_bytes)
-                            })
+                            }),
                     )
                     // Progress bar
                     .when_some(self.progress, |d, progress| {
@@ -157,53 +157,47 @@ impl RenderOnce for FilePreview {
                                         .h_full()
                                         .w(relative(progress / 100.0))
                                         .rounded(px(2.0))
-                                        .bg(accent)
-                                )
+                                        .bg(accent),
+                                ),
                         )
-                    })
+                    }),
             )
             // Status/Remove button
-            .child(
+            .child(div().flex_shrink_0().child(if is_uploading {
                 div()
-                    .flex_shrink_0()
-                    .child(
-                        if is_uploading {
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(format!("{}%", self.progress.unwrap_or(0.0) as u32))
-                                .into_any_element()
-                        } else if has_error {
-                            div()
-                                .size(px(24.0))
-                                .rounded(px(4.0))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_color(error)
-                                .cursor_pointer()
-                                .hover(|s| s.bg(surface_hover))
-                                .child("↻")
-                                .into_any_element()
-                        } else if self.removable {
-                            div()
-                                .size(px(24.0))
-                                .rounded(px(4.0))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_color(text_muted)
-                                .cursor_pointer()
-                                .hover(|s| s.bg(surface_hover).text_color(text))
-                                .child("×")
-                                .into_any_element()
-                        } else {
-                            div()
-                                .text_color(hsla(0.38, 0.7, 0.45, 1.0))
-                                .child("✓")
-                                .into_any_element()
-                        }
-                    )
-            )
+                    .text_xs()
+                    .text_color(text_muted)
+                    .child(format!("{}%", self.progress.unwrap_or(0.0) as u32))
+                    .into_any_element()
+            } else if has_error {
+                div()
+                    .size(px(24.0))
+                    .rounded(px(4.0))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .text_color(error)
+                    .cursor_pointer()
+                    .hover(|s| s.bg(surface_hover))
+                    .child("↻")
+                    .into_any_element()
+            } else if self.removable {
+                div()
+                    .size(px(24.0))
+                    .rounded(px(4.0))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .text_color(text_muted)
+                    .cursor_pointer()
+                    .hover(|s| s.bg(surface_hover).text_color(text))
+                    .child("×")
+                    .into_any_element()
+            } else {
+                div()
+                    .text_color(hsla(0.38, 0.7, 0.45, 1.0))
+                    .child("✓")
+                    .into_any_element()
+            }))
     }
 }

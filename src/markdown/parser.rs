@@ -8,11 +8,17 @@ pub enum MarkdownElement {
     /// Plain text
     Text(String),
     /// Heading with level (1-6)
-    Heading { level: u8, content: Vec<MarkdownElement> },
+    Heading {
+        level: u8,
+        content: Vec<MarkdownElement>,
+    },
     /// Paragraph
     Paragraph(Vec<MarkdownElement>),
     /// Code block with optional language
-    CodeBlock { language: Option<String>, code: String },
+    CodeBlock {
+        language: Option<String>,
+        code: String,
+    },
     /// Inline code
     InlineCode(String),
     /// Bold text
@@ -22,13 +28,20 @@ pub enum MarkdownElement {
     /// Strikethrough text
     Strikethrough(Vec<MarkdownElement>),
     /// Link with URL and title
-    Link { url: String, title: Option<String>, content: Vec<MarkdownElement> },
+    Link {
+        url: String,
+        title: Option<String>,
+        content: Vec<MarkdownElement>,
+    },
     /// Image with URL and alt text
     Image { url: String, alt: String },
     /// Unordered list
     List(Vec<Vec<MarkdownElement>>),
     /// Ordered list
-    OrderedList { start: u64, items: Vec<Vec<MarkdownElement>> },
+    OrderedList {
+        start: u64,
+        items: Vec<Vec<MarkdownElement>>,
+    },
     /// List item
     ListItem(Vec<MarkdownElement>),
     /// Block quote
@@ -36,7 +49,10 @@ pub enum MarkdownElement {
     /// Horizontal rule
     HorizontalRule,
     /// Table
-    Table { headers: Vec<String>, rows: Vec<Vec<String>> },
+    Table {
+        headers: Vec<String>,
+        rows: Vec<Vec<String>>,
+    },
     /// Soft break (single newline)
     SoftBreak,
     /// Hard break (two newlines or <br>)
@@ -116,7 +132,11 @@ pub fn parse(markdown: &str) -> Vec<MarkdownElement> {
     elements
 }
 
-fn tag_to_element(tag: Tag<'_>, _tag_end: TagEnd, content: Vec<MarkdownElement>) -> MarkdownElement {
+fn tag_to_element(
+    tag: Tag<'_>,
+    _tag_end: TagEnd,
+    content: Vec<MarkdownElement>,
+) -> MarkdownElement {
     match tag {
         Tag::Paragraph => MarkdownElement::Paragraph(content),
         Tag::Heading { level, .. } => MarkdownElement::Heading {
@@ -176,7 +196,9 @@ fn tag_to_element(tag: Tag<'_>, _tag_end: TagEnd, content: Vec<MarkdownElement>)
         Tag::Emphasis => MarkdownElement::Italic(content),
         Tag::Strong => MarkdownElement::Bold(content),
         Tag::Strikethrough => MarkdownElement::Strikethrough(content),
-        Tag::Link { dest_url, title, .. } => MarkdownElement::Link {
+        Tag::Link {
+            dest_url, title, ..
+        } => MarkdownElement::Link {
             url: dest_url.to_string(),
             title: if title.is_empty() {
                 None
@@ -185,7 +207,9 @@ fn tag_to_element(tag: Tag<'_>, _tag_end: TagEnd, content: Vec<MarkdownElement>)
             },
             content,
         },
-        Tag::Image { dest_url, title, .. } => MarkdownElement::Image {
+        Tag::Image {
+            dest_url, title, ..
+        } => MarkdownElement::Image {
             url: dest_url.to_string(),
             alt: title.to_string(),
         },
@@ -198,7 +222,10 @@ pub fn extract_code_blocks(markdown: &str) -> Vec<(Option<String>, String)> {
     let elements = parse(markdown);
     let mut code_blocks = Vec::new();
 
-    fn extract_from_elements(elements: &[MarkdownElement], blocks: &mut Vec<(Option<String>, String)>) {
+    fn extract_from_elements(
+        elements: &[MarkdownElement],
+        blocks: &mut Vec<(Option<String>, String)>,
+    ) {
         for element in elements {
             match element {
                 MarkdownElement::CodeBlock { language, code } => {

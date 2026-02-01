@@ -1,7 +1,7 @@
 //! Permissions indicator button
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Render permissions indicator button (only when pending permissions exist)
@@ -39,7 +39,7 @@ impl ChatView {
                 .hover(move |s| s.bg(warning_hover))
                 .on_click(on_click)
                 .child("🔐")
-                .child(format!("{} pending", count))
+                .child(format!("{} pending", count)),
         )
     }
 }

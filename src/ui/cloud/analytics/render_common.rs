@@ -1,11 +1,11 @@
 //! Common rendering utilities
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::AnalyticsPeriod;
 use super::panel::AnalyticsPanel;
 use super::types::AnalyticsViewMode;
+use crate::cloud::team::AnalyticsPeriod;
 
 impl AnalyticsPanel {
     /// Render period selector
@@ -22,7 +22,11 @@ impl AnalyticsPanel {
     }
 
     /// Render period button
-    pub(super) fn render_period_button(&self, period: AnalyticsPeriod, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_period_button(
+        &self,
+        period: AnalyticsPeriod,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let is_selected = self.period == period;
 
@@ -53,7 +57,12 @@ impl AnalyticsPanel {
     }
 
     /// Render tab button
-    pub(super) fn render_tab_button(&self, label: &str, mode: AnalyticsViewMode, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_tab_button(
+        &self,
+        label: &str,
+        mode: AnalyticsViewMode,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let is_active = self.view_mode == mode;
         let label = label.to_string();
@@ -139,17 +148,12 @@ impl AnalyticsPanel {
     pub(super) fn render_loading(&self, cx: &Context<Self>) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
-        div()
-            .flex()
-            .items_center()
-            .justify_center()
-            .h_full()
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(theme.colors.text_muted)
-                    .child("Loading analytics..."),
-            )
+        div().flex().items_center().justify_center().h_full().child(
+            div()
+                .text_sm()
+                .text_color(theme.colors.text_muted)
+                .child("Loading analytics..."),
+        )
     }
 
     /// Render empty state

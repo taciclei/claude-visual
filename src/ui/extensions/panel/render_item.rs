@@ -1,8 +1,8 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::*;
 use super::panel::ExtensionsPanel;
+use super::types::*;
 
 impl ExtensionsPanel {
     /// Render an extension item
@@ -82,10 +82,9 @@ impl ExtensionsPanel {
                             // Description
                             .when(ext.manifest.description.is_some(), |d| {
                                 d.child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(theme.colors.text_muted)
-                                        .child(ext.manifest.description.clone().unwrap_or_default()),
+                                    div().text_xs().text_color(theme.colors.text_muted).child(
+                                        ext.manifest.description.clone().unwrap_or_default(),
+                                    ),
                                 )
                             })
                             // Authors
@@ -108,7 +107,11 @@ impl ExtensionsPanel {
     }
 
     /// Render extension details
-    pub(super) fn render_extension_details(&self, ext: &ExtensionItem, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_extension_details(
+        &self,
+        ext: &ExtensionItem,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let id = ext.manifest.id.clone();
         let id_for_toggle = id.clone();
@@ -253,7 +256,10 @@ impl ExtensionsPanel {
                     // Uninstall button
                     .child(
                         div()
-                            .id(SharedString::from(format!("uninstall-{}", id_for_uninstall.clone())))
+                            .id(SharedString::from(format!(
+                                "uninstall-{}",
+                                id_for_uninstall.clone()
+                            )))
                             .px_4()
                             .py_2()
                             .rounded_md()

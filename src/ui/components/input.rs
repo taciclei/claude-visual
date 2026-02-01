@@ -1,9 +1,9 @@
 //! Text input component
 
+use gpui::prelude::*;
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 /// Text input component
 pub struct TextInput {

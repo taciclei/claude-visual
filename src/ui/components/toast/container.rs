@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 impl EventEmitter<ToastEvent> for ToastContainer {}
 
@@ -180,7 +180,10 @@ impl Render for ToastContainer {
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
                                 .cursor_pointer()
-                                .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                                .hover(|s| {
+                                    s.bg(theme.colors.surface_hover)
+                                        .text_color(theme.colors.text)
+                                })
                                 .on_click(cx.listener(move |this, _, _window, cx| {
                                     this.dismiss(id, cx);
                                 }))

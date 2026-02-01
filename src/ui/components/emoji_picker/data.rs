@@ -8,12 +8,24 @@ pub(super) fn default_emojis() -> Vec<Emoji> {
         // Smileys
         Emoji::new("😀", "grinning face", EmojiCategory::Smileys),
         Emoji::new("😃", "grinning face with big eyes", EmojiCategory::Smileys),
-        Emoji::new("😄", "grinning face with smiling eyes", EmojiCategory::Smileys),
+        Emoji::new(
+            "😄",
+            "grinning face with smiling eyes",
+            EmojiCategory::Smileys,
+        ),
         Emoji::new("😁", "beaming face", EmojiCategory::Smileys),
         Emoji::new("😅", "grinning face with sweat", EmojiCategory::Smileys),
         Emoji::new("😂", "face with tears of joy", EmojiCategory::Smileys),
-        Emoji::new("🤣", "rolling on the floor laughing", EmojiCategory::Smileys),
-        Emoji::new("😊", "smiling face with smiling eyes", EmojiCategory::Smileys),
+        Emoji::new(
+            "🤣",
+            "rolling on the floor laughing",
+            EmojiCategory::Smileys,
+        ),
+        Emoji::new(
+            "😊",
+            "smiling face with smiling eyes",
+            EmojiCategory::Smileys,
+        ),
         Emoji::new("😇", "smiling face with halo", EmojiCategory::Smileys),
         Emoji::new("🙂", "slightly smiling face", EmojiCategory::Smileys),
         Emoji::new("😉", "winking face", EmojiCategory::Smileys),

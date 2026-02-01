@@ -10,7 +10,8 @@ impl ChatView {
         let title = self.display_title();
         let stats = self.calculate_stats();
 
-        let mut html = format!(r#"<!DOCTYPE html>
+        let mut html = format!(
+            r#"<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -81,7 +82,9 @@ impl ChatView {
 </head>
 <body>
     <h1>{}</h1>
-"#, title, title);
+"#,
+            title, title
+        );
 
         if self.export.include_metadata {
             html.push_str("    <div class=\"meta\">\n");
@@ -103,7 +106,9 @@ impl ChatView {
 
         for message in &self.messages {
             // Filter based on export settings
-            if !self.export.include_tools && matches!(message.role, MessageRole::ToolUse | MessageRole::ToolResult) {
+            if !self.export.include_tools
+                && matches!(message.role, MessageRole::ToolUse | MessageRole::ToolResult)
+            {
                 continue;
             }
             if !self.export.include_thinking && matches!(message.role, MessageRole::Thinking) {
@@ -122,7 +127,10 @@ impl ChatView {
             let role_name = match message.role {
                 MessageRole::User => "You",
                 MessageRole::Assistant => "Claude",
-                MessageRole::ToolUse => &format!("Tool: {}", message.tool_name.as_deref().unwrap_or("unknown")),
+                MessageRole::ToolUse => &format!(
+                    "Tool: {}",
+                    message.tool_name.as_deref().unwrap_or("unknown")
+                ),
                 MessageRole::ToolResult => "Tool Result",
                 MessageRole::Error => "Error",
                 MessageRole::Thinking => "Thinking",
@@ -130,13 +138,19 @@ impl ChatView {
             };
 
             html.push_str(&format!("        <div class=\"message {}\">\n", class));
-            html.push_str(&format!("            <div class=\"role\">{} <span class=\"timestamp\">{}</span></div>\n",
-                role_name, message.timestamp.format("%H:%M:%S")));
+            html.push_str(&format!(
+                "            <div class=\"role\">{} <span class=\"timestamp\">{}</span></div>\n",
+                role_name,
+                message.timestamp.format("%H:%M:%S")
+            ));
 
             // Escape HTML and convert code blocks
             let content = html_escape(&message.content);
             let content = convert_code_blocks_to_html(&content);
-            html.push_str(&format!("            <div class=\"content\">{}</div>\n", content));
+            html.push_str(&format!(
+                "            <div class=\"content\">{}</div>\n",
+                content
+            ));
 
             html.push_str("        </div>\n");
         }
@@ -161,8 +175,7 @@ fn html_escape(text: &str) -> String {
 fn convert_code_blocks_to_html(text: &str) -> String {
     // Simple conversion - wrap content in <pre> if it contains code blocks
     if text.contains("```") {
-        text.replace("```", "<pre>")
-            .replace("```", "</pre>")
+        text.replace("```", "<pre>").replace("```", "</pre>")
     } else {
         text.to_string()
     }

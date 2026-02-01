@@ -70,7 +70,9 @@ pub(super) async fn sync_breakpoints(session: &mut DebugSession) -> Result<(), D
         let verified = session.client.set_breakpoints(source, locations).await?;
 
         // Update verified status - collect IDs first to avoid borrowing conflicts
-        let updates: Vec<(usize, bool)> = bps.iter().enumerate()
+        let updates: Vec<(usize, bool)> = bps
+            .iter()
+            .enumerate()
             .map(|(i, bp)| (bp.id, verified.get(i).map(|v| v.verified).unwrap_or(false)))
             .collect();
 

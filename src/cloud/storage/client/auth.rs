@@ -36,6 +36,8 @@ impl CloudStorage {
     pub(super) fn require_encryption_key(&self) -> Result<&[u8], StorageError> {
         self.encryption_key
             .as_deref()
-            .ok_or(StorageError::Encryption("No encryption key set".to_string()))
+            .ok_or(StorageError::Encryption(
+                "No encryption key set".to_string(),
+            ))
     }
 }

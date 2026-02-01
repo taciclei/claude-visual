@@ -4,8 +4,8 @@ mod render;
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::state::AppState;
 use crate::cloud::SyncStatus;

@@ -1,7 +1,7 @@
 //! Simple timeline display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple timeline display
 #[derive(Clone)]
@@ -14,7 +14,12 @@ impl SimpleTimeline {
         Self { items: Vec::new() }
     }
 
-    pub fn item(mut self, title: impl Into<String>, time: impl Into<String>, completed: bool) -> Self {
+    pub fn item(
+        mut self,
+        title: impl Into<String>,
+        time: impl Into<String>,
+        completed: bool,
+    ) -> Self {
         self.items.push((title.into(), time.into(), completed));
         self
     }
@@ -37,56 +42,45 @@ impl RenderOnce for SimpleTimeline {
             .w_full()
             .flex()
             .flex_col()
-            .children(self.items.into_iter().enumerate().map(|(idx, (title, time, completed))| {
-                let is_last = idx == 0; // Check would need length
+            .children(
+                self.items
+                    .into_iter()
+                    .enumerate()
+                    .map(|(idx, (title, time, completed))| {
+                        let is_last = idx == 0; // Check would need length
 
-                let dot_color = if completed { success } else { text_muted };
+                        let dot_color = if completed { success } else { text_muted };
 
-                div()
-                    .w_full()
-                    .flex()
-                    // Timeline column
-                    .child(
                         div()
-                            .w(px(32.0))
+                            .w_full()
                             .flex()
-                            .flex_col()
-                            .items_center()
-                            // Dot
+                            // Timeline column
                             .child(
                                 div()
-                                    .size(px(12.0))
-                                    .rounded_full()
-                                    .bg(dot_color)
+                                    .w(px(32.0))
+                                    .flex()
+                                    .flex_col()
+                                    .items_center()
+                                    // Dot
+                                    .child(div().size(px(12.0)).rounded_full().bg(dot_color))
+                                    // Line
+                                    .child(div().w(px(2.0)).flex_1().min_h(px(20.0)).bg(border)),
                             )
-                            // Line
+                            // Content column
                             .child(
                                 div()
-                                    .w(px(2.0))
                                     .flex_1()
-                                    .min_h(px(20.0))
-                                    .bg(border)
+                                    .pb_4()
+                                    .child(
+                                        div()
+                                            .text_sm()
+                                            .font_weight(FontWeight::MEDIUM)
+                                            .text_color(text)
+                                            .child(title),
+                                    )
+                                    .child(div().text_xs().text_color(text_muted).child(time)),
                             )
-                    )
-                    // Content column
-                    .child(
-                        div()
-                            .flex_1()
-                            .pb_4()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .font_weight(FontWeight::MEDIUM)
-                                    .text_color(text)
-                                    .child(title)
-                            )
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child(time)
-                            )
-                    )
-            }))
+                    }),
+            )
     }
 }

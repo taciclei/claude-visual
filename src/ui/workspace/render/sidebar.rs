@@ -1,12 +1,16 @@
 //! Sidebar rendering with tab bar and content
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::theme::Theme;
 use super::super::core::Workspace;
 use super::super::types::SidebarTab;
+use crate::app::theme::Theme;
+use gpui::prelude::*;
+use gpui::*;
 
-pub fn render_sidebar(workspace: &Workspace, theme: &Theme, cx: &mut Context<Workspace>) -> impl IntoElement {
+pub fn render_sidebar(
+    workspace: &Workspace,
+    theme: &Theme,
+    cx: &mut Context<Workspace>,
+) -> impl IntoElement {
     div()
         .id("sidebar")
         .track_focus(&workspace.sidebar_focus)
@@ -22,7 +26,11 @@ pub fn render_sidebar(workspace: &Workspace, theme: &Theme, cx: &mut Context<Wor
         .child(render_tab_content(workspace))
 }
 
-fn render_tab_bar(workspace: &Workspace, theme: &Theme, cx: &mut Context<Workspace>) -> impl IntoElement {
+fn render_tab_bar(
+    workspace: &Workspace,
+    theme: &Theme,
+    cx: &mut Context<Workspace>,
+) -> impl IntoElement {
     let tabs = [
         ("tab-projects", "Projects", SidebarTab::Projects),
         ("tab-files", "Files", SidebarTab::Files),

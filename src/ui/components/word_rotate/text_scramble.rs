@@ -1,7 +1,7 @@
 //! TextScramble component - scrambles text before revealing
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Text scramble effect - scrambles text before revealing
 #[derive(IntoElement)]
@@ -71,7 +71,10 @@ impl RenderOnce for TextScramble {
                     c
                 } else {
                     // Use a "random" scramble character based on position
-                    scramble_chars.get(i % scramble_chars.len()).copied().unwrap_or('_')
+                    scramble_chars
+                        .get(i % scramble_chars.len())
+                        .copied()
+                        .unwrap_or('_')
                 };
 
                 div()

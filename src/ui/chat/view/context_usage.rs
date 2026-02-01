@@ -1,13 +1,18 @@
 //! Context usage tracking and export methods
 
-use gpui::*;
-use crate::claude::message::MessageRole;
 use super::core::ChatView;
-use super::types::{ChatViewEvent, NotificationType, ExportFormat};
+use super::types::{ChatViewEvent, ExportFormat, NotificationType};
+use crate::claude::message::MessageRole;
+use gpui::*;
 
 impl ChatView {
     /// Update context usage based on token counts
-    pub fn update_context_usage(&mut self, used: u64, capacity: Option<u64>, cx: &mut Context<Self>) {
+    pub fn update_context_usage(
+        &mut self,
+        used: u64,
+        capacity: Option<u64>,
+        cx: &mut Context<Self>,
+    ) {
         let old_percentage = self.context_usage_percentage();
 
         self.context_used = used;
@@ -22,19 +27,19 @@ impl ChatView {
             self.show_notification(
                 "Context is 70% full. Consider using /compact to free space.",
                 NotificationType::Info,
-                cx
+                cx,
             );
         } else if old_percentage <= 0.85 && new_percentage > 0.85 {
             self.show_notification(
                 "Context is 85% full! Use /compact soon to avoid losing context.",
                 NotificationType::Warning,
-                cx
+                cx,
             );
         } else if old_percentage <= 0.95 && new_percentage > 0.95 {
             self.show_notification(
                 "Context almost full! Use /compact immediately to prevent issues.",
                 NotificationType::Error,
-                cx
+                cx,
             );
         }
 
@@ -102,7 +107,8 @@ impl ChatView {
             self.stats.avg_response_latency_ms = latency_ms as f64;
         } else {
             let alpha = 0.3; // Smoothing factor
-            self.stats.avg_response_latency_ms = alpha * (latency_ms as f64) + (1.0 - alpha) * self.stats.avg_response_latency_ms;
+            self.stats.avg_response_latency_ms =
+                alpha * (latency_ms as f64) + (1.0 - alpha) * self.stats.avg_response_latency_ms;
         }
 
         // Recalculate session health
@@ -125,7 +131,7 @@ impl ChatView {
             self.show_notification(
                 "No messages to export".to_string(),
                 NotificationType::Warning,
-                cx
+                cx,
             );
         }
     }

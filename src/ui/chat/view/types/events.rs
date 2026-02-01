@@ -63,7 +63,10 @@ impl Notification {
 }
 
 /// Get suggested action for a notification based on its content
-pub fn get_notification_action(message: &str, notification_type: &NotificationType) -> Option<(&'static str, &'static str, &'static str)> {
+pub fn get_notification_action(
+    message: &str,
+    notification_type: &NotificationType,
+) -> Option<(&'static str, &'static str, &'static str)> {
     let msg_lower = message.to_lowercase();
 
     match notification_type {

@@ -1,7 +1,7 @@
 //! Render implementation for Tabs component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::tabs_component::Tabs;
 use super::types::*;
@@ -28,12 +28,10 @@ impl Render for Tabs {
                     .flex()
                     .items_center()
                     .when(self.full_width, |d| d.w_full())
-                    .when(is_underline, |d| d.border_b_1().border_color(theme.colors.border))
-                    .when(is_pill, |d| {
-                        d.p_1()
-                            .rounded_lg()
-                            .bg(theme.colors.surface)
+                    .when(is_underline, |d| {
+                        d.border_b_1().border_color(theme.colors.border)
                     })
+                    .when(is_pill, |d| d.p_1().rounded_lg().bg(theme.colors.surface))
                     .when(is_boxed, |d| {
                         d.border_1()
                             .border_color(theme.colors.border)
@@ -76,9 +74,7 @@ impl Render for Tabs {
                                             .text_color(theme.colors.text)
                                             .shadow_sm()
                                     })
-                                    .when(!is_active, |d| {
-                                        d.text_color(theme.colors.text_muted)
-                                    })
+                                    .when(!is_active, |d| d.text_color(theme.colors.text_muted))
                             })
                             .when(is_boxed, |d| {
                                 d.when(is_active, |d| {
@@ -96,9 +92,7 @@ impl Render for Tabs {
                                     d.text_color(theme.colors.text)
                                         .font_weight(FontWeight::MEDIUM)
                                 })
-                                .when(!is_active, |d| {
-                                    d.text_color(theme.colors.text_muted)
-                                })
+                                .when(!is_active, |d| d.text_color(theme.colors.text_muted))
                             })
                             // Interactivity
                             .when(!tab.disabled, |d| {
@@ -121,18 +115,10 @@ impl Render for Tabs {
                             })
                             // Icon
                             .when_some(tab.icon.clone(), |d, icon| {
-                                d.child(
-                                    div()
-                                        .text_size(px(font_size))
-                                        .child(icon)
-                                )
+                                d.child(div().text_size(px(font_size)).child(icon))
                             })
                             // Label
-                            .child(
-                                div()
-                                    .text_size(px(font_size))
-                                    .child(tab.label.clone())
-                            )
+                            .child(div().text_size(px(font_size)).child(tab.label.clone()))
                             // Badge
                             .when_some(tab.badge, |d, count| {
                                 d.child(
@@ -148,7 +134,11 @@ impl Render for Tabs {
                                         .flex()
                                         .items_center()
                                         .justify_center()
-                                        .child(if count > 99 { "99+".to_string() } else { count.to_string() })
+                                        .child(if count > 99 {
+                                            "99+".to_string()
+                                        } else {
+                                            count.to_string()
+                                        }),
                                 )
                             })
                             // Close button
@@ -166,12 +156,14 @@ impl Render for Tabs {
                                         .text_size(px(10.0))
                                         .hover(|s| s.bg(theme.colors.surface_hover))
                                         .on_click(cx.listener(move |_this, _, _window, cx| {
-                                            cx.emit(TabsEvent::CloseRequested(close_tab_id.clone()));
+                                            cx.emit(TabsEvent::CloseRequested(
+                                                close_tab_id.clone(),
+                                            ));
                                         }))
-                                        .child("×")
+                                        .child("×"),
                                 )
                             })
-                    }))
+                    })),
             )
     }
 }

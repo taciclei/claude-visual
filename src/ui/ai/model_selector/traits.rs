@@ -1,6 +1,6 @@
-use gpui::*;
 use super::core::ModelSelector;
 use super::types::ModelSelectorEvent;
+use gpui::*;
 
 impl EventEmitter<ModelSelectorEvent> for ModelSelector {}
 

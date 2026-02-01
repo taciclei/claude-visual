@@ -1,7 +1,7 @@
 //! Image gallery carousel component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::GalleryImage;
 
@@ -75,10 +75,7 @@ impl RenderOnce for ImageGallery {
                     .justify_center()
                     .when_some(current_image.clone(), |d, img| {
                         d.child(
-                            div()
-                                .text_3xl()
-                                .text_color(text_muted)
-                                .child(img.src) // Placeholder - would be actual image
+                            div().text_3xl().text_color(text_muted).child(img.src), // Placeholder - would be actual image
                         )
                     })
                     // Navigation
@@ -88,7 +85,6 @@ impl RenderOnce for ImageGallery {
                                 .absolute()
                                 .left_2()
                                 .top_1_2()
-
                                 .size(px(40.0))
                                 .rounded_full()
                                 .bg(hsla(0.0, 0.0, 0.0, 0.5))
@@ -98,14 +94,13 @@ impl RenderOnce for ImageGallery {
                                 .text_color(text)
                                 .cursor_pointer()
                                 .hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.7)))
-                                .child("‹")
+                                .child("‹"),
                         )
                         .child(
                             div()
                                 .absolute()
                                 .right_2()
                                 .top_1_2()
-
                                 .size(px(40.0))
                                 .rounded_full()
                                 .bg(hsla(0.0, 0.0, 0.0, 0.5))
@@ -115,7 +110,7 @@ impl RenderOnce for ImageGallery {
                                 .text_color(text)
                                 .cursor_pointer()
                                 .hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.7)))
-                                .child("›")
+                                .child("›"),
                         )
                     })
                     // Caption
@@ -131,7 +126,7 @@ impl RenderOnce for ImageGallery {
                                 .bg(hsla(0.0, 0.0, 0.0, 0.7))
                                 .text_sm()
                                 .text_color(text)
-                                .child(caption)
+                                .child(caption),
                         )
                     })
                     // Counter
@@ -147,9 +142,9 @@ impl RenderOnce for ImageGallery {
                                 .bg(hsla(0.0, 0.0, 0.0, 0.5))
                                 .text_xs()
                                 .text_color(text)
-                                .child(format!("{} / {}", current + 1, total))
+                                .child(format!("{} / {}", current + 1, total)),
                         )
-                    })
+                    }),
             )
             // Thumbnails
             .when(self.show_thumbnails && total > 1, |d| {
@@ -161,26 +156,24 @@ impl RenderOnce for ImageGallery {
                         .justify_center()
                         .gap_2()
                         .overflow_hidden()
-                        .children(
-                            self.images.into_iter().enumerate().map(move |(idx, img)| {
-                                let is_current = idx == current;
-                                div()
-                                    .size(px(60.0))
-                                    .rounded(px(4.0))
-                                    .bg(surface)
-                                    .border_2()
-                                    .border_color(if is_current { accent } else { border })
-                                    .overflow_hidden()
-                                    .cursor_pointer()
-                                    .flex()
-                                    .items_center()
-                                    .justify_center()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .hover(|s| s.border_color(accent.opacity(0.5)))
-                                    .child(format!("{}", idx + 1))
-                            })
-                        )
+                        .children(self.images.into_iter().enumerate().map(move |(idx, img)| {
+                            let is_current = idx == current;
+                            div()
+                                .size(px(60.0))
+                                .rounded(px(4.0))
+                                .bg(surface)
+                                .border_2()
+                                .border_color(if is_current { accent } else { border })
+                                .overflow_hidden()
+                                .cursor_pointer()
+                                .flex()
+                                .items_center()
+                                .justify_center()
+                                .text_xs()
+                                .text_color(text_muted)
+                                .hover(|s| s.border_color(accent.opacity(0.5)))
+                                .child(format!("{}", idx + 1))
+                        })),
                 )
             })
     }

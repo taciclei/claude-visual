@@ -1,92 +1,127 @@
 //! Shortcuts help render functions for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub fn render_shortcuts_help(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_shortcuts_help(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let shortcuts = [
-            ("General", vec![
-                ("⌘K", "Command palette"),
-                ("⌘F", "Search in conversation"),
-                ("⌘B", "Toggle sidebar"),
-                ("⌘?", "Show/hide shortcuts"),
-                ("⌘.", "Stop response"),
-                ("⌘T", "Templates menu"),
-                ("Escape", "Close panel / Cancel"),
-            ]),
-            ("Input", vec![
-                ("⏎", "Send message"),
-                ("⇧⏎", "New line"),
-                ("/", "Slash commands"),
-                ("@", "Mention file"),
-                ("⌃L", "Clear conversation"),
-                ("⌃R", "Search history"),
-                ("⌃U", "Clear input line"),
-                ("⌃K", "Kill to end of line"),
-            ]),
-            ("Navigation", vec![
-                ("⌥↑", "Select previous message"),
-                ("⌥↓", "Select next message"),
-                ("⌘↑", "Scroll to top"),
-                ("⌘↓", "Scroll to bottom"),
-                ("↑", "Browse input history"),
-            ]),
-            ("⚡ Implementation", vec![
-                ("/apex", "Full APEX workflow"),
-                ("/oneshot", "Ultra-fast implement"),
-                ("/ultrathink", "Deep thinking mode"),
-                ("/plan", "Create impl plan"),
-            ]),
-            ("🔍 Exploration", vec![
-                ("/explore", "Explore codebase"),
-                ("/search", "Quick answer search"),
-                ("/explain", "Deep explanation"),
-                ("/docs", "Research docs"),
-            ]),
-            ("✨ Code Quality", vec![
-                ("/review-code", "Expert code review"),
-                ("/refactor", "Parallel refactoring"),
-                ("/clean-code", "Apply best practices"),
-                ("/debug", "Systematic debugging"),
-                ("/ci-fixer", "Fix CI failures"),
-            ]),
-            ("💡 Research", vec![
-                ("/brainstorm", "Deep research"),
-            ]),
-            ("📦 Git & CI", vec![
-                ("/commit", "Smart commit"),
-                ("/create-pr", "Create PR"),
-                ("/review", "Review changes"),
-                ("/merge", "Intelligent merge"),
-                ("/fix-pr-comments", "Fix PR feedback"),
-            ]),
-            ("📊 Session", vec![
-                ("/compact", "Compact context"),
-                ("/memory", "Save to CLAUDE.md"),
-                ("/resume", "Resume session"),
-                ("/usage", "Token usage"),
-                ("/model", "Switch model"),
-                ("/think", "Extended thinking"),
-                ("/doctor", "System health"),
-            ]),
-            ("🛠️ Create", vec![
-                ("/create-skills", "Create skills"),
-                ("/create-hooks", "Create hooks"),
-                ("/create-prompt", "Prompt engineering"),
-            ]),
-            ("View", vec![
-                ("⌥W", "Toggle word wrap"),
-                ("⌥L", "Toggle line numbers"),
-                ("⌃⇧V", "Toggle vim mode"),
-                ("⌘M", "Switch model"),
-            ]),
-            ("Permissions", vec![
-                ("A", "Approve all"),
-                ("D", "Deny all"),
-                ("⏎", "Approve first"),
-            ]),
+            (
+                "General",
+                vec![
+                    ("⌘K", "Command palette"),
+                    ("⌘F", "Search in conversation"),
+                    ("⌘B", "Toggle sidebar"),
+                    ("⌘?", "Show/hide shortcuts"),
+                    ("⌘.", "Stop response"),
+                    ("⌘T", "Templates menu"),
+                    ("Escape", "Close panel / Cancel"),
+                ],
+            ),
+            (
+                "Input",
+                vec![
+                    ("⏎", "Send message"),
+                    ("⇧⏎", "New line"),
+                    ("/", "Slash commands"),
+                    ("@", "Mention file"),
+                    ("⌃L", "Clear conversation"),
+                    ("⌃R", "Search history"),
+                    ("⌃U", "Clear input line"),
+                    ("⌃K", "Kill to end of line"),
+                ],
+            ),
+            (
+                "Navigation",
+                vec![
+                    ("⌥↑", "Select previous message"),
+                    ("⌥↓", "Select next message"),
+                    ("⌘↑", "Scroll to top"),
+                    ("⌘↓", "Scroll to bottom"),
+                    ("↑", "Browse input history"),
+                ],
+            ),
+            (
+                "⚡ Implementation",
+                vec![
+                    ("/apex", "Full APEX workflow"),
+                    ("/oneshot", "Ultra-fast implement"),
+                    ("/ultrathink", "Deep thinking mode"),
+                    ("/plan", "Create impl plan"),
+                ],
+            ),
+            (
+                "🔍 Exploration",
+                vec![
+                    ("/explore", "Explore codebase"),
+                    ("/search", "Quick answer search"),
+                    ("/explain", "Deep explanation"),
+                    ("/docs", "Research docs"),
+                ],
+            ),
+            (
+                "✨ Code Quality",
+                vec![
+                    ("/review-code", "Expert code review"),
+                    ("/refactor", "Parallel refactoring"),
+                    ("/clean-code", "Apply best practices"),
+                    ("/debug", "Systematic debugging"),
+                    ("/ci-fixer", "Fix CI failures"),
+                ],
+            ),
+            ("💡 Research", vec![("/brainstorm", "Deep research")]),
+            (
+                "📦 Git & CI",
+                vec![
+                    ("/commit", "Smart commit"),
+                    ("/create-pr", "Create PR"),
+                    ("/review", "Review changes"),
+                    ("/merge", "Intelligent merge"),
+                    ("/fix-pr-comments", "Fix PR feedback"),
+                ],
+            ),
+            (
+                "📊 Session",
+                vec![
+                    ("/compact", "Compact context"),
+                    ("/memory", "Save to CLAUDE.md"),
+                    ("/resume", "Resume session"),
+                    ("/usage", "Token usage"),
+                    ("/model", "Switch model"),
+                    ("/think", "Extended thinking"),
+                    ("/doctor", "System health"),
+                ],
+            ),
+            (
+                "🛠️ Create",
+                vec![
+                    ("/create-skills", "Create skills"),
+                    ("/create-hooks", "Create hooks"),
+                    ("/create-prompt", "Prompt engineering"),
+                ],
+            ),
+            (
+                "View",
+                vec![
+                    ("⌥W", "Toggle word wrap"),
+                    ("⌥L", "Toggle line numbers"),
+                    ("⌃⇧V", "Toggle vim mode"),
+                    ("⌘M", "Switch model"),
+                ],
+            ),
+            (
+                "Permissions",
+                vec![
+                    ("A", "Approve all"),
+                    ("D", "Deny all"),
+                    ("⏎", "Approve first"),
+                ],
+            ),
         ];
 
         div()
@@ -127,7 +162,7 @@ impl ChatView {
                                     .text_lg()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(theme.colors.text)
-                                    .child("Keyboard Shortcuts")
+                                    .child("Keyboard Shortcuts"),
                             )
                             .child(
                                 div()
@@ -137,12 +172,15 @@ impl ChatView {
                                     .rounded_md()
                                     .cursor_pointer()
                                     .text_color(theme.colors.text_muted)
-                                    .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                                    .hover(|s| {
+                                        s.bg(theme.colors.surface_hover)
+                                            .text_color(theme.colors.text)
+                                    })
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_shortcuts_help(cx);
                                     }))
-                                    .child("✕")
-                            )
+                                    .child("✕"),
+                            ),
                     )
                     // Shortcuts grid
                     .child(
@@ -166,7 +204,7 @@ impl ChatView {
                                             .font_weight(FontWeight::MEDIUM)
                                             .text_color(theme.colors.accent)
                                             .mb_1()
-                                            .child(*section)
+                                            .child(*section),
                                     )
                                     // Items
                                     .children(items.iter().map(|(key, desc)| {
@@ -180,7 +218,7 @@ impl ChatView {
                                                 div()
                                                     .text_xs()
                                                     .text_color(theme.colors.text_muted)
-                                                    .child(*desc)
+                                                    .child(*desc),
                                             )
                                             .child(
                                                 div()
@@ -193,10 +231,10 @@ impl ChatView {
                                                     .text_xs()
                                                     .font_family("monospace")
                                                     .text_color(theme.colors.text)
-                                                    .child(*key)
+                                                    .child(*key),
                                             )
                                     }))
-                            }))
+                            })),
                     )
                     // Footer hint
                     .child(
@@ -208,8 +246,8 @@ impl ChatView {
                             .text_xs()
                             .text_color(theme.colors.text_muted)
                             .text_center()
-                            .child("Press ⌘? or Escape to close")
-                    )
+                            .child("Press ⌘? or Escape to close"),
+                    ),
             )
     }
 }

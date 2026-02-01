@@ -3,16 +3,15 @@
 //! Client implementation for the Debug Adapter Protocol,
 //! enabling debugging support for multiple languages.
 
-mod protocol;
 mod client;
+mod protocol;
 mod session;
 
+pub use client::{DapClient, DapClientConfig, DapClientError};
 pub use protocol::{
-    DapRequest, DapResponse, DapEvent, DapMessage,
-    InitializeArguments, LaunchArguments, AttachArguments,
-    Breakpoint, BreakpointLocation, Source, StackFrame, Scope, Variable,
-    Thread, StoppedEventBody, OutputEventBody, TerminatedEventBody,
-    Capabilities, ExceptionBreakpointsFilter,
+    AttachArguments, Breakpoint, BreakpointLocation, Capabilities, DapEvent, DapMessage,
+    DapRequest, DapResponse, ExceptionBreakpointsFilter, InitializeArguments, LaunchArguments,
+    OutputEventBody, Scope, Source, StackFrame, StoppedEventBody, TerminatedEventBody, Thread,
+    Variable,
 };
-pub use client::{DapClient, DapClientError, DapClientConfig};
 pub use session::{DebugSession, DebugState, SessionEvent};

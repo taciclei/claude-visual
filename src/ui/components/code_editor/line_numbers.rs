@@ -1,7 +1,7 @@
 //! Line number gutter component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Line number gutter only
 #[derive(IntoElement)]

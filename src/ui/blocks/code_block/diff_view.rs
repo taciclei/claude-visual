@@ -1,7 +1,7 @@
 //! Diff view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::syntax::SyntaxHighlighter;
 
@@ -15,9 +15,18 @@ impl CodeBlockView {
         let syntax_colors = theme.syntax.clone();
         let language = self.language.clone();
 
-        let diff_lines: Vec<_> = self.diff_lines.iter().map(|l| {
-            (l.content.clone(), l.change_type, l.old_line_num, l.new_line_num)
-        }).collect();
+        let diff_lines: Vec<_> = self
+            .diff_lines
+            .iter()
+            .map(|l| {
+                (
+                    l.content.clone(),
+                    l.change_type,
+                    l.old_line_num,
+                    l.new_line_num,
+                )
+            })
+            .collect();
 
         div()
             .w_full()
@@ -47,7 +56,12 @@ impl CodeBlockView {
     /// Render old line numbers column
     fn render_old_line_numbers(
         &self,
-        diff_lines: &[(String, super::types::LineChangeType, Option<usize>, Option<usize>)],
+        diff_lines: &[(
+            String,
+            super::types::LineChangeType,
+            Option<usize>,
+            Option<usize>,
+        )],
         theme: &crate::app::theme::Theme,
     ) -> impl IntoElement {
         div()
@@ -69,7 +83,12 @@ impl CodeBlockView {
     /// Render new line numbers column
     fn render_new_line_numbers(
         &self,
-        diff_lines: &[(String, super::types::LineChangeType, Option<usize>, Option<usize>)],
+        diff_lines: &[(
+            String,
+            super::types::LineChangeType,
+            Option<usize>,
+            Option<usize>,
+        )],
         theme: &crate::app::theme::Theme,
     ) -> impl IntoElement {
         div()
@@ -91,7 +110,12 @@ impl CodeBlockView {
     /// Render diff prefix column (+/-)
     fn render_diff_prefixes(
         &self,
-        diff_lines: &[(String, super::types::LineChangeType, Option<usize>, Option<usize>)],
+        diff_lines: &[(
+            String,
+            super::types::LineChangeType,
+            Option<usize>,
+            Option<usize>,
+        )],
         theme: &crate::app::theme::Theme,
     ) -> impl IntoElement {
         div()
@@ -103,17 +127,19 @@ impl CodeBlockView {
             .children(diff_lines.iter().map(|(_, change_type, _, _)| {
                 let bg = self.diff_line_bg(*change_type, theme);
                 let color = self.diff_prefix_color(*change_type, theme);
-                div()
-                    .bg(bg)
-                    .text_color(color)
-                    .child(change_type.prefix())
+                div().bg(bg).text_color(color).child(change_type.prefix())
             }))
     }
 
     /// Render diff content with syntax highlighting
     fn render_diff_content(
         &self,
-        diff_lines: Vec<(String, super::types::LineChangeType, Option<usize>, Option<usize>)>,
+        diff_lines: Vec<(
+            String,
+            super::types::LineChangeType,
+            Option<usize>,
+            Option<usize>,
+        )>,
         language: Option<String>,
         syntax_colors: crate::app::theme::SyntaxColors,
         theme: &crate::app::theme::Theme,
@@ -125,7 +151,8 @@ impl CodeBlockView {
             .children(diff_lines.into_iter().map(|(content, change_type, _, _)| {
                 let bg = self.diff_line_bg(change_type, theme);
                 // Highlight the line with syntax colors
-                let spans = SyntaxHighlighter::highlight(&content, language.as_deref(), &syntax_colors);
+                let spans =
+                    SyntaxHighlighter::highlight(&content, language.as_deref(), &syntax_colors);
                 div()
                     .w_full()
                     .whitespace_nowrap()

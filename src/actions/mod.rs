@@ -112,61 +112,103 @@ actions!(
 );
 
 /// Action to execute code (carries the code string)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct ExecuteCodeAction {
     pub code: String,
 }
 
 /// Action to save code to a file (carries the code string)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct SaveCodeToFileAction {
     pub code: String,
 }
 
 /// Action to explain code (sends to Claude for explanation)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct ExplainCodeAction {
     pub code: String,
     pub language: Option<String>,
 }
 
 /// Action to improve/refactor code (sends to Claude for improvement)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct ImproveCodeAction {
     pub code: String,
     pub language: Option<String>,
 }
 
 /// Action to add tests for code (sends to Claude for test generation)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct AddTestsAction {
     pub code: String,
     pub language: Option<String>,
 }
 
 /// Action to review code (sends to Claude for code review using /review skill)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct ReviewCodeAction {
     pub code: String,
     pub language: Option<String>,
 }
 
 /// Action to refactor code (sends to Claude for refactoring using /refactor skill)
-#[derive(Clone, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-#[derive(gpui::private::schemars::JsonSchema)]
-#[derive(gpui::Action)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    serde::Serialize,
+    serde::Deserialize,
+    gpui::private::schemars::JsonSchema,
+    gpui::Action,
+)]
 pub struct RefactorCodeAction {
     pub code: String,
     pub language: Option<String>,

@@ -1,8 +1,8 @@
 //! Execution control methods
 
-use gpui::*;
 use super::state::AgentWorkspace;
 use super::types::*;
+use gpui::*;
 
 impl AgentWorkspace {
     /// Pause execution
@@ -31,7 +31,10 @@ impl AgentWorkspace {
         self.add_log(LogLevel::Warning, "Task cancelled by user");
         self.mode = AgentMode::Idle;
         self.pending_approval = None;
-        cx.emit(AgentWorkspaceEvent::TaskFailed(task_desc, "Cancelled by user".to_string()));
+        cx.emit(AgentWorkspaceEvent::TaskFailed(
+            task_desc,
+            "Cancelled by user".to_string(),
+        ));
         cx.emit(AgentWorkspaceEvent::ModeChanged(self.mode));
         cx.notify();
     }

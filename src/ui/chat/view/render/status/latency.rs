@@ -1,9 +1,9 @@
 //! Latency indicator rendering for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::super::super::core::ChatView;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     pub fn render_latency_indicator(&self, theme: &crate::app::theme::Theme) -> Div {
@@ -38,7 +38,7 @@ impl ChatView {
                     div()
                         .text_xs()
                         .text_color(theme.colors.text_muted.opacity(0.5))
-                        .child(format!("(avg {}ms)", avg))
+                        .child(format!("(avg {}ms)", avg)),
                 )
             })
     }

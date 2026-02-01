@@ -9,8 +9,8 @@
 //! - **scroll** - Scroll event handlers and auto-scroll
 //! - **drag** - Mouse and drag event handlers
 
-pub mod palette;
-pub mod input;
-pub mod history;
-pub mod scroll;
 pub mod drag;
+pub mod history;
+pub mod input;
+pub mod palette;
+pub mod scroll;

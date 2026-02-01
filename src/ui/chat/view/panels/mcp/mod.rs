@@ -1,23 +1,30 @@
 //! MCP servers panel render functions
 
-mod header;
 mod empty_state;
 mod footer;
+mod header;
 mod quick_tools;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub(crate) fn render_mcp_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
-        let servers = self.session_info.as_ref()
+    pub(crate) fn render_mcp_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
+        let servers = self
+            .session_info
+            .as_ref()
             .map(|info| info.mcp_servers.clone())
             .unwrap_or_default();
 
         // Count connected vs total
-        let connected_count = servers.iter()
+        let connected_count = servers
+            .iter()
             .filter(|s| s.status == crate::claude::message::McpServerStatus::Connected)
             .count();
         let total_tools: usize = servers.iter().map(|s| s.tool_count).sum();

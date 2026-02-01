@@ -1,8 +1,8 @@
 //! Combobox component - searchable dropdown
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Combobox component - searchable dropdown
 #[derive(IntoElement)]
@@ -138,65 +138,56 @@ impl RenderOnce for Combobox {
 
         let is_placeholder = self.query.is_empty() && self.selected.is_none();
 
-        div()
-            .id(self.id)
-            .flex()
-            .flex_col()
-            .w_full()
-            .child(
-                // Input container
-                div()
-                    .h(px(height))
-                    .px(px(padding_x))
-                    .flex()
-                    .items_center()
-                    .gap(px(8.0))
-                    .rounded(px(6.0))
-                    .border_1()
-                    .border_color(border)
-                    .bg(bg)
-                    .when(self.open, |el| {
-                        el.rounded_b_none()
-                    })
-                    .when(self.disabled, |el| {
-                        el.opacity(0.5).cursor_not_allowed()
-                    })
-                    .child(
-                        // Search icon
+        div().id(self.id).flex().flex_col().w_full().child(
+            // Input container
+            div()
+                .h(px(height))
+                .px(px(padding_x))
+                .flex()
+                .items_center()
+                .gap(px(8.0))
+                .rounded(px(6.0))
+                .border_1()
+                .border_color(border)
+                .bg(bg)
+                .when(self.open, |el| el.rounded_b_none())
+                .when(self.disabled, |el| el.opacity(0.5).cursor_not_allowed())
+                .child(
+                    // Search icon
+                    div()
+                        .text_size(px(14.0))
+                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                        .child("🔍"),
+                )
+                .child(
+                    // Input text
+                    div()
+                        .flex_1()
+                        .text_size(px(font_size))
+                        .text_color(if is_placeholder {
+                            hsla(0.0, 0.0, 0.5, 1.0)
+                        } else {
+                            text
+                        })
+                        .child(display_value),
+                )
+                .when(self.loading, |el| {
+                    el.child(
                         div()
-                            .text_size(px(14.0))
+                            .text_size(px(12.0))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child("🔍")
+                            .child("⏳"),
                     )
-                    .child(
-                        // Input text
+                })
+                .when(self.selected.is_some() && !self.loading, |el| {
+                    el.child(
                         div()
-                            .flex_1()
-                            .text_size(px(font_size))
-                            .text_color(if is_placeholder {
-                                hsla(0.0, 0.0, 0.5, 1.0)
-                            } else {
-                                text
-                            })
-                            .child(display_value)
+                            .text_size(px(12.0))
+                            .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                            .cursor_pointer()
+                            .child("✕"),
                     )
-                    .when(self.loading, |el| {
-                        el.child(
-                            div()
-                                .text_size(px(12.0))
-                                .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .child("⏳")
-                        )
-                    })
-                    .when(self.selected.is_some() && !self.loading, |el| {
-                        el.child(
-                            div()
-                                .text_size(px(12.0))
-                                .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .cursor_pointer()
-                                .child("✕")
-                        )
-                    })
-            )
+                }),
+        )
     }
 }

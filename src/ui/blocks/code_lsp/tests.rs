@@ -2,7 +2,7 @@
 
 #[cfg(test)]
 mod tests {
-    use crate::ui::blocks::code_lsp::{CodeLspIntegration, CodeLspConfig, TokenType};
+    use crate::ui::blocks::code_lsp::{CodeLspConfig, CodeLspIntegration, TokenType};
 
     #[test]
     fn test_tokenization() {

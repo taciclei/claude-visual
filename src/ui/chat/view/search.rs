@@ -2,9 +2,9 @@
 
 use gpui::*;
 
-use crate::claude::message::MessageRole;
 use super::core::ChatView;
 use super::types::{ConversationSearchResult, MessageFilter, NotificationType};
+use crate::claude::message::MessageRole;
 
 impl ChatView {
     /// Toggle search panel visibility
@@ -32,7 +32,8 @@ impl ChatView {
     /// Navigate to next search result and scroll to it
     pub fn next_search_result(&mut self, cx: &mut Context<Self>) {
         if !self.search.results.is_empty() {
-            self.search.current_result = (self.search.current_result + 1) % self.search.results.len();
+            self.search.current_result =
+                (self.search.current_result + 1) % self.search.results.len();
             self.scroll_to_search_result(cx);
         }
     }

@@ -2,14 +2,14 @@
 //!
 //! Manages context items (files, snippets, etc.) that can be attached to AI conversations.
 
-mod types;
 mod item;
 mod manager;
+mod types;
 mod utils;
 
 // Re-export public types
-pub use types::{ContextError, ContextItem, ContextItemType};
 pub use manager::ContextManager;
+pub use types::{ContextError, ContextItem, ContextItemType};
 
 #[cfg(test)]
 mod tests {

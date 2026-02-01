@@ -1,10 +1,10 @@
 //! Conflicts rendering for sync status panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::super::SyncStatusPanel;
 use super::super::super::types::SyncStatusPanelEvent;
+use super::super::SyncStatusPanel;
 
 impl SyncStatusPanel {
     /// Render conflict warning
@@ -21,7 +21,7 @@ impl SyncStatusPanel {
         });
 
         div().when(self.conflict_count > 0, |this| {
-                this.child(
+            this.child(
                 div()
                     .mx_3()
                     .my_2()

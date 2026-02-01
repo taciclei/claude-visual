@@ -1,7 +1,7 @@
 //! Log entry rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::mcp::logs::core::McpLogsPanel;

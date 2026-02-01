@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Wizard navigation component
 #[derive(IntoElement)]
@@ -82,8 +82,7 @@ impl RenderOnce for WizardNav {
                     .rounded_md()
                     .cursor_pointer()
                     .when(self.can_go_back && self.current_step > 0, |d| {
-                        d.bg(rgba(0x8888881a))
-                            .text_color(rgba(0xccccccff))
+                        d.bg(rgba(0x8888881a)).text_color(rgba(0xccccccff))
                     })
                     .when(!self.can_go_back || self.current_step == 0, |d| {
                         d.opacity(0.5).cursor_default()
@@ -91,12 +90,11 @@ impl RenderOnce for WizardNav {
                     .child(self.back_label.clone()),
             )
             .when(self.show_step_count, |d| {
-                d.child(
-                    div()
-                        .text_sm()
-                        .text_color(rgba(0x888888ff))
-                        .child(format!("Step {} of {}", self.current_step + 1, self.total_steps)),
-                )
+                d.child(div().text_sm().text_color(rgba(0x888888ff)).child(format!(
+                    "Step {} of {}",
+                    self.current_step + 1,
+                    self.total_steps
+                )))
             })
             .child(
                 // Next/Finish button

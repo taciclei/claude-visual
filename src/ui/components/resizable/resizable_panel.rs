@@ -1,8 +1,8 @@
 //! Resizable panel component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A resizable panel component
 #[derive(IntoElement)]
@@ -142,7 +142,11 @@ impl RenderOnce for ResizablePanel {
             a: 1.0,
         });
 
-        let size = if self.collapsed { 0.0 } else { self.current_size };
+        let size = if self.collapsed {
+            0.0
+        } else {
+            self.current_size
+        };
 
         // Create resize handle
         let handle = |is_horizontal: bool| {
@@ -190,7 +194,10 @@ impl RenderOnce for ResizablePanel {
                 .child(handle_content)
         };
 
-        let is_horizontal = matches!(self.direction, ResizeDirection::Horizontal | ResizeDirection::Both);
+        let is_horizontal = matches!(
+            self.direction,
+            ResizeDirection::Horizontal | ResizeDirection::Both
+        );
 
         let mut container = div().flex();
 
@@ -207,7 +214,10 @@ impl RenderOnce for ResizablePanel {
         }
 
         // Add start handle if needed
-        if matches!(self.handle_position, HandlePosition::Start | HandlePosition::Both) {
+        if matches!(
+            self.handle_position,
+            HandlePosition::Start | HandlePosition::Both
+        ) {
             container = container.child(handle(is_horizontal));
         }
 
@@ -223,7 +233,10 @@ impl RenderOnce for ResizablePanel {
         container = container.child(content_container);
 
         // Add end handle if needed
-        if matches!(self.handle_position, HandlePosition::End | HandlePosition::Both) {
+        if matches!(
+            self.handle_position,
+            HandlePosition::End | HandlePosition::Both
+        ) {
             container = container.child(handle(is_horizontal));
         }
 

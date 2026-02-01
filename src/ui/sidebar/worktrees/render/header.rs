@@ -1,7 +1,7 @@
 //! Branch header and git status rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
@@ -52,18 +52,15 @@ pub(crate) fn render_header(
                 })
         })
         .when(!is_git_repo, |d| {
-            d.flex()
-                .items_center()
-                .gap_2()
-                .child(
-                    div()
-                        .px_2()
-                        .py_0p5()
-                        .rounded_sm()
-                        .bg(theme.colors.warning.opacity(0.2))
-                        .text_xs()
-                        .text_color(theme.colors.warning)
-                        .child("Not a git repo"),
-                )
+            d.flex().items_center().gap_2().child(
+                div()
+                    .px_2()
+                    .py_0p5()
+                    .rounded_sm()
+                    .bg(theme.colors.warning.opacity(0.2))
+                    .text_xs()
+                    .text_color(theme.colors.warning)
+                    .child("Not a git repo"),
+            )
         })
 }

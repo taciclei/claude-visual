@@ -2,8 +2,8 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::state::AppState;
 use crate::cloud::SyncStatus;
@@ -73,16 +73,13 @@ impl RenderOnce for SyncStatusIndicator {
             .cursor_pointer()
             .hover(|this| this.bg(theme.colors.surface_hover))
             // Status dot
-            .child(
-                div()
-                    .size_2()
-                    .rounded_full()
-                    .bg(status_color)
-                    .when(matches!(self.status, SyncStatus::Syncing), |this| {
-                        // Pulse animation would go here
-                        this
-                    }),
-            )
+            .child(div().size_2().rounded_full().bg(status_color).when(
+                matches!(self.status, SyncStatus::Syncing),
+                |this| {
+                    // Pulse animation would go here
+                    this
+                },
+            ))
             // Status text
             .child(
                 div()

@@ -1,13 +1,18 @@
 //! Tab button rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::{TeamPanel, TeamViewMode};
 
 impl TeamPanel {
     /// Render tab button
-    pub(super) fn render_tab_button(&self, label: &str, mode: TeamViewMode, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_tab_button(
+        &self,
+        label: &str,
+        mode: TeamViewMode,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let is_active = self.view_mode == mode;
         let label = label.to_string();
@@ -17,7 +22,11 @@ impl TeamPanel {
             .px_3()
             .py_1()
             .rounded_md()
-            .bg(if is_active { theme.colors.accent } else { theme.colors.surface })
+            .bg(if is_active {
+                theme.colors.accent
+            } else {
+                theme.colors.surface
+            })
             .hover(|s| {
                 s.bg(if is_active {
                     theme.colors.accent_hover

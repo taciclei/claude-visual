@@ -1,7 +1,7 @@
 //! Input focus handling for ChatView
 
-use gpui::*;
 use super::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Focus the chat input field

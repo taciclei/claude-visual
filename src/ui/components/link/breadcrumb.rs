@@ -1,7 +1,7 @@
 //! Breadcrumb link component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Breadcrumb link
 #[derive(IntoElement)]

@@ -1,7 +1,7 @@
 //! Initialization protocol types
 
-use serde::{Deserialize, Serialize};
 use super::capabilities::{ClientCapabilities, ServerCapabilities};
+use serde::{Deserialize, Serialize};
 
 /// Initialize params
 #[derive(Debug, Clone, Serialize, Deserialize)]

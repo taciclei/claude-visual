@@ -1,7 +1,7 @@
 //! Input-related panel buttons - file picker, commands, templates
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Render file picker button (@ Files)
@@ -29,7 +29,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.file_picker.visible { text_color_active } else { text_color_inactive })
+            .text_color(if self.file_picker.visible {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("@")
@@ -61,7 +65,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.show_commands_panel { text_color_active } else { text_color_inactive })
+            .text_color(if self.show_commands_panel {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("/")
@@ -93,7 +101,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.show_templates_panel { text_color_active } else { text_color_inactive })
+            .text_color(if self.show_templates_panel {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("📝")

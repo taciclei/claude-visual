@@ -1,8 +1,8 @@
 //! JSON value display component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// JSON value display (colored)
 #[derive(Clone)]
@@ -12,27 +12,39 @@ pub struct JsonValue {
 
 impl JsonValue {
     pub fn string(s: impl Into<String>) -> Self {
-        Self { value: JsonType::String(s.into()) }
+        Self {
+            value: JsonType::String(s.into()),
+        }
     }
 
     pub fn number(n: f64) -> Self {
-        Self { value: JsonType::Number(n) }
+        Self {
+            value: JsonType::Number(n),
+        }
     }
 
     pub fn boolean(b: bool) -> Self {
-        Self { value: JsonType::Boolean(b) }
+        Self {
+            value: JsonType::Boolean(b),
+        }
     }
 
     pub fn null() -> Self {
-        Self { value: JsonType::Null }
+        Self {
+            value: JsonType::Null,
+        }
     }
 
     pub fn array(count: usize) -> Self {
-        Self { value: JsonType::Array(count) }
+        Self {
+            value: JsonType::Array(count),
+        }
     }
 
     pub fn object(count: usize) -> Self {
-        Self { value: JsonType::Object(count) }
+        Self {
+            value: JsonType::Object(count),
+        }
     }
 }
 

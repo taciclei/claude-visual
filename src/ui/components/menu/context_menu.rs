@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Context menu wrapper
 pub struct ContextMenu {
@@ -22,7 +22,11 @@ pub struct ContextMenu {
 }
 
 impl ContextMenu {
-    pub fn new(app_state: Arc<AppState>, items: Vec<MenuItemData>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        items: Vec<MenuItemData>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             items,
@@ -73,7 +77,6 @@ impl Render for ContextMenu {
             .absolute()
             .left(px(self.x))
             .top(px(self.y))
-
             .min_w(px(180.0))
             .py_1()
             .rounded(px(8.0))
@@ -85,24 +88,20 @@ impl Render for ContextMenu {
             .flex_col()
             .children(self.items.iter().enumerate().map(|(idx, item)| {
                 match &item.item_type {
-                    MenuItemType::Separator => {
-                        div()
-                            .id(SharedString::from(format!("ctx-sep-{}", idx)))
-                            .h(px(1.0))
-                            .mx_2()
-                            .my_1()
-                            .bg(theme.colors.border)
-                    }
-                    MenuItemType::Header => {
-                        div()
-                            .id(SharedString::from(format!("ctx-header-{}", idx)))
-                            .px_3()
-                            .py_1()
-                            .text_xs()
-                            .text_color(theme.colors.text_muted)
-                            .font_weight(FontWeight::MEDIUM)
-                            .child(item.label.clone())
-                    }
+                    MenuItemType::Separator => div()
+                        .id(SharedString::from(format!("ctx-sep-{}", idx)))
+                        .h(px(1.0))
+                        .mx_2()
+                        .my_1()
+                        .bg(theme.colors.border),
+                    MenuItemType::Header => div()
+                        .id(SharedString::from(format!("ctx-header-{}", idx)))
+                        .px_3()
+                        .py_1()
+                        .text_xs()
+                        .text_color(theme.colors.text_muted)
+                        .font_weight(FontWeight::MEDIUM)
+                        .child(item.label.clone()),
                     _ => {
                         let item_id = item.id.clone();
                         let is_disabled = item.disabled;
@@ -124,7 +123,11 @@ impl Render for ContextMenu {
                             .items_center()
                             .gap_3()
                             .text_sm()
-                            .text_color(if is_disabled { theme.colors.text_muted } else { text_color })
+                            .text_color(if is_disabled {
+                                theme.colors.text_muted
+                            } else {
+                                text_color
+                            })
                             .when(!is_disabled, |d| {
                                 d.cursor_pointer()
                                     .hover(|s| s.bg(theme.colors.surface_hover))
@@ -143,7 +146,7 @@ impl Render for ContextMenu {
                                     div()
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
-                                        .child(shortcut)
+                                        .child(shortcut),
                                 )
                             })
                     }

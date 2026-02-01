@@ -104,9 +104,7 @@ impl McpConfig {
 
     /// Get enabled servers
     pub fn enabled_servers(&self) -> impl Iterator<Item = (&String, &McpServerConfig)> {
-        self.mcp_servers
-            .iter()
-            .filter(|(_, config)| config.enabled)
+        self.mcp_servers.iter().filter(|(_, config)| config.enabled)
     }
 
     /// Get server by name

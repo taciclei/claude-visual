@@ -1,7 +1,7 @@
 //! Tests for input completion
 
-use super::*;
 use super::utils::fuzzy_match;
+use super::*;
 
 #[test]
 fn test_fuzzy_match() {
@@ -13,8 +13,14 @@ fn test_fuzzy_match() {
 
 #[test]
 fn test_completion_trigger() {
-    assert_eq!(CompletionTrigger::from_char('@'), Some(CompletionTrigger::Mention));
-    assert_eq!(CompletionTrigger::from_char('/'), Some(CompletionTrigger::Command));
+    assert_eq!(
+        CompletionTrigger::from_char('@'),
+        Some(CompletionTrigger::Mention)
+    );
+    assert_eq!(
+        CompletionTrigger::from_char('/'),
+        Some(CompletionTrigger::Command)
+    );
     assert_eq!(CompletionTrigger::from_char('a'), None);
 }
 

@@ -1,8 +1,8 @@
 //! Play overlay component for video player
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::PlaybackState;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Build the play overlay that appears when video is paused
 pub(crate) fn build_play_overlay(
@@ -33,9 +33,9 @@ pub(crate) fn build_play_overlay(
                             div()
                                 .text_size(px(28.0))
                                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                .child(play_icon)
-                        )
-                )
+                                .child(play_icon),
+                        ),
+                ),
         )
     } else {
         None

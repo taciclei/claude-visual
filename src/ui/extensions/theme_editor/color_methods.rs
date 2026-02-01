@@ -3,8 +3,8 @@
 use gpui::*;
 
 use crate::ui::extensions::theme_editor::core::ThemeEditor;
-use crate::ui::extensions::theme_editor::types::EditingColor;
 use crate::ui::extensions::theme_editor::helpers::{hsla_to_hex, parse_hex_color};
+use crate::ui::extensions::theme_editor::types::EditingColor;
 
 impl ThemeEditor {
     /// Select a color for editing
@@ -51,7 +51,12 @@ impl ThemeEditor {
     }
 
     /// Set a color value
-    pub(crate) fn set_color_value(&mut self, color: EditingColor, value: Hsla, cx: &mut Context<Self>) {
+    pub(crate) fn set_color_value(
+        &mut self,
+        color: EditingColor,
+        value: Hsla,
+        cx: &mut Context<Self>,
+    ) {
         match color {
             EditingColor::Background => self.editing_theme.colors.background = value,
             EditingColor::Surface => self.editing_theme.colors.surface = value,

@@ -1,7 +1,7 @@
 //! Main render implementation and dialogs for Team panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::{TeamPanel, TeamViewMode};
 

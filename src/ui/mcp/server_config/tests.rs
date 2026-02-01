@@ -1,8 +1,8 @@
 //! Tests for MCP server configuration editor
 
-use std::collections::HashMap;
-use crate::mcp::McpServerConfig;
 use super::types::EditingServerConfig;
+use crate::mcp::McpServerConfig;
+use std::collections::HashMap;
 
 #[test]
 fn test_editing_config_new() {
@@ -17,7 +17,10 @@ fn test_editing_config_new() {
 fn test_editing_config_from_config() {
     let server_config = McpServerConfig {
         command: "npx".to_string(),
-        args: vec!["-y".to_string(), "@modelcontextprotocol/server-fs".to_string()],
+        args: vec![
+            "-y".to_string(),
+            "@modelcontextprotocol/server-fs".to_string(),
+        ],
         env: {
             let mut env = HashMap::new();
             env.insert("DEBUG".to_string(), "true".to_string());

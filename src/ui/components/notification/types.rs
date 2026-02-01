@@ -48,7 +48,10 @@ pub enum NotificationEvent {
     /// Notification dismissed
     Dismissed(String),
     /// Action clicked
-    ActionClicked { notification_id: String, action_id: String },
+    ActionClicked {
+        notification_id: String,
+        action_id: String,
+    },
     /// Mark as read
     MarkedAsRead(String),
     /// Clear all

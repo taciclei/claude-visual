@@ -2,21 +2,21 @@
 //!
 //! Provides typing animations, character reveal effects, and animated text displays.
 
-mod types;
-mod typewriter_text;
-mod typing_indicator;
 mod animated_text;
 mod character_reveal;
 mod text_scramble;
+mod types;
+mod typewriter_text;
+mod typing_indicator;
 mod word_reveal;
 
 // Re-export all public types
-pub use types::*;
-pub use typewriter_text::TypewriterText;
-pub use typing_indicator::TypingIndicator;
 pub use animated_text::AnimatedText;
 pub use character_reveal::CharacterReveal;
 pub use text_scramble::TextScramble;
+pub use types::*;
+pub use typewriter_text::TypewriterText;
+pub use typing_indicator::TypingIndicator;
 pub use word_reveal::WordReveal;
 
 #[cfg(test)]

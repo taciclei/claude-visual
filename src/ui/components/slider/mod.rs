@@ -1,13 +1,13 @@
 //! Slider component for range input
 
-mod types;
-mod slider;
-mod render;
 mod range_slider;
+mod render;
+mod slider;
+mod types;
 
-pub use types::{SliderSize, SliderEvent, SliderMark, RangeSliderEvent};
-pub use slider::Slider;
 pub use range_slider::RangeSlider;
+pub use slider::Slider;
+pub use types::{RangeSliderEvent, SliderEvent, SliderMark, SliderSize};
 
 #[cfg(test)]
 mod tests {

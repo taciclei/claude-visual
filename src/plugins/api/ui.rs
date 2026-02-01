@@ -1,8 +1,8 @@
 //! UI API for extensions to interact with the user interface
 
+use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::sync::Arc;
-use parking_lot::RwLock;
 
 use super::types::{ApiResult, Notification, NotificationLevel, StatusItem};
 
@@ -54,9 +54,7 @@ impl UiApi {
     pub fn dismiss_notification(&self, extension_id: &str, notification_id: &str) -> ApiResult {
         let mut notifications = self.notifications.write();
         let initial_len = notifications.len();
-        notifications.retain(|n| {
-            !(n.id == notification_id && n.extension_id == extension_id)
-        });
+        notifications.retain(|n| !(n.id == notification_id && n.extension_id == extension_id));
 
         if notifications.len() < initial_len {
             ApiResult::ok()
@@ -66,7 +64,13 @@ impl UiApi {
     }
 
     /// Set a status bar item
-    pub fn set_status_item(&self, extension_id: &str, id: &str, text: &str, tooltip: Option<&str>) -> ApiResult {
+    pub fn set_status_item(
+        &self,
+        extension_id: &str,
+        id: &str,
+        text: &str,
+        tooltip: Option<&str>,
+    ) -> ApiResult {
         let item = StatusItem {
             id: id.to_string(),
             text: text.to_string(),

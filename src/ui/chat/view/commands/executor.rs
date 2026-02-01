@@ -3,9 +3,9 @@
 //! This module contains the command execution logic that maps command IDs
 //! to their corresponding actions in the ChatView.
 
-use gpui::*;
 use super::super::core::ChatView;
-use super::super::types::{NotificationType, MessageFilter};
+use super::super::types::{MessageFilter, NotificationType};
+use gpui::*;
 
 impl ChatView {
     /// Execute a command from the palette
@@ -166,7 +166,11 @@ impl ChatView {
             "copy_session_id" => {
                 if let Some(ref info) = self.session_info {
                     cx.write_to_clipboard(gpui::ClipboardItem::new_string(info.session_id.clone()));
-                    self.show_notification("Session ID copied to clipboard", NotificationType::Success, cx);
+                    self.show_notification(
+                        "Session ID copied to clipboard",
+                        NotificationType::Success,
+                        cx,
+                    );
                 }
             }
             "cmd_clear" => self.send_slash_command("/clear", cx),
@@ -209,7 +213,11 @@ impl ChatView {
             "export_summary" => {
                 let summary = self.export_shareable_summary();
                 cx.write_to_clipboard(ClipboardItem::new_string(summary));
-                self.show_notification("Summary copied to clipboard", NotificationType::Success, cx);
+                self.show_notification(
+                    "Summary copied to clipboard",
+                    NotificationType::Success,
+                    cx,
+                );
             }
 
             // Quick File Mentions
@@ -222,7 +230,11 @@ impl ChatView {
             "check_session_health" => {
                 self.calculate_session_health(cx);
                 let health = self.stats.health_label();
-                self.show_notification(&format!("Session health: {}", health), NotificationType::Info, cx);
+                self.show_notification(
+                    &format!("Session health: {}", health),
+                    NotificationType::Info,
+                    cx,
+                );
             }
             "clear_quick_replies" => {
                 self.quick_reply_suggestions.clear();

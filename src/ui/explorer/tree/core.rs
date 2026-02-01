@@ -56,27 +56,35 @@ impl FileTree {
         // Load in background
         cx.spawn(async move |this, cx| {
             let result = std::thread::spawn(move || {
-                let mut root = FileEntry::directory(path.clone(), path.file_name()
-                    .map(|n| n.to_string_lossy().to_string())
-                    .unwrap_or_else(|| path.display().to_string()), 0);
+                let mut root = FileEntry::directory(
+                    path.clone(),
+                    path.file_name()
+                        .map(|n| n.to_string_lossy().to_string())
+                        .unwrap_or_else(|| path.display().to_string()),
+                    0,
+                );
                 root.is_expanded = true;
                 root.load_children().ok();
                 root
-            }).join();
+            })
+            .join();
 
-            let _ = this.update(cx, |this, cx| {
-                match result {
-                    Ok(root) => {
-                        this.root = Some(root);
+            let _ = this
+                .update(cx, |this, cx| {
+                    match result {
+                        Ok(root) => {
+                            this.root = Some(root);
+                        }
+                        Err(_) => {
+                            this.error = Some("Failed to load directory".to_string());
+                        }
                     }
-                    Err(_) => {
-                        this.error = Some("Failed to load directory".to_string());
-                    }
-                }
-                this.is_loading = false;
-                cx.notify();
-            }).ok();
-        }).detach();
+                    this.is_loading = false;
+                    cx.notify();
+                })
+                .ok();
+        })
+        .detach();
     }
 
     /// Refresh the tree
@@ -153,7 +161,10 @@ impl FileTree {
         if self.filter.is_empty() {
             return true;
         }
-        entry.name.to_lowercase().contains(&self.filter.to_lowercase())
+        entry
+            .name
+            .to_lowercase()
+            .contains(&self.filter.to_lowercase())
     }
 }
 

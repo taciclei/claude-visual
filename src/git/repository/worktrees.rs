@@ -56,7 +56,12 @@ impl Repository {
                 .ok()
                 .and_then(|content| {
                     if content.starts_with("ref: refs/heads/") {
-                        Some(content.trim_start_matches("ref: refs/heads/").trim().to_string())
+                        Some(
+                            content
+                                .trim_start_matches("ref: refs/heads/")
+                                .trim()
+                                .to_string(),
+                        )
                     } else {
                         None
                     }

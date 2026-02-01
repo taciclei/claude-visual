@@ -2,13 +2,13 @@
 //!
 //! Component for attaching MCP resources and prompts to conversation context.
 
-mod types;
 mod core;
 mod render;
+mod types;
 
 #[cfg(test)]
 mod tests;
 
 // Re-export public types
-pub use types::{AttachableResource, AttachmentStatus, McpContextAttachEvent};
 pub use core::McpContextAttachPanel;
+pub use types::{AttachableResource, AttachmentStatus, McpContextAttachEvent};

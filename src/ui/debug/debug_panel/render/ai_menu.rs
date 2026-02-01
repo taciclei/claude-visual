@@ -2,12 +2,16 @@
 
 use gpui::*;
 
-use crate::ui::debug::debug_panel::{DebugPanel, DebugPanelEvent};
 use crate::ui::debug::debug_panel::types::DebugPromptType;
+use crate::ui::debug::debug_panel::{DebugPanel, DebugPanelEvent};
 
 impl DebugPanel {
     /// Render AI prompts menu
-    pub(in crate::ui::debug::debug_panel) fn render_ai_menu(&self, theme: &crate::app::theme::Theme, cx: &Context<Self>) -> impl IntoElement {
+    pub(in crate::ui::debug::debug_panel) fn render_ai_menu(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         // Copy theme colors for move closures
         let surface_color = theme.colors.surface;
         let border_color = theme.colors.border;
@@ -45,7 +49,9 @@ impl DebugPanel {
                 });
 
                 div()
-                    .id(ElementId::Name(format!("ai-prompt-{:?}", prompt_type).into()))
+                    .id(ElementId::Name(
+                        format!("ai-prompt-{:?}", prompt_type).into(),
+                    ))
                     .px_2()
                     .py_1()
                     .rounded_sm()

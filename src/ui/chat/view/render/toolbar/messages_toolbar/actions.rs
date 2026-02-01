@@ -1,8 +1,8 @@
 //! Conversation actions render functions
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Renders conversation action buttons (copy, export, clear)
@@ -28,7 +28,10 @@ impl ChatView {
                     .cursor_pointer()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                    .hover(|s| {
+                        s.bg(theme.colors.surface_hover)
+                            .text_color(theme.colors.text)
+                    })
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.copy_conversation_to_clipboard(cx);
                     }))
@@ -37,8 +40,8 @@ impl ChatView {
                         div()
                             .text_color(theme.colors.text_muted.opacity(0.5))
                             .ml_1()
-                            .child("⇧⌘C")
-                    )
+                            .child("⇧⌘C"),
+                    ),
             )
             // Export conversation button
             .child(
@@ -53,7 +56,10 @@ impl ChatView {
                     .cursor_pointer()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                    .hover(|s| {
+                        s.bg(theme.colors.surface_hover)
+                            .text_color(theme.colors.text)
+                    })
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.request_export(cx);
                     }))
@@ -62,8 +68,8 @@ impl ChatView {
                         div()
                             .text_color(theme.colors.text_muted.opacity(0.5))
                             .ml_1()
-                            .child("⌘E")
-                    )
+                            .child("⌘E"),
+                    ),
             )
             // Clear conversation button
             .child(
@@ -78,11 +84,14 @@ impl ChatView {
                     .cursor_pointer()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .hover(|s| s.bg(theme.colors.error.opacity(0.1)).text_color(theme.colors.error))
+                    .hover(|s| {
+                        s.bg(theme.colors.error.opacity(0.1))
+                            .text_color(theme.colors.error)
+                    })
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.clear_conversation(cx);
                     }))
-                    .child("Clear")
+                    .child("Clear"),
             )
     }
 }

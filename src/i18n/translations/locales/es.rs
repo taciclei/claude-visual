@@ -46,7 +46,10 @@ pub fn spanish_bundle() -> TranslationBundle {
     bundle.add("sidebar.favorites", "Favoritos");
 
     // Chat
-    bundle.add("chat.placeholder", "Escribe un mensaje... (@ para mencionar archivos)");
+    bundle.add(
+        "chat.placeholder",
+        "Escribe un mensaje... (@ para mencionar archivos)",
+    );
     bundle.add("chat.send", "Enviar");
     bundle.add("chat.thinking", "Claude está pensando...");
     bundle.add("chat.stop", "Detener");

@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::super::SettingsModal;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render the keybindings tab
@@ -41,67 +41,72 @@ impl SettingsModal {
                     .rounded_lg()
                     .border_1()
                     .border_color(theme.colors.border)
-                    .children(keybindings.into_iter().enumerate().map(|(idx, (action, keybinding))| {
-                        let action_owned = action.to_string();
-                        let keybinding_owned = keybinding.to_string();
-                        let theme = theme.clone();
+                    .children(keybindings.into_iter().enumerate().map(
+                        |(idx, (action, keybinding))| {
+                            let action_owned = action.to_string();
+                            let keybinding_owned = keybinding.to_string();
+                            let theme = theme.clone();
 
-                        div()
-                            .id(SharedString::from(format!("keybinding-{}", idx)))
-                            .flex()
-                            .items_center()
-                            .justify_between()
-                            .py_2()
-                            .px_3()
-                            .rounded_md()
-                            .hover(|s| s.bg(theme.colors.surface_hover))
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.colors.text)
-                                    .child(action_owned.clone()),
-                            )
-                            .child(
-                                div()
-                                    .flex()
-                                    .items_center()
-                                    .gap_2()
-                                    .child(
-                                        div()
-                                            .px_2()
-                                            .py_1()
-                                            .bg(theme.colors.surface_hover)
-                                            .rounded_md()
-                                            .border_1()
-                                            .border_color(theme.colors.border)
-                                            .text_xs()
-                                            .font_family("JetBrains Mono")
-                                            .text_color(theme.colors.text_muted)
-                                            .child(self.format_keybinding(&keybinding_owned)),
-                                    )
-                                    .child(
-                                        div()
-                                            .id(SharedString::from(format!("edit-keybinding-{}", idx)))
-                                            .px_2()
-                                            .py_1()
-                                            .rounded_md()
-                                            .cursor_pointer()
-                                            .text_xs()
-                                            .text_color(theme.colors.text_muted)
-                                            .hover(|s| {
-                                                s.bg(theme.colors.surface_hover)
-                                                    .text_color(theme.colors.text)
-                                            })
-                                            .on_click({
-                                                let action = action_owned.clone();
-                                                cx.listener(move |this, _, _window, cx| {
-                                                    this.start_keybinding_edit(&action, cx);
+                            div()
+                                .id(SharedString::from(format!("keybinding-{}", idx)))
+                                .flex()
+                                .items_center()
+                                .justify_between()
+                                .py_2()
+                                .px_3()
+                                .rounded_md()
+                                .hover(|s| s.bg(theme.colors.surface_hover))
+                                .child(
+                                    div()
+                                        .text_sm()
+                                        .text_color(theme.colors.text)
+                                        .child(action_owned.clone()),
+                                )
+                                .child(
+                                    div()
+                                        .flex()
+                                        .items_center()
+                                        .gap_2()
+                                        .child(
+                                            div()
+                                                .px_2()
+                                                .py_1()
+                                                .bg(theme.colors.surface_hover)
+                                                .rounded_md()
+                                                .border_1()
+                                                .border_color(theme.colors.border)
+                                                .text_xs()
+                                                .font_family("JetBrains Mono")
+                                                .text_color(theme.colors.text_muted)
+                                                .child(self.format_keybinding(&keybinding_owned)),
+                                        )
+                                        .child(
+                                            div()
+                                                .id(SharedString::from(format!(
+                                                    "edit-keybinding-{}",
+                                                    idx
+                                                )))
+                                                .px_2()
+                                                .py_1()
+                                                .rounded_md()
+                                                .cursor_pointer()
+                                                .text_xs()
+                                                .text_color(theme.colors.text_muted)
+                                                .hover(|s| {
+                                                    s.bg(theme.colors.surface_hover)
+                                                        .text_color(theme.colors.text)
                                                 })
-                                            })
-                                            .child("Edit"),
-                                    ),
-                            )
-                    })),
+                                                .on_click({
+                                                    let action = action_owned.clone();
+                                                    cx.listener(move |this, _, _window, cx| {
+                                                        this.start_keybinding_edit(&action, cx);
+                                                    })
+                                                })
+                                                .child("Edit"),
+                                        ),
+                                )
+                        },
+                    )),
             )
             .child(
                 div()

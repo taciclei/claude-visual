@@ -3,9 +3,9 @@
 use gpui::*;
 use std::sync::Arc;
 
-use crate::app::state::AppState;
-use super::types::{SplitDirection, SplitViewEvent};
 use super::node::SplitNode;
+use super::types::{SplitDirection, SplitViewEvent};
+use crate::app::state::AppState;
 
 impl EventEmitter<SplitViewEvent> for SplitView {}
 

@@ -2,8 +2,8 @@
 //!
 //! This module contains palette toggle and state management logic.
 
-use gpui::*;
 use super::super::core::ChatView;
+use gpui::*;
 
 impl ChatView {
     /// Toggle command palette

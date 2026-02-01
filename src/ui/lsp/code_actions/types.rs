@@ -58,7 +58,10 @@ impl CodeActionKind {
     pub fn icon(&self) -> &str {
         match self {
             Self::QuickFix => "💡",
-            Self::Refactor | Self::RefactorExtract | Self::RefactorInline | Self::RefactorRewrite => "🔧",
+            Self::Refactor
+            | Self::RefactorExtract
+            | Self::RefactorInline
+            | Self::RefactorRewrite => "🔧",
             Self::Source | Self::SourceOrganizeImports | Self::SourceFixAll => "📦",
             Self::Other(_) => "⚡",
         }

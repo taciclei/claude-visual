@@ -1,8 +1,8 @@
 //! Theme preview card component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Theme preview card
 #[derive(IntoElement)]
@@ -87,7 +87,7 @@ impl RenderOnce for ThemePreview {
                                     .w(px(60.0))
                                     .h(px(8.0))
                                     .bg(accent_color)
-                                    .rounded(px(2.0))
+                                    .rounded(px(2.0)),
                             )
                             .child(
                                 div()
@@ -95,7 +95,7 @@ impl RenderOnce for ThemePreview {
                                     .h(px(6.0))
                                     .bg(text_color)
                                     .opacity(0.3)
-                                    .rounded(px(2.0))
+                                    .rounded(px(2.0)),
                             )
                             .child(
                                 div()
@@ -103,9 +103,9 @@ impl RenderOnce for ThemePreview {
                                     .h(px(6.0))
                                     .bg(text_color)
                                     .opacity(0.2)
-                                    .rounded(px(2.0))
-                            )
-                    )
+                                    .rounded(px(2.0)),
+                            ),
+                    ),
             )
             // Label
             .child(
@@ -114,11 +114,7 @@ impl RenderOnce for ThemePreview {
                     .items_center()
                     .justify_center()
                     .gap(px(4.0))
-                    .child(
-                        div()
-                            .text_size(px(14.0))
-                            .child(self.mode.icon())
-                    )
+                    .child(div().text_size(px(14.0)).child(self.mode.icon()))
                     .child(
                         div()
                             .text_size(px(13.0))
@@ -132,8 +128,8 @@ impl RenderOnce for ThemePreview {
                             } else {
                                 hsla(0.0, 0.0, 0.7, 1.0)
                             })
-                            .child(self.mode.label())
-                    )
+                            .child(self.mode.label()),
+                    ),
             )
     }
 }

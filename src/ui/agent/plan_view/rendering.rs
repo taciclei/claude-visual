@@ -1,9 +1,9 @@
 //! Rendering methods for PlanView
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::agent::planner::{Plan, PlanStep};
 use super::PlanView;
+use crate::agent::planner::{Plan, PlanStep};
+use gpui::prelude::*;
+use gpui::*;
 
 impl PlanView {
     /// Get risk level color
@@ -79,20 +79,18 @@ impl PlanView {
                             .justify_center()
                             .text_xs()
                             .text_color(theme_text_muted)
-                            .child(if is_expanded { "▼" } else { "▶" })
+                            .child(if is_expanded { "▼" } else { "▶" }),
                     )
                     .child(
                         // Status icon
-                        div()
-                            .text_sm()
-                            .child(status_icon)
+                        div().text_sm().child(status_icon),
                     )
                     .child(
                         // Step number
                         div()
                             .text_xs()
                             .text_color(theme_text_muted)
-                            .child(format!("#{}", step.step_number))
+                            .child(format!("#{}", step.step_number)),
                     )
                     .child(
                         // Step title
@@ -106,7 +104,7 @@ impl PlanView {
                                 theme_text
                             })
                             .when(is_completed, |el| el.line_through())
-                            .child(step.title.clone())
+                            .child(step.title.clone()),
                     )
                     .child(
                         // Risk level badge
@@ -117,7 +115,7 @@ impl PlanView {
                             .text_color(risk_color)
                             .text_xs()
                             .rounded_sm()
-                            .child(format!("Risk: {}", step.risk_level))
+                            .child(format!("Risk: {}", step.risk_level)),
                     )
                     .child(
                         // Approval badge
@@ -132,8 +130,8 @@ impl PlanView {
                                 .child("🔐")
                         } else {
                             div()
-                        }
-                    )
+                        },
+                    ),
             )
             .when(is_expanded, |el| {
                 el.child(
@@ -148,7 +146,7 @@ impl PlanView {
                             div()
                                 .text_sm()
                                 .text_color(theme_text_muted)
-                                .child(step.description.clone())
+                                .child(step.description.clone()),
                         )
                         .child(
                             // Tools
@@ -161,23 +159,21 @@ impl PlanView {
                                         div()
                                             .text_xs()
                                             .text_color(theme_text_muted)
-                                            .child("Tools:")
+                                            .child("Tools:"),
                                     )
-                                    .children(
-                                        step.tools.iter().map(|tool| {
-                                            div()
-                                                .px_2()
-                                                .py(px(2.0))
-                                                .bg(theme_accent.opacity(0.2))
-                                                .text_color(theme_accent)
-                                                .text_xs()
-                                                .rounded_sm()
-                                                .child(tool.clone())
-                                        })
-                                    )
+                                    .children(step.tools.iter().map(|tool| {
+                                        div()
+                                            .px_2()
+                                            .py(px(2.0))
+                                            .bg(theme_accent.opacity(0.2))
+                                            .text_color(theme_accent)
+                                            .text_xs()
+                                            .rounded_sm()
+                                            .child(tool.clone())
+                                    }))
                             } else {
                                 div()
-                            }
+                            },
                         )
                         .child(
                             // Dependencies
@@ -190,24 +186,22 @@ impl PlanView {
                                         div()
                                             .text_xs()
                                             .text_color(theme_text_muted)
-                                            .child("Depends on:")
+                                            .child("Depends on:"),
                                     )
-                                    .children(
-                                        step.depends_on.iter().map(|dep| {
-                                            div()
-                                                .px_2()
-                                                .py(px(2.0))
-                                                .bg(theme_surface_hover)
-                                                .text_color(theme_text_muted)
-                                                .text_xs()
-                                                .rounded_sm()
-                                                .child(format!("#{}", dep))
-                                        })
-                                    )
+                                    .children(step.depends_on.iter().map(|dep| {
+                                        div()
+                                            .px_2()
+                                            .py(px(2.0))
+                                            .bg(theme_surface_hover)
+                                            .text_color(theme_text_muted)
+                                            .text_xs()
+                                            .rounded_sm()
+                                            .child(format!("#{}", dep))
+                                    }))
                             } else {
                                 div()
-                            }
-                        )
+                            },
+                        ),
                 )
             })
     }
@@ -250,21 +244,19 @@ impl PlanView {
                                     .text_base()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(theme_text)
-                                    .child(plan.title.clone())
+                                    .child(plan.title.clone()),
                             )
                             .child(
                                 div()
                                     .text_sm()
                                     .text_color(theme_text_muted)
-                                    .child(plan.description.clone())
-                            )
+                                    .child(plan.description.clone()),
+                            ),
                     )
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(theme_text_muted)
-                            .child(format!("{}/{} steps ({:.0}%)", completed, total, percentage))
-                    )
+                    .child(div().text_sm().text_color(theme_text_muted).child(format!(
+                        "{}/{} steps ({:.0}%)",
+                        completed, total, percentage
+                    ))),
             )
             .child(
                 // Progress bar
@@ -279,8 +271,8 @@ impl PlanView {
                             .h_full()
                             .bg(theme_success)
                             .rounded_full()
-                            .w(relative(percentage / 100.0))
-                    )
+                            .w(relative(percentage / 100.0)),
+                    ),
             )
     }
 }

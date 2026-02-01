@@ -1,10 +1,10 @@
 //! Breadcrumb navigation component
 
-mod types;
 mod component;
+mod types;
 
-pub use types::*;
 pub use component::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

@@ -1,8 +1,8 @@
 //! Utility methods
 
-use gpui::*;
 use super::core::TerminalView;
 use super::types::TerminalLine;
+use gpui::*;
 
 impl TerminalView {
     /// Capture recent output for AI context

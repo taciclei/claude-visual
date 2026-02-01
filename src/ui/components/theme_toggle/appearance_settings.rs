@@ -1,9 +1,9 @@
 //! Appearance settings panel component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::theme_preview::ThemePreview;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Appearance settings panel
 #[derive(IntoElement)]
@@ -22,11 +22,11 @@ impl AppearanceSettings {
             current_mode: ThemeMode::default(),
             show_accent_color: true,
             accent_colors: vec![
-                hsla(0.6, 0.7, 0.5, 1.0),  // Blue
-                hsla(0.8, 0.7, 0.5, 1.0),  // Purple
+                hsla(0.6, 0.7, 0.5, 1.0),   // Blue
+                hsla(0.8, 0.7, 0.5, 1.0),   // Purple
                 hsla(0.35, 0.7, 0.45, 1.0), // Green
-                hsla(0.08, 0.8, 0.5, 1.0), // Orange
-                hsla(0.95, 0.7, 0.5, 1.0), // Pink
+                hsla(0.08, 0.8, 0.5, 1.0),  // Orange
+                hsla(0.95, 0.7, 0.5, 1.0),  // Pink
             ],
             selected_accent: 0,
         }
@@ -71,19 +71,25 @@ impl RenderOnce for AppearanceSettings {
                             .text_size(px(14.0))
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(hsla(0.0, 0.0, 0.95, 1.0))
-                            .child("Theme")
+                            .child("Theme"),
                     )
                     .child(
                         div()
                             .flex()
                             .gap(px(12.0))
-                            .child(ThemePreview::new("light", ThemeMode::Light)
-                                .selected(self.current_mode == ThemeMode::Light))
-                            .child(ThemePreview::new("dark", ThemeMode::Dark)
-                                .selected(self.current_mode == ThemeMode::Dark))
-                            .child(ThemePreview::new("system", ThemeMode::System)
-                                .selected(self.current_mode == ThemeMode::System))
-                    )
+                            .child(
+                                ThemePreview::new("light", ThemeMode::Light)
+                                    .selected(self.current_mode == ThemeMode::Light),
+                            )
+                            .child(
+                                ThemePreview::new("dark", ThemeMode::Dark)
+                                    .selected(self.current_mode == ThemeMode::Dark),
+                            )
+                            .child(
+                                ThemePreview::new("system", ThemeMode::System)
+                                    .selected(self.current_mode == ThemeMode::System),
+                            ),
+                    ),
             )
             // Accent color
             .when(self.show_accent_color, |el| {
@@ -97,26 +103,22 @@ impl RenderOnce for AppearanceSettings {
                                 .text_size(px(14.0))
                                 .font_weight(FontWeight::SEMIBOLD)
                                 .text_color(hsla(0.0, 0.0, 0.95, 1.0))
-                                .child("Accent Color")
+                                .child("Accent Color"),
                         )
-                        .child(
-                            div()
-                                .flex()
-                                .gap(px(8.0))
-                                .children(self.accent_colors.iter().enumerate().map(|(i, &color)| {
-                                    let is_selected = i == self.selected_accent;
-                                    div()
-                                        .w(px(32.0))
-                                        .h(px(32.0))
-                                        .bg(color)
-                                        .rounded_full()
-                                        .cursor_pointer()
-                                        .when(is_selected, |el| {
-                                            el.border_2()
-                                                .border_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                        })
-                                }))
-                        )
+                        .child(div().flex().gap(px(8.0)).children(
+                            self.accent_colors.iter().enumerate().map(|(i, &color)| {
+                                let is_selected = i == self.selected_accent;
+                                div()
+                                    .w(px(32.0))
+                                    .h(px(32.0))
+                                    .bg(color)
+                                    .rounded_full()
+                                    .cursor_pointer()
+                                    .when(is_selected, |el| {
+                                        el.border_2().border_color(hsla(0.0, 0.0, 1.0, 1.0))
+                                    })
+                            }),
+                        )),
                 )
             })
     }

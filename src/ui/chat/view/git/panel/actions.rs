@@ -1,7 +1,7 @@
 //! Git panel actions rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::ChatViewEvent;
@@ -29,7 +29,9 @@ impl ChatView {
 
         // Clone for move closure
         let branch_to_copy = git_info.branch.clone();
-        let has_changes = git_info.staged_count > 0 || git_info.unstaged_count > 0 || git_info.untracked_count > 0;
+        let has_changes = git_info.staged_count > 0
+            || git_info.unstaged_count > 0
+            || git_info.untracked_count > 0;
 
         Some(
             div()
@@ -60,7 +62,7 @@ impl ChatView {
                                 .hover(move |s| s.bg(surface_hover).text_color(text_color))
                                 .on_click(refresh_status)
                                 .child("🔄")
-                                .child("Refresh")
+                                .child("Refresh"),
                         )
                         .child(
                             div()
@@ -74,13 +76,18 @@ impl ChatView {
                                 .cursor_pointer()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                                .hover(|s| {
+                                    s.bg(theme.colors.surface_hover)
+                                        .text_color(theme.colors.text)
+                                })
                                 .on_click(move |_, _window, cx| {
-                                    cx.write_to_clipboard(gpui::ClipboardItem::new_string(branch_to_copy.clone()));
+                                    cx.write_to_clipboard(gpui::ClipboardItem::new_string(
+                                        branch_to_copy.clone(),
+                                    ));
                                 })
                                 .child("📋")
-                                .child("Copy branch")
-                        )
+                                .child("Copy branch"),
+                        ),
                 )
                 // Bottom row: Claude Code Git skills
                 .child(
@@ -92,13 +99,25 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .child("Skills:")
+                                .child("Skills:"),
                         )
                         // Commit button (highlighted if has changes)
                         .child({
-                            let bg = if has_changes { success.opacity(0.15) } else { gpui::transparent_black() };
-                            let border = if has_changes { success.opacity(0.3) } else { theme.colors.border };
-                            let color = if has_changes { success } else { theme.colors.text_muted };
+                            let bg = if has_changes {
+                                success.opacity(0.15)
+                            } else {
+                                gpui::transparent_black()
+                            };
+                            let border = if has_changes {
+                                success.opacity(0.3)
+                            } else {
+                                theme.colors.border
+                            };
+                            let color = if has_changes {
+                                success
+                            } else {
+                                theme.colors.text_muted
+                            };
                             let hover_bg = success.opacity(0.25);
                             div()
                                 .id("git-commit-skill")
@@ -185,15 +204,18 @@ impl ChatView {
                                 .cursor_pointer()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                                .hover(|s| {
+                                    s.bg(theme.colors.surface_hover)
+                                        .text_color(theme.colors.text)
+                                })
                                 .on_click(cx.listener(|this, _, _window, cx| {
                                     this.toggle_git_panel(cx);
                                     cx.emit(ChatViewEvent::Submit("/merge".to_string()));
                                 }))
                                 .child("🔗")
-                                .child("Merge")
-                        )
-                )
+                                .child("Merge"),
+                        ),
+                ),
         )
     }
 }

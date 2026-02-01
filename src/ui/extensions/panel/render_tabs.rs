@@ -1,8 +1,8 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::*;
 use super::panel::ExtensionsPanel;
+use super::types::*;
 
 impl Render for ExtensionsPanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -18,9 +18,12 @@ impl Render for ExtensionsPanel {
             .flex()
             .items_center()
             .justify_center()
-            .on_mouse_down(MouseButton::Left, cx.listener(|this, _, _window, cx| {
-                this.dismiss(cx);
-            }))
+            .on_mouse_down(
+                MouseButton::Left,
+                cx.listener(|this, _, _window, cx| {
+                    this.dismiss(cx);
+                }),
+            )
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, _window, cx| {
                 if event.keystroke.key == "escape" {
                     this.dismiss(cx);
@@ -39,8 +42,7 @@ impl Render for ExtensionsPanel {
                     .overflow_hidden()
                     .flex()
                     .flex_col()
-                    .on_mouse_down(MouseButton::Left, |_, _window, cx| {
-                    })
+                    .on_mouse_down(MouseButton::Left, |_, _window, cx| {})
                     // Header
                     .child(
                         div()

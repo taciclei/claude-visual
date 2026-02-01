@@ -1,10 +1,10 @@
 //! Core logic for MCP servers panel
 
-use std::sync::Arc;
-use gpui::*;
+use super::types::{McpServersPanelEvent, ServerConnectionStatus, ServerItem};
 use crate::app::state::AppState;
 use crate::mcp::McpConfig;
-use super::types::{ServerItem, ServerConnectionStatus, McpServersPanelEvent};
+use gpui::*;
+use std::sync::Arc;
 
 /// MCP Servers Panel for managing server connections
 pub struct McpServersPanel {

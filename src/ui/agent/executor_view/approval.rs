@@ -1,8 +1,8 @@
 //! Approval prompt rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use super::{ExecutorView, ExecutorViewEvent};
+use gpui::prelude::*;
+use gpui::*;
 
 impl ExecutorView {
     /// Render approval prompt
@@ -40,24 +40,20 @@ impl ExecutorView {
                         .flex()
                         .items_center()
                         .gap_2()
-                        .child(
-                            div()
-                                .text_lg()
-                                .child("🔐")
-                        )
+                        .child(div().text_lg().child("🔐"))
                         .child(
                             div()
                                 .text_sm()
                                 .font_weight(FontWeight::SEMIBOLD)
                                 .text_color(warning_color)
-                                .child("Approval Required")
-                        )
+                                .child("Approval Required"),
+                        ),
                 )
                 .child(
                     div()
                         .text_sm()
                         .text_color(text_color)
-                        .child(description_text)
+                        .child(description_text),
                 )
                 .child(
                     div()
@@ -78,7 +74,7 @@ impl ExecutorView {
                                 .cursor_pointer()
                                 .hover(|s| s.opacity(0.9))
                                 .on_click(on_approve)
-                                .child("✓ Approve")
+                                .child("✓ Approve"),
                         )
                         .child(
                             div()
@@ -93,8 +89,8 @@ impl ExecutorView {
                                 .cursor_pointer()
                                 .hover(|s| s.opacity(0.9))
                                 .on_click(on_reject)
-                                .child("✕ Reject")
-                        )
+                                .child("✕ Reject"),
+                        ),
                 )
         } else {
             div()

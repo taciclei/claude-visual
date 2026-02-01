@@ -1,10 +1,10 @@
 //! Loading indicator component
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Represents a loading state with optional message
 pub struct LoadingIndicator {
@@ -58,7 +58,7 @@ impl Render for LoadingIndicator {
                     .items_center()
                     .justify_center()
                     .text_color(theme.colors.accent)
-                    .child("◐")
+                    .child("◐"),
             )
             // Message
             .when_some(self.message.clone(), |this, msg| {
@@ -66,7 +66,7 @@ impl Render for LoadingIndicator {
                     div()
                         .text_size(px(text_size))
                         .text_color(theme.colors.text_muted)
-                        .child(msg)
+                        .child(msg),
                 )
             })
     }

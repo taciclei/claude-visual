@@ -1,8 +1,8 @@
 //! User profile hover card component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::utils::format_count;
+use gpui::prelude::*;
+use gpui::*;
 
 /// User profile hover card content
 #[derive(IntoElement)]
@@ -99,13 +99,7 @@ impl RenderOnce for UserHoverCard {
                                         l: 1.0,
                                         a: 1.0,
                                     })
-                                    .child(
-                                        self.name
-                                            .chars()
-                                            .next()
-                                            .unwrap_or('?')
-                                            .to_string(),
-                                    ),
+                                    .child(self.name.chars().next().unwrap_or('?').to_string()),
                             )
                             .when(self.online, |d| {
                                 d.child(

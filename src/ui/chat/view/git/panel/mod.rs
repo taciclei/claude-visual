@@ -1,21 +1,25 @@
 //! Git panel rendering orchestration
 
-mod header;
-mod content;
 mod actions;
+mod content;
+mod header;
 
-pub use header::*;
-pub use content::*;
 pub use actions::*;
+pub use content::*;
+pub use header::*;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
 impl ChatView {
     /// Render git panel modal
-    pub fn render_git_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_git_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         // Extract listener before div chain
         let toggle_overlay = cx.listener(|this, _, _window, cx| {
             this.toggle_git_panel(cx);
@@ -47,7 +51,7 @@ impl ChatView {
                     .child(self.render_git_panel_content(theme))
                     .when_some(self.render_git_panel_actions(theme, cx), |d, actions| {
                         d.child(actions)
-                    })
+                    }),
             )
     }
 }

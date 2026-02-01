@@ -1,14 +1,18 @@
 //! Context panel tools section component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use crate::app::theme::Theme;
 use crate::claude::message::SessionInfo;
 
 impl ChatView {
-    pub(super) fn render_tools_section(&self, theme: &Theme, info: &SessionInfo) -> impl IntoElement {
+    pub(super) fn render_tools_section(
+        &self,
+        theme: &Theme,
+        info: &SessionInfo,
+    ) -> impl IntoElement {
         div()
             .mb_4()
             .child(
@@ -23,8 +27,8 @@ impl ChatView {
                             .text_xs()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(theme.colors.text_muted)
-                            .child(format!("Available Tools ({})", info.tools.len()))
-                    )
+                            .child(format!("Available Tools ({})", info.tools.len())),
+                    ),
             )
             .child(
                 div()
@@ -50,9 +54,9 @@ impl ChatView {
                                 .bg(theme.colors.text_muted.opacity(0.1))
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("+{} more", info.tools.len() - 20))
+                                .child(format!("+{} more", info.tools.len() - 20)),
                         )
-                    })
+                    }),
             )
     }
 }

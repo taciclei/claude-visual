@@ -58,16 +58,11 @@ impl LspClient {
             .spawn()
             .map_err(|e| format!("Failed to spawn LSP server: {}", e))?;
 
-        let stdin = process
-            .stdin
-            .take()
-            .ok_or("Failed to get stdin")?;
-        let stdout = process
-            .stdout
-            .take()
-            .ok_or("Failed to get stdout")?;
+        let stdin = process.stdin.take().ok_or("Failed to get stdin")?;
+        let stdout = process.stdout.take().ok_or("Failed to get stdout")?;
 
-        let pending: Arc<Mutex<HashMap<u64, PendingRequest>>> = Arc::new(Mutex::new(HashMap::new()));
+        let pending: Arc<Mutex<HashMap<u64, PendingRequest>>> =
+            Arc::new(Mutex::new(HashMap::new()));
         let capabilities = Arc::new(Mutex::new(None));
 
         // Spawn reader task
@@ -136,7 +131,11 @@ impl LspClient {
                                 match method {
                                     "textDocument/publishDiagnostics" => {
                                         if let Some(params) = notif.get("params") {
-                                            if let Ok(diag_params) = serde_json::from_value::<PublishDiagnosticsParams>(params.clone()) {
+                                            if let Ok(diag_params) =
+                                                serde_json::from_value::<PublishDiagnosticsParams>(
+                                                    params.clone(),
+                                                )
+                                            {
                                                 let _ = event_tx_clone.send(LspEvent::Diagnostics(
                                                     diag_params.uri,
                                                     diag_params.diagnostics,
@@ -145,8 +144,13 @@ impl LspClient {
                                         }
                                     }
                                     "window/logMessage" => {
-                                        if let Some(msg) = notif.get("params").and_then(|p| p.get("message")).and_then(|m| m.as_str()) {
-                                            let _ = event_tx_clone.send(LspEvent::LogMessage(msg.to_string()));
+                                        if let Some(msg) = notif
+                                            .get("params")
+                                            .and_then(|p| p.get("message"))
+                                            .and_then(|m| m.as_str())
+                                        {
+                                            let _ = event_tx_clone
+                                                .send(LspEvent::LogMessage(msg.to_string()));
                                         }
                                     }
                                     _ => {}
@@ -187,7 +191,9 @@ impl LspClient {
             },
         };
 
-        let result: InitializeResult = self.request("initialize", Some(serde_json::to_value(params).unwrap())).await?;
+        let result: InitializeResult = self
+            .request("initialize", Some(serde_json::to_value(params).unwrap()))
+            .await?;
 
         // Send initialized notification
         self.notify("initialized", Some(json!({}))).await?;

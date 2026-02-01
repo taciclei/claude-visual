@@ -1,7 +1,7 @@
 //! Skeleton loading placeholder
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Skeleton loading placeholder
 #[derive(Clone)]
@@ -66,7 +66,7 @@ impl RenderOnce for SkeletonLoader {
                         .flex_shrink_0()
                         .size(px(40.0))
                         .rounded_full()
-                        .bg(skeleton_color)
+                        .bg(skeleton_color),
                 )
             })
             // Content
@@ -83,20 +83,18 @@ impl RenderOnce for SkeletonLoader {
                                 .h(px(16.0))
                                 .w(px(120.0))
                                 .rounded(px(4.0))
-                                .bg(skeleton_color)
+                                .bg(skeleton_color),
                         )
                     })
                     // Lines
-                    .children(
-                        (0..self.lines).map(|i| {
-                            let width_pct = line_widths.get(i as usize).copied().unwrap_or(80);
-                            div()
-                                .h(px(12.0))
-                                .w(relative(width_pct as f32 / 100.0))
-                                .rounded(px(4.0))
-                                .bg(skeleton_color)
-                        })
-                    )
+                    .children((0..self.lines).map(|i| {
+                        let width_pct = line_widths.get(i as usize).copied().unwrap_or(80);
+                        div()
+                            .h(px(12.0))
+                            .w(relative(width_pct as f32 / 100.0))
+                            .rounded(px(4.0))
+                            .bg(skeleton_color)
+                    })),
             )
     }
 }

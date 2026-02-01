@@ -2,15 +2,15 @@
 //!
 //! UI component for managing MCP server connections.
 
-mod types;
 mod core;
-mod server_item;
-mod header;
 mod empty_state;
+mod header;
 mod render;
+mod server_item;
+mod types;
 
-pub use types::{ServerConnectionStatus, ServerItem, McpServersPanelEvent};
 pub use core::McpServersPanel;
+pub use types::{McpServersPanelEvent, ServerConnectionStatus, ServerItem};
 
 #[cfg(test)]
 mod tests {

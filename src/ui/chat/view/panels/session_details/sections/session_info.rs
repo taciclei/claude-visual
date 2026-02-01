@@ -1,7 +1,7 @@
 //! Session info section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -22,7 +22,7 @@ impl ChatView {
                     .text_xs()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text_muted)
-                    .child("SESSION INFO")
+                    .child("SESSION INFO"),
             )
             .child(
                 div()
@@ -33,10 +33,16 @@ impl ChatView {
                     .flex()
                     .flex_col()
                     .gap_1()
-                    .child(self.render_detail_row_with_copy("Session ID", &info.session_id, "session-id", &theme, cx))
+                    .child(self.render_detail_row_with_copy(
+                        "Session ID",
+                        &info.session_id,
+                        "session-id",
+                        &theme,
+                        cx,
+                    ))
                     .child(self.render_detail_row("Model", &info.model, &theme))
                     .child(self.render_detail_row("Version", &info.version, &theme))
-                    .child(self.render_detail_row_with_copy("CWD", &info.cwd, "cwd", &theme, cx))
+                    .child(self.render_detail_row_with_copy("CWD", &info.cwd, "cwd", &theme, cx)),
             )
     }
 }

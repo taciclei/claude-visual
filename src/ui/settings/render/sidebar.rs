@@ -1,10 +1,10 @@
 //! Settings sidebar with tabs
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::theme::Theme;
 use super::super::core::SettingsModal;
 use super::super::types::SettingsTab;
+use crate::app::theme::Theme;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     pub(super) fn render_sidebar(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
@@ -43,10 +43,7 @@ impl SettingsModal {
                     })
                     .when(!is_active, |d| {
                         d.text_color(text_muted)
-                            .hover(move |s| {
-                                s.bg(surface_hover)
-                                    .text_color(text_color)
-                            })
+                            .hover(move |s| s.bg(surface_hover).text_color(text_color))
                     })
                     .on_click(on_click)
                     .child(tab.label())

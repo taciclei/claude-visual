@@ -1,10 +1,10 @@
 //! Main skeleton component for loading placeholders
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Skeleton component for loading placeholders
 pub struct Skeleton {
@@ -102,7 +102,7 @@ impl Render for Skeleton {
             .when(self.width.is_none(), |d| d.w_full())
             .rounded(px(radius))
             .bg(base_color)
-            // For a pulse effect, we could add a subtle gradient or opacity variation
-            // GPUI doesn't have built-in animations, but we simulate loading state
+        // For a pulse effect, we could add a subtle gradient or opacity variation
+        // GPUI doesn't have built-in animations, but we simulate loading state
     }
 }

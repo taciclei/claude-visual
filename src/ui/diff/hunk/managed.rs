@@ -28,7 +28,14 @@ pub struct ManagedHunk {
 
 impl ManagedHunk {
     /// Create a new managed hunk from diff text
-    pub fn new(id: usize, header: &str, old_start: usize, old_count: usize, new_start: usize, new_count: usize) -> Self {
+    pub fn new(
+        id: usize,
+        header: &str,
+        old_start: usize,
+        old_count: usize,
+        new_start: usize,
+        new_count: usize,
+    ) -> Self {
         Self {
             id,
             header: header.to_string(),
@@ -43,7 +50,13 @@ impl ManagedHunk {
     }
 
     /// Add a line to this hunk
-    pub fn add_line(&mut self, content: &str, line_type: char, old_line: Option<usize>, new_line: Option<usize>) {
+    pub fn add_line(
+        &mut self,
+        content: &str,
+        line_type: char,
+        old_line: Option<usize>,
+        new_line: Option<usize>,
+    ) {
         self.lines.push(HunkLine {
             content: content.to_string(),
             line_type,
@@ -65,12 +78,18 @@ impl ManagedHunk {
 
     /// Get selected addition count
     pub fn selected_additions(&self) -> usize {
-        self.lines.iter().filter(|l| l.is_addition() && l.selected).count()
+        self.lines
+            .iter()
+            .filter(|l| l.is_addition() && l.selected)
+            .count()
     }
 
     /// Get selected deletion count
     pub fn selected_deletions(&self) -> usize {
-        self.lines.iter().filter(|l| l.is_deletion() && l.selected).count()
+        self.lines
+            .iter()
+            .filter(|l| l.is_deletion() && l.selected)
+            .count()
     }
 
     /// Toggle line selection

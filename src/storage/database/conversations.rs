@@ -5,8 +5,8 @@ use rusqlite::params;
 
 use crate::storage::models::Conversation;
 
-use super::Database;
 use super::helpers::row_to_conversation;
+use super::Database;
 
 impl Database {
     /// Insert a new conversation
@@ -43,7 +43,9 @@ impl Database {
             stmt.query_map([], row_to_conversation)?
         };
 
-        conversations.collect::<std::result::Result<Vec<_>, _>>().map_err(Into::into)
+        conversations
+            .collect::<std::result::Result<Vec<_>, _>>()
+            .map_err(Into::into)
     }
 
     /// Delete a conversation

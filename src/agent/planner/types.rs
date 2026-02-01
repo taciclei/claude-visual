@@ -69,8 +69,7 @@ impl Plan {
         let mut tree = TaskTree::new();
 
         // Create root task for the plan
-        let root = AgentTask::new(&self.title, &self.description)
-            .with_priority(TaskPriority::High);
+        let root = AgentTask::new(&self.title, &self.description).with_priority(TaskPriority::High);
         let root_id = tree.add_root(root);
 
         // Create subtasks for each step

@@ -8,8 +8,8 @@ use tokio::sync::{mpsc, Mutex};
 
 use crate::lsp::client::LspClient;
 
-use super::language::Language;
 use super::events::LspManagerEvent;
+use super::language::Language;
 use super::types::OpenDocument;
 
 /// LSP Manager for managing multiple language servers

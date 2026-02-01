@@ -1,7 +1,7 @@
 //! Navigation link with active state
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Navigation link with active state
 #[derive(IntoElement)]

@@ -29,7 +29,7 @@ impl LazyBlockConfig {
     pub fn for_code_block(line_count: usize) -> Self {
         Self {
             estimated_height: (line_count as f32 * 18.0).min(500.0), // ~18px per line, max 500px
-            visibility_delay_ms: 16, // ~1 frame
+            visibility_delay_ms: 16,                                 // ~1 frame
             preload_margin: 300.0,
             show_skeleton: true,
         }
@@ -50,7 +50,7 @@ impl LazyBlockConfig {
         Self {
             estimated_height: height,
             visibility_delay_ms: 0, // Load immediately when visible
-            preload_margin: 500.0, // Preload images earlier
+            preload_margin: 500.0,  // Preload images earlier
             show_skeleton: true,
         }
     }

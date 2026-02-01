@@ -1,8 +1,8 @@
 //! TypewriterText component - character-by-character reveal
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Typewriter text with character-by-character reveal
 #[derive(IntoElement)]

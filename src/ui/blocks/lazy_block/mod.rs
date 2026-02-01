@@ -3,18 +3,18 @@
 //! Provides lazy rendering for heavy UI components like code blocks,
 //! only initializing content when visible in the viewport.
 
-mod types;
 mod config;
 mod core;
-mod render;
 mod observer;
+mod render;
+mod types;
 
 // Re-export public types
-pub use types::{LazyState, LazyBlockEvent};
 pub use config::LazyBlockConfig;
 pub use core::LazyBlock;
-pub use render::lazy_code_block;
 pub use observer::VisibilityObserver;
+pub use render::lazy_code_block;
+pub use types::{LazyBlockEvent, LazyState};
 
 #[cfg(test)]
 mod tests {

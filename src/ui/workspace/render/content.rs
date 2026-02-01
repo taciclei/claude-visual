@@ -1,10 +1,10 @@
 //! Main content area rendering with tab bar and split mode
 
-use gpui::*;
-use gpui::prelude::*;
+use super::super::core::Workspace;
 use crate::app::theme::Theme;
 use crate::ui::chat::view::ChatView;
-use super::super::core::Workspace;
+use gpui::prelude::*;
+use gpui::*;
 
 pub fn render_content(
     workspace: &Workspace,

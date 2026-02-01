@@ -116,8 +116,14 @@ impl MessageAction {
     /// Check if action is available for a role
     pub fn available_for_role(&self, role: MessageRole) -> bool {
         match self {
-            MessageAction::Copy | MessageAction::CopyAsMarkdown | MessageAction::Quote | MessageAction::Bookmark | MessageAction::Delete => true,
-            MessageAction::Regenerate | MessageAction::RetryFromHere => matches!(role, MessageRole::Assistant),
+            MessageAction::Copy
+            | MessageAction::CopyAsMarkdown
+            | MessageAction::Quote
+            | MessageAction::Bookmark
+            | MessageAction::Delete => true,
+            MessageAction::Regenerate | MessageAction::RetryFromHere => {
+                matches!(role, MessageRole::Assistant)
+            }
             MessageAction::Edit => matches!(role, MessageRole::User),
         }
     }

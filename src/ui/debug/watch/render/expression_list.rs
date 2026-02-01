@@ -1,15 +1,19 @@
 //! Expression list rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
 use super::super::core::WatchView;
 use super::super::events::WatchViewEvent;
 use super::super::WatchExpression;
+use crate::app::theme::Theme;
 
 impl WatchView {
-    pub fn render_expression_list(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_expression_list(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let expressions = self.expressions.clone();
         let selected_id = self.selected_id;
 
@@ -17,9 +21,11 @@ impl WatchView {
             .flex_1()
             .id("scroll-watch-expressions")
             .overflow_y_scroll()
-            .children(expressions.into_iter().map(|expr| {
-                self.render_expression(expr, selected_id, theme, cx)
-            }))
+            .children(
+                expressions
+                    .into_iter()
+                    .map(|expr| self.render_expression(expr, selected_id, theme, cx)),
+            )
     }
 
     fn render_expression(
@@ -100,12 +106,7 @@ impl WatchView {
                             .child(expr.expression.clone()),
                     )
                     // Separator
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted)
-                            .child("="),
-                    )
+                    .child(div().text_xs().text_color(text_muted).child("="))
                     // Value
                     .child(
                         div()
@@ -169,12 +170,7 @@ impl WatchView {
                                 .text_color(text_muted)
                                 .child(child.name.clone()),
                         )
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(":"),
-                        )
+                        .child(div().text_xs().text_color(text_muted).child(":"))
                         // Value
                         .child(
                             div()

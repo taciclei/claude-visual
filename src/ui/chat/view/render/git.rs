@@ -1,11 +1,15 @@
 //! Git quick actions render functions for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
 use super::super::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub fn render_git_quick_actions(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_git_quick_actions(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let git = match &self.git_info {
             Some(g) if g.is_dirty || g.staged_count > 0 => g,
             _ => return div(),
@@ -34,13 +38,9 @@ impl ChatView {
                     .child(
                         div()
                             .text_color(theme.colors.success)
-                            .child(format!("⎇ {}", branch))
+                            .child(format!("⎇ {}", branch)),
                     )
-                    .child(
-                        div()
-                            .text_color(theme.colors.warning)
-                            .child(status)
-                    )
+                    .child(div().text_color(theme.colors.warning).child(status)),
             )
             // Quick actions
             .child(
@@ -69,7 +69,7 @@ impl ChatView {
                             .on_click(cx.listener(|this, _, _window, cx| {
                                 this.request_code_review(cx);
                             }))
-                            .child("👀 Review")
+                            .child("👀 Review"),
                     )
                     // Commit button (only if staged)
                     .when(has_staged, |d| {
@@ -92,7 +92,7 @@ impl ChatView {
                                 .on_click(cx.listener(|this, _, _window, cx| {
                                     this.send_slash_command("/commit", cx);
                                 }))
-                                .child("✓ Commit")
+                                .child("✓ Commit"),
                         )
                     })
                     // PR button
@@ -108,12 +108,15 @@ impl ChatView {
                             .cursor_pointer()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                            .hover(|s| {
+                                s.bg(theme.colors.surface_hover)
+                                    .text_color(theme.colors.text)
+                            })
                             .on_click(cx.listener(|this, _, _window, cx| {
                                 this.create_pr(cx);
                             }))
-                            .child("🔀 PR")
-                    )
+                            .child("🔀 PR"),
+                    ),
             )
     }
 }

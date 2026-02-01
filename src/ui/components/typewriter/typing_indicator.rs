@@ -1,8 +1,8 @@
 //! TypingIndicator component - three dots animation
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Typing indicator (three dots animation)
 #[derive(IntoElement)]

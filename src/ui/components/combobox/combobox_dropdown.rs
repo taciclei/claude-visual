@@ -1,8 +1,8 @@
 //! Combobox dropdown list component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Combobox dropdown list
 #[derive(IntoElement)]
@@ -95,7 +95,7 @@ impl RenderOnce for ComboboxDropdown {
                         .text_size(px(14.0))
                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                         .text_center()
-                        .child(self.empty_text.clone())
+                        .child(self.empty_text.clone()),
                 )
             })
             .children(self.items.into_iter().enumerate().map(|(index, item)| {
@@ -109,23 +109,17 @@ impl RenderOnce for ComboboxDropdown {
                     .items_center()
                     .gap(px(8.0))
                     .cursor_pointer()
-                    .when(item.disabled, |el| {
-                        el.opacity(0.5).cursor_not_allowed()
-                    })
+                    .when(item.disabled, |el| el.opacity(0.5).cursor_not_allowed())
                     .when(!item.disabled && !is_highlighted, |el| {
                         el.hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
                     })
-                    .when(is_highlighted, |el| {
-                        el.bg(hsla(0.0, 0.0, 0.2, 1.0))
-                    })
-                    .when(is_selected, |el| {
-                        el.bg(hsla(0.6, 0.5, 0.3, 0.3))
-                    })
+                    .when(is_highlighted, |el| el.bg(hsla(0.0, 0.0, 0.2, 1.0)))
+                    .when(is_selected, |el| el.bg(hsla(0.6, 0.5, 0.3, 0.3)))
                     .when(item.icon.is_some(), |el| {
                         el.child(
                             div()
                                 .text_size(px(14.0))
-                                .child(item.icon.clone().unwrap_or_default())
+                                .child(item.icon.clone().unwrap_or_default()),
                         )
                     })
                     .child(
@@ -137,23 +131,23 @@ impl RenderOnce for ComboboxDropdown {
                                 div()
                                     .text_size(px(14.0))
                                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(item.label.clone())
+                                    .child(item.label.clone()),
                             )
                             .when(item.description.is_some(), |el| {
                                 el.child(
                                     div()
                                         .text_size(px(12.0))
                                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                        .child(item.description.unwrap_or_default())
+                                        .child(item.description.unwrap_or_default()),
                                 )
-                            })
+                            }),
                     )
                     .when(is_selected, |el| {
                         el.child(
                             div()
                                 .text_size(px(12.0))
                                 .text_color(hsla(0.6, 0.7, 0.5, 1.0))
-                                .child("✓")
+                                .child("✓"),
                         )
                     })
             }))

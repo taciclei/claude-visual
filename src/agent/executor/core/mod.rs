@@ -1,10 +1,10 @@
 //! Core executor implementation
 
-mod executor;
-mod builder;
 mod accessors;
-mod execution;
+mod builder;
 mod control;
+mod execution;
+mod executor;
 mod helpers;
 #[cfg(test)]
 mod tests;

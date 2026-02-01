@@ -1,9 +1,9 @@
 //! Resizable split view component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::resize_handle::ResizeHandle;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Resizable split view with two panels
 #[derive(IntoElement)]

@@ -1,11 +1,11 @@
 //! Progress bar component
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Progress bar component
 pub struct ProgressBar {
@@ -168,8 +168,8 @@ impl Render for ProgressBar {
                         .child(
                             div()
                                 .when(!self.indeterminate, |d| d.child(label_text.clone()))
-                                .when(self.indeterminate, |d| d.child("Loading..."))
-                        )
+                                .when(self.indeterminate, |d| d.child("Loading...")),
+                        ),
                 )
             })
             // Progress bar track
@@ -196,8 +196,8 @@ impl Render for ProgressBar {
                                 d.w(pct(30.0)).left(pct(35.0))
                             })
                             .bg(fill_color)
-                            .rounded(px(radius.max(1.0) - 1.0))
-                    )
+                            .rounded(px(radius.max(1.0) - 1.0)),
+                    ),
             )
     }
 }

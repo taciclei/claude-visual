@@ -2,7 +2,7 @@
 //!
 //! Provides tool discovery, categorization, and invocation helpers.
 
-use super::protocol::{McpTool, McpError};
+use super::protocol::{McpError, McpTool};
 use serde_json::Value;
 use std::collections::HashMap;
 
@@ -34,29 +34,58 @@ impl ToolCategory {
     pub fn from_tool_name(name: &str) -> Self {
         let name_lower = name.to_lowercase();
 
-        if name_lower.contains("file") || name_lower.contains("read") || name_lower.contains("write")
-            || name_lower.contains("directory") || name_lower.contains("path") {
+        if name_lower.contains("file")
+            || name_lower.contains("read")
+            || name_lower.contains("write")
+            || name_lower.contains("directory")
+            || name_lower.contains("path")
+        {
             ToolCategory::FileSystem
-        } else if name_lower.contains("code") || name_lower.contains("syntax") || name_lower.contains("parse")
-            || name_lower.contains("ast") || name_lower.contains("lint") {
+        } else if name_lower.contains("code")
+            || name_lower.contains("syntax")
+            || name_lower.contains("parse")
+            || name_lower.contains("ast")
+            || name_lower.contains("lint")
+        {
             ToolCategory::Code
-        } else if name_lower.contains("http") || name_lower.contains("fetch") || name_lower.contains("url")
-            || name_lower.contains("web") || name_lower.contains("api") {
+        } else if name_lower.contains("http")
+            || name_lower.contains("fetch")
+            || name_lower.contains("url")
+            || name_lower.contains("web")
+            || name_lower.contains("api")
+        {
             ToolCategory::Web
-        } else if name_lower.contains("sql") || name_lower.contains("database") || name_lower.contains("query")
-            || name_lower.contains("db") {
+        } else if name_lower.contains("sql")
+            || name_lower.contains("database")
+            || name_lower.contains("query")
+            || name_lower.contains("db")
+        {
             ToolCategory::Database
-        } else if name_lower.contains("search") || name_lower.contains("find") || name_lower.contains("grep")
-            || name_lower.contains("glob") {
+        } else if name_lower.contains("search")
+            || name_lower.contains("find")
+            || name_lower.contains("grep")
+            || name_lower.contains("glob")
+        {
             ToolCategory::Search
-        } else if name_lower.contains("git") || name_lower.contains("commit") || name_lower.contains("branch")
-            || name_lower.contains("repo") {
+        } else if name_lower.contains("git")
+            || name_lower.contains("commit")
+            || name_lower.contains("branch")
+            || name_lower.contains("repo")
+        {
             ToolCategory::Git
-        } else if name_lower.contains("shell") || name_lower.contains("bash") || name_lower.contains("exec")
-            || name_lower.contains("command") || name_lower.contains("terminal") {
+        } else if name_lower.contains("shell")
+            || name_lower.contains("bash")
+            || name_lower.contains("exec")
+            || name_lower.contains("command")
+            || name_lower.contains("terminal")
+        {
             ToolCategory::Shell
-        } else if name_lower.contains("ai") || name_lower.contains("llm") || name_lower.contains("model")
-            || name_lower.contains("prompt") || name_lower.contains("chat") {
+        } else if name_lower.contains("ai")
+            || name_lower.contains("llm")
+            || name_lower.contains("model")
+            || name_lower.contains("prompt")
+            || name_lower.contains("chat")
+        {
             ToolCategory::AI
         } else {
             ToolCategory::Custom("Other".to_string())
@@ -212,7 +241,8 @@ impl ToolRegistry {
         self.by_category
             .get(category)
             .map(|names| {
-                names.iter()
+                names
+                    .iter()
                     .filter_map(|name| self.tools.get(name))
                     .collect()
             })
@@ -224,7 +254,8 @@ impl ToolRegistry {
         self.by_server
             .get(server_name)
             .map(|names| {
-                names.iter()
+                names
+                    .iter()
                     .filter_map(|name| self.tools.get(name))
                     .collect()
             })
@@ -242,12 +273,16 @@ impl ToolRegistry {
     /// Search tools by name or description
     pub fn search(&self, query: &str) -> Vec<&EnrichedTool> {
         let query_lower = query.to_lowercase();
-        self.tools.values()
+        self.tools
+            .values()
             .filter(|tool| {
-                tool.tool.name.to_lowercase().contains(&query_lower) ||
-                tool.tool.description.as_ref()
-                    .map(|d| d.to_lowercase().contains(&query_lower))
-                    .unwrap_or(false)
+                tool.tool.name.to_lowercase().contains(&query_lower)
+                    || tool
+                        .tool
+                        .description
+                        .as_ref()
+                        .map(|d| d.to_lowercase().contains(&query_lower))
+                        .unwrap_or(false)
             })
             .collect()
     }
@@ -268,7 +303,8 @@ impl ToolRegistry {
 
     /// Get favorite tools
     pub fn favorites(&self) -> Vec<&EnrichedTool> {
-        self.favorites.iter()
+        self.favorites
+            .iter()
             .filter_map(|name| self.tools.get(name))
             .collect()
     }
@@ -289,7 +325,8 @@ impl ToolRegistry {
 
     /// Get recent tools
     pub fn recent(&self) -> Vec<&EnrichedTool> {
-        self.recent.iter()
+        self.recent
+            .iter()
             .filter_map(|name| self.tools.get(name))
             .collect()
     }
@@ -324,7 +361,8 @@ pub fn build_arguments(
         for param_name in required {
             if !values.contains_key(param_name) {
                 return Err(McpError::Protocol(format!(
-                    "Missing required parameter: {}", param_name
+                    "Missing required parameter: {}",
+                    param_name
                 )));
             }
         }
@@ -339,11 +377,26 @@ mod tests {
 
     #[test]
     fn test_tool_categorization() {
-        assert_eq!(ToolCategory::from_tool_name("read_file"), ToolCategory::FileSystem);
-        assert_eq!(ToolCategory::from_tool_name("git_commit"), ToolCategory::Git);
-        assert_eq!(ToolCategory::from_tool_name("execute_bash"), ToolCategory::Shell);
-        assert_eq!(ToolCategory::from_tool_name("http_fetch"), ToolCategory::Web);
-        assert_eq!(ToolCategory::from_tool_name("search_code"), ToolCategory::Search);
+        assert_eq!(
+            ToolCategory::from_tool_name("read_file"),
+            ToolCategory::FileSystem
+        );
+        assert_eq!(
+            ToolCategory::from_tool_name("git_commit"),
+            ToolCategory::Git
+        );
+        assert_eq!(
+            ToolCategory::from_tool_name("execute_bash"),
+            ToolCategory::Shell
+        );
+        assert_eq!(
+            ToolCategory::from_tool_name("http_fetch"),
+            ToolCategory::Web
+        );
+        assert_eq!(
+            ToolCategory::from_tool_name("search_code"),
+            ToolCategory::Search
+        );
     }
 
     #[test]

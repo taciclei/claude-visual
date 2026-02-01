@@ -60,10 +60,7 @@ pub enum SyncOperation {
         expected_version: u64,
     },
     /// Delete item
-    Delete {
-        item_id: String,
-        local_id: String,
-    },
+    Delete { item_id: String, local_id: String },
 }
 
 impl SyncOperation {

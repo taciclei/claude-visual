@@ -1,7 +1,7 @@
 //! Theme loading types
 
-use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 
 use crate::app::theme::Theme;
 

@@ -1,12 +1,12 @@
 //! Slash command autocomplete dropdown rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
-use super::ChatInput;
 use super::utils::{get_command_description, get_command_icon};
+use super::ChatInput;
 
 /// Get the category for a command
 fn get_command_category(cmd: &str) -> (&'static str, &'static str) {
@@ -21,7 +21,12 @@ fn get_command_category(cmd: &str) -> (&'static str, &'static str) {
         return ("🔍", "Exploration");
     }
     // Code Quality
-    if sl.contains("review") || sl == "refactor" || sl == "clean-code" || sl == "debug" || sl == "add-llm-comments" {
+    if sl.contains("review")
+        || sl == "refactor"
+        || sl == "clean-code"
+        || sl == "debug"
+        || sl == "add-llm-comments"
+    {
         return ("✨", "Code Quality");
     }
     // Research
@@ -29,15 +34,34 @@ fn get_command_category(cmd: &str) -> (&'static str, &'static str) {
         return ("💡", "Research");
     }
     // Git & CI
-    if sl == "commit" || sl.contains("pr") || sl == "merge" || sl.contains("ci") || sl == "fix-pr-comments" {
+    if sl == "commit"
+        || sl.contains("pr")
+        || sl == "merge"
+        || sl.contains("ci")
+        || sl == "fix-pr-comments"
+    {
         return ("📦", "Git & CI");
     }
     // Session
-    if sl == "usage" || sl == "compact" || sl == "memory" || sl == "resume" || sl == "clear" || sl == "cost" || sl == "status" {
+    if sl == "usage"
+        || sl == "compact"
+        || sl == "memory"
+        || sl == "resume"
+        || sl == "clear"
+        || sl == "cost"
+        || sl == "status"
+    {
         return ("📊", "Session");
     }
     // Config
-    if sl == "config" || sl == "permissions" || sl == "model" || sl == "vim" || sl == "hooks" || sl == "allowed-tools" || sl == "mcp" {
+    if sl == "config"
+        || sl == "permissions"
+        || sl == "model"
+        || sl == "vim"
+        || sl == "hooks"
+        || sl == "allowed-tools"
+        || sl == "mcp"
+    {
         return ("⚙️", "Configuration");
     }
     // Skill Creation
@@ -57,7 +81,11 @@ fn get_command_category(cmd: &str) -> (&'static str, &'static str) {
 
 impl ChatInput {
     /// Render slash command autocomplete dropdown with fuzzy match highlighting
-    pub(super) fn render_command_dropdown(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_command_dropdown(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let selected_idx = self.selected_command_index;
         let accent = theme.colors.accent;
         let text_color = theme.colors.text;
@@ -101,7 +129,9 @@ impl ChatInput {
                                 ("📦", "commit", "Git commit"),
                                 ("👀", "review", "Code review"),
                                 ("🚀", "oneshot", "Quick implement"),
-                            ].into_iter().map(|(icon, cmd, _desc)| {
+                            ]
+                            .into_iter()
+                            .map(|(icon, cmd, _desc)| {
                                 let cmd_str = cmd.to_string();
                                 let is_hot = cmd == "apex" || cmd == "debug";
                                 div()
@@ -121,8 +151,7 @@ impl ChatInput {
                                             .text_color(accent)
                                     })
                                     .when(!is_hot, |d| {
-                                        d.bg(theme.colors.surface_hover)
-                                            .text_color(text_muted)
+                                        d.bg(theme.colors.surface_hover).text_color(text_muted)
                                     })
                                     .hover(|s| s.bg(accent.opacity(0.2)).text_color(accent))
                                     .on_click(cx.listener(move |this, _, _window, cx| {
@@ -135,97 +164,89 @@ impl ChatInput {
                                     }))
                                     .child(icon)
                                     .child(cmd)
-                            })
-                        )
+                            }),
+                        ),
                 )
                 .child(
                     div()
                         .h(px(1.0))
                         .mx_2()
                         .mb_1()
-                        .bg(theme.colors.border.opacity(0.5))
+                        .bg(theme.colors.border.opacity(0.5)),
                 )
             })
             // Command list
-            .children(
-                self.command_matches.iter().enumerate().map(|(i, m)| {
-                    let is_selected = i == selected_idx;
-                    let cmd_clone = m.command.clone();
-                    let matched_indices = m.matched_indices.clone();
-                    let icon = get_command_icon(&m.command);
-                    let (cat_icon, _cat_name) = get_command_category(&m.command);
+            .children(self.command_matches.iter().enumerate().map(|(i, m)| {
+                let is_selected = i == selected_idx;
+                let cmd_clone = m.command.clone();
+                let matched_indices = m.matched_indices.clone();
+                let icon = get_command_icon(&m.command);
+                let (cat_icon, _cat_name) = get_command_category(&m.command);
 
-                    div()
-                        .id(SharedString::from(format!("cmd-{}", i)))
-                        .px_3()
-                        .py_2()
-                        .rounded_md()
-                        .cursor_pointer()
-                        .bg(if is_selected { theme.colors.accent.opacity(0.15) } else { gpui::transparent_black() })
-                        .when(is_selected, |d| d.border_l_2().border_color(accent))
-                        .hover(|s| s.bg(theme.colors.surface_hover))
-                        .on_click(cx.listener(move |this, _, _window, cx| {
-                            this.text = format!("/{} ", cmd_clone);
-                            this.cursor_position = this.text.len();
-                            this.show_command_autocomplete = false;
-                            this.filtered_commands.clear();
-                            this.command_matches.clear();
-                            cx.notify();
-                        }))
-                        .flex()
-                        .items_center()
-                        .gap_3()
-                        // Category icon (subtle)
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted.opacity(0.5))
-                                .w(px(16.0))
-                                .text_center()
-                                .child(cat_icon)
-                        )
-                        // Skill icon
-                        .child(
-                            div()
-                                .text_sm()
-                                .child(icon)
-                        )
-                        // Command name with highlighted matches
-                        .child(
-                            div()
-                                .flex()
-                                .items_center()
-                                .text_sm()
-                                .min_w(px(100.0))
-                                .child(
-                                    div()
-                                        .text_color(accent)
-                                        .child("/")
-                                )
-                                .children(
-                                    render_highlighted_command(&m.command, &matched_indices, accent, text_color)
-                                )
-                        )
-                        // Description
-                        .child(
-                            div()
-                                .flex_1()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .truncate()
-                                .child(get_command_description(&m.command))
-                        )
-                        // Selection indicator
-                        .when(is_selected, |d| {
-                            d.child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child("↵")
-                            )
-                        })
-                })
-            )
+                div()
+                    .id(SharedString::from(format!("cmd-{}", i)))
+                    .px_3()
+                    .py_2()
+                    .rounded_md()
+                    .cursor_pointer()
+                    .bg(if is_selected {
+                        theme.colors.accent.opacity(0.15)
+                    } else {
+                        gpui::transparent_black()
+                    })
+                    .when(is_selected, |d| d.border_l_2().border_color(accent))
+                    .hover(|s| s.bg(theme.colors.surface_hover))
+                    .on_click(cx.listener(move |this, _, _window, cx| {
+                        this.text = format!("/{} ", cmd_clone);
+                        this.cursor_position = this.text.len();
+                        this.show_command_autocomplete = false;
+                        this.filtered_commands.clear();
+                        this.command_matches.clear();
+                        cx.notify();
+                    }))
+                    .flex()
+                    .items_center()
+                    .gap_3()
+                    // Category icon (subtle)
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(text_muted.opacity(0.5))
+                            .w(px(16.0))
+                            .text_center()
+                            .child(cat_icon),
+                    )
+                    // Skill icon
+                    .child(div().text_sm().child(icon))
+                    // Command name with highlighted matches
+                    .child(
+                        div()
+                            .flex()
+                            .items_center()
+                            .text_sm()
+                            .min_w(px(100.0))
+                            .child(div().text_color(accent).child("/"))
+                            .children(render_highlighted_command(
+                                &m.command,
+                                &matched_indices,
+                                accent,
+                                text_color,
+                            )),
+                    )
+                    // Description
+                    .child(
+                        div()
+                            .flex_1()
+                            .text_xs()
+                            .text_color(text_muted)
+                            .truncate()
+                            .child(get_command_description(&m.command)),
+                    )
+                    // Selection indicator
+                    .when(is_selected, |d| {
+                        d.child(div().text_xs().text_color(text_muted).child("↵"))
+                    })
+            }))
             // Footer with shortcuts
             .child(
                 div()
@@ -256,9 +277,9 @@ impl ChatInput {
                                             .rounded_sm()
                                             .bg(theme.colors.surface_hover)
                                             .font_family("monospace")
-                                            .child("↑↓")
+                                            .child("↑↓"),
                                     )
-                                    .child("navigate")
+                                    .child("navigate"),
                             )
                             .child(
                                 div()
@@ -271,23 +292,28 @@ impl ChatInput {
                                             .rounded_sm()
                                             .bg(theme.colors.surface_hover)
                                             .font_family("monospace")
-                                            .child("Tab")
+                                            .child("Tab"),
                                     )
-                                    .child("select")
-                            )
+                                    .child("select"),
+                            ),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(accent)
-                            .child(format!("{} commands", self.command_matches.len()))
-                    )
+                            .child(format!("{} commands", self.command_matches.len())),
+                    ),
             )
     }
 }
 
 /// Render command name with matched characters highlighted
-fn render_highlighted_command(cmd: &str, matched_indices: &[usize], accent: gpui::Hsla, text_color: gpui::Hsla) -> Vec<Div> {
+fn render_highlighted_command(
+    cmd: &str,
+    matched_indices: &[usize],
+    accent: gpui::Hsla,
+    text_color: gpui::Hsla,
+) -> Vec<Div> {
     let chars: Vec<char> = cmd.chars().collect();
     let mut result = Vec::new();
     let mut current_text = String::new();
@@ -306,9 +332,13 @@ fn render_highlighted_command(cmd: &str, matched_indices: &[usize], accent: gpui
             if !current_text.is_empty() {
                 result.push(
                     div()
-                        .text_color(if current_is_matched { accent } else { text_color })
+                        .text_color(if current_is_matched {
+                            accent
+                        } else {
+                            text_color
+                        })
                         .when(current_is_matched, |d| d.font_weight(FontWeight::BOLD))
-                        .child(current_text.clone())
+                        .child(current_text.clone()),
                 );
             }
             current_text = String::new();
@@ -321,9 +351,13 @@ fn render_highlighted_command(cmd: &str, matched_indices: &[usize], accent: gpui
     if !current_text.is_empty() {
         result.push(
             div()
-                .text_color(if current_is_matched { accent } else { text_color })
+                .text_color(if current_is_matched {
+                    accent
+                } else {
+                    text_color
+                })
                 .when(current_is_matched, |d| d.font_weight(FontWeight::BOLD))
-                .child(current_text)
+                .child(current_text),
         );
     }
 

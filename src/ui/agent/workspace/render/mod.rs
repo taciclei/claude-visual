@@ -1,9 +1,9 @@
 //! Agent workspace rendering
 
-mod workspace;
 mod approval;
-mod header;
 mod controls;
+mod header;
 mod logs;
+mod workspace;
 
 pub(crate) use approval::render_approval_prompt;

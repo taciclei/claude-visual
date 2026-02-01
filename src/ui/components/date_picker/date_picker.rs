@@ -1,8 +1,8 @@
 //! Date picker input component
 
-use gpui::*;
+use super::types::{DatePickerMode, DatePickerSize, DateValue};
 use gpui::prelude::*;
-use super::types::{DateValue, DatePickerMode, DatePickerSize};
+use gpui::*;
 
 /// Date picker input component
 #[derive(IntoElement)]
@@ -108,7 +108,8 @@ impl RenderOnce for DatePicker {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.15, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.3, 1.0));
 
-        let display_text = self.value
+        let display_text = self
+            .value
             .map(|d| d.format_display().into())
             .unwrap_or(self.placeholder.clone());
         let has_value = self.value.is_some();
@@ -132,7 +133,7 @@ impl RenderOnce for DatePicker {
                 div()
                     .text_size(px(font_size))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("📅")
+                    .child("📅"),
             )
             .child(
                 // Date text
@@ -144,7 +145,7 @@ impl RenderOnce for DatePicker {
                     } else {
                         hsla(0.0, 0.0, 0.5, 1.0)
                     })
-                    .child(display_text)
+                    .child(display_text),
             )
             .when(has_value && self.clearable, |el| {
                 el.child(
@@ -152,7 +153,7 @@ impl RenderOnce for DatePicker {
                         .text_size(px(12.0))
                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                         .cursor_pointer()
-                        .child("✕")
+                        .child("✕"),
                 )
             })
     }

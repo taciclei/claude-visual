@@ -1,13 +1,18 @@
 //! Error handling methods for ChatView
 
-use gpui::*;
-use crate::claude::message::MessageRole;
-use super::types::*;
 use super::core::ChatView;
+use super::types::*;
+use crate::claude::message::MessageRole;
+use gpui::*;
 
 impl ChatView {
     /// Record an error with context for recovery
-    pub fn record_error(&mut self, message: String, original_prompt: Option<String>, cx: &mut Context<Self>) {
+    pub fn record_error(
+        &mut self,
+        message: String,
+        original_prompt: Option<String>,
+        cx: &mut Context<Self>,
+    ) {
         let category = ErrorCategory::from_message(&message);
         self.last_error = Some(ErrorInfo {
             message,
@@ -33,12 +38,19 @@ impl ChatView {
     pub fn regenerate_last_response(&mut self, cx: &mut Context<Self>) {
         // Don't regenerate while streaming
         if self.streaming.is_streaming {
-            self.show_notification("Cannot regenerate while streaming", NotificationType::Warning, cx);
+            self.show_notification(
+                "Cannot regenerate while streaming",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 
         // Find the last user message
-        let last_user_prompt = self.messages.iter().rev()
+        let last_user_prompt = self
+            .messages
+            .iter()
+            .rev()
             .find(|m| m.role == MessageRole::User)
             .map(|m| m.content.clone());
 
@@ -76,7 +88,11 @@ impl ChatView {
     pub fn retry_last_request(&mut self, cx: &mut Context<Self>) {
         // Don't retry while streaming
         if self.streaming.is_streaming {
-            self.show_notification("Cannot retry while streaming", NotificationType::Warning, cx);
+            self.show_notification(
+                "Cannot retry while streaming",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 
@@ -99,7 +115,11 @@ impl ChatView {
     /// Continue the conversation (ask Claude to continue from where it stopped)
     pub fn continue_conversation(&mut self, cx: &mut Context<Self>) {
         if self.streaming.is_streaming {
-            self.show_notification("Cannot continue while streaming", NotificationType::Warning, cx);
+            self.show_notification(
+                "Cannot continue while streaming",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 
@@ -110,7 +130,12 @@ impl ChatView {
 
     /// Check if the last assistant message appears truncated
     pub fn is_last_response_truncated(&self) -> bool {
-        if let Some(last_msg) = self.messages.iter().rev().find(|m| m.role == MessageRole::Assistant) {
+        if let Some(last_msg) = self
+            .messages
+            .iter()
+            .rev()
+            .find(|m| m.role == MessageRole::Assistant)
+        {
             // Heuristics for truncation: ends mid-sentence, ends with ...
             let content = last_msg.content.trim();
             if content.is_empty() {
@@ -119,7 +144,12 @@ impl ChatView {
             // Check for common truncation patterns
             content.ends_with("...")
                 || content.ends_with("…")
-                || (content.len() > 100 && !content.ends_with('.') && !content.ends_with('!') && !content.ends_with('?') && !content.ends_with('`') && !content.ends_with('}'))
+                || (content.len() > 100
+                    && !content.ends_with('.')
+                    && !content.ends_with('!')
+                    && !content.ends_with('?')
+                    && !content.ends_with('`')
+                    && !content.ends_with('}'))
         } else {
             false
         }
@@ -145,7 +175,7 @@ impl ChatView {
             self.show_notification(
                 "Context is 90% full. Consider using /compact soon.",
                 NotificationType::Warning,
-                cx
+                cx,
             );
         }
 

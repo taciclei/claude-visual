@@ -1,14 +1,18 @@
 //! Export panel actions component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::NotificationType;
 
 impl ChatView {
-    pub(super) fn render_export_actions(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_export_actions(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let has_messages = !self.messages.is_empty();
         let current_format = self.export.format;
 
@@ -22,7 +26,7 @@ impl ChatView {
                 this.show_notification(
                     format!("Copied as {}", this.export.format.display_name()),
                     NotificationType::Success,
-                    cx
+                    cx,
                 );
                 this.toggle_export_panel(cx);
             }
@@ -33,9 +37,12 @@ impl ChatView {
                 let content = this.export_with_format();
                 cx.write_to_clipboard(ClipboardItem::new_string(content));
                 this.show_notification(
-                    format!("Exported as {} (copied to clipboard)", this.export.format.display_name()),
+                    format!(
+                        "Exported as {} (copied to clipboard)",
+                        this.export.format.display_name()
+                    ),
                     NotificationType::Success,
-                    cx
+                    cx,
                 );
                 this.toggle_export_panel(cx);
             }
@@ -53,7 +60,10 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child(format!("Output: conversation.{}", current_format.extension()))
+                    .child(format!(
+                        "Output: conversation.{}",
+                        current_format.extension()
+                    )),
             )
             .child(
                 div()
@@ -69,16 +79,9 @@ impl ChatView {
                             .cursor_pointer()
                             .bg(theme.colors.surface_hover)
                             .hover(|s| s.bg(theme.colors.border))
-                            .when(!has_messages, |d| {
-                                d.opacity(0.5).cursor_not_allowed()
-                            })
+                            .when(!has_messages, |d| d.opacity(0.5).cursor_not_allowed())
                             .on_click(on_copy)
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(text_color)
-                                    .child("Copy")
-                            )
+                            .child(div().text_sm().text_color(text_color).child("Copy")),
                     )
                     // Export button
                     .child(
@@ -90,18 +93,16 @@ impl ChatView {
                             .cursor_pointer()
                             .bg(theme.colors.accent)
                             .hover(|s| s.bg(theme.colors.accent_hover))
-                            .when(!has_messages, |d| {
-                                d.opacity(0.5).cursor_not_allowed()
-                            })
+                            .when(!has_messages, |d| d.opacity(0.5).cursor_not_allowed())
                             .on_click(on_export)
                             .child(
                                 div()
                                     .text_sm()
                                     .font_weight(FontWeight::MEDIUM)
                                     .text_color(surface_color)
-                                    .child("Export")
-                            )
-                    )
+                                    .child("Export"),
+                            ),
+                    ),
             )
     }
 }

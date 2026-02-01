@@ -1,14 +1,18 @@
 //! Timeline view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::UsageAnalytics;
 use super::panel::AnalyticsPanel;
+use crate::cloud::team::UsageAnalytics;
 
 impl AnalyticsPanel {
     /// Render timeline view
-    pub(super) fn render_timeline(&self, analytics: &UsageAnalytics, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_timeline(
+        &self,
+        analytics: &UsageAnalytics,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
         div()

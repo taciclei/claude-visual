@@ -1,7 +1,7 @@
 //! MCP (Model Context Protocol) server-related methods
 
-use gpui::*;
 use super::ChatView;
+use gpui::*;
 
 /// Maximum number of recent MCP tools to track
 const MAX_RECENT_MCP_TOOLS: usize = 5;
@@ -31,17 +31,20 @@ impl ChatView {
 
     /// Get MCP server count
     pub fn mcp_server_count(&self) -> usize {
-        self.session_info.as_ref()
+        self.session_info
+            .as_ref()
             .map(|info| info.mcp_servers.len())
             .unwrap_or(0)
     }
 
     /// Get total MCP tool count
     pub fn mcp_tool_count(&self) -> usize {
-        self.session_info.as_ref()
+        self.session_info
+            .as_ref()
             .map(|info| {
                 // Count tools that look like MCP tools (prefixed with mcp__)
-                info.tools.iter()
+                info.tools
+                    .iter()
                     .filter(|t| t.starts_with("mcp__") || t.contains(":"))
                     .count()
             })
@@ -66,15 +69,17 @@ impl ChatView {
     /// Get tools for MCP server (from session tools that match server prefix)
     pub fn get_mcp_server_tools(&self, server_name: &str) -> Vec<String> {
         // MCP tools are typically prefixed with server name, e.g., "mcp__serverName__toolName"
-        self.session_info.as_ref()
+        self.session_info
+            .as_ref()
             .map(|info| {
-                info.tools.iter()
+                info.tools
+                    .iter()
                     .filter(|tool| {
                         let tool_lower = tool.to_lowercase();
                         let server_lower = server_name.to_lowercase();
-                        tool_lower.contains(&format!("mcp__{}", server_lower)) ||
-                        tool_lower.starts_with(&format!("{}:", server_lower)) ||
-                        tool_lower.starts_with(&format!("{}_", server_lower))
+                        tool_lower.contains(&format!("mcp__{}", server_lower))
+                            || tool_lower.starts_with(&format!("{}:", server_lower))
+                            || tool_lower.starts_with(&format!("{}_", server_lower))
                     })
                     .cloned()
                     .collect()
@@ -84,9 +89,11 @@ impl ChatView {
 
     /// Get all MCP tools
     pub fn get_all_mcp_tools(&self) -> Vec<String> {
-        self.session_info.as_ref()
+        self.session_info
+            .as_ref()
             .map(|info| {
-                info.tools.iter()
+                info.tools
+                    .iter()
                     .filter(|t| t.starts_with("mcp__") || t.contains(":"))
                     .cloned()
                     .collect()

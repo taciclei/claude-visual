@@ -1,9 +1,9 @@
 //! Assignee picker component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::avatar_group::AvatarGroup;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Assignee picker display
 #[derive(Clone)]
@@ -62,7 +62,7 @@ impl RenderOnce for AssigneePicker {
                     AvatarGroup::new()
                         .avatars(self.assigned)
                         .max_visible(self.max_display)
-                        .size(AvatarGroupSize::Small)
+                        .size(AvatarGroupSize::Small),
                 )
             })
             // Add button
@@ -80,7 +80,7 @@ impl RenderOnce for AssigneePicker {
                     .text_color(text_muted)
                     .cursor_pointer()
                     .hover(|s| s.bg(surface_hover).text_color(text))
-                    .child("+")
+                    .child("+"),
             )
     }
 }

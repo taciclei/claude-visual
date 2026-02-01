@@ -1,8 +1,8 @@
 //! Speed Gauge component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::{GaugeSize, GaugeZone};
+use gpui::prelude::*;
+use gpui::*;
 
 /// Speed gauge / speedometer style component
 #[derive(IntoElement)]

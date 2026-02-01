@@ -1,8 +1,8 @@
 //! Completion dropdown implementation
 
-use gpui::*;
-use crate::lsp::protocol::{CompletionItem, CompletionItemKind};
 use super::types::{CompletionDropdownEvent, SimpleColors};
+use crate::lsp::protocol::{CompletionItem, CompletionItemKind};
+use gpui::*;
 
 /// Completion dropdown for displaying LSP autocomplete suggestions
 pub struct CompletionDropdown {

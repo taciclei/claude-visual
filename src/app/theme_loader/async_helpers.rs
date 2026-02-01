@@ -7,11 +7,7 @@ use super::loader::ThemeLoader;
 use super::types::{ThemeLoadCallback, ThemeLoadResult};
 
 /// Start loading a theme in the background with callback
-pub fn load_theme_async(
-    loader: Arc<ThemeLoader>,
-    name: String,
-    callback: ThemeLoadCallback,
-) {
+pub fn load_theme_async(loader: Arc<ThemeLoader>, name: String, callback: ThemeLoadCallback) {
     tokio::spawn(async move {
         let result = loader.load_theme(&name).await;
         callback(result);

@@ -55,7 +55,7 @@ impl ChatView {
         if !draft.is_empty() {
             self.draft_text = Some(draft.clone());
             self.draft_saved_at = None; // Don't know when it was saved
-            // Set the text in the input
+                                        // Set the text in the input
             self.input.update(cx, |input, cx| {
                 input.set_text(draft, cx);
             });

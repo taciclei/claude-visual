@@ -1,7 +1,7 @@
 //! Signature help types
 
-use serde::{Deserialize, Serialize};
 use super::documentation::Documentation;
+use serde::{Deserialize, Serialize};
 
 /// Signature help
 #[derive(Debug, Clone, Serialize, Deserialize)]

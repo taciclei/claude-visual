@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::HeatMapScale;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Data grid heat map (for tables)
 #[derive(IntoElement)]

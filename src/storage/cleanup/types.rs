@@ -108,7 +108,12 @@ pub struct CleanupItem {
 
 impl CleanupItem {
     /// Create a conversation cleanup item
-    pub fn conversation(id: impl Into<String>, name: impl Into<String>, size: u64, last_accessed: DateTime<Utc>) -> Self {
+    pub fn conversation(
+        id: impl Into<String>,
+        name: impl Into<String>,
+        size: u64,
+        last_accessed: DateTime<Utc>,
+    ) -> Self {
         Self {
             id: id.into(),
             target: CleanupTarget::Conversations,
@@ -121,8 +126,14 @@ impl CleanupItem {
     }
 
     /// Create an attachment cleanup item
-    pub fn attachment(id: impl Into<String>, path: PathBuf, size: u64, last_accessed: DateTime<Utc>) -> Self {
-        let name = path.file_name()
+    pub fn attachment(
+        id: impl Into<String>,
+        path: PathBuf,
+        size: u64,
+        last_accessed: DateTime<Utc>,
+    ) -> Self {
+        let name = path
+            .file_name()
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_else(|| "attachment".to_string());
 
@@ -162,12 +173,8 @@ impl CleanupItem {
             CleanupTarget::Attachments => {
                 age > Duration::days(config.delete_attachments_after_days as i64)
             }
-            CleanupTarget::Cache | CleanupTarget::Temporary => {
-                age > Duration::days(7)
-            }
-            CleanupTarget::Logs => {
-                age > Duration::days(30)
-            }
+            CleanupTarget::Cache | CleanupTarget::Temporary => age > Duration::days(7),
+            CleanupTarget::Logs => age > Duration::days(30),
         }
     }
 }

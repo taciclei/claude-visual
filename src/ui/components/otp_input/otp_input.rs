@@ -1,8 +1,8 @@
 //! OTP Input component - for verification codes
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct OtpInput {
@@ -148,37 +148,29 @@ impl RenderOnce for OtpInput {
 
                 // Apply variant styles
                 box_el = match self.variant {
-                    OtpVariant::Boxes => {
-                        box_el
-                            .rounded(px(8.0))
-                            .border_2()
-                            .border_color(if is_current {
-                                self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))
-                            } else {
-                                border_color
-                            })
-                            .bg(bg)
-                    }
-                    OtpVariant::Underline => {
-                        box_el
-                            .border_b_2()
-                            .border_color(if is_current {
-                                self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))
-                            } else {
-                                border_color
-                            })
-                    }
-                    OtpVariant::Rounded => {
-                        box_el
-                            .rounded_full()
-                            .border_2()
-                            .border_color(if is_current {
-                                self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))
-                            } else {
-                                border_color
-                            })
-                            .bg(bg)
-                    }
+                    OtpVariant::Boxes => box_el
+                        .rounded(px(8.0))
+                        .border_2()
+                        .border_color(if is_current {
+                            self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))
+                        } else {
+                            border_color
+                        })
+                        .bg(bg),
+                    OtpVariant::Underline => box_el.border_b_2().border_color(if is_current {
+                        self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))
+                    } else {
+                        border_color
+                    }),
+                    OtpVariant::Rounded => box_el
+                        .rounded_full()
+                        .border_2()
+                        .border_color(if is_current {
+                            self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))
+                        } else {
+                            border_color
+                        })
+                        .bg(bg),
                 };
 
                 // Add cursor for current position
@@ -187,14 +179,15 @@ impl RenderOnce for OtpInput {
                         div()
                             .w(px(2.0))
                             .h(px(font_size + 4.0))
-                            .bg(self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0)))
+                            .bg(self.focus_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0))),
                     );
                 } else if !display_char.is_empty() {
                     box_el = box_el.child(display_char);
                 }
 
                 // Wrap with optional separator
-                let should_add_separator = self.separator_after
+                let should_add_separator = self
+                    .separator_after
                     .map(|pos| i == pos - 1 && i < self.length - 1)
                     .unwrap_or(false);
 
@@ -208,7 +201,7 @@ impl RenderOnce for OtpInput {
                             div()
                                 .text_size(px(font_size))
                                 .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                .child("-")
+                                .child("-"),
                         )
                 } else {
                     div().child(box_el)

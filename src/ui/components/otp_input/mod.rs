@@ -2,17 +2,17 @@
 //!
 //! Provides components for entering verification codes and PINs.
 
-mod types;
+mod cvv_input;
 mod otp_input;
 mod pin_input;
+mod types;
 mod verification_input;
-mod cvv_input;
 
-pub use types::*;
+pub use cvv_input::CvvInput;
 pub use otp_input::OtpInput;
 pub use pin_input::PinInput;
+pub use types::*;
 pub use verification_input::VerificationInput;
-pub use cvv_input::CvvInput;
 
 #[cfg(test)]
 mod tests {
@@ -61,9 +61,7 @@ mod tests {
 
     #[test]
     fn test_pin_input() {
-        let pin = PinInput::new("pin", 4)
-            .value("12")
-            .masked(true);
+        let pin = PinInput::new("pin", 4).value("12").masked(true);
 
         assert_eq!(pin.length, 4);
         assert!(pin.masked);
@@ -71,8 +69,7 @@ mod tests {
 
     #[test]
     fn test_verification_input() {
-        let verification = VerificationInput::new("verify", 6)
-            .resend_countdown(30);
+        let verification = VerificationInput::new("verify", 6).resend_countdown(30);
 
         assert_eq!(verification.length, 6);
         assert_eq!(verification.resend_countdown, Some(30));

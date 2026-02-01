@@ -1,7 +1,7 @@
 //! Ollama provider core implementation
 
-use crate::ai::provider::{AIError, AIRequest, ModelInfo, ProviderConfig};
 use super::types::*;
+use crate::ai::provider::{AIError, AIRequest, ModelInfo, ProviderConfig};
 
 /// Default Ollama API URL
 const OLLAMA_API_URL: &str = "http://localhost:11434";

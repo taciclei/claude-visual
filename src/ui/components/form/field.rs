@@ -1,8 +1,8 @@
 //! Form field wrapper with label and validation
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::{FormLayout, FormSize, ValidationState};
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct FormField {
@@ -120,14 +120,14 @@ impl RenderOnce for FormField {
                         .text_size(px(label_size))
                         .font_weight(gpui::FontWeight::MEDIUM)
                         .text_color(hsla(0.0, 0.0, 0.8, 1.0))
-                        .child(self.label.unwrap_or_default())
+                        .child(self.label.unwrap_or_default()),
                 )
                 .when(self.required, |el| {
                     el.child(
                         div()
                             .text_size(px(label_size))
                             .text_color(hsla(0.0, 0.7, 0.5, 1.0))
-                            .child("*")
+                            .child("*"),
                     )
                 });
 
@@ -141,14 +141,17 @@ impl RenderOnce for FormField {
             .gap(px(4.0))
             .flex_1()
             .child(self.content)
-            .when(self.description.is_some() && self.validation == ValidationState::None, |el| {
-                el.child(
-                    div()
-                        .text_size(px(helper_size))
-                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child(self.description.unwrap_or_default())
-                )
-            })
+            .when(
+                self.description.is_some() && self.validation == ValidationState::None,
+                |el| {
+                    el.child(
+                        div()
+                            .text_size(px(helper_size))
+                            .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                            .child(self.description.unwrap_or_default()),
+                    )
+                },
+            )
             .when(self.error.is_some(), |el| {
                 el.child(
                     div()
@@ -164,14 +167,14 @@ impl RenderOnce for FormField {
                                     ValidationState::Warning => "⚡",
                                     ValidationState::Valid => "✓",
                                     _ => "",
-                                })
+                                }),
                         )
                         .child(
                             div()
                                 .text_size(px(helper_size))
                                 .text_color(validation_color)
-                                .child(self.error.unwrap_or_default())
-                        )
+                                .child(self.error.unwrap_or_default()),
+                        ),
                 )
             });
 

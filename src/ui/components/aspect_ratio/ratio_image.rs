@@ -1,6 +1,6 @@
-use gpui::*;
+use super::types::{ImageFit, Ratio};
 use gpui::prelude::*;
-use super::types::{Ratio, ImageFit};
+use gpui::*;
 
 /// Image with aspect ratio preservation
 #[derive(IntoElement)]

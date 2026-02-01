@@ -299,7 +299,11 @@ fn fuzzy_score_file(text: &str, query_chars: &[char]) -> Option<(i32, Vec<usize>
             // Scoring bonuses
             if i == 0 {
                 score += 15; // Start of string
-            } else if text_chars.get(i.saturating_sub(1)).map(|c| *c == '/' || *c == '-' || *c == '_' || *c == '.').unwrap_or(false) {
+            } else if text_chars
+                .get(i.saturating_sub(1))
+                .map(|c| *c == '/' || *c == '-' || *c == '_' || *c == '.')
+                .unwrap_or(false)
+            {
                 score += 12; // Start of path segment or word
             }
 
@@ -388,7 +392,11 @@ fn fuzzy_score(text: &str, query_chars: &[char]) -> Option<(i32, Vec<usize>)> {
             // Scoring bonuses
             if i == 0 {
                 score += 15; // Start of string
-            } else if text_chars.get(i.saturating_sub(1)).map(|c| *c == '-' || *c == '_').unwrap_or(false) {
+            } else if text_chars
+                .get(i.saturating_sub(1))
+                .map(|c| *c == '-' || *c == '_')
+                .unwrap_or(false)
+            {
                 score += 10; // Start of word
             }
 

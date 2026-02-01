@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 impl EventEmitter<BreadcrumbEvent> for Breadcrumb {}
 
@@ -118,7 +118,9 @@ impl Breadcrumb {
         let total = self.items.len();
 
         if total <= self.max_visible {
-            return self.items.iter()
+            return self
+                .items
+                .iter()
                 .enumerate()
                 .map(|(i, item)| (i, item, i == total - 1))
                 .collect();
@@ -167,80 +169,92 @@ impl Render for Breadcrumb {
                         .size(px(20.0))
                         .rounded_sm()
                         .text_color(theme.colors.text_muted)
-                        .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                        .hover(|s| {
+                            s.bg(theme.colors.surface_hover)
+                                .text_color(theme.colors.text)
+                        })
                         .cursor_pointer()
                         .on_click(cx.listener(|_this, _, _window, cx| {
                             cx.emit(BreadcrumbEvent::ItemClicked("home".to_string()));
                         }))
-                        .child("🏠")
+                        .child("🏠"),
                 )
                 .child(
                     div()
                         .text_color(theme.colors.text_muted)
-                        .child(separator.clone())
+                        .child(separator.clone()),
                 )
             })
             // Breadcrumb items
-            .children(visible.iter().enumerate().map(|(display_idx, (original_idx, item, is_last))| {
-                let item_id = item.id.clone();
-                let show_separator = !*is_last;
-                let is_clickable = item.clickable;
+            .children(visible.iter().enumerate().map(
+                |(display_idx, (original_idx, item, is_last))| {
+                    let item_id = item.id.clone();
+                    let show_separator = !*is_last;
+                    let is_clickable = item.clickable;
 
-                // Show ellipsis after first item if truncated
-                let show_ellipsis_here = show_ellipsis && display_idx == 0 && *original_idx == 0;
+                    // Show ellipsis after first item if truncated
+                    let show_ellipsis_here =
+                        show_ellipsis && display_idx == 0 && *original_idx == 0;
 
-                div()
-                    .flex()
-                    .items_center()
-                    .gap_1()
-                    // Item itself
-                    .child(
-                        div()
-                            .id(SharedString::from(format!("breadcrumb-{}", original_idx)))
-                            .flex()
-                            .items_center()
-                            .gap_1()
-                            .px_1p5()
-                            .py_0p5()
-                            .rounded_sm()
-                            .when(*is_last, |d| d.text_color(theme.colors.text).font_weight(FontWeight::MEDIUM))
-                            .when(!*is_last, |d| d.text_color(theme.colors.text_muted))
-                            .when(is_clickable && !*is_last, |d| {
-                                d.hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
-                                    .cursor_pointer()
-                            })
-                            .when(is_clickable, |d| {
-                                d.on_click(cx.listener(move |_this, _, _window, cx| {
-                                    cx.emit(BreadcrumbEvent::ItemClicked(item_id.clone()));
-                                }))
-                            })
-                            .when_some(item.icon.clone(), |d, icon| {
-                                d.child(div().text_xs().child(icon))
-                            })
-                            .child(item.label.clone())
-                    )
-                    // Ellipsis if needed
-                    .when(show_ellipsis_here, |d| {
-                        d.child(
-                            div()
-                                .text_color(theme.colors.text_muted)
-                                .child(separator.clone())
-                        )
+                    div()
+                        .flex()
+                        .items_center()
+                        .gap_1()
+                        // Item itself
                         .child(
                             div()
-                                .px_1()
-                                .text_color(theme.colors.text_muted)
-                                .child("...")
+                                .id(SharedString::from(format!("breadcrumb-{}", original_idx)))
+                                .flex()
+                                .items_center()
+                                .gap_1()
+                                .px_1p5()
+                                .py_0p5()
+                                .rounded_sm()
+                                .when(*is_last, |d| {
+                                    d.text_color(theme.colors.text)
+                                        .font_weight(FontWeight::MEDIUM)
+                                })
+                                .when(!*is_last, |d| d.text_color(theme.colors.text_muted))
+                                .when(is_clickable && !*is_last, |d| {
+                                    d.hover(|s| {
+                                        s.bg(theme.colors.surface_hover)
+                                            .text_color(theme.colors.text)
+                                    })
+                                    .cursor_pointer()
+                                })
+                                .when(is_clickable, |d| {
+                                    d.on_click(cx.listener(move |_this, _, _window, cx| {
+                                        cx.emit(BreadcrumbEvent::ItemClicked(item_id.clone()));
+                                    }))
+                                })
+                                .when_some(item.icon.clone(), |d, icon| {
+                                    d.child(div().text_xs().child(icon))
+                                })
+                                .child(item.label.clone()),
                         )
-                    })
-                    // Separator
-                    .when(show_separator, |d| {
-                        d.child(
-                            div()
-                                .text_color(theme.colors.text_muted)
-                                .child(separator.clone())
-                        )
-                    })
-            }))
+                        // Ellipsis if needed
+                        .when(show_ellipsis_here, |d| {
+                            d.child(
+                                div()
+                                    .text_color(theme.colors.text_muted)
+                                    .child(separator.clone()),
+                            )
+                            .child(
+                                div()
+                                    .px_1()
+                                    .text_color(theme.colors.text_muted)
+                                    .child("..."),
+                            )
+                        })
+                        // Separator
+                        .when(show_separator, |d| {
+                            d.child(
+                                div()
+                                    .text_color(theme.colors.text_muted)
+                                    .child(separator.clone()),
+                            )
+                        })
+                },
+            ))
     }
 }

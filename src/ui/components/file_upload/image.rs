@@ -1,7 +1,7 @@
 //! Image upload component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Image upload with preview
 #[derive(Clone)]
@@ -82,43 +82,32 @@ impl RenderOnce for ImageUpload {
 
         if self.current_image.is_some() {
             // Show image placeholder (actual image would need asset loading)
-            container = container
-                .child(
-                    div()
-                        .text_3xl()
-                        .child("🖼️")
-                )
-                .child(
-                    div()
-                        .absolute()
-                        .inset_0()
-                        .bg(hsla(0.0, 0.0, 0.0, 0.0))
-                        .flex()
-                        .items_center()
-                        .justify_center()
-                        .hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.5)))
-                        .child(
-                            div()
-                                .opacity(0.0)
-                                .hover(|s| s.opacity(1.0))
-                                .text_sm()
-                                .text_color(gpui::white())
-                                .child("Change")
-                        )
-                );
+            container = container.child(div().text_3xl().child("🖼️")).child(
+                div()
+                    .absolute()
+                    .inset_0()
+                    .bg(hsla(0.0, 0.0, 0.0, 0.0))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.5)))
+                    .child(
+                        div()
+                            .opacity(0.0)
+                            .hover(|s| s.opacity(1.0))
+                            .text_sm()
+                            .text_color(gpui::white())
+                            .child("Change"),
+                    ),
+            );
         } else {
             container = container
-                .child(
-                    div()
-                        .text_2xl()
-                        .text_color(text_muted)
-                        .child("📷")
-                )
+                .child(div().text_2xl().text_color(text_muted).child("📷"))
                 .child(
                     div()
                         .text_xs()
                         .text_color(text_muted)
-                        .child(self.placeholder)
+                        .child(self.placeholder),
                 );
         }
 

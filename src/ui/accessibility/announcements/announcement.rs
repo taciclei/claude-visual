@@ -1,5 +1,5 @@
-use std::time::{Duration, Instant};
 use super::AnnouncementPriority;
+use std::time::{Duration, Instant};
 
 /// An announcement for screen readers
 #[derive(Debug, Clone)]

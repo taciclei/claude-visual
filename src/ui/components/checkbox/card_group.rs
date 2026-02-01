@@ -1,8 +1,8 @@
 //! Checkbox card group component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Checkbox group with card-style options
 #[derive(IntoElement)]
@@ -158,18 +158,21 @@ impl RenderOnce for CheckboxCardGroup {
                 .justify_center();
 
             if is_selected {
-                checkbox_box = checkbox_box.border_color(accent_color).bg(accent_color).child(
-                    div()
-                        .text_size(px(12.0))
-                        .text_color(Hsla {
-                            h: 0.0,
-                            s: 0.0,
-                            l: 1.0,
-                            a: 1.0,
-                        })
-                        .font_weight(gpui::FontWeight::BOLD)
-                        .child("✓"),
-                );
+                checkbox_box = checkbox_box
+                    .border_color(accent_color)
+                    .bg(accent_color)
+                    .child(
+                        div()
+                            .text_size(px(12.0))
+                            .text_color(Hsla {
+                                h: 0.0,
+                                s: 0.0,
+                                l: 1.0,
+                                a: 1.0,
+                            })
+                            .font_weight(gpui::FontWeight::BOLD)
+                            .child("✓"),
+                    );
             } else {
                 checkbox_box = checkbox_box.border_color(Hsla {
                     h: 0.0,

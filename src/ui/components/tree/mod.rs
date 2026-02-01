@@ -1,19 +1,19 @@
 //! Tree component for hierarchical data display
 
-mod types;
-mod tree_state;
+mod directory_listing;
+mod file_tree;
 mod tree_actions;
 mod tree_render;
-mod file_tree;
-mod directory_listing;
+mod tree_state;
+mod types;
 
 // Re-export public types
-pub use types::{TreeNode, TreeStyle, TreeEvent, FileTreeItem, DirectoryEntry};
+pub use types::{DirectoryEntry, FileTreeItem, TreeEvent, TreeNode, TreeStyle};
 
 // Re-export components
-pub use tree_state::Tree;
-pub use file_tree::FileTree;
 pub use directory_listing::DirectoryListing;
+pub use file_tree::FileTree;
+pub use tree_state::Tree;
 
 #[cfg(test)]
 mod tests {

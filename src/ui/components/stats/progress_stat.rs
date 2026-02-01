@@ -1,7 +1,7 @@
 //! ProgressStat component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Progress stat with bar
 #[derive(Clone)]
@@ -45,7 +45,8 @@ impl RenderOnce for ProgressStat {
         let surface = hsla(0.0, 0.0, 0.2, 1.0);
 
         let progress = (self.value / self.max).clamp(0.0, 1.0);
-        let value_str = self.format
+        let value_str = self
+            .format
             .replace("{value}", &format!("{:.0}", self.value))
             .replace("{max}", &format!("{:.0}", self.max));
 
@@ -59,34 +60,24 @@ impl RenderOnce for ProgressStat {
                     .flex()
                     .items_center()
                     .justify_between()
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(text_muted)
-                            .child(self.label)
-                    )
+                    .child(div().text_sm().text_color(text_muted).child(self.label))
                     .child(
                         div()
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text)
-                            .child(value_str)
-                    )
+                            .child(value_str),
+                    ),
             )
             // Progress bar
             .child(
-                div()
-                    .w_full()
-                    .h(px(8.0))
-                    .rounded_full()
-                    .bg(surface)
-                    .child(
-                        div()
-                            .h_full()
-                            .w(relative(progress))
-                            .rounded_full()
-                            .bg(accent)
-                    )
+                div().w_full().h(px(8.0)).rounded_full().bg(surface).child(
+                    div()
+                        .h_full()
+                        .w(relative(progress))
+                        .rounded_full()
+                        .bg(accent),
+                ),
             )
     }
 }

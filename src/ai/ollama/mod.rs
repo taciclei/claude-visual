@@ -2,9 +2,9 @@
 //!
 //! Integration with local Ollama models.
 
-mod types;
 mod core;
 mod provider;
+mod types;
 
 pub use core::OllamaProvider;
 

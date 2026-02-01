@@ -2,20 +2,15 @@
 //!
 //! UI component for viewing and approving MCP tool calls.
 
-mod types;
 mod core;
-mod pending_call;
-mod tool_item;
 mod header;
+mod pending_call;
 mod render;
+mod tool_item;
+mod types;
 
 // Re-export public types
-pub use types::{
-    ToolApprovalStatus,
-    ToolItem,
-    PendingToolCall,
-    McpToolsPanelEvent,
-};
+pub use types::{McpToolsPanelEvent, PendingToolCall, ToolApprovalStatus, ToolItem};
 
 // Re-export main struct
 pub use core::McpToolsPanel;

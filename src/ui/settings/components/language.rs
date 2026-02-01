@@ -1,8 +1,8 @@
-use gpui::*;
-use gpui::prelude::*;
+use super::super::SettingsModal;
 use crate::app::settings::LanguageSetting;
 use crate::i18n::{i18n, Locale};
-use super::super::SettingsModal;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render the language selector
@@ -53,33 +53,24 @@ impl SettingsModal {
                                     })
                                     .child("Auto-detect"),
                             )
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(theme.colors.text_muted)
-                                    .child(format!(
-                                        "Currently: {}",
-                                        crate::i18n::detect_system_locale().native_name()
-                                    )),
-                            ),
+                            .child(div().text_xs().text_color(theme.colors.text_muted).child(
+                                format!(
+                                    "Currently: {}",
+                                    crate::i18n::detect_system_locale().native_name()
+                                ),
+                            )),
                     )
                     .when(is_auto, |d| {
-                        d.child(
-                            div()
-                                .text_sm()
-                                .text_color(theme.colors.accent)
-                                .child("✓"),
-                        )
+                        d.child(div().text_sm().text_color(theme.colors.accent).child("✓"))
                     }),
             )
             // Available languages
             .child(
-                div()
-                    .flex()
-                    .flex_col()
-                    .gap_1()
-                    .children(Locale::all().iter().filter(|l| i18n().has_locale(**l)).map(
-                        |&locale| {
+                div().flex().flex_col().gap_1().children(
+                    Locale::all()
+                        .iter()
+                        .filter(|l| i18n().has_locale(**l))
+                        .map(|&locale| {
                             let is_selected = match current_setting {
                                 LanguageSetting::Auto => false,
                                 LanguageSetting::Specific(tag) => {
@@ -89,7 +80,10 @@ impl SettingsModal {
                             let tag = locale.language_tag().to_string();
 
                             div()
-                                .id(SharedString::from(format!("lang-{}", locale.language_tag())))
+                                .id(SharedString::from(format!(
+                                    "lang-{}",
+                                    locale.language_tag()
+                                )))
                                 .flex()
                                 .items_center()
                                 .justify_between()
@@ -115,11 +109,7 @@ impl SettingsModal {
                                         .flex()
                                         .items_center()
                                         .gap_2()
-                                        .child(
-                                            div()
-                                                .text_base()
-                                                .child(locale.flag_emoji()),
-                                        )
+                                        .child(div().text_base().child(locale.flag_emoji()))
                                         .child(
                                             div()
                                                 .flex()
@@ -144,14 +134,11 @@ impl SettingsModal {
                                 )
                                 .when(is_selected, |d| {
                                     d.child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(theme.colors.accent)
-                                            .child("✓"),
+                                        div().text_sm().text_color(theme.colors.accent).child("✓"),
                                     )
                                 })
-                        },
-                    )),
+                        }),
+                ),
             )
     }
 }

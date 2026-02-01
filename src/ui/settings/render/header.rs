@@ -1,8 +1,8 @@
 //! Settings modal header
 
-use gpui::*;
-use crate::app::theme::Theme;
 use super::super::core::SettingsModal;
+use crate::app::theme::Theme;
+use gpui::*;
 
 impl SettingsModal {
     pub(super) fn render_header(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
@@ -37,11 +37,7 @@ impl SettingsModal {
                     .items_center()
                     .justify_center()
                     .text_color(theme.colors.text_muted)
-                    .hover(move |style| {
-                        style
-                            .bg(surface_hover)
-                            .text_color(text_color)
-                    })
+                    .hover(move |style| style.bg(surface_hover).text_color(text_color))
                     .cursor_pointer()
                     .on_click(on_close)
                     .child("x"),

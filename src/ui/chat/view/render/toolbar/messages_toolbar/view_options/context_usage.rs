@@ -1,9 +1,9 @@
 //! Context usage indicator rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use crate::ui::chat::view::core::ChatView;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Renders the context usage indicator with progress bar
@@ -34,13 +34,7 @@ impl ChatView {
             .flex()
             .items_center()
             .gap_0()
-            .child(
-                div()
-                    .w(px(1.0))
-                    .h(px(16.0))
-                    .bg(theme.colors.border)
-                    .mx_1()
-            )
+            .child(div().w(px(1.0)).h(px(16.0)).bg(theme.colors.border).mx_1())
             .child(
                 div()
                     .id("context-usage-mini")
@@ -58,7 +52,7 @@ impl ChatView {
                         div()
                             .text_xs()
                             .text_color(usage_color)
-                            .child(format!("{:.0}%", usage_pct * 100.0))
+                            .child(format!("{:.0}%", usage_pct * 100.0)),
                     )
                     .child(
                         div()
@@ -71,9 +65,9 @@ impl ChatView {
                                     .h_full()
                                     .rounded_sm()
                                     .bg(usage_color)
-                                    .w(pct((usage_pct * 100.0) as f32))
-                            )
-                    )
+                                    .w(pct((usage_pct * 100.0) as f32)),
+                            ),
+                    ),
             )
     }
 }

@@ -1,8 +1,8 @@
 //! Icon toggle group component (icons only)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Icon toggle group (icons only)
 #[derive(IntoElement)]

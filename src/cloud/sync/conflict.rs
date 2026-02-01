@@ -1,5 +1,5 @@
-use super::types::*;
 use super::manager::SyncManager;
+use super::types::*;
 
 impl SyncManager {
     /// Resolve a conflict

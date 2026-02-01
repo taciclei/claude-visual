@@ -1,16 +1,16 @@
 //! PTY session management
 
 use std::collections::VecDeque;
+use std::process::{Command, Stdio};
 use std::sync::{Arc, Mutex};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::process::{Child, ChildStdin};
 use tokio::sync::mpsc;
-use std::process::{Command, Stdio};
 
 use super::config::PtyConfig;
 use super::error::PtyError;
 use super::event::PtyEvent;
-use super::key::{TerminalKey, function_key_sequence};
+use super::key::{function_key_sequence, TerminalKey};
 
 /// PTY instance for running shell commands
 pub struct Pty {

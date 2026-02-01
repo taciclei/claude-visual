@@ -1,10 +1,10 @@
 //! Invite member dialog rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::TeamRole;
 use super::super::TeamPanel;
+use crate::cloud::team::TeamRole;
 
 impl TeamPanel {
     /// Render invite dialog
@@ -88,12 +88,7 @@ impl TeamPanel {
                                     .flex()
                                     .flex_col()
                                     .gap_1()
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(text)
-                                            .child("Email Address"),
-                                    )
+                                    .child(div().text_sm().text_color(text).child("Email Address"))
                                     .child(
                                         div()
                                             .px_3()
@@ -120,12 +115,7 @@ impl TeamPanel {
                                     .flex()
                                     .flex_col()
                                     .gap_1()
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .text_color(text)
-                                            .child("Role"),
-                                    )
+                                    .child(div().text_sm().text_color(text).child("Role"))
                                     .child(
                                         div()
                                             .flex()
@@ -179,7 +169,11 @@ impl TeamPanel {
     }
 
     /// Render role option button
-    pub(crate) fn render_role_option(&self, role: TeamRole, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_role_option(
+        &self,
+        role: TeamRole,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let is_selected = self.invite_role == role;
         let accent = theme.colors.accent;

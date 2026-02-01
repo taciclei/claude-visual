@@ -1,16 +1,16 @@
 //! Color picker component
 
-mod types;
+mod gradient;
+mod palette;
 mod picker;
 mod swatch;
-mod palette;
-mod gradient;
+mod types;
 
-pub use types::*;
+pub use gradient::*;
+pub use palette::*;
 pub use picker::*;
 pub use swatch::*;
-pub use palette::*;
-pub use gradient::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -40,10 +40,8 @@ mod tests {
 
     #[test]
     fn test_gradient_bar() {
-        let gradient = GradientBar::new(
-            hsla(0.0, 0.8, 0.5, 1.0),
-            hsla(0.5, 0.8, 0.5, 1.0)
-        ).height(24.0);
+        let gradient =
+            GradientBar::new(hsla(0.0, 0.8, 0.5, 1.0), hsla(0.5, 0.8, 0.5, 1.0)).height(24.0);
 
         assert!((gradient.height - 24.0).abs() < f32::EPSILON);
     }

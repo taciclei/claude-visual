@@ -32,7 +32,12 @@ impl DebugSession {
         self.client.launch(args).await?;
 
         // Configuration done
-        if self.capabilities.as_ref().map(|c| c.supports_configuration_done_request).unwrap_or(false) {
+        if self
+            .capabilities
+            .as_ref()
+            .map(|c| c.supports_configuration_done_request)
+            .unwrap_or(false)
+        {
             self.client.configuration_done().await?;
         }
 
@@ -50,7 +55,12 @@ impl DebugSession {
         self.client.attach(args).await?;
 
         // Configuration done
-        if self.capabilities.as_ref().map(|c| c.supports_configuration_done_request).unwrap_or(false) {
+        if self
+            .capabilities
+            .as_ref()
+            .map(|c| c.supports_configuration_done_request)
+            .unwrap_or(false)
+        {
             self.client.configuration_done().await?;
         }
 

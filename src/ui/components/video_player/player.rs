@@ -1,7 +1,7 @@
 //! Main video player component
 
+use super::types::{PlaybackState, VideoAspectRatio, VideoPlayerSize, VideoQuality};
 use gpui::*;
-use super::types::{VideoPlayerSize, VideoAspectRatio, VideoQuality, PlaybackState};
 
 /// Video player component
 #[derive(IntoElement)]

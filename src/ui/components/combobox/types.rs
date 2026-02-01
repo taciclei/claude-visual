@@ -15,9 +15,9 @@ pub enum ComboboxSize {
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub enum ComboboxMode {
     #[default]
-    Filter,      // Filters existing options
-    Search,      // Searches for options
-    Create,      // Allows creating new options
+    Filter, // Filters existing options
+    Search, // Searches for options
+    Create, // Allows creating new options
 }
 
 /// Combobox item

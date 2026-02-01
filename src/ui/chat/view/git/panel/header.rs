@@ -1,7 +1,7 @@
 //! Git panel header rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -40,8 +40,8 @@ impl ChatView {
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(theme.colors.text)
-                            .child("Git Status")
-                    )
+                            .child("Git Status"),
+                    ),
             )
             .child(
                 div()
@@ -54,7 +54,7 @@ impl ChatView {
                     .text_color(theme.colors.text_muted)
                     .hover(move |s| s.bg(surface_hover).text_color(text_color))
                     .on_click(toggle_close)
-                    .child("×")
+                    .child("×"),
             )
     }
 }

@@ -75,7 +75,10 @@ impl Marquee {
 
 impl RenderOnce for Marquee {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        let is_vertical = matches!(self.direction, MarqueeDirection::Up | MarqueeDirection::Down);
+        let is_vertical = matches!(
+            self.direction,
+            MarqueeDirection::Up | MarqueeDirection::Down
+        );
 
         div()
             .id(self.id)
@@ -91,7 +94,7 @@ impl RenderOnce for Marquee {
                     .when(is_vertical, |el| el.flex_col())
                     .when(!is_vertical, |el| el.flex_row())
                     .gap(px(self.gap))
-                    .children(self.children)
+                    .children(self.children),
             )
     }
 }

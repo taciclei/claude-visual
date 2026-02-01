@@ -27,11 +27,11 @@ impl VideoPlayerSize {
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub enum VideoAspectRatio {
     #[default]
-    Widescreen,  // 16:9
-    Standard,    // 4:3
-    Cinematic,   // 21:9
-    Square,      // 1:1
-    Portrait,    // 9:16
+    Widescreen, // 16:9
+    Standard,  // 4:3
+    Cinematic, // 21:9
+    Square,    // 1:1
+    Portrait,  // 9:16
 }
 
 impl VideoAspectRatio {

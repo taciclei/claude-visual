@@ -2,17 +2,17 @@
 //!
 //! Provides components for creating sortable, draggable list items.
 
-mod types;
-mod sortable_list;
 mod kanban_column;
-mod sortable_grid;
 mod nested_list;
+mod sortable_grid;
+mod sortable_list;
+mod types;
 
-pub use types::{SortableItem, DragState, SortableVariant, NestedSortableItem};
-pub use sortable_list::SortableList;
 pub use kanban_column::KanbanColumn;
-pub use sortable_grid::SortableGrid;
 pub use nested_list::NestedSortableList;
+pub use sortable_grid::SortableGrid;
+pub use sortable_list::SortableList;
+pub use types::{DragState, NestedSortableItem, SortableItem, SortableVariant};
 
 #[cfg(test)]
 mod tests {
@@ -92,14 +92,12 @@ mod tests {
 
     #[test]
     fn test_nested_sortable() {
-        let items = vec![
-            NestedSortableItem::new("1", "Parent")
-                .children(vec![
-                    NestedSortableItem::new("1.1", "Child 1"),
-                    NestedSortableItem::new("1.2", "Child 2"),
-                ])
-                .collapsed(false),
-        ];
+        let items = vec![NestedSortableItem::new("1", "Parent")
+            .children(vec![
+                NestedSortableItem::new("1.1", "Child 1"),
+                NestedSortableItem::new("1.2", "Child 2"),
+            ])
+            .collapsed(false)];
 
         let list = NestedSortableList::new("nsl")
             .items(items)

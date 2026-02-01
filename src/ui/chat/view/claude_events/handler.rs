@@ -3,7 +3,7 @@
 use gpui::*;
 
 use crate::claude::message::{ClaudeEvent, ClaudeMessage, MessageRole};
-use crate::ui::chat::view::{ChatView, ConnectionStatus, NotificationType, ActiveTask};
+use crate::ui::chat::view::{ActiveTask, ChatView, ConnectionStatus, NotificationType};
 
 impl ChatView {
     /// Handle a Claude event from the stream
@@ -88,7 +88,9 @@ impl ChatView {
                 self.stats.connection_retry_count = 0;
                 // Track response latency
                 if let Some(start) = self.streaming.response_start_time.take() {
-                    let latency = chrono::Utc::now().signed_duration_since(start).num_milliseconds() as u64;
+                    let latency = chrono::Utc::now()
+                        .signed_duration_since(start)
+                        .num_milliseconds() as u64;
                     self.update_response_latency(latency, cx);
                 }
                 // Update contextual suggestions based on new message
@@ -133,7 +135,10 @@ impl ChatView {
                 });
                 // Record error for potential retry
                 // Try to get the last user prompt for retry
-                let original_prompt = self.messages.iter().rev()
+                let original_prompt = self
+                    .messages
+                    .iter()
+                    .rev()
                     .find(|m| m.role == MessageRole::User)
                     .map(|m| m.content.clone());
                 self.record_error(msg.clone(), original_prompt, cx);
@@ -166,7 +171,11 @@ impl ChatView {
                 }
                 cx.notify();
             }
-            ClaudeEvent::Usage { input_tokens, output_tokens, cost_usd } => {
+            ClaudeEvent::Usage {
+                input_tokens,
+                output_tokens,
+                cost_usd,
+            } => {
                 // Update session stats
                 self.stats.input_tokens += input_tokens;
                 self.stats.output_tokens += output_tokens;
@@ -179,16 +188,32 @@ impl ChatView {
                 // Check if context is getting full and show notification
                 let usage_pct = self.context_usage_percentage();
                 if usage_pct > 0.90 && usage_pct <= 0.95 {
-                    self.show_notification("Context is 90% full. Consider using /compact to free up space.", NotificationType::Warning, cx);
+                    self.show_notification(
+                        "Context is 90% full. Consider using /compact to free up space.",
+                        NotificationType::Warning,
+                        cx,
+                    );
                 } else if usage_pct > 0.95 {
-                    self.show_notification("Context is almost full! Use /compact now to avoid errors.", NotificationType::Error, cx);
+                    self.show_notification(
+                        "Context is almost full! Use /compact now to avoid errors.",
+                        NotificationType::Error,
+                        cx,
+                    );
                 }
 
-                tracing::info!("Usage: {} input, {} output tokens, cost: ${:.4}, context: {:.1}%",
-                    input_tokens, output_tokens, cost_usd.unwrap_or(0.0), usage_pct * 100.0);
+                tracing::info!(
+                    "Usage: {} input, {} output tokens, cost: ${:.4}, context: {:.1}%",
+                    input_tokens,
+                    output_tokens,
+                    cost_usd.unwrap_or(0.0),
+                    usage_pct * 100.0
+                );
                 cx.notify();
             }
-            ClaudeEvent::TaskStarted { description, task_id } => {
+            ClaudeEvent::TaskStarted {
+                description,
+                task_id,
+            } => {
                 tracing::info!("Task started: {} (id: {:?})", description, task_id);
                 // Add to active tasks
                 let was_empty = self.active_tasks.is_empty();
@@ -219,8 +244,12 @@ impl ChatView {
                 cx.notify();
             }
             ClaudeEvent::SystemInit { info } => {
-                tracing::info!("Session initialized: model={}, {} tools, {} commands",
-                    info.model, info.tools.len(), info.slash_commands.len());
+                tracing::info!(
+                    "Session initialized: model={}, {} tools, {} commands",
+                    info.model,
+                    info.tools.len(),
+                    info.slash_commands.len()
+                );
                 // Update input with available commands for autocomplete
                 let commands = info.slash_commands.clone();
                 self.input.update(cx, |input, cx| {
@@ -229,7 +258,8 @@ impl ChatView {
                 // Update available models to mark the current one
                 let current_model = info.model.clone();
                 for model in &mut self.available_models {
-                    model.is_current = current_model.contains(&model.name) || model.id == current_model;
+                    model.is_current =
+                        current_model.contains(&model.name) || model.id == current_model;
                 }
                 // Update connection status to connected
                 self.connection_status = ConnectionStatus::Connected;
@@ -241,15 +271,32 @@ impl ChatView {
                 self.session_info = Some(info);
                 cx.notify();
             }
-            ClaudeEvent::PermissionRequest { request_id, tool, action, command } => {
-                tracing::info!("Permission requested: {} - {} (id: {})", tool, action, request_id);
+            ClaudeEvent::PermissionRequest {
+                request_id,
+                tool,
+                action,
+                command,
+            } => {
+                tracing::info!(
+                    "Permission requested: {} - {} (id: {})",
+                    tool,
+                    action,
+                    request_id
+                );
                 // Create and add permission request to pending list
                 self.handle_permission_event(request_id, tool, action, command, cx);
                 cx.notify();
             }
-            ClaudeEvent::PermissionResponse { request_id, granted } => {
+            ClaudeEvent::PermissionResponse {
+                request_id,
+                granted,
+            } => {
                 // This is an acknowledgement from the CLI that our response was received
-                tracing::debug!("Permission response acknowledged: {} = {}", request_id, granted);
+                tracing::debug!(
+                    "Permission response acknowledged: {} = {}",
+                    request_id,
+                    granted
+                );
             }
         }
     }

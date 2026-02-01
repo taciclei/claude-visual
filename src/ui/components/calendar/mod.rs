@@ -1,15 +1,15 @@
 //! Calendar component for date selection
 
-mod types;
 mod calendar_month;
 mod date_range_picker;
 mod mini_calendar;
+mod types;
 mod year_picker;
 
-pub use types::{Weekday, CalendarSize, SimpleDate, CalendarEvent};
 pub use calendar_month::CalendarMonth;
 pub use date_range_picker::DateRangePicker;
 pub use mini_calendar::MiniCalendar;
+pub use types::{CalendarEvent, CalendarSize, SimpleDate, Weekday};
 pub use year_picker::YearPicker;
 
 #[cfg(test)]

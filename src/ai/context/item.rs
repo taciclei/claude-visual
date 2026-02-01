@@ -10,11 +10,11 @@ impl ContextItem {
     pub fn file(path: impl Into<PathBuf>, content: impl Into<String>) -> Self {
         let path = path.into();
         let content = content.into();
-        let name = path.file_name()
+        let name = path
+            .file_name()
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_else(|| path.display().to_string());
-        let language = path.extension()
-            .map(|e| e.to_string_lossy().to_string());
+        let language = path.extension().map(|e| e.to_string_lossy().to_string());
         let token_count = estimate_tokens(&content);
 
         Self {
@@ -50,8 +50,7 @@ impl ContextItem {
             start_line,
             end_line
         );
-        let language = path.extension()
-            .map(|e| e.to_string_lossy().to_string());
+        let language = path.extension().map(|e| e.to_string_lossy().to_string());
         let token_count = estimate_tokens(&content);
 
         Self {
@@ -220,7 +219,10 @@ impl ContextItem {
             }
             ContextItemType::Snippet => {
                 if let (Some(start), Some(end)) = (self.start_line, self.end_line) {
-                    output.push_str(&format!("Snippet from {} (lines {}-{}):\n", self.name, start, end));
+                    output.push_str(&format!(
+                        "Snippet from {} (lines {}-{}):\n",
+                        self.name, start, end
+                    ));
                 } else {
                     output.push_str(&format!("Snippet from {}:\n", self.name));
                 }
@@ -235,7 +237,11 @@ impl ContextItem {
                 output.push_str(&format!("```diff\n{}\n```", self.content));
             }
             ContextItemType::Web => {
-                let url = self.metadata.get("url").map(|s| s.as_str()).unwrap_or(&self.name);
+                let url = self
+                    .metadata
+                    .get("url")
+                    .map(|s| s.as_str())
+                    .unwrap_or(&self.name);
                 output.push_str(&format!("Web content from {}:\n{}", url, self.content));
             }
             ContextItemType::McpResource => {
@@ -249,10 +255,7 @@ impl ContextItem {
                     .get("uri")
                     .map(|s| s.as_str())
                     .unwrap_or(&self.name);
-                output.push_str(&format!(
-                    "MCP Resource from {} (URI: {}):\n",
-                    server, uri
-                ));
+                output.push_str(&format!("MCP Resource from {} (URI: {}):\n", server, uri));
                 if let Some(lang) = &self.language {
                     output.push_str(&format!("```{}\n{}\n```", lang, self.content));
                 } else {

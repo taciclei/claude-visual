@@ -1,11 +1,11 @@
 //! Context panel usage bar component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::pct;
 use super::super::super::core::ChatView;
 use crate::app::theme::Theme;
+use crate::ui::pct;
 
 impl ChatView {
     pub(super) fn render_usage_bar(&self, theme: &Theme) -> impl IntoElement {
@@ -37,15 +37,15 @@ impl ChatView {
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child("Context Window Usage")
+                            .child("Context Window Usage"),
                     )
                     .child(
                         div()
                             .text_xs()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(usage_color)
-                            .child(format!("{}%", (usage_pct * 100.0) as u32))
-                    )
+                            .child(format!("{}%", (usage_pct * 100.0) as u32)),
+                    ),
             )
             .child(
                 div()
@@ -59,8 +59,8 @@ impl ChatView {
                             .h_full()
                             .w(pct((usage_pct * 100.0) as f32))
                             .bg(usage_color)
-                            .rounded_full()
-                    )
+                            .rounded_full(),
+                    ),
             )
             .child(
                 div()
@@ -77,8 +77,8 @@ impl ChatView {
                             .items_center()
                             .gap_3()
                             .child(format!("{} files", file_count))
-                            .child(format!("{} tools", tool_count))
-                    )
+                            .child(format!("{} tools", tool_count)),
+                    ),
             )
     }
 }

@@ -4,8 +4,8 @@
 mod tests {
     use std::path::PathBuf;
 
-    use super::super::manager::DiffHunkManager;
     use super::super::managed::ManagedHunk;
+    use super::super::manager::DiffHunkManager;
     use super::super::types::{HunkAction, HunkStatus};
 
     #[test]
@@ -34,7 +34,9 @@ mod tests {
     #[test]
     fn test_apply_action() {
         let mut manager = DiffHunkManager::new(PathBuf::from("test.rs"));
-        manager.hunks.push(ManagedHunk::new(0, "@@ -1,1 +1,1 @@", 1, 1, 1, 1));
+        manager
+            .hunks
+            .push(ManagedHunk::new(0, "@@ -1,1 +1,1 @@", 1, 1, 1, 1));
 
         manager.apply_action(0, HunkAction::Apply);
         assert_eq!(manager.hunks[0].status, HunkStatus::Applied);

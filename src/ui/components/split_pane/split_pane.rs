@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Split pane component
 pub struct SplitPane {
@@ -62,7 +62,9 @@ impl SplitPane {
     /// Set position (0.0 to 1.0)
     pub fn set_position(&mut self, position: f32, cx: &mut Context<Self>) {
         self.position = position.clamp(0.0, 1.0);
-        cx.emit(SplitPaneEvent::Resized { position: self.position });
+        cx.emit(SplitPaneEvent::Resized {
+            position: self.position,
+        });
         cx.notify();
     }
 
@@ -136,7 +138,9 @@ impl SplitPane {
         self.position = self.default_position;
         self.first_collapsed = false;
         self.second_collapsed = false;
-        cx.emit(SplitPaneEvent::Resized { position: self.position });
+        cx.emit(SplitPaneEvent::Resized {
+            position: self.position,
+        });
         cx.notify();
     }
 
@@ -178,7 +182,11 @@ impl Render for SplitPane {
         };
 
         let cursor_style = if self.resizable {
-            if is_horizontal { CursorStyle::ResizeLeftRight } else { CursorStyle::ResizeUpDown }
+            if is_horizontal {
+                CursorStyle::ResizeLeftRight
+            } else {
+                CursorStyle::ResizeUpDown
+            }
         } else {
             CursorStyle::Arrow
         };
@@ -210,8 +218,8 @@ impl Render for SplitPane {
                                 .flex()
                                 .items_center()
                                 .justify_center()
-                                .child("First Pane")
-                        )
+                                .child("First Pane"),
+                        ),
                 )
             })
             // Divider
@@ -219,14 +227,8 @@ impl Render for SplitPane {
                 d.child(
                     div()
                         .id("split-divider")
-                        .when(is_horizontal, |d| {
-                            d.w(px(divider_size))
-                                .h_full()
-                        })
-                        .when(!is_horizontal, |d| {
-                            d.h(px(divider_size))
-                                .w_full()
-                        })
+                        .when(is_horizontal, |d| d.w(px(divider_size)).h_full())
+                        .when(!is_horizontal, |d| d.h(px(divider_size)).w_full())
                         .bg(theme.colors.border)
                         .flex_shrink_0()
                         .flex()
@@ -240,16 +242,12 @@ impl Render for SplitPane {
                         .when(self.show_handle, |d| {
                             d.child(
                                 div()
-                                    .when(is_horizontal, |d| {
-                                        d.w(px(2.0)).h(px(24.0))
-                                    })
-                                    .when(!is_horizontal, |d| {
-                                        d.h(px(2.0)).w(px(24.0))
-                                    })
+                                    .when(is_horizontal, |d| d.w(px(2.0)).h(px(24.0)))
+                                    .when(!is_horizontal, |d| d.h(px(2.0)).w(px(24.0)))
                                     .rounded_full()
-                                    .bg(theme.colors.text_muted.opacity(0.3))
+                                    .bg(theme.colors.text_muted.opacity(0.3)),
                             )
-                        })
+                        }),
                 )
             })
             // Second pane
@@ -272,8 +270,8 @@ impl Render for SplitPane {
                                 .flex()
                                 .items_center()
                                 .justify_center()
-                                .child("Second Pane")
-                        )
+                                .child("Second Pane"),
+                        ),
                 )
             })
     }

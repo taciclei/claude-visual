@@ -1,7 +1,7 @@
 //! Variable display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Variable display (like a variable name or constant)
 #[derive(Clone)]
@@ -41,22 +41,10 @@ impl RenderOnce for Variable {
             .gap_1()
             .font_family("monospace")
             .text_sm()
-            .child(
-                div()
-                    .text_color(name_color)
-                    .child(self.name)
-            )
+            .child(div().text_color(name_color).child(self.name))
             .when_some(self.value, |d, val| {
-                d.child(
-                    div()
-                        .text_color(text_muted)
-                        .child("=")
-                )
-                .child(
-                    div()
-                        .text_color(value_color)
-                        .child(val)
-                )
+                d.child(div().text_color(text_muted).child("="))
+                    .child(div().text_color(value_color).child(val))
             })
     }
 }

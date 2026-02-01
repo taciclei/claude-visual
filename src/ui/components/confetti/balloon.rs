@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::BalloonSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Balloon floating animation
 #[derive(IntoElement)]
@@ -95,17 +95,11 @@ impl RenderOnce for Balloon {
                         .items_center()
                         .child(
                             // Knot
-                            div()
-                                .w(px(8.0))
-                                .h(px(6.0))
-                                .bg(self.color.opacity(0.8)),
+                            div().w(px(8.0)).h(px(6.0)).bg(self.color.opacity(0.8)),
                         )
                         .child(
                             // String
-                            div()
-                                .w(px(1.0))
-                                .h(px(40.0))
-                                .bg(rgba(0x666666ff)),
+                            div().w(px(1.0)).h(px(40.0)).bg(rgba(0x666666ff)),
                         ),
                 )
             })

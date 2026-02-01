@@ -1,7 +1,7 @@
 //! Speedometer gauge
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Speedometer gauge
 #[derive(IntoElement)]
@@ -78,13 +78,13 @@ impl RenderOnce for Speedometer {
                     .text_size(px(self.size / 3.5))
                     .font_weight(gpui::FontWeight::BOLD)
                     .text_color(hsla(0.0, 0.0, 0.95, 1.0))
-                    .child(format!("{:.0}", self.value))
+                    .child(format!("{:.0}", self.value)),
             )
             .child(
                 div()
                     .text_size(px(self.size / 10.0))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child(self.unit.clone())
+                    .child(self.unit.clone()),
             )
     }
 }

@@ -1,7 +1,7 @@
 //! Infinite scroll component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Infinite scroll container with loading indicator
 #[derive(IntoElement)]
@@ -91,12 +91,7 @@ impl RenderOnce for InfiniteScroll {
                 .justify_center()
                 .py_4()
                 .gap_2()
-                .child(
-                    div()
-                        .text_size(px(12.0))
-                        .text_color(text_color)
-                        .child("⟳"),
-                )
+                .child(div().text_size(px(12.0)).text_color(text_color).child("⟳"))
                 .child(
                     div()
                         .text_size(px(13.0))
@@ -104,17 +99,12 @@ impl RenderOnce for InfiniteScroll {
                         .child(self.loading_text),
                 )
         } else if !self.has_more {
-            div()
-                .flex()
-                .items_center()
-                .justify_center()
-                .py_4()
-                .child(
-                    div()
-                        .text_size(px(13.0))
-                        .text_color(text_color)
-                        .child(self.end_text),
-                )
+            div().flex().items_center().justify_center().py_4().child(
+                div()
+                    .text_size(px(13.0))
+                    .text_color(text_color)
+                    .child(self.end_text),
+            )
         } else {
             div()
         };

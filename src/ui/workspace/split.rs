@@ -1,8 +1,8 @@
 //! Split view functionality
 
-use gpui::*;
-use crate::ui::split::{SplitContainer, SplitContainerEvent, SplitDirection};
 use super::core::Workspace;
+use crate::ui::split::{SplitContainer, SplitContainerEvent, SplitDirection};
+use gpui::*;
 
 impl Workspace {
     /// Toggle split view mode

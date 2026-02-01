@@ -1,7 +1,7 @@
 //! Templates panel header
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 
@@ -43,7 +43,7 @@ impl ChatView {
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(text_color)
-                            .child("Prompt Templates")
+                            .child("Prompt Templates"),
                     )
                     .child(
                         div()
@@ -53,7 +53,7 @@ impl ChatView {
                             .bg(accent_color.opacity(0.2))
                             .text_xs()
                             .text_color(accent_color)
-                            .child(format!("{} templates", total_count))
+                            .child(format!("{} templates", total_count)),
                     )
                     .when(custom_count > 0, |d| {
                         d.child(
@@ -64,9 +64,9 @@ impl ChatView {
                                 .bg(success_color.opacity(0.2))
                                 .text_xs()
                                 .text_color(success_color)
-                                .child(format!("{} custom", custom_count))
+                                .child(format!("{} custom", custom_count)),
                         )
-                    })
+                    }),
             )
             .child(
                 div()
@@ -79,7 +79,7 @@ impl ChatView {
                     .text_color(text_muted)
                     .hover(move |s| s.bg(surface_hover))
                     .on_click(close_listener)
-                    .child("×")
+                    .child("×"),
             )
     }
 }

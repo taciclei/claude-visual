@@ -10,10 +10,10 @@
 //!   - helpers.rs - Utility functions (spinners, formatters)
 //! - **types.rs** - Status-specific types (currently minimal)
 
-pub mod types;
 pub mod latency;
 pub mod stats_bar;
 pub mod status_header;
+pub mod types;
 
 // Re-export all render functions
 pub use latency::*;

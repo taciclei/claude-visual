@@ -1,8 +1,8 @@
 //! Worktree manager panel
 
-mod types;
 mod core;
 mod render;
+mod types;
 
 pub use types::{WorktreePanel, WorktreePanelEvent};
 

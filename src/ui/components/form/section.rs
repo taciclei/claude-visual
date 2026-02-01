@@ -1,7 +1,7 @@
 //! Form section - groups related fields with a title
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct FormSection {
@@ -81,30 +81,29 @@ impl RenderOnce for FormSection {
                                 .items_center()
                                 .gap(px(8.0))
                                 .when(self.collapsible, |el| {
-                                    el.cursor_pointer()
-                                        .child(
-                                            div()
-                                                .text_size(px(10.0))
-                                                .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                                .child(if self.collapsed { "▶" } else { "▼" })
-                                        )
+                                    el.cursor_pointer().child(
+                                        div()
+                                            .text_size(px(10.0))
+                                            .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                                            .child(if self.collapsed { "▶" } else { "▼" }),
+                                    )
                                 })
                                 .child(
                                     div()
                                         .text_size(px(16.0))
                                         .font_weight(gpui::FontWeight::SEMIBOLD)
                                         .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                        .child(self.title.unwrap_or_default())
-                                )
+                                        .child(self.title.unwrap_or_default()),
+                                ),
                         )
                         .when(self.description.is_some(), |el| {
                             el.child(
                                 div()
                                     .text_size(px(13.0))
                                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                    .child(self.description.unwrap_or_default())
+                                    .child(self.description.unwrap_or_default()),
                             )
-                        })
+                        }),
                 )
             })
             .when(!self.collapsed, |el| {
@@ -113,7 +112,7 @@ impl RenderOnce for FormSection {
                         .flex()
                         .flex_col()
                         .gap(px(16.0))
-                        .children(self.children)
+                        .children(self.children),
                 )
             })
     }

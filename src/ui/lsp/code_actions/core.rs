@@ -37,13 +37,12 @@ impl CodeActionsPanel {
         self.selected_index = 0;
 
         // Sort: preferred first, then by kind
-        self.actions.sort_by(|a, b| {
-            match (a.is_preferred, b.is_preferred) {
+        self.actions
+            .sort_by(|a, b| match (a.is_preferred, b.is_preferred) {
                 (true, false) => std::cmp::Ordering::Less,
                 (false, true) => std::cmp::Ordering::Greater,
                 _ => a.kind.display_name().cmp(b.kind.display_name()),
-            }
-        });
+            });
 
         cx.notify();
     }

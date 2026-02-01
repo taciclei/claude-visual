@@ -1,8 +1,8 @@
 //! WASM runtime state management
 
-use std::sync::Arc;
 use parking_lot::RwLock;
-use wasmtime::{Module, Store, Instance};
+use std::sync::Arc;
+use wasmtime::{Instance, Module, Store};
 
 use crate::plugins::api::ExtensionApi;
 use crate::plugins::Extension;

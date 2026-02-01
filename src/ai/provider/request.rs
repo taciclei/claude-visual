@@ -1,7 +1,7 @@
 //! AI request types and tool definitions
 
-use serde::{Deserialize, Serialize};
 use super::message::Message;
+use serde::{Deserialize, Serialize};
 
 /// AI request parameters
 #[derive(Debug, Clone, Serialize, Deserialize)]

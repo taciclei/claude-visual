@@ -1,13 +1,17 @@
 //! Pending call rendering for MCP tools panel
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpToolsPanel;
-use super::types::{PendingToolCall, McpToolsPanelEvent};
+use super::types::{McpToolsPanelEvent, PendingToolCall};
+use gpui::prelude::*;
+use gpui::*;
 
 impl McpToolsPanel {
     /// Render a pending call item
-    pub(crate) fn render_pending_call(&self, call: &PendingToolCall, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_pending_call(
+        &self,
+        call: &PendingToolCall,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx).clone();
         let call_id = call.id.clone();
         let call_id_deny = call.id.clone();
@@ -76,7 +80,9 @@ impl McpToolsPanel {
                                     .hover(|this| this.bg(theme.colors.error.opacity(0.3)))
                                     .child("Deny")
                                     .on_click(cx.listener(move |_this, _event, _window, cx| {
-                                        cx.emit(McpToolsPanelEvent::DenyToolCall(call_id_deny.clone()));
+                                        cx.emit(McpToolsPanelEvent::DenyToolCall(
+                                            call_id_deny.clone(),
+                                        ));
                                     })),
                             )
                             .child(

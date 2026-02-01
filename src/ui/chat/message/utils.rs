@@ -153,46 +153,60 @@ pub fn categorize_error(error: &str) -> (&'static str, &'static str, bool) {
     let error_lower = error.to_lowercase();
 
     // Network/API errors (usually retryable)
-    if error_lower.contains("network") || error_lower.contains("connection")
-        || error_lower.contains("timeout") || error_lower.contains("api")
-        || error_lower.contains("rate limit") || error_lower.contains("overloaded")
+    if error_lower.contains("network")
+        || error_lower.contains("connection")
+        || error_lower.contains("timeout")
+        || error_lower.contains("api")
+        || error_lower.contains("rate limit")
+        || error_lower.contains("overloaded")
     {
         return ("🌐", "Network Error", true);
     }
 
     // Authentication errors
-    if error_lower.contains("auth") || error_lower.contains("token")
-        || error_lower.contains("permission") || error_lower.contains("unauthorized")
-        || error_lower.contains("forbidden") || error_lower.contains("api key")
+    if error_lower.contains("auth")
+        || error_lower.contains("token")
+        || error_lower.contains("permission")
+        || error_lower.contains("unauthorized")
+        || error_lower.contains("forbidden")
+        || error_lower.contains("api key")
     {
         return ("🔐", "Authentication Error", false);
     }
 
     // File/path errors
-    if error_lower.contains("file not found") || error_lower.contains("no such file")
-        || error_lower.contains("cannot read") || error_lower.contains("cannot write")
+    if error_lower.contains("file not found")
+        || error_lower.contains("no such file")
+        || error_lower.contains("cannot read")
+        || error_lower.contains("cannot write")
         || error_lower.contains("path")
     {
         return ("📁", "File Error", false);
     }
 
     // Command/execution errors (might be retryable)
-    if error_lower.contains("command") || error_lower.contains("exit code")
-        || error_lower.contains("failed to execute") || error_lower.contains("process")
+    if error_lower.contains("command")
+        || error_lower.contains("exit code")
+        || error_lower.contains("failed to execute")
+        || error_lower.contains("process")
     {
         return ("💻", "Command Error", true);
     }
 
     // Context/token errors
-    if error_lower.contains("context") || error_lower.contains("too long")
-        || error_lower.contains("token") || error_lower.contains("limit")
+    if error_lower.contains("context")
+        || error_lower.contains("too long")
+        || error_lower.contains("token")
+        || error_lower.contains("limit")
     {
         return ("📊", "Context Limit", false);
     }
 
     // Validation errors
-    if error_lower.contains("invalid") || error_lower.contains("malformed")
-        || error_lower.contains("parse") || error_lower.contains("syntax")
+    if error_lower.contains("invalid")
+        || error_lower.contains("malformed")
+        || error_lower.contains("parse")
+        || error_lower.contains("syntax")
     {
         return ("⚠️", "Validation Error", false);
     }

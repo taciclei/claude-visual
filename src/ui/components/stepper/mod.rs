@@ -1,18 +1,18 @@
 //! Stepper component for multi-step processes
 
-mod types;
-mod component;
-mod render;
-mod horizontal;
-mod vertical;
-mod progress_steps;
 mod breadcrumb_steps;
+mod component;
+mod horizontal;
+mod progress_steps;
+mod render;
+mod types;
+mod vertical;
 
 // Re-export public items
-pub use types::*;
+pub use breadcrumb_steps::BreadcrumbSteps;
 pub use component::Stepper;
 pub use progress_steps::ProgressSteps;
-pub use breadcrumb_steps::BreadcrumbSteps;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

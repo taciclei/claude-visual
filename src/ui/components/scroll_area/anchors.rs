@@ -1,7 +1,7 @@
 //! Scroll anchor and spy components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Anchor links for scroll navigation
 #[derive(IntoElement)]
@@ -55,7 +55,11 @@ impl RenderOnce for ScrollAnchor {
             a: 1.0,
         });
 
-        let color = if self.active { active_color } else { text_color };
+        let color = if self.active {
+            active_color
+        } else {
+            text_color
+        };
 
         div()
             .py(px(4.0))

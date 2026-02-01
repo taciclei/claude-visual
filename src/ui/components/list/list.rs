@@ -1,7 +1,7 @@
 //! Main list component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{ListItem, ListSize, ListStyle};
 
@@ -71,119 +71,105 @@ impl RenderOnce for List {
         let selected_idx = self.selected_index;
         let style = self.style;
 
-        div()
-            .w_full()
-            .flex()
-            .flex_col()
-            .gap(px(gap))
-            .children(
-                self.items.into_iter().enumerate().map(move |(idx, item)| {
-                    let is_selected = selected_idx == Some(idx) || item.selected;
-                    let is_disabled = item.disabled;
-                    let is_clickable = item.clickable && !is_disabled;
-                    let is_striped = matches!(style, ListStyle::Striped) && idx % 2 == 1;
+        div().w_full().flex().flex_col().gap(px(gap)).children(
+            self.items.into_iter().enumerate().map(move |(idx, item)| {
+                let is_selected = selected_idx == Some(idx) || item.selected;
+                let is_disabled = item.disabled;
+                let is_clickable = item.clickable && !is_disabled;
+                let is_striped = matches!(style, ListStyle::Striped) && idx % 2 == 1;
 
-                    let mut row = div()
-                        .w_full()
-                        .px(px(px_h))
-                        .py(px(py_v))
-                        .flex()
-                        .items_center()
-                        .gap_3();
+                let mut row = div()
+                    .w_full()
+                    .px(px(px_h))
+                    .py(px(py_v))
+                    .flex()
+                    .items_center()
+                    .gap_3();
 
-                    // Style-specific rendering
-                    match style {
-                        ListStyle::Plain => {}
-                        ListStyle::Separated => {
-                            if idx > 0 {
-                                row = row.border_t_1().border_color(border);
-                            }
-                        }
-                        ListStyle::Card => {
-                            row = row
-                                .bg(surface)
-                                .rounded(px(6.0))
-                                .border_1()
-                                .border_color(border);
-                        }
-                        ListStyle::Striped => {
-                            if is_striped {
-                                row = row.bg(hsla(0.0, 0.0, 0.08, 1.0));
-                            }
+                // Style-specific rendering
+                match style {
+                    ListStyle::Plain => {}
+                    ListStyle::Separated => {
+                        if idx > 0 {
+                            row = row.border_t_1().border_color(border);
                         }
                     }
-
-                    // Selection state
-                    if is_selected {
+                    ListStyle::Card => {
                         row = row
-                            .bg(surface_selected)
-                            .when(matches!(style, ListStyle::Card), |d| {
-                                d.border_color(accent)
-                            });
+                            .bg(surface)
+                            .rounded(px(6.0))
+                            .border_1()
+                            .border_color(border);
                     }
-
-                    // Hover state
-                    if is_clickable {
-                        row = row
-                            .cursor_pointer()
-                            .hover(|s| s.bg(surface_hover));
+                    ListStyle::Striped => {
+                        if is_striped {
+                            row = row.bg(hsla(0.0, 0.0, 0.08, 1.0));
+                        }
                     }
+                }
 
-                    // Disabled state
-                    if is_disabled {
-                        row = row.opacity(0.5);
-                    }
+                // Selection state
+                if is_selected {
+                    row = row
+                        .bg(surface_selected)
+                        .when(matches!(style, ListStyle::Card), |d| d.border_color(accent));
+                }
 
-                    // Leading element
-                    if let Some(leading) = item.leading {
-                        row = row.child(
-                            div()
-                                .w(px(24.0))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_lg()
-                                .text_color(if is_selected { accent } else { text_muted })
-                                .child(leading)
-                        );
-                    }
+                // Hover state
+                if is_clickable {
+                    row = row.cursor_pointer().hover(|s| s.bg(surface_hover));
+                }
 
-                    // Content
+                // Disabled state
+                if is_disabled {
+                    row = row.opacity(0.5);
+                }
+
+                // Leading element
+                if let Some(leading) = item.leading {
                     row = row.child(
                         div()
-                            .flex_1()
+                            .w(px(24.0))
                             .flex()
-                            .flex_col()
-                            .gap(px(2.0))
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(if is_selected { accent } else { text })
-                                    .child(item.primary)
-                            )
-                            .when_some(item.secondary, |d, sec| {
-                                d.child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(text_muted)
-                                        .child(sec)
-                                )
-                            })
+                            .items_center()
+                            .justify_center()
+                            .text_lg()
+                            .text_color(if is_selected { accent } else { text_muted })
+                            .child(leading),
                     );
+                }
 
-                    // Trailing element
-                    if let Some(trailing) = item.trailing {
-                        row = row.child(
+                // Content
+                row = row.child(
+                    div()
+                        .flex_1()
+                        .flex()
+                        .flex_col()
+                        .gap(px(2.0))
+                        .child(
                             div()
-                                .flex_shrink_0()
                                 .text_sm()
-                                .text_color(text_muted)
-                                .child(trailing)
-                        );
-                    }
+                                .text_color(if is_selected { accent } else { text })
+                                .child(item.primary),
+                        )
+                        .when_some(item.secondary, |d, sec| {
+                            d.child(div().text_xs().text_color(text_muted).child(sec))
+                        }),
+                );
 
-                    row
-                })
-            )
+                // Trailing element
+                if let Some(trailing) = item.trailing {
+                    row = row.child(
+                        div()
+                            .flex_shrink_0()
+                            .text_sm()
+                            .text_color(text_muted)
+                            .child(trailing),
+                    );
+                }
+
+                row
+            }),
+        )
     }
 }

@@ -3,9 +3,9 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 use crate::app::state::AppState;
 
@@ -100,12 +100,7 @@ impl RenderOnce for FileBlock {
                             )
                             // Modified indicator
                             .when(self.modified, |d| {
-                                d.child(
-                                    div()
-                                        .size(px(8.0))
-                                        .rounded_full()
-                                        .bg(theme.colors.warning),
-                                )
+                                d.child(div().size(px(8.0)).rounded_full().bg(theme.colors.warning))
                             }),
                     )
                     .child(

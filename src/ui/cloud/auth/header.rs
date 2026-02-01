@@ -1,7 +1,7 @@
 //! Authentication header components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::dialog::{AuthDialog, AuthMode};
 

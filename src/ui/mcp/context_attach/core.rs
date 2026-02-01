@@ -154,7 +154,8 @@ impl McpContextAttachPanel {
                         .items()
                         .iter()
                         .find(|item| {
-                            item.metadata.get("server").map(|s| s.as_str()) == Some(&resource.server)
+                            item.metadata.get("server").map(|s| s.as_str())
+                                == Some(&resource.server)
                                 && item.metadata.get("uri").map(|s| s.as_str())
                                     == Some(&resource.uri)
                         })

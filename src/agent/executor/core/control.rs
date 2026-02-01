@@ -1,7 +1,7 @@
 //! Control flow methods (pause, resume, cancel, approve, reject)
 
-use super::executor::AgentExecutor;
 use super::super::types::{ExecutorEvent, ExecutorState, PlanResult};
+use super::executor::AgentExecutor;
 
 impl AgentExecutor {
     /// Pause execution
@@ -33,7 +33,8 @@ impl AgentExecutor {
         }
 
         // Find the step that was waiting for approval and clone it
-        let step_to_execute: Option<crate::agent::planner::PlanStep> = self.get_next_runnable_step();
+        let step_to_execute: Option<crate::agent::planner::PlanStep> =
+            self.get_next_runnable_step();
 
         if step_to_execute.is_none() && self.current_plan.is_none() {
             return Err("No plan".to_string());

@@ -1,9 +1,9 @@
 //! Control buttons rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::agent::executor::ExecutorState;
 use super::{ExecutorView, ExecutorViewEvent};
+use crate::agent::executor::ExecutorState;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ExecutorView {
     /// Render control buttons based on state
@@ -62,10 +62,14 @@ impl ExecutorView {
                         .cursor_pointer()
                         .hover(|s| s.opacity(0.9))
                         .on_click(on_start)
-                        .child(if state == ExecutorState::Idle { "▶ Start" } else { "▶ Resume" })
+                        .child(if state == ExecutorState::Idle {
+                            "▶ Start"
+                        } else {
+                            "▶ Resume"
+                        })
                 } else {
                     div().id("btn-placeholder-1")
-                }
+                },
             )
             .child(
                 // Cancel button (only when running or paused)
@@ -85,7 +89,7 @@ impl ExecutorView {
                         .child("✕ Cancel")
                 } else {
                     div().id("btn-placeholder-2")
-                }
+                },
             )
     }
 }

@@ -1,7 +1,7 @@
 //! Panel toggle methods for ChatView
 
-use gpui::Context;
 use super::core::ChatView;
+use gpui::Context;
 
 impl ChatView {
     /// Toggle quick settings panel

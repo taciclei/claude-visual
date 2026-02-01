@@ -1,8 +1,8 @@
 //! Copy link component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Copy link component - copies a URL
 #[derive(IntoElement)]
@@ -63,12 +63,7 @@ impl RenderOnce for CopyLink {
             .bg(hsla(0.0, 0.0, 0.1, 1.0))
             .cursor_pointer()
             .hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
-            .child(
-                div()
-                    .text_size(px(14.0))
-                    .text_color(color)
-                    .child(icon)
-            )
+            .child(div().text_size(px(14.0)).text_color(color).child(icon))
             .child(
                 div()
                     .flex()
@@ -83,7 +78,7 @@ impl RenderOnce for CopyLink {
                                 SharedString::from("Link copied!")
                             } else {
                                 self.label.clone()
-                            })
+                            }),
                     )
                     .when(self.show_url, |el| {
                         el.child(
@@ -93,9 +88,9 @@ impl RenderOnce for CopyLink {
                                 .overflow_hidden()
                                 .text_ellipsis()
                                 .max_w(px(200.0))
-                                .child(self.url.clone())
+                                .child(self.url.clone()),
                         )
-                    })
+                    }),
             )
     }
 }

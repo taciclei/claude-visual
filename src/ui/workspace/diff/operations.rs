@@ -1,11 +1,15 @@
 //! Diff preview operations (show, hide, toggle)
 
-use gpui::*;
 use crate::ui::workspace::core::Workspace;
+use gpui::*;
 
 impl Workspace {
     /// Show diff preview for a file
-    pub(in crate::ui::workspace) fn show_diff_preview(&mut self, path: String, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn show_diff_preview(
+        &mut self,
+        path: String,
+        cx: &mut Context<Self>,
+    ) {
         if let Some(cwd) = self.app_state.current_directory() {
             if let Ok(repo) = crate::git::repository::Repository::open(&cwd) {
                 match repo.file_diff(&path) {

@@ -1,9 +1,9 @@
 //! Diagnostics store for the explorer
 
-use std::collections::HashMap;
-use std::path::{Path, PathBuf};
 use crate::lsp::protocol::Diagnostic;
 use crate::ui::sidebar::explorer_diagnostics::{DiagnosticCounts, ExplorerDiagnosticsConfig};
+use std::collections::HashMap;
+use std::path::{Path, PathBuf};
 
 /// Diagnostics store for the explorer
 pub struct ExplorerDiagnosticsStore {
@@ -104,7 +104,8 @@ impl ExplorerDiagnosticsStore {
                 let mut depth = 0;
 
                 while let Some(parent) = current {
-                    if self.config.aggregation_depth >= 0 && depth >= self.config.aggregation_depth {
+                    if self.config.aggregation_depth >= 0 && depth >= self.config.aggregation_depth
+                    {
                         break;
                     }
 

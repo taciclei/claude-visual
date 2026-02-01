@@ -1,8 +1,8 @@
 //! Pane component for split views
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 /// Events emitted by a Pane
 pub enum PaneEvent {

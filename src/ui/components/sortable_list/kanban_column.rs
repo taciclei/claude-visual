@@ -1,8 +1,8 @@
 //! Kanban column component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::SortableItem;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Kanban column for sortable cards
 #[derive(IntoElement)]
@@ -51,7 +51,10 @@ impl KanbanColumn {
 impl RenderOnce for KanbanColumn {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let header_color = self.color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0));
-        let is_over_limit = self.max_items.map(|m| self.items.len() > m).unwrap_or(false);
+        let is_over_limit = self
+            .max_items
+            .map(|m| self.items.len() > m)
+            .unwrap_or(false);
 
         div()
             .id(self.id)
@@ -87,45 +90,43 @@ impl RenderOnce for KanbanColumn {
                                     .w(px(4.0))
                                     .h(px(16.0))
                                     .rounded(px(2.0))
-                                    .bg(header_color)
+                                    .bg(header_color),
                             )
                             .child(
                                 div()
                                     .text_size(px(14.0))
                                     .font_weight(gpui::FontWeight::SEMIBOLD)
                                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(self.title.clone())
-                            )
+                                    .child(self.title.clone()),
+                            ),
                     )
                     .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap(px(4.0))
-                            .child(
-                                div()
-                                    .px(px(8.0))
-                                    .py(px(2.0))
-                                    .bg(if is_over_limit {
-                                        hsla(0.0, 0.7, 0.5, 0.2)
-                                    } else {
-                                        hsla(0.0, 0.0, 0.15, 1.0)
-                                    })
-                                    .rounded(px(10.0))
-                                    .text_size(px(12.0))
-                                    .font_weight(gpui::FontWeight::MEDIUM)
-                                    .text_color(if is_over_limit {
-                                        hsla(0.0, 0.7, 0.6, 1.0)
-                                    } else {
-                                        hsla(0.0, 0.0, 0.6, 1.0)
-                                    })
-                                    .child(format!(
-                                        "{}{}",
-                                        self.items.len(),
-                                        self.max_items.map(|m| format!("/{}", m)).unwrap_or_default()
-                                    ))
-                            )
-                    )
+                        div().flex().items_center().gap(px(4.0)).child(
+                            div()
+                                .px(px(8.0))
+                                .py(px(2.0))
+                                .bg(if is_over_limit {
+                                    hsla(0.0, 0.7, 0.5, 0.2)
+                                } else {
+                                    hsla(0.0, 0.0, 0.15, 1.0)
+                                })
+                                .rounded(px(10.0))
+                                .text_size(px(12.0))
+                                .font_weight(gpui::FontWeight::MEDIUM)
+                                .text_color(if is_over_limit {
+                                    hsla(0.0, 0.7, 0.6, 1.0)
+                                } else {
+                                    hsla(0.0, 0.0, 0.6, 1.0)
+                                })
+                                .child(format!(
+                                    "{}{}",
+                                    self.items.len(),
+                                    self.max_items
+                                        .map(|m| format!("/{}", m))
+                                        .unwrap_or_default()
+                                )),
+                        ),
+                    ),
             )
             // Items
             .child(
@@ -150,7 +151,7 @@ impl RenderOnce for KanbanColumn {
                                 .rounded(px(6.0))
                                 .text_size(px(12.0))
                                 .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                .child("Drop items here")
+                                .child("Drop items here"),
                         )
                     })
                     .children(self.items.iter().map(|item| {
@@ -166,20 +167,16 @@ impl RenderOnce for KanbanColumn {
                             .shadow_sm()
                             .cursor_grab()
                             .when_some(item.icon.clone(), |el, icon| {
-                                el.child(
-                                    div()
-                                        .text_size(px(14.0))
-                                        .child(icon)
-                                )
+                                el.child(div().text_size(px(14.0)).child(icon))
                             })
                             .child(
                                 div()
                                     .flex_1()
                                     .text_size(px(13.0))
                                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(item.content.clone())
+                                    .child(item.content.clone()),
                             )
-                    }))
+                    })),
             )
     }
 }

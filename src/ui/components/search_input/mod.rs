@@ -1,12 +1,12 @@
 //! Search input component
 
-mod types;
 mod search_input;
 mod simple_search_bar;
+mod types;
 
-pub use types::*;
 pub use search_input::SearchInput;
 pub use simple_search_bar::SimpleSearchBar;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -21,8 +21,7 @@ mod tests {
 
     #[test]
     fn test_simple_search_bar() {
-        let bar = SimpleSearchBar::new("Search...")
-            .with_query("test");
+        let bar = SimpleSearchBar::new("Search...").with_query("test");
 
         assert_eq!(bar.placeholder, "Search...");
         assert_eq!(bar.query, "test");

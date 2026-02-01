@@ -2,15 +2,15 @@
 //!
 //! Client for communicating with Debug Adapters via stdin/stdout.
 
-mod types;
-mod core;
-mod messaging;
-mod initialization;
-mod execution;
-mod inspection;
 mod breakpoints;
+mod core;
+mod execution;
+mod initialization;
+mod inspection;
 mod lifecycle;
+mod messaging;
+mod types;
 
 // Re-export public types
-pub use types::{DapClientError, DapClientConfig};
 pub use core::DapClient;
+pub use types::{DapClientConfig, DapClientError};

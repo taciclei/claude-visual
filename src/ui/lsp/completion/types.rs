@@ -1,7 +1,7 @@
 //! Completion types and color scheme
 
-use gpui::*;
 use crate::lsp::protocol::CompletionItem;
+use gpui::*;
 
 pub(super) struct SimpleColors {
     pub surface: Hsla,

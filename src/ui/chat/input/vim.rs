@@ -1,8 +1,8 @@
 //! Vim mode integration
 
-use gpui::*;
-use crate::ui::vim::{VimMode, VimState, VimAction};
 use super::ChatInput;
+use crate::ui::vim::{VimAction, VimMode, VimState};
+use gpui::*;
 
 impl ChatInput {
     /// Check if vim state exists

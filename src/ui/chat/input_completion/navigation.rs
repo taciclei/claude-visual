@@ -1,13 +1,14 @@
 //! Navigation and interaction implementation
 
-use super::types::*;
 use super::manager::InputCompletionManager;
+use super::types::*;
 
 impl InputCompletionManager {
     /// Move selection up
     pub fn select_prev(&mut self) {
         if !self.items.is_empty() {
-            self.selected_index = self.selected_index
+            self.selected_index = self
+                .selected_index
                 .checked_sub(1)
                 .unwrap_or(self.items.len() - 1);
         }

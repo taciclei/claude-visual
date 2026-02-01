@@ -2,19 +2,19 @@
 //!
 //! Provides small inline charts for displaying data trends.
 
-mod types;
-mod sparkline;
-mod trend_indicator;
+mod comparison_sparkline;
 mod mini_bar_chart;
 mod progress_sparkline;
-mod comparison_sparkline;
+mod sparkline;
+mod trend_indicator;
+mod types;
 
-pub use types::*;
-pub use sparkline::Sparkline;
-pub use trend_indicator::TrendIndicator;
+pub use comparison_sparkline::ComparisonSparkline;
 pub use mini_bar_chart::MiniBarChart;
 pub use progress_sparkline::ProgressSparkline;
-pub use comparison_sparkline::ComparisonSparkline;
+pub use sparkline::Sparkline;
+pub use trend_indicator::TrendIndicator;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

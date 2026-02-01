@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Popover component
 pub struct Popover {
@@ -110,7 +110,12 @@ impl Popover {
     }
 
     /// Handle key events
-    fn handle_key_down(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    fn handle_key_down(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         if self.close_on_escape && event.keystroke.key.as_str() == "escape" {
             self.close(cx);
         }
@@ -143,7 +148,6 @@ impl Render for Popover {
                     div()
                         .id("popover-content")
                         .absolute()
-
                         .when_some(self.width, |d, w| d.w(px(w)))
                         .min_w(px(120.0))
                         .rounded(px(8.0))
@@ -161,9 +165,9 @@ impl Render for Popover {
                                     .bg(theme.colors.surface)
                                     .border_l_1()
                                     .border_t_1()
-                                    .border_color(theme.colors.border)
+                                    .border_color(theme.colors.border),
                             )
-                        })
+                        }),
                 )
             })
     }

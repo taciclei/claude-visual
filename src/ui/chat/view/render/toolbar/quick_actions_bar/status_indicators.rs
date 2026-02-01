@@ -1,13 +1,17 @@
 //! Status indicators rendering (context usage and response time)
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::ChatViewEvent;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub(super) fn render_status_indicators(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_status_indicators(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let usage_pct = self.context_usage_percentage();
         let needs_compact = usage_pct > 0.7;
         let critical = usage_pct > 0.9;
@@ -45,7 +49,7 @@ impl ChatView {
                             cx.emit(ChatViewEvent::Submit(cmd.to_string()));
                         }))
                         .child(icon)
-                        .child(label)
+                        .child(label),
                 )
             })
             // Context usage mini-indicator (compact bar)
@@ -67,7 +71,7 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted.opacity(0.5))
-                                .child("ctx")
+                                .child("ctx"),
                         )
                         .child(
                             // Mini progress bar
@@ -81,15 +85,15 @@ impl ChatView {
                                         .h_full()
                                         .rounded_sm()
                                         .bg(usage_color)
-                                        .w(pct((usage_pct * 100.0) as f32))
-                                )
+                                        .w(pct((usage_pct * 100.0) as f32)),
+                                ),
                         )
                         .child(
                             div()
                                 .text_xs()
                                 .text_color(usage_color.opacity(0.8))
-                                .child(format!("{:.0}%", usage_pct * 100.0))
-                        )
+                                .child(format!("{:.0}%", usage_pct * 100.0)),
+                        ),
                 )
             })
             // Last response time (if available)
@@ -97,9 +101,15 @@ impl ChatView {
                 let (time_str, time_color) = if time_ms < 1000 {
                     (format!("{}ms", time_ms), theme.colors.success)
                 } else if time_ms < 5000 {
-                    (format!("{:.1}s", time_ms as f64 / 1000.0), theme.colors.warning)
+                    (
+                        format!("{:.1}s", time_ms as f64 / 1000.0),
+                        theme.colors.warning,
+                    )
                 } else {
-                    (format!("{:.1}s", time_ms as f64 / 1000.0), theme.colors.error)
+                    (
+                        format!("{:.1}s", time_ms as f64 / 1000.0),
+                        theme.colors.error,
+                    )
                 };
                 d.child(
                     div()
@@ -111,14 +121,14 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted.opacity(0.5))
-                                .child("⏱")
+                                .child("⏱"),
                         )
                         .child(
                             div()
                                 .text_xs()
                                 .text_color(time_color.opacity(0.8))
-                                .child(time_str)
-                        )
+                                .child(time_str),
+                        ),
                 )
             })
     }

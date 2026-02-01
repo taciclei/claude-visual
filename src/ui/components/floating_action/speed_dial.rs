@@ -1,8 +1,8 @@
 //! Speed dial component - FAB with expandable actions
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Speed dial component - FAB with expandable actions
 #[derive(IntoElement)]
@@ -52,8 +52,14 @@ impl RenderOnce for SpeedDial {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let (bg_color, text_color) = self.variant.colors();
 
-        let is_vertical = matches!(self.direction, SpeedDialDirection::Up | SpeedDialDirection::Down);
-        let is_reverse = matches!(self.direction, SpeedDialDirection::Up | SpeedDialDirection::Left);
+        let is_vertical = matches!(
+            self.direction,
+            SpeedDialDirection::Up | SpeedDialDirection::Down
+        );
+        let is_reverse = matches!(
+            self.direction,
+            SpeedDialDirection::Up | SpeedDialDirection::Left
+        );
 
         div()
             .id(self.id)
@@ -78,8 +84,8 @@ impl RenderOnce for SpeedDial {
                         div()
                             .text_size(px(24.0))
                             .text_color(text_color)
-                            .child(self.icon.clone())
-                    )
+                            .child(self.icon.clone()),
+                    ),
             )
             // Speed dial items
             .when(self.expanded, |el| {
@@ -100,7 +106,7 @@ impl RenderOnce for SpeedDial {
                                     .rounded(px(4.0))
                                     .text_size(px(12.0))
                                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(label)
+                                    .child(label),
                             )
                         })
                         .child(
@@ -119,8 +125,8 @@ impl RenderOnce for SpeedDial {
                                     div()
                                         .text_size(px(18.0))
                                         .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                        .child(item.icon.clone())
-                                )
+                                        .child(item.icon.clone()),
+                                ),
                         )
                 }))
             })

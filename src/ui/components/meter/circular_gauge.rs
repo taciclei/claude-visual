@@ -1,8 +1,8 @@
 //! Circular gauge component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::MeterVariant;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Circular gauge component
 #[derive(IntoElement)]
@@ -130,7 +130,9 @@ impl RenderOnce for CircularGauge {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.15, 1.0));
 
         let value_text = if let Some(format) = &self.format {
-            format.to_string().replace("{value}", &self.value.to_string())
+            format
+                .to_string()
+                .replace("{value}", &self.value.to_string())
         } else {
             format!("{:.0}", self.value)
         };
@@ -160,7 +162,7 @@ impl RenderOnce for CircularGauge {
                                 .text_size(px(self.size / 4.0))
                                 .font_weight(gpui::FontWeight::BOLD)
                                 .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                .child(value_text)
+                                .child(value_text),
                         )
                     })
                     .when(self.label.is_some(), |el| {
@@ -168,15 +170,15 @@ impl RenderOnce for CircularGauge {
                             div()
                                 .text_size(px(self.size / 10.0))
                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                .child(self.label.unwrap_or_default())
+                                .child(self.label.unwrap_or_default()),
                         )
                     })
                     .child(
                         div()
                             .text_size(px(10.0))
                             .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                            .child(format!("{:.0}%", percentage * 100.0))
-                    )
+                            .child(format!("{:.0}%", percentage * 100.0)),
+                    ),
             )
     }
 }

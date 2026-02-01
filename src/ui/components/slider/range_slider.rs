@@ -1,11 +1,11 @@
 //! Range slider component with two thumbs
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Range slider with two thumbs
 pub struct RangeSlider {
@@ -87,12 +87,16 @@ impl RangeSlider {
     }
 
     fn start_percent(&self) -> f32 {
-        if self.max <= self.min { return 0.0; }
+        if self.max <= self.min {
+            return 0.0;
+        }
         ((self.start - self.min) / (self.max - self.min)) * 100.0
     }
 
     fn end_percent(&self) -> f32 {
-        if self.max <= self.min { return 100.0; }
+        if self.max <= self.min {
+            return 100.0;
+        }
         ((self.end - self.min) / (self.max - self.min)) * 100.0
     }
 }
@@ -123,18 +127,13 @@ impl Render for RangeSlider {
                         .flex()
                         .items_center()
                         .justify_between()
-                        .child(
-                            div()
-                                .text_sm()
-                                .text_color(theme.colors.text)
-                                .child(label)
-                        )
+                        .child(div().text_sm().text_color(theme.colors.text).child(label))
                         .child(
                             div()
                                 .text_sm()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("{} - {}", self.start as i32, self.end as i32))
-                        )
+                                .child(format!("{} - {}", self.start as i32, self.end as i32)),
+                        ),
                 )
             })
             // Track and thumbs
@@ -155,7 +154,7 @@ impl Render for RangeSlider {
                             .right_0()
                             .h(px(track_height))
                             .rounded_full()
-                            .bg(theme.colors.surface_hover)
+                            .bg(theme.colors.surface_hover),
                     )
                     // Track fill (between thumbs)
                     .child(
@@ -164,7 +163,7 @@ impl Render for RangeSlider {
                             .left(pct(start_percent))
                             .w(pct(end_percent - start_percent))
                             .h(px(track_height))
-                            .bg(theme.colors.accent)
+                            .bg(theme.colors.accent),
                     )
                     // Start thumb
                     .child(
@@ -177,7 +176,7 @@ impl Render for RangeSlider {
                             .bg(gpui::white())
                             .border_2()
                             .border_color(theme.colors.accent)
-                            .shadow_sm()
+                            .shadow_sm(),
                     )
                     // End thumb
                     .child(
@@ -190,8 +189,8 @@ impl Render for RangeSlider {
                             .bg(gpui::white())
                             .border_2()
                             .border_color(theme.colors.accent)
-                            .shadow_sm()
-                    )
+                            .shadow_sm(),
+                    ),
             )
     }
 }

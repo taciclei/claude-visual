@@ -2,10 +2,13 @@
 //!
 //! Render implementation for the LSP status bar.
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::{LspStatusBar, types::{default_colors, LspStatusBarEvent}};
+use super::{
+    types::{default_colors, LspStatusBarEvent},
+    LspStatusBar,
+};
 
 impl Render for LspStatusBar {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -35,9 +38,7 @@ impl Render for LspStatusBar {
                     .py_0p5()
                     .rounded_sm()
                     .cursor_pointer()
-                    .when(diagnostics_visible, |this| {
-                this.bg(colors.selection)
-                    })
+                    .when(diagnostics_visible, |this| this.bg(colors.selection))
                     .hover(|style| style.bg(colors.hover))
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(LspStatusBarEvent::ToggleDiagnostics);
@@ -48,12 +49,7 @@ impl Render for LspStatusBar {
                             .flex()
                             .items_center()
                             .gap_1()
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(colors.error)
-                                    .child("✕"),
-                            )
+                            .child(div().text_xs().text_color(colors.error).child("✕"))
                             .child(
                                 div()
                                     .text_xs()
@@ -71,12 +67,7 @@ impl Render for LspStatusBar {
                             .flex()
                             .items_center()
                             .gap_1()
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(colors.warning)
-                                    .child("⚠"),
-                            )
+                            .child(div().text_xs().text_color(colors.warning).child("⚠"))
                             .child(
                                 div()
                                     .text_xs()
@@ -90,12 +81,7 @@ impl Render for LspStatusBar {
                     ),
             )
             // Separator
-            .child(
-                div()
-                    .w(px(1.0))
-                    .h(px(14.0))
-                    .bg(colors.border),
-            )
+            .child(div().w(px(1.0)).h(px(14.0)).bg(colors.border))
             // Running servers
             .child(
                 div()
@@ -152,12 +138,11 @@ impl Render for LspStatusBar {
             )
             // Running count (if any)
             .when(running_count > 0, |this| {
-                this.child(
-                    div()
-                        .text_xs()
-                        .text_color(colors.text_muted)
-                        .child(format!("{} server{}", running_count, if running_count == 1 { "" } else { "s" })),
-                )
+                this.child(div().text_xs().text_color(colors.text_muted).child(format!(
+                    "{} server{}",
+                    running_count,
+                    if running_count == 1 { "" } else { "s" }
+                )))
             })
     }
 }

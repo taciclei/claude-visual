@@ -1,11 +1,11 @@
 //! Rendering implementation for lazy blocks
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
-use super::core::LazyBlock;
 use super::config::LazyBlockConfig;
-use super::types::{LazyState, SimpleColors, default_colors};
+use super::core::LazyBlock;
+use super::types::{default_colors, LazyState, SimpleColors};
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl<T: IntoElement + Clone + 'static> Render for LazyBlock<T> {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -30,10 +30,7 @@ impl<T: IntoElement + Clone + 'static> Render for LazyBlock<T> {
             LazyState::Loaded => {
                 // Render actual content
                 if let Some(ref content) = self.cached_content {
-                    div()
-                        .id(id)
-                        .w_full()
-                        .child(content.clone())
+                    div().id(id).w_full().child(content.clone())
                 } else {
                     // Fallback if content somehow missing
                     div()
@@ -46,7 +43,11 @@ impl<T: IntoElement + Clone + 'static> Render for LazyBlock<T> {
             }
             LazyState::Error => {
                 // Render error state
-                let error_msg = self.error.as_deref().unwrap_or("Failed to load content").to_string();
+                let error_msg = self
+                    .error
+                    .as_deref()
+                    .unwrap_or("Failed to load content")
+                    .to_string();
                 div()
                     .id(id)
                     .w_full()
@@ -58,12 +59,7 @@ impl<T: IntoElement + Clone + 'static> Render for LazyBlock<T> {
                     .flex()
                     .items_center()
                     .justify_center()
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(colors.error)
-                            .child(error_msg),
-                    )
+                    .child(div().text_sm().text_color(colors.error).child(error_msg))
             }
         }
     }

@@ -1,7 +1,7 @@
 //! Choice chips component (single select)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Choice chips (single select)
 #[derive(Clone)]

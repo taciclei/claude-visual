@@ -1,7 +1,7 @@
 //! Type definitions for MCP server configuration editor
 
-use std::collections::HashMap;
 use crate::mcp::McpServerConfig;
+use std::collections::HashMap;
 
 /// Server configuration being edited
 #[derive(Debug, Clone)]

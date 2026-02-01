@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Radio button component
 pub struct RadioButton {
@@ -24,7 +24,11 @@ pub struct RadioButton {
 }
 
 impl RadioButton {
-    pub fn new(app_state: Arc<AppState>, value: impl Into<String>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        value: impl Into<String>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             selected: false,
@@ -36,7 +40,12 @@ impl RadioButton {
     }
 
     /// Create with label
-    pub fn with_label(app_state: Arc<AppState>, value: impl Into<String>, label: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_label(
+        app_state: Arc<AppState>,
+        value: impl Into<String>,
+        label: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut radio = Self::new(app_state, value, cx);
         radio.label = Some(label.into());
         radio
@@ -82,7 +91,11 @@ impl Render for RadioButton {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
-        let border_color = if self.selected { theme.colors.accent } else { theme.colors.border };
+        let border_color = if self.selected {
+            theme.colors.accent
+        } else {
+            theme.colors.border
+        };
         let opacity = if self.disabled { 0.5 } else { 1.0 };
 
         div()
@@ -112,18 +125,13 @@ impl Render for RadioButton {
                             div()
                                 .size(px(self.size * 0.5))
                                 .rounded_full()
-                                .bg(theme.colors.accent)
+                                .bg(theme.colors.accent),
                         )
-                    })
+                    }),
             )
             // Label
             .when_some(self.label.clone(), |d, label| {
-                d.child(
-                    div()
-                        .text_sm()
-                        .text_color(theme.colors.text)
-                        .child(label)
-                )
+                d.child(div().text_sm().text_color(theme.colors.text).child(label))
             })
     }
 }

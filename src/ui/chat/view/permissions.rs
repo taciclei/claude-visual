@@ -3,9 +3,9 @@
 //! This module contains permission-related methods extracted from core.rs.
 //! Handles permission requests from Claude CLI and user approval/denial.
 
-use gpui::*;
-use super::types::{PermissionRequest, NotificationType, ChatViewEvent};
 use super::core::ChatView;
+use super::types::{ChatViewEvent, NotificationType, PermissionRequest};
+use gpui::*;
 
 impl ChatView {
     // ==================== Permissions ====================
@@ -53,7 +53,7 @@ impl ChatView {
             self.show_notification(
                 &format!("Approved: {} - {}", request.tool, request.action),
                 NotificationType::Success,
-                cx
+                cx,
             );
 
             // Close panel if no more requests
@@ -78,7 +78,7 @@ impl ChatView {
             self.show_notification(
                 &format!("Denied: {} - {}", request.tool, request.action),
                 NotificationType::Info,
-                cx
+                cx,
             );
 
             // Close panel if no more requests
@@ -104,9 +104,13 @@ impl ChatView {
             }
 
             self.show_notification(
-                &format!("Approved {} permission{}", count, if count == 1 { "" } else { "s" }),
+                &format!(
+                    "Approved {} permission{}",
+                    count,
+                    if count == 1 { "" } else { "s" }
+                ),
                 NotificationType::Success,
-                cx
+                cx,
             );
 
             self.panels.permissions_panel = false;
@@ -129,9 +133,13 @@ impl ChatView {
             }
 
             self.show_notification(
-                &format!("Denied {} permission{}", count, if count == 1 { "" } else { "s" }),
+                &format!(
+                    "Denied {} permission{}",
+                    count,
+                    if count == 1 { "" } else { "s" }
+                ),
                 NotificationType::Info,
-                cx
+                cx,
             );
 
             self.panels.permissions_panel = false;
@@ -152,6 +160,8 @@ impl ChatView {
     /// Check if there are high-risk pending permissions
     pub fn has_high_risk_permissions(&self) -> bool {
         use super::types::PermissionRisk;
-        self.pending_permissions.iter().any(|p| p.risk_level == PermissionRisk::High)
+        self.pending_permissions
+            .iter()
+            .any(|p| p.risk_level == PermissionRisk::High)
     }
 }

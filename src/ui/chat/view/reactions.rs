@@ -1,18 +1,26 @@
 //! Message reactions, context menu, and session notes functionality
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::core::ChatView;
-use super::types::{MessageReaction, ContextMenuState, NotificationType, ChatViewEvent};
+use super::types::{ChatViewEvent, ContextMenuState, MessageReaction, NotificationType};
 use crate::claude::message::MessageRole;
 
 impl ChatView {
     // ==================== Message Reactions ====================
 
     /// Add a reaction to a message
-    pub(crate) fn add_reaction(&mut self, message_index: usize, emoji: &'static str, cx: &mut Context<Self>) {
-        let reactions = self.message_reactions.entry(message_index).or_insert_with(Vec::new);
+    pub(crate) fn add_reaction(
+        &mut self,
+        message_index: usize,
+        emoji: &'static str,
+        cx: &mut Context<Self>,
+    ) {
+        let reactions = self
+            .message_reactions
+            .entry(message_index)
+            .or_insert_with(Vec::new);
 
         // Check if already reacted with this emoji
         if reactions.iter().any(|r| r.emoji == emoji) {
@@ -34,7 +42,10 @@ impl ChatView {
 
     /// Check if message has reactions
     pub(crate) fn has_reactions(&self, message_index: usize) -> bool {
-        self.message_reactions.get(&message_index).map(|r| !r.is_empty()).unwrap_or(false)
+        self.message_reactions
+            .get(&message_index)
+            .map(|r| !r.is_empty())
+            .unwrap_or(false)
     }
 
     /// Show quick reaction picker for a message
@@ -52,7 +63,13 @@ impl ChatView {
     // ==================== Context Menu ====================
 
     /// Show context menu at position
-    pub(crate) fn show_context_menu(&mut self, message_index: usize, x: f32, y: f32, cx: &mut Context<Self>) {
+    pub(crate) fn show_context_menu(
+        &mut self,
+        message_index: usize,
+        x: f32,
+        y: f32,
+        cx: &mut Context<Self>,
+    ) {
         self.context_menu = Some(ContextMenuState::new(message_index, x, y));
         cx.notify();
     }
@@ -88,7 +105,7 @@ impl ChatView {
                     self.show_notification(
                         format!("Message copied to clipboard"),
                         NotificationType::Success,
-                        cx
+                        cx,
                     );
                 }
             }
@@ -114,7 +131,11 @@ impl ChatView {
                     if message_index < self.message_views.len() {
                         self.message_views.remove(message_index);
                     }
-                    self.show_notification("Message deleted".to_string(), NotificationType::Info, cx);
+                    self.show_notification(
+                        "Message deleted".to_string(),
+                        NotificationType::Info,
+                        cx,
+                    );
                 }
             }
             "regenerate" => {
@@ -176,7 +197,10 @@ impl ChatView {
             }
             "skill_tests" => {
                 if let Some(msg) = self.messages.get(message_index) {
-                    let prompt = format!("Generate unit tests for this code:\n\n{}", Self::extract_code_block(&msg.content));
+                    let prompt = format!(
+                        "Generate unit tests for this code:\n\n{}",
+                        Self::extract_code_block(&msg.content)
+                    );
                     cx.emit(ChatViewEvent::Submit(prompt));
                 }
             }

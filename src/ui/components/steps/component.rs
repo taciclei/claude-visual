@@ -1,6 +1,6 @@
 use gpui::*;
 
-use super::{StepsOrientation, StepsSize, StepsVariant, Step};
+use super::{Step, StepsOrientation, StepsSize, StepsVariant};
 
 /// Steps indicator component
 #[derive(IntoElement)]

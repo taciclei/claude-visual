@@ -1,9 +1,9 @@
 //! Edit context menu component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::menu::ContextMenu;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Edit context menu (for text fields)
 #[derive(Clone)]
@@ -101,10 +101,7 @@ impl RenderOnce for EditContextMenu {
 
         items.push(ContextMenuItem::separator());
 
-        items.push(
-            ContextMenuItem::action("select_all", "Select All")
-                .shortcut("⌘A")
-        );
+        items.push(ContextMenuItem::action("select_all", "Select All").shortcut("⌘A"));
 
         ContextMenu::new().items(items).min_width(160.0)
     }

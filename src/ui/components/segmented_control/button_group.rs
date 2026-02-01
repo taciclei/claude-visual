@@ -26,8 +26,14 @@ impl ButtonGroup {
         }
     }
 
-    pub fn buttons(mut self, buttons: Vec<(impl Into<SharedString>, impl Into<SharedString>)>) -> Self {
-        self.buttons = buttons.into_iter().map(|(id, label)| (id.into(), label.into())).collect();
+    pub fn buttons(
+        mut self,
+        buttons: Vec<(impl Into<SharedString>, impl Into<SharedString>)>,
+    ) -> Self {
+        self.buttons = buttons
+            .into_iter()
+            .map(|(id, label)| (id.into(), label.into()))
+            .collect();
         self
     }
 
@@ -94,7 +100,7 @@ impl RenderOnce for ButtonGroup {
                         div()
                             .text_size(px(font_size))
                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                            .child(label.clone())
+                            .child(label.clone()),
                     )
             }))
     }

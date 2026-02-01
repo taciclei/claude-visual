@@ -1,20 +1,20 @@
 //! Stats and metric display components
 
-mod types;
-mod stat_card;
-mod simple_stat;
-mod stats_grid;
+mod comparison_stat;
 mod metric_trend;
 mod progress_stat;
-mod comparison_stat;
+mod simple_stat;
+mod stat_card;
+mod stats_grid;
+mod types;
 
-pub use types::*;
-pub use stat_card::StatCard;
-pub use simple_stat::SimpleStat;
-pub use stats_grid::StatsGrid;
+pub use comparison_stat::ComparisonStat;
 pub use metric_trend::MetricTrend;
 pub use progress_stat::ProgressStat;
-pub use comparison_stat::ComparisonStat;
+pub use simple_stat::SimpleStat;
+pub use stat_card::StatCard;
+pub use stats_grid::StatsGrid;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -22,8 +22,7 @@ mod tests {
 
     #[test]
     fn test_simple_stat() {
-        let stat = SimpleStat::new("Users", "1,234")
-            .icon("👥");
+        let stat = SimpleStat::new("Users", "1,234").icon("👥");
 
         assert_eq!(stat.label, "Users");
         assert_eq!(stat.value, "1,234");
@@ -42,8 +41,7 @@ mod tests {
 
     #[test]
     fn test_metric_trend() {
-        let metric = MetricTrend::new("$1,234", "+12%", true)
-            .label("Revenue");
+        let metric = MetricTrend::new("$1,234", "+12%", true).label("Revenue");
 
         assert_eq!(metric.value, "$1,234");
         assert!(metric.is_positive);

@@ -1,7 +1,7 @@
 //! Agents section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -22,7 +22,7 @@ impl ChatView {
                     .text_xs()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text_muted)
-                    .child(format!("AGENTS ({})", info.agents.len()))
+                    .child(format!("AGENTS ({})", info.agents.len())),
             )
             .child(
                 div()
@@ -67,9 +67,9 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("+{} more", info.agents.len() - 10))
+                                .child(format!("+{} more", info.agents.len() - 10)),
                         )
-                    })
+                    }),
             )
     }
 }

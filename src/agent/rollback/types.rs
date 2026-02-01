@@ -1,16 +1,14 @@
 //! Types for the rollback system
 
-use std::path::PathBuf;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 
 /// Types of operations that can be rolled back
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum RollbackOperation {
     /// File was created
-    FileCreated {
-        path: PathBuf,
-    },
+    FileCreated { path: PathBuf },
     /// File was modified
     FileModified {
         path: PathBuf,
@@ -24,14 +22,9 @@ pub enum RollbackOperation {
         original_permissions: Option<u32>,
     },
     /// File was renamed/moved
-    FileRenamed {
-        from: PathBuf,
-        to: PathBuf,
-    },
+    FileRenamed { from: PathBuf, to: PathBuf },
     /// Directory was created
-    DirectoryCreated {
-        path: PathBuf,
-    },
+    DirectoryCreated { path: PathBuf },
     /// Directory was deleted
     DirectoryDeleted {
         path: PathBuf,
@@ -57,10 +50,7 @@ pub enum RollbackOperation {
         branch_name: String,
     },
     /// Database record was inserted
-    DatabaseInsert {
-        table: String,
-        record_id: String,
-    },
+    DatabaseInsert { table: String, record_id: String },
     /// Database record was updated
     DatabaseUpdate {
         table: String,
@@ -121,10 +111,14 @@ impl RollbackOperation {
             Self::DatabaseInsert { table, record_id } => {
                 format!("Inserted into {}: {}", table, record_id)
             }
-            Self::DatabaseUpdate { table, record_id, .. } => {
+            Self::DatabaseUpdate {
+                table, record_id, ..
+            } => {
                 format!("Updated {}: {}", table, record_id)
             }
-            Self::DatabaseDelete { table, record_id, .. } => {
+            Self::DatabaseDelete {
+                table, record_id, ..
+            } => {
                 format!("Deleted from {}: {}", table, record_id)
             }
             Self::Custom { name, .. } => format!("Custom: {}", name),

@@ -50,7 +50,10 @@ impl ChatView {
         }
 
         // Check last message content for context-aware suggestions
-        if let Some(last) = self.messages.iter().rev()
+        if let Some(last) = self
+            .messages
+            .iter()
+            .rev()
             .find(|m| m.role == MessageRole::Assistant)
         {
             let content_lower = last.content.to_lowercase();
@@ -129,7 +132,12 @@ impl ChatView {
         }
 
         // Check if last message was code-related
-        if let Some(last) = self.messages.iter().rev().find(|m| m.role == MessageRole::Assistant) {
+        if let Some(last) = self
+            .messages
+            .iter()
+            .rev()
+            .find(|m| m.role == MessageRole::Assistant)
+        {
             if last.content.contains("```") {
                 return "Ask to explain, test, or improve the code...";
             }

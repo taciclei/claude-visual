@@ -1,8 +1,8 @@
 //! Information panel buttons - statistics and tags
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render statistics panel button (📊)
@@ -30,7 +30,11 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(if self.show_stats_panel { text_color_active } else { text_color_inactive })
+            .text_color(if self.show_stats_panel {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("📊")
@@ -63,15 +67,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_tags_editor {
-                    text_color_active
-                } else if tag_count > 0 {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_tags_editor {
+                text_color_active
+            } else if tag_count > 0 {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("🏷️")

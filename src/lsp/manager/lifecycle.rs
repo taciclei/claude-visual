@@ -7,8 +7,8 @@ use tokio::sync::{mpsc, Mutex};
 
 use crate::lsp::client::{LspClient, LspClientConfig, LspEvent};
 
-use super::language::Language;
 use super::events::LspManagerEvent;
+use super::language::Language;
 use super::state::LspManager;
 
 impl LspManager {
@@ -74,7 +74,9 @@ impl LspManager {
     fn get_server_config(&self, language: Language) -> Result<LspClientConfig, String> {
         match language {
             Language::Rust => Ok(LspClientConfig::rust_analyzer(self.root_dir.clone())),
-            Language::TypeScript | Language::JavaScript => Ok(LspClientConfig::typescript(self.root_dir.clone())),
+            Language::TypeScript | Language::JavaScript => {
+                Ok(LspClientConfig::typescript(self.root_dir.clone()))
+            }
             Language::Python => Ok(LspClientConfig::pyright(self.root_dir.clone())),
             Language::Go => Ok(LspClientConfig {
                 command: "gopls".to_string(),

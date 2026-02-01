@@ -1,7 +1,7 @@
 //! Command palette rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::state::CommandPalette;
 use super::types::CommandPaletteEvent;
@@ -161,7 +161,17 @@ impl Render for CommandPalette {
                             .id("scroll-commands")
                             .overflow_y_scroll()
                             .children(command_items.into_iter().map(
-                                |(idx, _id, label, shortcut, category, is_selected, matched_indices, _score, is_recent)| {
+                                |(
+                                    idx,
+                                    _id,
+                                    label,
+                                    shortcut,
+                                    category,
+                                    is_selected,
+                                    matched_indices,
+                                    _score,
+                                    is_recent,
+                                )| {
                                     let bg_color = if is_selected {
                                         theme.colors.accent.opacity(0.2)
                                     } else {
@@ -202,7 +212,7 @@ impl Render for CommandPalette {
                                                             .bg(info_color.opacity(0.15))
                                                             .text_xs()
                                                             .text_color(info_color)
-                                                            .child("Recent")
+                                                            .child("Recent"),
                                                     )
                                                 })
                                                 .child(
@@ -216,21 +226,20 @@ impl Render for CommandPalette {
                                                         .child(category),
                                                 )
                                                 // Label with match highlighting
-                                                .child(
-                                                    div()
-                                                        .flex()
-                                                        .text_sm()
-                                                        .children(segments.into_iter().map(move |seg| {
-                                                            div()
-                                                                .text_color(if seg.is_matched {
-                                                                    accent_color
-                                                                } else {
-                                                                    text_color
-                                                                })
-                                                                .when(seg.is_matched, |d| d.font_weight(FontWeight::BOLD))
-                                                                .child(seg.text)
-                                                        })),
-                                                ),
+                                                .child(div().flex().text_sm().children(
+                                                    segments.into_iter().map(move |seg| {
+                                                        div()
+                                                            .text_color(if seg.is_matched {
+                                                                accent_color
+                                                            } else {
+                                                                text_color
+                                                            })
+                                                            .when(seg.is_matched, |d| {
+                                                                d.font_weight(FontWeight::BOLD)
+                                                            })
+                                                            .child(seg.text)
+                                                    }),
+                                                )),
                                         )
                                         .when_some(shortcut, |this, shortcut| {
                                             this.child(

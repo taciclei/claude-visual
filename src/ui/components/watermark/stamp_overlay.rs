@@ -1,6 +1,6 @@
-use gpui::*;
+use super::types::{StampSize, StampType, WatermarkPosition};
 use gpui::prelude::*;
-use super::types::{StampType, StampSize, WatermarkPosition};
+use gpui::*;
 
 /// Draft/confidential stamp overlay
 #[derive(IntoElement)]
@@ -68,11 +68,7 @@ impl RenderOnce for StampOverlay {
         let font_size = self.size.font_size();
         let padding = self.size.padding();
 
-        let base = div()
-            .id(self.id)
-            .absolute()
-            .inset_0()
-            .overflow_hidden();
+        let base = div().id(self.id).absolute().inset_0().overflow_hidden();
 
         let positioned = match self.position {
             WatermarkPosition::Center => base.flex().items_center().justify_center(),

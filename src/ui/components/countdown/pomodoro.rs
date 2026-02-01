@@ -1,7 +1,7 @@
 //! Pomodoro timer component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Pomodoro timer
 #[derive(IntoElement)]
@@ -67,7 +67,7 @@ impl RenderOnce for PomodoroTimer {
                             } else {
                                 hsla(0.0, 0.0, 0.3, 1.0)
                             })
-                    }))
+                    })),
             )
             .child(
                 // Timer display
@@ -87,14 +87,17 @@ impl RenderOnce for PomodoroTimer {
                             .font_weight(gpui::FontWeight::BOLD)
                             .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                             .font_family("monospace")
-                            .child(format!("{:02}:{:02}", self.minutes_remaining, self.seconds_remaining))
+                            .child(format!(
+                                "{:02}:{:02}",
+                                self.minutes_remaining, self.seconds_remaining
+                            )),
                     )
                     .child(
                         div()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child(if self.is_break { "Break" } else { "Focus" })
-                    )
+                            .child(if self.is_break { "Break" } else { "Focus" }),
+                    ),
             )
     }
 }

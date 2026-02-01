@@ -3,10 +3,10 @@
 //! Efficient rendering of large lists by only rendering visible items.
 //! Critical for performance with large conversation histories.
 
+use gpui::prelude::*;
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 use std::ops::Range;
 
 /// Configuration for the virtual list

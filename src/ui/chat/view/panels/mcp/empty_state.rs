@@ -1,7 +1,7 @@
 //! MCP panel empty state rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 

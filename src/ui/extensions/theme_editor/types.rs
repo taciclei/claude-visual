@@ -1,7 +1,7 @@
 //! Types for theme editor
 
-use gpui::*;
 use crate::ui::extensions::theme_editor::ThemeEditor;
+use gpui::*;
 
 /// Color being edited
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

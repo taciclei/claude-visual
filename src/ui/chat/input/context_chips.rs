@@ -1,15 +1,19 @@
 //! Context chips rendering for file mentions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
 use super::utils::get_file_icon;
 use super::ChatInput;
+use crate::app::theme::Theme;
 
 impl ChatInput {
     /// Render attached file badges/chips with remove buttons
-    pub(super) fn render_context_chips(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_context_chips(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let file_mentions = self.file_mentions();
         let file_count = file_mentions.len();
 
@@ -19,25 +23,24 @@ impl ChatInput {
             .flex_wrap()
             .items_center()
             .gap_2()
-            .children(
-                file_mentions.iter().take(5).enumerate().map(|(idx, path)| {
-                    let path_clone = path.clone();
-                    let filename = path.file_name()
-                        .map(|s| s.to_string_lossy().to_string())
-                        .unwrap_or_else(|| path.to_string_lossy().to_string());
+            .children(file_mentions.iter().take(5).enumerate().map(|(idx, path)| {
+                let path_clone = path.clone();
+                let filename = path
+                    .file_name()
+                    .map(|s| s.to_string_lossy().to_string())
+                    .unwrap_or_else(|| path.to_string_lossy().to_string());
 
-                    // Get file icon based on extension
-                    let icon = get_file_icon(&filename);
+                // Get file icon based on extension
+                let icon = get_file_icon(&filename);
 
-                    self.render_file_chip(idx, icon, filename, path_clone, theme, cx)
-                })
-            )
+                self.render_file_chip(idx, icon, filename, path_clone, theme, cx)
+            }))
             .when(file_count > 5, |d| {
                 d.child(
                     div()
                         .text_xs()
                         .text_color(theme.colors.text_muted)
-                        .child(format!("+{} more", file_count - 5))
+                        .child(format!("+{} more", file_count - 5)),
                 )
             })
     }
@@ -89,7 +92,7 @@ impl ChatInput {
                     .on_click(cx.listener(move |this, _event, _window, cx| {
                         this.remove_file_mention(&path_for_remove, cx);
                     }))
-                    .child("✕")
+                    .child("✕"),
             )
     }
 }

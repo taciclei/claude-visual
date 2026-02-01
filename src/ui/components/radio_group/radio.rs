@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A single radio button
 #[derive(IntoElement)]
@@ -103,11 +103,7 @@ impl RenderOnce for Radio {
         let inner_size = self.size.inner_size();
         let font_size = self.size.font_size();
 
-        let mut container = div()
-            .flex()
-            .items_start()
-            .gap_2()
-            .cursor_pointer();
+        let mut container = div().flex().items_start().gap_2().cursor_pointer();
 
         if self.disabled {
             container = container.opacity(0.5).cursor_not_allowed();

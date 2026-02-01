@@ -1,14 +1,18 @@
 //! Users view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::UsageAnalytics;
 use super::panel::AnalyticsPanel;
+use crate::cloud::team::UsageAnalytics;
 
 impl AnalyticsPanel {
     /// Render users view
-    pub(super) fn render_users(&self, analytics: &UsageAnalytics, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_users(
+        &self,
+        analytics: &UsageAnalytics,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let mut users: Vec<_> = analytics.usage_by_user.values().collect();
         users.sort_by(|a, b| b.tokens.cmp(&a.tokens));
@@ -100,10 +104,11 @@ impl AnalyticsPanel {
                                     ),
                             )
                             .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.colors.text)
-                                    .child(user.user_name.clone().unwrap_or_else(|| user.user_id.clone())),
+                                div().text_sm().text_color(theme.colors.text).child(
+                                    user.user_name
+                                        .clone()
+                                        .unwrap_or_else(|| user.user_id.clone()),
+                                ),
                             ),
                     )
                     .child(

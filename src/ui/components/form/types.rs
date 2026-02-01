@@ -1,7 +1,7 @@
 //! Form type definitions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Form layout variants
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]

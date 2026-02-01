@@ -1,7 +1,7 @@
 //! Emoji reaction picker component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Emoji reaction picker
 #[derive(Clone)]
@@ -57,29 +57,21 @@ impl RenderOnce for ReactionPicker {
                     .rounded_full()
                     .border_1()
                     .when(is_selected, |d| {
-                        d.border_color(accent)
-                            .bg(accent.opacity(0.15))
+                        d.border_color(accent).bg(accent.opacity(0.15))
                     })
-                    .when(!is_selected, |d| {
-                        d.border_color(border)
-                            .bg(surface)
-                    })
+                    .when(!is_selected, |d| d.border_color(border).bg(surface))
                     .flex()
                     .items_center()
                     .gap_1()
                     .cursor_pointer()
                     .hover(|s| s.bg(surface_hover))
-                    .child(
-                        div()
-                            .text_sm()
-                            .child(emoji)
-                    )
+                    .child(div().text_sm().child(emoji))
                     .when(count > 0, |d| {
                         d.child(
                             div()
                                 .text_xs()
                                 .text_color(if is_selected { accent } else { muted })
-                                .child(count.to_string())
+                                .child(count.to_string()),
                         )
                     })
             }))
@@ -96,12 +88,7 @@ impl RenderOnce for ReactionPicker {
                     .justify_center()
                     .cursor_pointer()
                     .hover(|s| s.bg(surface_hover))
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(muted)
-                            .child("+")
-                    )
+                    .child(div().text_sm().text_color(muted).child("+")),
             )
     }
 }

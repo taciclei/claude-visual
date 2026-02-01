@@ -1,8 +1,8 @@
 //! Mention dropdown component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Mention dropdown - shows mentionable users
 #[derive(IntoElement)]
@@ -48,11 +48,12 @@ impl MentionDropdown {
 
 impl RenderOnce for MentionDropdown {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        let filtered_users: Vec<_> = self.users.iter()
+        let filtered_users: Vec<_> = self
+            .users
+            .iter()
             .filter(|u| {
                 let q = self.query.to_lowercase();
-                u.name.to_lowercase().contains(&q) ||
-                u.username.to_lowercase().contains(&q)
+                u.name.to_lowercase().contains(&q) || u.username.to_lowercase().contains(&q)
             })
             .collect();
 
@@ -75,7 +76,7 @@ impl RenderOnce for MentionDropdown {
                         .p(px(16.0))
                         .text_size(px(13.0))
                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child("No users found")
+                        .child("No users found"),
                 )
             })
             .when(!filtered_users.is_empty(), |el| {
@@ -111,11 +112,13 @@ impl RenderOnce for MentionDropdown {
                                         .text_size(px(14.0))
                                         .text_color(hsla(0.0, 0.0, 0.9, 1.0))
                                         .child(user.avatar.clone().unwrap_or_else(|| {
-                                            user.name.chars().next()
+                                            user.name
+                                                .chars()
+                                                .next()
                                                 .map(|c| c.to_string())
                                                 .unwrap_or_default()
                                                 .into()
-                                        }))
+                                        })),
                                 )
                                 .when(user.is_online, |el| {
                                     el.child(
@@ -128,9 +131,9 @@ impl RenderOnce for MentionDropdown {
                                             .rounded_full()
                                             .bg(hsla(0.35, 0.7, 0.45, 1.0))
                                             .border_2()
-                                            .border_color(hsla(0.0, 0.0, 0.12, 1.0))
+                                            .border_color(hsla(0.0, 0.0, 0.12, 1.0)),
                                     )
-                                })
+                                }),
                         )
                         // User info
                         .child(
@@ -143,21 +146,21 @@ impl RenderOnce for MentionDropdown {
                                         .text_size(px(14.0))
                                         .font_weight(gpui::FontWeight::MEDIUM)
                                         .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                        .child(user.name.clone())
+                                        .child(user.name.clone()),
                                 )
                                 .child(
                                     div()
                                         .text_size(px(12.0))
                                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                        .child(format!("@{}", user.username))
-                                )
+                                        .child(format!("@{}", user.username)),
+                                ),
                         )
                         .when_some(user.status.clone(), |el, status| {
                             el.child(
                                 div()
                                     .text_size(px(12.0))
                                     .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                    .child(status)
+                                    .child(status),
                             )
                         })
                 }))

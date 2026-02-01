@@ -1,7 +1,7 @@
 //! Simple vertical split layout component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple vertical split layout
 #[derive(Clone)]
@@ -35,12 +35,7 @@ impl RenderOnce for VerticalSplit {
             .flex()
             .flex_col()
             // Top pane
-            .child(
-                div()
-                    .w_full()
-                    .flex_1()
-                    .overflow_hidden()
-            )
+            .child(div().w_full().flex_1().overflow_hidden())
             // Divider
             .child(
                 div()
@@ -49,14 +44,9 @@ impl RenderOnce for VerticalSplit {
                     .bg(border)
                     .flex_shrink_0()
                     .cursor(CursorStyle::ResizeUpDown)
-                    .hover(|s| s.bg(hover))
+                    .hover(|s| s.bg(hover)),
             )
             // Bottom pane
-            .child(
-                div()
-                    .w_full()
-                    .flex_1()
-                    .overflow_hidden()
-            )
+            .child(div().w_full().flex_1().overflow_hidden())
     }
 }

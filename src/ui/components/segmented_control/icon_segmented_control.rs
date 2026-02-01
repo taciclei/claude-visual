@@ -27,7 +27,10 @@ impl IconSegmentedControl {
     }
 
     pub fn icons(mut self, icons: Vec<(impl Into<SharedString>, impl Into<SharedString>)>) -> Self {
-        self.icons = icons.into_iter().map(|(id, icon)| (id.into(), icon.into())).collect();
+        self.icons = icons
+            .into_iter()
+            .map(|(id, icon)| (id.into(), icon.into()))
+            .collect();
         self
     }
 
@@ -88,7 +91,7 @@ impl RenderOnce for IconSegmentedControl {
                         div()
                             .text_size(px(icon_size))
                             .text_color(seg_text)
-                            .child(icon.clone())
+                            .child(icon.clone()),
                     )
             }))
     }

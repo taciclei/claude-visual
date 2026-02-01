@@ -1,7 +1,7 @@
 //! Comparison sparkline component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Comparison sparkline - shows two data series
 #[derive(IntoElement)]
@@ -64,12 +64,19 @@ impl RenderOnce for ComparisonSparkline {
         let primary_color = self.primary_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0));
         let secondary_color = self.secondary_color.unwrap_or(hsla(0.0, 0.0, 0.5, 0.5));
 
-        let max_val = self.primary_data.iter().copied()
+        let max_val = self
+            .primary_data
+            .iter()
+            .copied()
             .chain(self.secondary_data.iter().copied())
             .fold(f64::NEG_INFINITY, f64::max)
             .max(0.001);
 
-        let count = self.primary_data.len().max(self.secondary_data.len()).max(1);
+        let count = self
+            .primary_data
+            .len()
+            .max(self.secondary_data.len())
+            .max(1);
         let group_width = self.width / count as f32;
         let bar_width = (group_width - 2.0) / 2.0;
 
@@ -96,14 +103,14 @@ impl RenderOnce for ComparisonSparkline {
                             .w(px(bar_width))
                             .h(px(primary_height))
                             .bg(primary_color)
-                            .rounded(px(1.0))
+                            .rounded(px(1.0)),
                     )
                     .child(
                         div()
                             .w(px(bar_width))
                             .h(px(secondary_height))
                             .bg(secondary_color)
-                            .rounded(px(1.0))
+                            .rounded(px(1.0)),
                     )
             }))
     }

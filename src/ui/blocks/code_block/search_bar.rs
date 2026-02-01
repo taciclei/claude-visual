@@ -1,7 +1,7 @@
 //! Search bar rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::view::CodeBlockView;
 
@@ -37,9 +37,15 @@ impl CodeBlockView {
                         "Type to search...".to_string()
                     } else {
                         search_query.clone()
-                    })
+                    }),
             )
-            .child(self.render_search_controls(match_count, current_match, &search_query, &theme, cx))
+            .child(self.render_search_controls(
+                match_count,
+                current_match,
+                &search_query,
+                &theme,
+                cx,
+            ))
     }
 
     /// Render search control buttons
@@ -70,7 +76,7 @@ impl CodeBlockView {
                         "No matches".to_string()
                     } else {
                         String::new()
-                    })
+                    }),
             )
             // Previous match
             .child(
@@ -86,7 +92,7 @@ impl CodeBlockView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.prev_match(cx);
                     }))
-                    .child("↑")
+                    .child("↑"),
             )
             // Next match
             .child(
@@ -102,7 +108,7 @@ impl CodeBlockView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.next_match(cx);
                     }))
-                    .child("↓")
+                    .child("↓"),
             )
             // Close search
             .child(
@@ -118,7 +124,7 @@ impl CodeBlockView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.hide_search(cx);
                     }))
-                    .child("✕")
+                    .child("✕"),
             )
     }
 }

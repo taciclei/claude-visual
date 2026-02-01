@@ -17,7 +17,11 @@ impl ChatView {
     /// Retry from a specific message (re-send everything from that point)
     pub fn retry_from_message(&mut self, message_index: usize, cx: &mut Context<Self>) {
         if self.streaming.is_streaming {
-            self.show_notification("Cannot retry while streaming", NotificationType::Warning, cx);
+            self.show_notification(
+                "Cannot retry while streaming",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 
@@ -27,7 +31,11 @@ impl ChatView {
 
         let message = &self.messages[message_index];
         if message.role != MessageRole::User {
-            self.show_notification("Can only retry from your messages", NotificationType::Warning, cx);
+            self.show_notification(
+                "Can only retry from your messages",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 

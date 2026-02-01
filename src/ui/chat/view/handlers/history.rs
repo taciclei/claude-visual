@@ -1,8 +1,8 @@
 //! Input history handlers
 
-use gpui::*;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::NotificationType;
+use gpui::*;
 
 impl ChatView {
     /// Add input to history
@@ -68,7 +68,8 @@ impl ChatView {
                 input.set_text(temp, cx);
             });
         } else {
-            let history_index = self.input_history.history.len() - 1 - self.input_history.position as usize;
+            let history_index =
+                self.input_history.history.len() - 1 - self.input_history.position as usize;
             if let Some(historical_input) = self.input_history.history.get(history_index).cloned() {
                 self.input.update(cx, |input, cx| {
                     input.set_text(historical_input, cx);

@@ -1,19 +1,19 @@
 //! Custom scrollable area components with styled scrollbars
 
-mod types;
-mod scroll_area;
-mod indicator;
+mod anchors;
 mod buttons;
+mod indicator;
 mod infinite;
 mod pull_refresh;
-mod anchors;
+mod scroll_area;
 #[cfg(test)]
 mod tests;
+mod types;
 
-pub use types::*;
-pub use scroll_area::*;
-pub use indicator::*;
+pub use anchors::*;
 pub use buttons::*;
+pub use indicator::*;
 pub use infinite::*;
 pub use pull_refresh::*;
-pub use anchors::*;
+pub use scroll_area::*;
+pub use types::*;

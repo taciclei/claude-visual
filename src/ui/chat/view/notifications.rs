@@ -5,11 +5,16 @@
 use gpui::Context;
 
 use super::ChatView;
-use crate::ui::chat::view::types::{Notification, NotificationType, get_notification_action};
+use crate::ui::chat::view::types::{get_notification_action, Notification, NotificationType};
 
 impl ChatView {
     /// Show a notification to the user
-    pub fn show_notification(&mut self, message: impl Into<String>, notification_type: NotificationType, cx: &mut Context<Self>) {
+    pub fn show_notification(
+        &mut self,
+        message: impl Into<String>,
+        notification_type: NotificationType,
+        cx: &mut Context<Self>,
+    ) {
         let msg = message.into();
         // Auto-detect quick action based on message content
         let quick_action = get_notification_action(&msg, &notification_type);
@@ -24,7 +29,9 @@ impl ChatView {
         // Auto-dismiss after 4 seconds (longer if has action)
         let duration = if quick_action.is_some() { 5 } else { 3 };
         cx.spawn(async move |this, cx| {
-            cx.background_executor().timer(std::time::Duration::from_secs(duration)).await;
+            cx.background_executor()
+                .timer(std::time::Duration::from_secs(duration))
+                .await;
             let _ = this.update(cx, |view, cx| {
                 // Remove oldest notification
                 if !view.notifications.is_empty() {
@@ -32,7 +39,8 @@ impl ChatView {
                     cx.notify();
                 }
             });
-        }).detach();
+        })
+        .detach();
         cx.notify();
     }
 
@@ -42,7 +50,7 @@ impl ChatView {
         message: impl Into<String>,
         notification_type: NotificationType,
         action: (&'static str, &'static str, &'static str),
-        cx: &mut Context<Self>
+        cx: &mut Context<Self>,
     ) {
         let notification = Notification {
             message: message.into(),
@@ -53,14 +61,17 @@ impl ChatView {
         self.notifications.push(notification);
         // Longer display time for actionable notifications
         cx.spawn(async move |this, cx| {
-            cx.background_executor().timer(std::time::Duration::from_secs(6)).await;
+            cx.background_executor()
+                .timer(std::time::Duration::from_secs(6))
+                .await;
             let _ = this.update(cx, |view, cx| {
                 if !view.notifications.is_empty() {
                     view.notifications.remove(0);
                     cx.notify();
                 }
             });
-        }).detach();
+        })
+        .detach();
         cx.notify();
     }
 

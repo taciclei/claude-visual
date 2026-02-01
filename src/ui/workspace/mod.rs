@@ -10,15 +10,15 @@
 //! - `split`: Split view functionality
 //! - `render`: Render implementation (modular)
 
-mod types;
-mod core;
 mod actions;
-mod modals;
+mod core;
 mod diff;
 mod messaging;
-mod split;
+mod modals;
 mod render;
+mod split;
+mod types;
 
 // Re-export the main types
-pub use types::SidebarTab;
 pub use core::Workspace;
+pub use types::SidebarTab;

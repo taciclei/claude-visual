@@ -1,8 +1,8 @@
 //! Code completion types
 
-use serde::{Deserialize, Serialize};
 use super::documentation::Documentation;
 use super::types::TextEdit;
+use serde::{Deserialize, Serialize};
 
 /// Completion item kind
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

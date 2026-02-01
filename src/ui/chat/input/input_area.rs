@@ -1,7 +1,7 @@
 //! Main text input area rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
@@ -47,29 +47,23 @@ impl ChatInput {
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
                 this.handle_key_down(event, window, cx);
             }))
-            .child(
+            .child(div().flex_1().child(if is_disabled {
                 div()
-                    .flex_1()
-                    .child(
-                        if is_disabled {
-                            div()
-                                .text_sm()
-                                .text_color(theme.colors.text_muted)
-                                .child("Claude is responding...")
-                        } else if text_is_empty {
-                            // Show placeholder with cursor when focused
-                            if is_focused {
-                                self.render_placeholder_with_cursor(theme)
-                            } else {
-                                self.render_placeholder(theme)
-                            }
-                        } else if has_mentions {
-                            self.render_text_with_cursor_and_mentions(theme, is_focused)
-                        } else {
-                            self.render_text_with_cursor(theme, is_focused)
-                        }
-                    )
-            )
+                    .text_sm()
+                    .text_color(theme.colors.text_muted)
+                    .child("Claude is responding...")
+            } else if text_is_empty {
+                // Show placeholder with cursor when focused
+                if is_focused {
+                    self.render_placeholder_with_cursor(theme)
+                } else {
+                    self.render_placeholder(theme)
+                }
+            } else if has_mentions {
+                self.render_text_with_cursor_and_mentions(theme, is_focused)
+            } else {
+                self.render_text_with_cursor(theme, is_focused)
+            }))
             // Clear button (when text is not empty)
             .when(!text_is_empty && !is_disabled, |d| {
                 d.child(self.render_clear_button(theme, cx))
@@ -130,7 +124,7 @@ impl ChatInput {
                             .repeat()
                             .with_easing(pulsating_between(0.0, 1.0)),
                         move |this, delta| this.opacity(delta),
-                    )
+                    ),
             )
             // Placeholder text
             .child(
@@ -138,7 +132,7 @@ impl ChatInput {
                     .ml_1()
                     .text_sm()
                     .text_color(theme.colors.text_muted)
-                    .child(placeholder)
+                    .child(placeholder),
             )
     }
 
@@ -156,10 +150,7 @@ impl ChatInput {
             .text_sm()
             .text_color(theme.colors.text)
             // Text before cursor
-            .child(
-                div()
-                    .child(before_cursor.to_string())
-            )
+            .child(div().child(before_cursor.to_string()))
             // Blinking cursor (only when focused)
             .when(is_focused, |d| {
                 d.child(
@@ -174,14 +165,11 @@ impl ChatInput {
                                 .repeat()
                                 .with_easing(pulsating_between(0.0, 1.0)),
                             move |this, delta| this.opacity(delta),
-                        )
+                        ),
                 )
             })
             // Text after cursor
-            .child(
-                div()
-                    .child(after_cursor.to_string())
-            )
+            .child(div().child(after_cursor.to_string()))
     }
 
     /// Render text with cursor and mentions (with syntax highlighting for @mentions)
@@ -291,7 +279,7 @@ impl ChatInput {
                                 .text_sm()
                                 .text_color(mention_color)
                                 .font_weight(FontWeight::MEDIUM)
-                                .child(before.to_string())
+                                .child(before.to_string()),
                         )
                         .when(is_focused, |d| {
                             d.child(
@@ -306,7 +294,7 @@ impl ChatInput {
                                             .repeat()
                                             .with_easing(pulsating_between(0.0, 1.0)),
                                         move |this, delta| this.opacity(delta),
-                                    )
+                                    ),
                             )
                         })
                         .child(
@@ -314,7 +302,7 @@ impl ChatInput {
                                 .text_sm()
                                 .text_color(mention_color)
                                 .font_weight(FontWeight::MEDIUM)
-                                .child(after.to_string())
+                                .child(after.to_string()),
                         )
                         .into_any_element(),
                 );
@@ -410,11 +398,7 @@ impl ChatInput {
             );
         }
 
-        div()
-            .flex()
-            .items_center()
-            .flex_wrap()
-            .children(elements)
+        div().flex().items_center().flex_wrap().children(elements)
     }
 
     /// Render clear button
@@ -439,7 +423,7 @@ impl ChatInput {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child("✕")
+                    .child("✕"),
             )
     }
 
@@ -456,17 +440,11 @@ impl ChatInput {
             .flex()
             .items_center()
             .gap_1()
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(theme.colors.info)
-                    .child("↑")
-            )
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(theme.colors.info)
-                    .child(format!("{}/{}", idx + 1, self.input_history.len()))
-            )
+            .child(div().text_xs().text_color(theme.colors.info).child("↑"))
+            .child(div().text_xs().text_color(theme.colors.info).child(format!(
+                "{}/{}",
+                idx + 1,
+                self.input_history.len()
+            )))
     }
 }

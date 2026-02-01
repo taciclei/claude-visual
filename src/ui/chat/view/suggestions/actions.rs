@@ -10,7 +10,12 @@ impl ChatView {
         let mut actions = Vec::new();
 
         // If last response had code
-        if let Some(last) = self.messages.iter().rev().find(|m| m.role == MessageRole::Assistant) {
+        if let Some(last) = self
+            .messages
+            .iter()
+            .rev()
+            .find(|m| m.role == MessageRole::Assistant)
+        {
             let content_lower = last.content.to_lowercase();
 
             if last.content.contains("```") {
@@ -21,8 +26,11 @@ impl ChatView {
             }
 
             // If response mentioned an error or debugging
-            if content_lower.contains("error") || content_lower.contains("failed") ||
-               content_lower.contains("crash") || content_lower.contains("exception") {
+            if content_lower.contains("error")
+                || content_lower.contains("failed")
+                || content_lower.contains("crash")
+                || content_lower.contains("exception")
+            {
                 actions.push(("🐛", "Debug", "/debug"));
                 actions.push(("🔧", "Fix", "Fix this error"));
                 actions.push(("🔧", "CI Fix", "/ci-fixer"));
@@ -35,51 +43,68 @@ impl ChatView {
             }
 
             // If discussing architecture or design
-            if content_lower.contains("architect") || content_lower.contains("design") ||
-               content_lower.contains("structure") || content_lower.contains("pattern") {
+            if content_lower.contains("architect")
+                || content_lower.contains("design")
+                || content_lower.contains("structure")
+                || content_lower.contains("pattern")
+            {
                 actions.push(("💡", "Brainstorm", "/brainstorm"));
                 actions.push(("🧠", "Analyze", "/ultrathink"));
             }
 
             // If response mentions commits, PR, or changes
-            if content_lower.contains("commit") || content_lower.contains("changes") ||
-               content_lower.contains("pull request") {
+            if content_lower.contains("commit")
+                || content_lower.contains("changes")
+                || content_lower.contains("pull request")
+            {
                 actions.push(("📦", "Commit", "/commit"));
                 actions.push(("🔀", "Create PR", "/create-pr"));
                 actions.push(("👀", "Review", "/review"));
             }
 
             // If discussing documentation
-            if content_lower.contains("document") || content_lower.contains("readme") ||
-               content_lower.contains("api") {
+            if content_lower.contains("document")
+                || content_lower.contains("readme")
+                || content_lower.contains("api")
+            {
                 actions.push(("📖", "Explain", "/explain"));
                 actions.push(("📚", "Docs", "/docs"));
             }
 
             // If discussing testing
-            if content_lower.contains("test") || content_lower.contains("spec") ||
-               content_lower.contains("coverage") {
+            if content_lower.contains("test")
+                || content_lower.contains("spec")
+                || content_lower.contains("coverage")
+            {
                 actions.push(("🧪", "Tests", "Run these tests"));
                 actions.push(("🐛", "Debug", "/debug"));
             }
 
             // If discussing CI/CD
-            if content_lower.contains("ci") || content_lower.contains("pipeline") ||
-               content_lower.contains("build") || content_lower.contains("deploy") {
+            if content_lower.contains("ci")
+                || content_lower.contains("pipeline")
+                || content_lower.contains("build")
+                || content_lower.contains("deploy")
+            {
                 actions.push(("🔧", "CI Fix", "/ci-fixer"));
                 actions.push(("👁️", "Watch CI", "Monitor CI status"));
             }
 
             // If exploring or researching
-            if content_lower.contains("found") || content_lower.contains("located") ||
-               content_lower.contains("search") {
+            if content_lower.contains("found")
+                || content_lower.contains("located")
+                || content_lower.contains("search")
+            {
                 actions.push(("🔍", "Explore More", "/explore"));
                 actions.push(("🔎", "Search", "/search"));
             }
 
             // If implementation discussion
-            if content_lower.contains("implement") || content_lower.contains("create") ||
-               content_lower.contains("build") || content_lower.contains("add") {
+            if content_lower.contains("implement")
+                || content_lower.contains("create")
+                || content_lower.contains("build")
+                || content_lower.contains("add")
+            {
                 actions.push(("⚡", "APEX", "/apex"));
                 actions.push(("🚀", "Oneshot", "/oneshot"));
             }
@@ -170,18 +195,11 @@ impl ChatView {
                 ("🔧", "CI Fix", "/ci-fixer"),
                 ("📖", "Explain", "Explain this command"),
             ],
-            "grep" | "glob" => vec![
-                ("🔍", "Explore", "/explore"),
-                ("📖", "Explain", "/explain"),
-            ],
-            "task" => vec![
-                ("⚡", "APEX", "/apex"),
-                ("🧠", "Think", "/ultrathink"),
-            ],
-            "websearch" | "webfetch" => vec![
-                ("💡", "Brainstorm", "/brainstorm"),
-                ("📚", "Docs", "/docs"),
-            ],
+            "grep" | "glob" => vec![("🔍", "Explore", "/explore"), ("📖", "Explain", "/explain")],
+            "task" => vec![("⚡", "APEX", "/apex"), ("🧠", "Think", "/ultrathink")],
+            "websearch" | "webfetch" => {
+                vec![("💡", "Brainstorm", "/brainstorm"), ("📚", "Docs", "/docs")]
+            }
             _ => vec![],
         }
     }

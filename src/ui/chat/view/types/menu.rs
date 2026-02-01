@@ -13,6 +13,10 @@ pub struct ContextMenuState {
 
 impl ContextMenuState {
     pub fn new(message_index: usize, x: f32, y: f32) -> Self {
-        Self { message_index, x, y }
+        Self {
+            message_index,
+            x,
+            y,
+        }
     }
 }

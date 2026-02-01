@@ -93,11 +93,7 @@ impl IconLoader {
     }
 
     /// Load a single icon theme file
-    fn load_icon_theme_file(
-        &mut self,
-        path: &Path,
-        extension_id: Option<&str>,
-    ) -> Result<String> {
+    fn load_icon_theme_file(&mut self, path: &Path, extension_id: Option<&str>) -> Result<String> {
         let content = std::fs::read_to_string(path)?;
         let manifest: IconThemeManifest = serde_json::from_str(&content)?;
 

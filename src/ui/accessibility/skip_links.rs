@@ -144,9 +144,9 @@ impl SkipLinkManager {
 
     /// Get target by shortcut
     pub fn target_by_shortcut(&self, shortcut: &str) -> Option<&SkipLinkTarget> {
-        self.targets.iter().find(|t| {
-            t.shortcut.as_ref().map(|s| s == shortcut).unwrap_or(false)
-        })
+        self.targets
+            .iter()
+            .find(|t| t.shortcut.as_ref().map(|s| s == shortcut).unwrap_or(false))
     }
 
     /// Get target by ID
@@ -189,7 +189,7 @@ mod tests {
         manager.register(
             SkipLinkTarget::new("custom", "Custom Target")
                 .with_shortcut("Alt+0")
-                .with_priority(0)
+                .with_priority(0),
         );
 
         assert_eq!(manager.targets().len(), 1);

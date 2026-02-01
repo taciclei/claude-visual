@@ -1,7 +1,7 @@
 //! Simple popover content wrapper
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple popover content wrapper
 #[derive(Clone)]
@@ -55,14 +55,9 @@ impl RenderOnce for PopoverContent {
                         .text_sm()
                         .font_weight(FontWeight::SEMIBOLD)
                         .text_color(text)
-                        .child(title)
+                        .child(title),
                 )
             })
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child(self.content)
-            )
+            .child(div().text_sm().text_color(text_muted).child(self.content))
     }
 }

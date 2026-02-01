@@ -1,7 +1,7 @@
 //! Code definition hover card component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Definition hover card (like for code symbols)
 #[derive(IntoElement)]

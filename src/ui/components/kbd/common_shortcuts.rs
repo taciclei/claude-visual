@@ -1,8 +1,8 @@
 //! Common keyboard shortcuts reference
 
-use gpui::*;
-use gpui::prelude::*;
 use super::shortcut_list::ShortcutList;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Common keyboard shortcuts reference
 #[derive(Clone)]

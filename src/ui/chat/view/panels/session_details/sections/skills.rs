@@ -1,7 +1,7 @@
 //! Skills section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -27,14 +27,14 @@ impl ChatView {
                             .text_xs()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(theme.colors.text_muted)
-                            .child(format!("SKILLS ({})", info.skills.len()))
+                            .child(format!("SKILLS ({})", info.skills.len())),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted.opacity(0.6))
-                            .child("Click to insert")
-                    )
+                            .child("Click to insert"),
+                    ),
             )
             .child(
                 div()
@@ -74,9 +74,9 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("+{} more", info.skills.len() - 15))
+                                .child(format!("+{} more", info.skills.len() - 15)),
                         )
-                    })
+                    }),
             )
     }
 }

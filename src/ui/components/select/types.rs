@@ -1,7 +1,7 @@
 //! Select component types and enums
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Select size variants
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]

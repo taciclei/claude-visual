@@ -1,18 +1,18 @@
 //! Notification center and notification components
 
-mod types;
-mod notification;
-mod center;
 mod badge;
 mod bell;
+mod center;
 mod group;
+mod notification;
+mod types;
 
-pub use types::*;
-pub use notification::Notification;
-pub use center::NotificationCenter;
 pub use badge::NotificationBadge;
 pub use bell::NotificationBell;
+pub use center::NotificationCenter;
 pub use group::NotificationGroup;
+pub use notification::Notification;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -42,11 +42,10 @@ mod tests {
 
     #[test]
     fn test_notification_center() {
-        let center = NotificationCenter::new()
-            .notifications(vec![
-                Notification::new("1", "Test"),
-                Notification::new("2", "Test 2").read(true),
-            ]);
+        let center = NotificationCenter::new().notifications(vec![
+            Notification::new("1", "Test"),
+            Notification::new("2", "Test 2").read(true),
+        ]);
 
         assert_eq!(center.notifications.len(), 2);
     }

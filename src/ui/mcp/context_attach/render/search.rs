@@ -1,7 +1,7 @@
 //! Search input rendering for MCP context attachment panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::McpContextAttachPanel;
 
@@ -26,7 +26,12 @@ impl McpContextAttachPanel {
                     .border_1()
                     .border_color(theme.colors.border)
                     .rounded_sm()
-                    .child(div().text_xs().text_color(theme.colors.text_muted).child("🔍"))
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted)
+                            .child("🔍"),
+                    )
                     .child(
                         div()
                             .flex_1()

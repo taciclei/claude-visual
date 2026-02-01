@@ -1,7 +1,7 @@
 //! Core implementation of MCP resources panel
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
 use crate::app::state::AppState;
 use crate::mcp::McpPrompt;

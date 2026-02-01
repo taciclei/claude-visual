@@ -1,22 +1,22 @@
 //! Inline code display components
 
-mod types;
-mod inline_code;
-mod variable;
 mod command;
 mod file_path;
-mod url_display;
-mod key_value;
+mod inline_code;
 mod json_value;
+mod key_value;
+mod types;
+mod url_display;
+mod variable;
 
-pub use types::{CodeSize, JsonType};
-pub use inline_code::InlineCode;
-pub use variable::Variable;
 pub use command::Command;
 pub use file_path::FilePath;
-pub use url_display::UrlDisplay;
-pub use key_value::KeyValue;
+pub use inline_code::InlineCode;
 pub use json_value::JsonValue;
+pub use key_value::KeyValue;
+pub use types::{CodeSize, JsonType};
+pub use url_display::UrlDisplay;
+pub use variable::Variable;
 
 #[cfg(test)]
 mod tests {
@@ -34,8 +34,7 @@ mod tests {
 
     #[test]
     fn test_variable() {
-        let var = Variable::new("count")
-            .with_value("42");
+        let var = Variable::new("count").with_value("42");
 
         assert_eq!(var.name, "count");
         assert_eq!(var.value, Some("42".to_string()));
@@ -43,8 +42,7 @@ mod tests {
 
     #[test]
     fn test_command() {
-        let cmd = Command::new("cargo build --release")
-            .shell(">");
+        let cmd = Command::new("cargo build --release").shell(">");
 
         assert_eq!(cmd.command, "cargo build --release");
         assert_eq!(cmd.shell, Some(">".to_string()));

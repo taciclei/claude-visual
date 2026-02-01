@@ -1,7 +1,7 @@
 //! Toolbar separator component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Toolbar separator - visual divider between toolbar items
 #[derive(IntoElement)]
@@ -40,17 +40,9 @@ impl RenderOnce for ToolbarSeparator {
         let color = self.color.unwrap_or(hsla(0.0, 0.0, 0.25, 1.0));
 
         if self.vertical {
-            div()
-                .w(px(1.0))
-                .h(px(24.0))
-                .mx(px(4.0))
-                .bg(color)
+            div().w(px(1.0)).h(px(24.0)).mx(px(4.0)).bg(color)
         } else {
-            div()
-                .h(px(1.0))
-                .w(px(24.0))
-                .my(px(4.0))
-                .bg(color)
+            div().h(px(1.0)).w(px(24.0)).my(px(4.0)).bg(color)
         }
     }
 }

@@ -1,7 +1,7 @@
 //! Simple info hover card component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple info hover card
 #[derive(IntoElement)]

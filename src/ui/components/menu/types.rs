@@ -74,7 +74,11 @@ impl MenuItemData {
         }
     }
 
-    pub fn submenu(id: impl Into<String>, label: impl Into<String>, items: Vec<MenuItemData>) -> Self {
+    pub fn submenu(
+        id: impl Into<String>,
+        label: impl Into<String>,
+        items: Vec<MenuItemData>,
+    ) -> Self {
         Self {
             item_type: MenuItemType::Submenu(items),
             id: id.into(),

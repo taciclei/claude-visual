@@ -1,8 +1,8 @@
 //! Rendering for MCP servers panel
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpServersPanel;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for McpServersPanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -26,9 +26,7 @@ impl Render for McpServersPanel {
                         .flex_col()
                         .p_2()
                         .gap_1()
-                        .when(servers.is_empty(), |this| {
-                this.child(self.render_empty(cx))
-                        })
+                        .when(servers.is_empty(), |this| this.child(self.render_empty(cx)))
                         .children(
                             servers
                                 .iter()

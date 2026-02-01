@@ -8,13 +8,19 @@ use super::core::LspClient;
 
 impl LspClient {
     /// Get completions at position
-    pub async fn completion(&self, uri: &str, position: Position) -> Result<Vec<CompletionItem>, String> {
+    pub async fn completion(
+        &self,
+        uri: &str,
+        position: Position,
+    ) -> Result<Vec<CompletionItem>, String> {
         let params = json!({
             "textDocument": { "uri": uri },
             "position": position
         });
 
-        let result: Value = self.request("textDocument/completion", Some(params)).await?;
+        let result: Value = self
+            .request("textDocument/completion", Some(params))
+            .await?;
 
         // Handle both CompletionList and CompletionItem[]
         if let Some(items) = result.get("items") {
@@ -51,7 +57,9 @@ impl LspClient {
             "position": position
         });
 
-        let result: Value = self.request("textDocument/definition", Some(params)).await?;
+        let result: Value = self
+            .request("textDocument/definition", Some(params))
+            .await?;
 
         // Handle Location, Location[], or null
         if result.is_null() {
@@ -67,14 +75,21 @@ impl LspClient {
     }
 
     /// Find references
-    pub async fn references(&self, uri: &str, position: Position, include_declaration: bool) -> Result<Vec<Location>, String> {
+    pub async fn references(
+        &self,
+        uri: &str,
+        position: Position,
+        include_declaration: bool,
+    ) -> Result<Vec<Location>, String> {
         let params = json!({
             "textDocument": { "uri": uri },
             "position": position,
             "context": { "includeDeclaration": include_declaration }
         });
 
-        let result: Value = self.request("textDocument/references", Some(params)).await?;
+        let result: Value = self
+            .request("textDocument/references", Some(params))
+            .await?;
 
         if result.is_null() {
             return Ok(vec![]);
@@ -89,7 +104,9 @@ impl LspClient {
             "textDocument": { "uri": uri }
         });
 
-        let result: Value = self.request("textDocument/documentSymbol", Some(params)).await?;
+        let result: Value = self
+            .request("textDocument/documentSymbol", Some(params))
+            .await?;
 
         if result.is_null() {
             return Ok(vec![]);
@@ -99,13 +116,19 @@ impl LspClient {
     }
 
     /// Get signature help
-    pub async fn signature_help(&self, uri: &str, position: Position) -> Result<Option<SignatureHelp>, String> {
+    pub async fn signature_help(
+        &self,
+        uri: &str,
+        position: Position,
+    ) -> Result<Option<SignatureHelp>, String> {
         let params = json!({
             "textDocument": { "uri": uri },
             "position": position
         });
 
-        let result: Value = self.request("textDocument/signatureHelp", Some(params)).await?;
+        let result: Value = self
+            .request("textDocument/signatureHelp", Some(params))
+            .await?;
 
         if result.is_null() {
             return Ok(None);
@@ -117,14 +140,21 @@ impl LspClient {
     }
 
     /// Get code actions
-    pub async fn code_actions(&self, uri: &str, range: Range, diagnostics: Vec<Diagnostic>) -> Result<Vec<CodeAction>, String> {
+    pub async fn code_actions(
+        &self,
+        uri: &str,
+        range: Range,
+        diagnostics: Vec<Diagnostic>,
+    ) -> Result<Vec<CodeAction>, String> {
         let params = json!({
             "textDocument": { "uri": uri },
             "range": range,
             "context": { "diagnostics": diagnostics }
         });
 
-        let result: Value = self.request("textDocument/codeAction", Some(params)).await?;
+        let result: Value = self
+            .request("textDocument/codeAction", Some(params))
+            .await?;
 
         if result.is_null() {
             return Ok(vec![]);

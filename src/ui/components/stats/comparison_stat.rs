@@ -1,7 +1,7 @@
 //! ComparisonStat component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Comparison stat
 #[derive(Clone)]
@@ -50,7 +50,7 @@ impl RenderOnce for ComparisonStat {
                     .text_xs()
                     .text_color(text_muted)
                     .font_weight(FontWeight::MEDIUM)
-                    .child(self.label)
+                    .child(self.label),
             )
             // Values row
             .child(
@@ -63,44 +63,24 @@ impl RenderOnce for ComparisonStat {
                         div()
                             .flex()
                             .flex_col()
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child("Current")
-                            )
+                            .child(div().text_xs().text_color(text_muted).child("Current"))
                             .child(
                                 div()
                                     .text_lg()
                                     .font_weight(FontWeight::BOLD)
                                     .text_color(text)
-                                    .child(self.current)
-                            )
+                                    .child(self.current),
+                            ),
                     )
                     // Divider
-                    .child(
-                        div()
-                            .w(px(1.0))
-                            .h(px(32.0))
-                            .bg(border)
-                    )
+                    .child(div().w(px(1.0)).h(px(32.0)).bg(border))
                     // Previous
                     .child(
                         div()
                             .flex()
                             .flex_col()
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child("Previous")
-                            )
-                            .child(
-                                div()
-                                    .text_lg()
-                                    .text_color(text_muted)
-                                    .child(self.previous)
-                            )
+                            .child(div().text_xs().text_color(text_muted).child("Previous"))
+                            .child(div().text_lg().text_color(text_muted).child(self.previous)),
                     )
                     // Change
                     .child(
@@ -111,8 +91,8 @@ impl RenderOnce for ComparisonStat {
                             .text_sm()
                             .text_color(trend_color)
                             .child(trend_icon)
-                            .child(format!("{:.1}%", self.change_percent.abs()))
-                    )
+                            .child(format!("{:.1}%", self.change_percent.abs())),
+                    ),
             )
     }
 }

@@ -1,25 +1,25 @@
 //! Workspace struct definition and constructor
 
-use std::sync::Arc;
-use gpui::*;
-use tokio::sync::mpsc;
+use super::super::types::SidebarTab;
 use crate::app::state::AppState;
 use crate::claude::client::ClaudeClient;
+use crate::ui::accessibility::skip_links::SkipLinkManager;
 use crate::ui::chat::view::ChatView;
 use crate::ui::cloud::TeamPanel;
+use crate::ui::components::command_palette::CommandPalette;
+use crate::ui::components::shortcuts_panel::ShortcutsPanel;
 use crate::ui::components::status_bar::StatusBar;
 use crate::ui::components::toast::ToastContainer;
 use crate::ui::explorer::FileTree;
+use crate::ui::settings::SettingsModal;
 use crate::ui::sidebar::history::HistorySidebar;
 use crate::ui::sidebar::projects::ProjectsSidebar;
 use crate::ui::sidebar::worktrees::WorktreePanel;
 use crate::ui::split::SplitContainer;
 use crate::ui::tabs::TabBar;
-use crate::ui::components::command_palette::CommandPalette;
-use crate::ui::settings::SettingsModal;
-use crate::ui::components::shortcuts_panel::ShortcutsPanel;
-use crate::ui::accessibility::skip_links::SkipLinkManager;
-use super::super::types::SidebarTab;
+use gpui::*;
+use std::sync::Arc;
+use tokio::sync::mpsc;
 
 /// Main workspace view containing sidebar and chat area
 pub struct Workspace {
@@ -117,7 +117,9 @@ impl Workspace {
             toast_container,
             diff_preview: None,
             diff_side_by_side: false,
-            syntax_highlighter: std::sync::Arc::new(std::sync::RwLock::new(crate::syntax::Highlighter::new())),
+            syntax_highlighter: std::sync::Arc::new(std::sync::RwLock::new(
+                crate::syntax::Highlighter::new(),
+            )),
             split_container: None,
             split_mode: false,
             split_pane_views: std::collections::HashMap::new(),

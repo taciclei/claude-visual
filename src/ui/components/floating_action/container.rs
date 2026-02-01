@@ -1,8 +1,8 @@
 //! Positioned FAB container component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Positioned FAB container
 #[derive(IntoElement)]

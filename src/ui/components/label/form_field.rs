@@ -1,7 +1,7 @@
-use gpui::*;
-use gpui::prelude::*;
-use super::label::Label;
 use super::helper_text::HelperText;
+use super::label::Label;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Form field wrapper with label, input, and helper text
 #[derive(IntoElement)]

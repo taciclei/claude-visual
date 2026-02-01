@@ -2,14 +2,14 @@
 //!
 //! User interface components for debugging integration.
 
-mod debug_panel;
 mod breakpoints;
-mod variables;
 pub mod call_stack;
+mod debug_panel;
+mod variables;
 mod watch;
 
+pub use breakpoints::{BreakpointItem, BreakpointsList, BreakpointsListEvent};
+pub use call_stack::{CallStackView, CallStackViewEvent, StackFrameItem, ThreadItem};
 pub use debug_panel::{DebugContext, DebugPanel, DebugPanelEvent, DebugPromptType, DebugTab};
-pub use breakpoints::{BreakpointsList, BreakpointItem, BreakpointsListEvent};
-pub use variables::{VariablesView, VariableItem, ScopeItem, VariablesViewEvent};
-pub use call_stack::{CallStackView, StackFrameItem, ThreadItem, CallStackViewEvent};
-pub use watch::{WatchView, WatchExpression, WatchChild, WatchViewEvent};
+pub use variables::{ScopeItem, VariableItem, VariablesView, VariablesViewEvent};
+pub use watch::{WatchChild, WatchExpression, WatchView, WatchViewEvent};

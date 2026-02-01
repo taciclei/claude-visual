@@ -2,22 +2,22 @@
 //!
 //! Provides emoji selection interface with categories and search.
 
-mod types;
 mod data;
-mod emoji_picker;
-mod render;
 mod emoji_button;
-mod reaction_picker;
+mod emoji_picker;
 mod emoji_reaction;
+mod reaction_picker;
+mod render;
+mod types;
 
 // Re-export types
-pub use types::{EmojiCategory, Emoji, EmojiPickerSize};
+pub use types::{Emoji, EmojiCategory, EmojiPickerSize};
 
 // Re-export components
-pub use emoji_picker::EmojiPicker;
 pub use emoji_button::EmojiButton;
-pub use reaction_picker::ReactionPicker;
+pub use emoji_picker::EmojiPicker;
 pub use emoji_reaction::EmojiReaction;
+pub use reaction_picker::ReactionPicker;
 
 #[cfg(test)]
 mod tests {
@@ -71,8 +71,7 @@ mod tests {
 
     #[test]
     fn test_emoji_reaction() {
-        let reaction = EmojiReaction::new("r", "👍", 5)
-            .is_active(true);
+        let reaction = EmojiReaction::new("r", "👍", 5).is_active(true);
 
         assert_eq!(reaction.count, 5);
         assert!(reaction.is_active);

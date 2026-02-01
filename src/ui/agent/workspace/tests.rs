@@ -2,8 +2,8 @@
 
 #[cfg(test)]
 mod tests {
-    use super::super::types::AgentMode;
     use super::super::helpers::mode_label;
+    use super::super::types::AgentMode;
 
     #[test]
     fn test_agent_mode_transitions() {
@@ -26,7 +26,12 @@ mod tests {
     #[test]
     fn test_agent_is_active() {
         let active_modes = [AgentMode::Planning, AgentMode::Executing, AgentMode::Paused];
-        let inactive_modes = [AgentMode::Disabled, AgentMode::Idle, AgentMode::Completed, AgentMode::Failed];
+        let inactive_modes = [
+            AgentMode::Disabled,
+            AgentMode::Idle,
+            AgentMode::Completed,
+            AgentMode::Failed,
+        ];
 
         for mode in active_modes {
             assert!(matches!(

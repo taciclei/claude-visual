@@ -1,8 +1,8 @@
 //! Agent workspace state definition
 
-use gpui::*;
-use crate::agent::{Plan, TaskTree};
 use super::types::*;
+use crate::agent::{Plan, TaskTree};
+use gpui::*;
 
 /// Agent workspace state
 pub struct AgentWorkspace {

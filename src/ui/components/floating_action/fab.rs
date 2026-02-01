@@ -1,8 +1,8 @@
 //! Main floating action button component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Floating action button component
 #[derive(IntoElement)]
@@ -65,7 +65,11 @@ impl RenderOnce for Fab {
         let icon = self.icon.clone();
 
         let opacity = if self.disabled { 0.5 } else { 1.0 };
-        let icon_str = if self.loading { "⏳".into() } else { icon.clone() };
+        let icon_str = if self.loading {
+            "⏳".into()
+        } else {
+            icon.clone()
+        };
 
         div()
             .id(self.id)
@@ -85,7 +89,7 @@ impl RenderOnce for Fab {
                 div()
                     .text_size(px(icon_size))
                     .text_color(text_color)
-                    .child(icon_str)
+                    .child(icon_str),
             )
             .when_some(self.label, |el, label| {
                 el.child(
@@ -93,7 +97,7 @@ impl RenderOnce for Fab {
                         .text_size(px(14.0))
                         .font_weight(gpui::FontWeight::MEDIUM)
                         .text_color(text_color)
-                        .child(label)
+                        .child(label),
                 )
             })
     }

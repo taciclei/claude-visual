@@ -1,7 +1,7 @@
 //! Breadcrumb-style step indicator
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Breadcrumb-style step indicator
 #[derive(Clone)]
@@ -43,25 +43,14 @@ impl RenderOnce for BreadcrumbSteps {
                         div()
                             .text_sm()
                             .when(is_active, |d| {
-                                d.font_weight(FontWeight::SEMIBOLD)
-                                    .text_color(accent)
+                                d.font_weight(FontWeight::SEMIBOLD).text_color(accent)
                             })
-                            .when(is_completed, |d| {
-                                d.text_color(text)
-                                    .cursor_pointer()
-                            })
-                            .when(!is_active && !is_completed, |d| {
-                                d.text_color(muted)
-                            })
-                            .child(label)
+                            .when(is_completed, |d| d.text_color(text).cursor_pointer())
+                            .when(!is_active && !is_completed, |d| d.text_color(muted))
+                            .child(label),
                     )
                     // Separator
-                    .child(
-                        div()
-                            .text_color(muted)
-                            .text_sm()
-                            .child("›")
-                    )
+                    .child(div().text_color(muted).text_sm().child("›"))
             }))
     }
 }

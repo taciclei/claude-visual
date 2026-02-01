@@ -24,20 +24,11 @@ pub enum PreviewState {
         language: Option<String>,
     },
     /// File is binary
-    Binary {
-        path: PathBuf,
-        file_size: u64,
-    },
+    Binary { path: PathBuf, file_size: u64 },
     /// File too large
-    TooLarge {
-        path: PathBuf,
-        file_size: u64,
-    },
+    TooLarge { path: PathBuf, file_size: u64 },
     /// Failed to load
-    Error {
-        path: PathBuf,
-        message: String,
-    },
+    Error { path: PathBuf, message: String },
 }
 
 /// Events emitted by the preview panel

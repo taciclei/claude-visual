@@ -2,16 +2,16 @@
 //!
 //! Provides unified diff, split diff, and inline change visualization.
 
-mod types;
-mod unified;
-mod split;
 mod inline;
+mod split;
 mod stats;
 #[cfg(test)]
 mod tests;
+mod types;
+mod unified;
 
+pub use inline::*;
+pub use split::*;
+pub use stats::*;
 pub use types::*;
 pub use unified::*;
-pub use split::*;
-pub use inline::*;
-pub use stats::*;

@@ -1,10 +1,10 @@
 //! Add expression input rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
 use super::super::core::WatchView;
+use crate::app::theme::Theme;
 
 impl WatchView {
     pub fn render_add_input(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {

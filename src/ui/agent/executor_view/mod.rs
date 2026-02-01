@@ -2,11 +2,11 @@
 //!
 //! Displays the agent executor status with controls for pause/resume/cancel.
 
-mod events;
+mod approval;
 mod component;
 mod controls;
-mod approval;
+mod events;
 mod render;
 
-pub use events::ExecutorViewEvent;
 pub use component::ExecutorView;
+pub use events::ExecutorViewEvent;

@@ -1,7 +1,7 @@
 //! Individual permission item component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use super::super::super::types::PermissionRequest;
@@ -57,23 +57,20 @@ pub fn render_permissions_list(
                     .px_4()
                     .py_8()
                     .text_center()
-                    .child(
-                        div()
-                            .text_lg()
-                            .mb_2()
-                            .child("✅")
-                    )
+                    .child(div().text_lg().mb_2().child("✅"))
                     .child(
                         div()
                             .text_sm()
                             .text_color(theme.colors.text_muted)
-                            .child("No pending permissions")
-                    )
+                            .child("No pending permissions"),
+                    ),
             )
         })
-        .children(permissions.into_iter().map(|(idx, permission)| {
-            render_permission_item(theme, idx, permission, cx)
-        }))
+        .children(
+            permissions
+                .into_iter()
+                .map(|(idx, permission)| render_permission_item(theme, idx, permission, cx)),
+        )
 }
 
 fn render_permission_item(
@@ -127,11 +124,7 @@ fn render_permission_item(
                         .items_center()
                         .gap_2()
                         // Tool icon
-                        .child(
-                            div()
-                                .text_base()
-                                .child(get_tool_icon(&permission.tool))
-                        )
+                        .child(div().text_base().child(get_tool_icon(&permission.tool)))
                         // Tool name badge
                         .child(
                             div()
@@ -142,15 +135,15 @@ fn render_permission_item(
                                 .text_xs()
                                 .font_weight(FontWeight::MEDIUM)
                                 .text_color(theme.colors.accent)
-                                .child(permission.tool.clone())
+                                .child(permission.tool.clone()),
                         )
                         // Tool description
                         .child(
                             div()
                                 .text_xs()
                                 .text_color(theme.colors.text_muted)
-                                .child(get_tool_description(&permission.tool))
-                        )
+                                .child(get_tool_description(&permission.tool)),
+                        ),
                 )
                 // Risk level badge
                 .child(
@@ -165,15 +158,15 @@ fn render_permission_item(
                         .text_xs()
                         .text_color(risk_color)
                         .child(permission.risk_level.icon())
-                        .child(permission.risk_level.label())
-                )
+                        .child(permission.risk_level.label()),
+                ),
         )
         // Action description
         .child(
             div()
                 .text_sm()
                 .text_color(theme.colors.text)
-                .child(permission.description.clone())
+                .child(permission.description.clone()),
         )
         // Action/command
         .child(
@@ -188,7 +181,7 @@ fn render_permission_item(
                 .font_family("monospace")
                 .text_color(theme.colors.text_muted)
                 .overflow_x_hidden()
-                .child(permission.action.clone())
+                .child(permission.action.clone()),
         )
         // Action buttons
         .child(
@@ -216,13 +209,10 @@ fn render_permission_item(
                         .text_xs()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(success_color)
-                        .hover(move |s| {
-                            s.bg(success_bg_2)
-                                .border_color(success_border_2)
-                        })
+                        .hover(move |s| s.bg(success_bg_2).border_color(success_border_2))
                         .on_click(approve_listener)
                         .child("✓")
-                        .child("Approve")
+                        .child("Approve"),
                 )
                 // Deny button
                 .child(
@@ -243,13 +233,10 @@ fn render_permission_item(
                         .text_xs()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(error_color)
-                        .hover(move |s| {
-                            s.bg(error_bg_2)
-                                .border_color(error_border_2)
-                        })
+                        .hover(move |s| s.bg(error_bg_2).border_color(error_border_2))
                         .on_click(deny_listener)
                         .child("×")
-                        .child("Deny")
-                )
+                        .child("Deny"),
+                ),
         )
 }

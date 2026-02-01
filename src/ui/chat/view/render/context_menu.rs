@@ -1,26 +1,34 @@
 //! Context menu render functions for ChatView
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::claude::message::MessageRole;
 use super::super::core::ChatView;
+use crate::claude::message::MessageRole;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub fn render_context_menu(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_context_menu(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let menu = match &self.context_menu {
             Some(m) => m.clone(),
             None => return div(),
         };
 
         let message_index = menu.message_index;
-        let is_user_message = self.messages.get(message_index)
+        let is_user_message = self
+            .messages
+            .get(message_index)
             .map(|m| matches!(m.role, MessageRole::User))
             .unwrap_or(false);
         let is_pinned = self.pinned_messages.contains(&message_index);
         let is_bookmarked = self.bookmarked_messages.contains(&message_index);
 
         // Check if message contains code
-        let has_code = self.messages.get(message_index)
+        let has_code = self
+            .messages
+            .get(message_index)
             .map(|m| m.content.contains("```"))
             .unwrap_or(false);
 
@@ -30,7 +38,16 @@ impl ChatView {
             ("📝", "Copy as Markdown", "copy_as_markdown", true),
             ("💬", "Quote", "quote", true),
             ("📌", if is_pinned { "Unpin" } else { "Pin" }, "pin", true),
-            ("🔖", if is_bookmarked { "Unbookmark" } else { "Bookmark" }, "bookmark", true),
+            (
+                "🔖",
+                if is_bookmarked {
+                    "Unbookmark"
+                } else {
+                    "Bookmark"
+                },
+                "bookmark",
+                true,
+            ),
             ("😊", "React", "react", true),
             ("✏️", "Edit", "edit", is_user_message),
             ("🔀", "Branch from Here", "branch", is_user_message),
@@ -56,27 +73,24 @@ impl ChatView {
         menu_items.push(("---", "─────────", "separator", false));
         menu_items.push(("🗑️", "Delete", "delete", true));
 
-        div()
-            .absolute()
-            .inset_0()
-            .child(
-                div()
-                    .absolute()
-                    .top(px(menu.y))
-                    .left(px(menu.x))
-                    .w(px(160.0))
-                    .bg(theme.colors.surface)
-                    .rounded_lg()
-                    .border_1()
-                    .border_color(theme.colors.border)
-                    .shadow_lg()
-                    .overflow_hidden()
-                    .child(
-                        div()
-                            .flex()
-                            .flex_col()
-                            .py_1()
-                            .children(menu_items.into_iter().filter(|(_, _, _, enabled)| *enabled).map(|(icon, label, action, _)| {
+        div().absolute().inset_0().child(
+            div()
+                .absolute()
+                .top(px(menu.y))
+                .left(px(menu.x))
+                .w(px(160.0))
+                .bg(theme.colors.surface)
+                .rounded_lg()
+                .border_1()
+                .border_color(theme.colors.border)
+                .shadow_lg()
+                .overflow_hidden()
+                .child(
+                    div().flex().flex_col().py_1().children(
+                        menu_items
+                            .into_iter()
+                            .filter(|(_, _, _, enabled)| *enabled)
+                            .map(|(icon, label, action, _)| {
                                 let action_str = action.to_string();
                                 div()
                                     .id(ElementId::Name(format!("ctx-menu-{}", action).into()))
@@ -94,8 +108,9 @@ impl ChatView {
                                     }))
                                     .child(div().text_sm().child(icon))
                                     .child(label)
-                            }))
-                    )
-            )
+                            }),
+                    ),
+                ),
+        )
     }
 }

@@ -1,11 +1,11 @@
 //! Context indicator view rendering
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::colors::default_colors;
-use super::state::ContextIndicator;
 use super::events::ContextIndicatorEvent;
+use super::state::ContextIndicator;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for ContextIndicator {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -109,12 +109,7 @@ impl Render for ContextIndicator {
                                 .flex()
                                 .items_center()
                                 .justify_between()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(text_muted_color)
-                                        .child("Tokens"),
-                                )
+                                .child(div().text_xs().text_color(text_muted_color).child("Tokens"))
                                 .child(
                                     div()
                                         .text_xs()
@@ -129,12 +124,7 @@ impl Render for ContextIndicator {
                                 .flex()
                                 .items_center()
                                 .justify_between()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(text_muted_color)
-                                        .child("Usage"),
-                                )
+                                .child(div().text_xs().text_color(text_muted_color).child("Usage"))
                                 .child(
                                     div()
                                         .text_xs()
@@ -170,10 +160,7 @@ impl Render for ContextIndicator {
                                     .items_center()
                                     .justify_between()
                                     .child(
-                                        div()
-                                            .text_xs()
-                                            .text_color(text_muted_color)
-                                            .child("Files"),
+                                        div().text_xs().text_color(text_muted_color).child("Files"),
                                     )
                                     .child(
                                         div()

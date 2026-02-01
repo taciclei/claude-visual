@@ -1,14 +1,18 @@
 //! Suggestions panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::pct;
 use super::super::core::ChatView;
+use crate::ui::pct;
 
 impl ChatView {
     /// Render contextual suggestions bar
-    pub fn render_suggestions_bar(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_suggestions_bar(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let suggestions: Vec<_> = self.contextual_suggestions.iter().enumerate().collect();
 
         div()
@@ -30,7 +34,7 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .child("💡")
-                    .child("Suggestions:")
+                    .child("Suggestions:"),
             )
             // Suggestion chips
             .children(suggestions.into_iter().map(|(idx, suggestion)| {
@@ -74,14 +78,20 @@ impl ChatView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.toggle_suggestions(cx);
                     }))
-                    .child("Hide")
+                    .child("Hide"),
             )
     }
 
     /// Render quick access templates bar (shows top 5 most used templates)
-    pub fn render_quick_templates_bar(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_quick_templates_bar(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         // Get top 5 most used templates (sorted by usage count)
-        let mut templates: Vec<_> = self.prompt_templates.iter()
+        let mut templates: Vec<_> = self
+            .prompt_templates
+            .iter()
             .filter(|t| t.usage_count > 0 || t.is_builtin)
             .collect();
         templates.sort_by(|a, b| b.usage_count.cmp(&a.usage_count));
@@ -109,13 +119,15 @@ impl ChatView {
                     .text_color(theme.colors.text_muted)
                     .flex_shrink_0()
                     .child("📝")
-                    .child("Quick:")
+                    .child("Quick:"),
             )
             // Template chips
             .children(top_templates.into_iter().map(|template| {
                 let template_id = template.id.clone();
                 div()
-                    .id(ElementId::Name(format!("quick-template-{}", template.id).into()))
+                    .id(ElementId::Name(
+                        format!("quick-template-{}", template.id).into(),
+                    ))
                     .flex()
                     .items_center()
                     .gap_1()
@@ -160,7 +172,7 @@ impl ChatView {
                         this.toggle_templates_panel(cx);
                     }))
                     .child("All templates")
-                    .child("→")
+                    .child("→"),
             )
     }
 }

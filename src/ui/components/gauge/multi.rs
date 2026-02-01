@@ -1,8 +1,8 @@
 //! Multi Gauge component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::GaugeSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Multi-ring gauge for comparing multiple values
 #[derive(IntoElement)]
@@ -134,30 +134,20 @@ impl RenderOnce for MultiGauge {
                     })),
             )
             .when(self.show_legend, |d| {
-                d.child(
-                    div()
-                        .flex()
-                        .flex_col()
-                        .gap_2()
-                        .justify_center()
-                        .children(self.rings.iter().map(|ring| {
-                            div()
-                                .flex()
-                                .items_center()
-                                .gap_2()
-                                .child(div().size_3().rounded_full().bg(ring.color))
-                                .child(
-                                    div()
-                                        .text_sm()
-                                        .text_color(rgba(0xccccccff))
-                                        .child(format!(
-                                            "{}: {:.0}%",
-                                            ring.label,
-                                            ring.percentage()
-                                        )),
-                                )
-                        })),
-                )
+                d.child(div().flex().flex_col().gap_2().justify_center().children(
+                    self.rings.iter().map(|ring| {
+                        div()
+                            .flex()
+                            .items_center()
+                            .gap_2()
+                            .child(div().size_3().rounded_full().bg(ring.color))
+                            .child(div().text_sm().text_color(rgba(0xccccccff)).child(format!(
+                                "{}: {:.0}%",
+                                ring.label,
+                                ring.percentage()
+                            )))
+                    }),
+                ))
             })
     }
 }

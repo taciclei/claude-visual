@@ -1,11 +1,11 @@
 //! Interactive rating component
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Rating component
 pub struct Rating {
@@ -110,7 +110,13 @@ impl Rating {
     }
 
     /// Set icons
-    pub fn set_icons(&mut self, filled: impl Into<String>, empty: impl Into<String>, half: impl Into<String>, cx: &mut Context<Self>) {
+    pub fn set_icons(
+        &mut self,
+        filled: impl Into<String>,
+        empty: impl Into<String>,
+        half: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) {
         self.filled_icon = filled.into();
         self.empty_icon = empty.into();
         self.half_icon = half.into();
@@ -182,7 +188,7 @@ impl Render for Rating {
                         .text_sm()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(theme.colors.text)
-                        .child(label)
+                        .child(label),
                 )
             })
             // Stars row
@@ -194,7 +200,8 @@ impl Render for Rating {
                     // Stars
                     .children((0..self.max).map(|i| {
                         let filled = display_value >= (i as f32 + 1.0);
-                        let half = !filled && display_value > i as f32 && display_value < (i as f32 + 1.0);
+                        let half =
+                            !filled && display_value > i as f32 && display_value < (i as f32 + 1.0);
 
                         let icon = if filled {
                             self.filled_icon.clone()
@@ -230,9 +237,9 @@ impl Render for Rating {
                                 .ml_2()
                                 .text_sm()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("{:.1}", self.value))
+                                .child(format!("{:.1}", self.value)),
                         )
-                    })
+                    }),
             )
     }
 }

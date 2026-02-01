@@ -1,7 +1,7 @@
 //! Picture-in-picture mini player
 
-use gpui::*;
 use super::types::PlaybackState;
+use gpui::*;
 
 /// Picture-in-picture mini player
 #[derive(IntoElement)]

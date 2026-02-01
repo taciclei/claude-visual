@@ -18,6 +18,6 @@ pub use async_helpers::{load_theme_async, load_theme_with_channel};
 pub use builder::ThemeBuilder;
 pub use loader::ThemeLoader;
 pub use types::{
-    PreloadResult, ThemeFormat, ThemeLoadCallback, ThemeLoadError, ThemeLoadResult,
-    ThemeLoadState, ThemeMetadata,
+    PreloadResult, ThemeFormat, ThemeLoadCallback, ThemeLoadError, ThemeLoadResult, ThemeLoadState,
+    ThemeMetadata,
 };

@@ -1,11 +1,11 @@
 //! AI Provider trait definition
 
-use async_trait::async_trait;
 use super::error::AIError;
 use super::model::ModelInfo;
 use super::request::AIRequest;
 use super::response::AIResponse;
 use super::stream::AIStream;
+use async_trait::async_trait;
 
 /// AI Provider trait - implemented by each provider
 #[async_trait]

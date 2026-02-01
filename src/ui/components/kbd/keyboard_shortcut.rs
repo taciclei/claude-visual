@@ -1,9 +1,9 @@
 //! Keyboard shortcut component (combination of keys)
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::kbd::Kbd;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Keyboard shortcut (combination of keys)
 #[derive(Clone, IntoElement)]
@@ -28,23 +28,21 @@ impl KeyboardShortcut {
     pub fn parse(shortcut: &str) -> Self {
         let keys: Vec<String> = shortcut
             .split('+')
-            .map(|k| {
-                match k.trim().to_lowercase().as_str() {
-                    "cmd" | "command" => "⌘".to_string(),
-                    "opt" | "option" | "alt" => "⌥".to_string(),
-                    "ctrl" | "control" => "⌃".to_string(),
-                    "shift" => "⇧".to_string(),
-                    "enter" | "return" => "↵".to_string(),
-                    "tab" => "⇥".to_string(),
-                    "esc" | "escape" => "Esc".to_string(),
-                    "space" => "Space".to_string(),
-                    "delete" | "backspace" => "⌫".to_string(),
-                    "up" => "↑".to_string(),
-                    "down" => "↓".to_string(),
-                    "left" => "←".to_string(),
-                    "right" => "→".to_string(),
-                    other => other.to_uppercase(),
-                }
+            .map(|k| match k.trim().to_lowercase().as_str() {
+                "cmd" | "command" => "⌘".to_string(),
+                "opt" | "option" | "alt" => "⌥".to_string(),
+                "ctrl" | "control" => "⌃".to_string(),
+                "shift" => "⇧".to_string(),
+                "enter" | "return" => "↵".to_string(),
+                "tab" => "⇥".to_string(),
+                "esc" | "escape" => "Esc".to_string(),
+                "space" => "Space".to_string(),
+                "delete" | "backspace" => "⌫".to_string(),
+                "up" => "↑".to_string(),
+                "down" => "↓".to_string(),
+                "left" => "←".to_string(),
+                "right" => "→".to_string(),
+                other => other.to_uppercase(),
             })
             .collect();
 
@@ -85,21 +83,19 @@ impl RenderOnce for KeyboardShortcut {
             .flex()
             .items_center()
             .gap(px(2.0))
-            .children(
-                self.keys.into_iter().enumerate().map(move |(idx, key)| {
-                    let mut el = div().flex().items_center().gap(px(2.0));
+            .children(self.keys.into_iter().enumerate().map(move |(idx, key)| {
+                let mut el = div().flex().items_center().gap(px(2.0));
 
-                    if idx > 0 && show_separator {
-                        el = el.child(
-                            div()
-                                .text_xs()
-                                .text_color(text_muted)
-                                .child(separator.clone())
-                        );
-                    }
+                if idx > 0 && show_separator {
+                    el = el.child(
+                        div()
+                            .text_xs()
+                            .text_color(text_muted)
+                            .child(separator.clone()),
+                    );
+                }
 
-                    el.child(Kbd::new(key).size(size).style(style))
-                })
-            )
+                el.child(Kbd::new(key).size(size).style(style))
+            }))
     }
 }

@@ -1,15 +1,23 @@
 //! Code action handlers
 
-use gpui::*;
+use super::super::core::Workspace;
 use crate::claude::message::ClaudeMessage;
 use crate::ui::chat::view::ChatViewEvent;
 use crate::ui::components::toast::Toast;
-use crate::{ExecuteCodeAction, SaveCodeToFileAction, ExplainCodeAction, ImproveCodeAction, AddTestsAction, ReviewCodeAction, RefactorCodeAction};
-use super::super::core::Workspace;
+use crate::{
+    AddTestsAction, ExecuteCodeAction, ExplainCodeAction, ImproveCodeAction, RefactorCodeAction,
+    ReviewCodeAction, SaveCodeToFileAction,
+};
+use gpui::*;
 
 impl Workspace {
     /// Handle execute code action
-    pub(in crate::ui::workspace) fn handle_execute_code(&mut self, action: &ExecuteCodeAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_execute_code(
+        &mut self,
+        action: &ExecuteCodeAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = action.code.clone();
         let cwd = self.app_state.current_directory();
 
@@ -19,7 +27,10 @@ impl Workspace {
         if let Some(chat_view) = self.chat_views.get(self.active_chat_index) {
             chat_view.update(cx, |chat, cx| {
                 chat.add_message(
-                    ClaudeMessage::tool_use("bash".to_string(), serde_json::json!({ "command": &code })),
+                    ClaudeMessage::tool_use(
+                        "bash".to_string(),
+                        serde_json::json!({ "command": &code }),
+                    ),
                     cx,
                 );
             });
@@ -31,7 +42,9 @@ impl Workspace {
             let output = tokio::process::Command::new("sh")
                 .arg("-c")
                 .arg(&code)
-                .current_dir(cwd.unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| std::path::PathBuf::from("."))))
+                .current_dir(cwd.unwrap_or_else(|| {
+                    std::env::current_dir().unwrap_or_else(|_| std::path::PathBuf::from("."))
+                }))
                 .output()
                 .await;
 
@@ -63,31 +76,44 @@ impl Workspace {
                     });
                 }
             });
-        }).detach();
+        })
+        .detach();
     }
 
     /// Handle save code to file action
-    pub(in crate::ui::workspace) fn handle_save_code_to_file(&mut self, action: &SaveCodeToFileAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_save_code_to_file(
+        &mut self,
+        action: &SaveCodeToFileAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = action.code.clone();
 
-        cx.background_executor().spawn(async move {
-            let file = rfd::AsyncFileDialog::new()
-                .set_title("Save Code")
-                .save_file()
-                .await;
+        cx.background_executor()
+            .spawn(async move {
+                let file = rfd::AsyncFileDialog::new()
+                    .set_title("Save Code")
+                    .save_file()
+                    .await;
 
-            if let Some(file) = file {
-                let path = file.path();
-                match std::fs::write(path, &code) {
-                    Ok(_) => tracing::info!("Code saved to {:?}", path),
-                    Err(e) => tracing::error!("Failed to save code: {}", e),
+                if let Some(file) = file {
+                    let path = file.path();
+                    match std::fs::write(path, &code) {
+                        Ok(_) => tracing::info!("Code saved to {:?}", path),
+                        Err(e) => tracing::error!("Failed to save code: {}", e),
+                    }
                 }
-            }
-        }).detach();
+            })
+            .detach();
     }
 
     /// Handle explain code action - sends code to Claude for explanation
-    pub(in crate::ui::workspace) fn handle_explain_code(&mut self, action: &ExplainCodeAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_explain_code(
+        &mut self,
+        action: &ExplainCodeAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = &action.code;
         let lang = action.language.as_deref().unwrap_or("code");
 
@@ -107,7 +133,12 @@ impl Workspace {
     }
 
     /// Handle improve code action - sends code to Claude for improvement
-    pub(in crate::ui::workspace) fn handle_improve_code(&mut self, action: &ImproveCodeAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_improve_code(
+        &mut self,
+        action: &ImproveCodeAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = &action.code;
         let lang = action.language.as_deref().unwrap_or("code");
 
@@ -127,7 +158,12 @@ impl Workspace {
     }
 
     /// Handle add tests action - sends code to Claude for test generation
-    pub(in crate::ui::workspace) fn handle_add_tests(&mut self, action: &AddTestsAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_add_tests(
+        &mut self,
+        action: &AddTestsAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = &action.code;
         let lang = action.language.as_deref().unwrap_or("code");
 
@@ -147,7 +183,12 @@ impl Workspace {
     }
 
     /// Handle review code action - sends code to Claude for code review using /review skill
-    pub(in crate::ui::workspace) fn handle_review_code(&mut self, action: &ReviewCodeAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_review_code(
+        &mut self,
+        action: &ReviewCodeAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = &action.code;
         let lang = action.language.as_deref().unwrap_or("code");
 
@@ -167,7 +208,12 @@ impl Workspace {
     }
 
     /// Handle refactor code action - sends code to Claude for refactoring using /refactor skill
-    pub(in crate::ui::workspace) fn handle_refactor_code(&mut self, action: &RefactorCodeAction, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn handle_refactor_code(
+        &mut self,
+        action: &RefactorCodeAction,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         let code = &action.code;
         let lang = action.language.as_deref().unwrap_or("code");
 

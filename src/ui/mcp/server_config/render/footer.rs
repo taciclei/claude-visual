@@ -1,7 +1,7 @@
 //! Footer rendering for server configuration editor
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 use crate::ui::mcp::server_config::core::ServerConfigEditor;
@@ -38,23 +38,21 @@ impl ServerConfigEditor {
             .border_t_1()
             .border_color(border_color)
             // Delete button (only for existing servers)
-            .child(
-                div().when(!is_new, |d| {
-                    d.child(
-                        div()
-                            .id("delete-server-button")
-                            .px_4()
-                            .py_2()
-                            .text_sm()
-                            .text_color(error_color)
-                            .cursor_pointer()
-                            .rounded_md()
-                            .hover(|s| s.bg(error_color.opacity(0.1)))
-                            .on_click(on_delete)
-                            .child("Delete Server"),
-                    )
-                }),
-            )
+            .child(div().when(!is_new, |d| {
+                d.child(
+                    div()
+                        .id("delete-server-button")
+                        .px_4()
+                        .py_2()
+                        .text_sm()
+                        .text_color(error_color)
+                        .cursor_pointer()
+                        .rounded_md()
+                        .hover(|s| s.bg(error_color.opacity(0.1)))
+                        .on_click(on_delete)
+                        .child("Delete Server"),
+                )
+            }))
             // Action buttons
             .child(
                 div()

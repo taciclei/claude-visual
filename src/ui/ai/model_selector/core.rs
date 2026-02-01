@@ -1,6 +1,6 @@
-use gpui::*;
-use crate::ai::provider::{ModelInfo, ProviderConfig};
 use super::types::{ModelCategory, ModelSelectorEvent, ProviderInfo};
+use crate::ai::provider::{ModelInfo, ProviderConfig};
+use gpui::*;
 
 /// Model selector state
 pub struct ModelSelector {
@@ -212,7 +212,10 @@ impl ModelSelector {
     /// Get currently selected model info
     pub fn selected_model(&self) -> Option<&ModelInfo> {
         let provider = self.providers.get(self.selected_provider_idx)?;
-        provider.models.iter().find(|m| m.id == self.selected_model_id)
+        provider
+            .models
+            .iter()
+            .find(|m| m.id == self.selected_model_id)
     }
 
     /// Get selected provider name

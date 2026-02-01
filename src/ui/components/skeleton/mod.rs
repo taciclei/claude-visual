@@ -1,17 +1,17 @@
 //! Skeleton loading placeholder components
 
-mod types;
-mod skeleton;
-mod line;
-mod text;
 mod card;
+mod line;
+mod skeleton;
+mod text;
+mod types;
 
 // Re-export all public types
-pub use types::*;
-pub use skeleton::Skeleton;
-pub use line::SkeletonLine;
-pub use text::SkeletonText;
 pub use card::SkeletonCard;
+pub use line::SkeletonLine;
+pub use skeleton::Skeleton;
+pub use text::SkeletonText;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -19,9 +19,7 @@ mod tests {
 
     #[test]
     fn test_skeleton_line_builder() {
-        let line = SkeletonLine::new()
-            .with_height(20.0)
-            .with_width(100.0);
+        let line = SkeletonLine::new().with_height(20.0).with_width(100.0);
 
         assert_eq!(line.height, 20.0);
         assert_eq!(line.width, Some(100.0));

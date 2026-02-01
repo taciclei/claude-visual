@@ -2,17 +2,17 @@
 //!
 //! Provides components for switching between light/dark themes.
 
-mod types;
-mod theme_toggle;
+mod appearance_settings;
 mod theme_button;
 mod theme_preview;
-mod appearance_settings;
+mod theme_toggle;
+mod types;
 
-pub use types::*;
-pub use theme_toggle::ThemeToggle;
+pub use appearance_settings::AppearanceSettings;
 pub use theme_button::ThemeButton;
 pub use theme_preview::ThemePreview;
-pub use appearance_settings::AppearanceSettings;
+pub use theme_toggle::ThemeToggle;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -59,8 +59,7 @@ mod tests {
 
     #[test]
     fn test_theme_preview() {
-        let preview = ThemePreview::new("tp", ThemeMode::Light)
-            .selected(true);
+        let preview = ThemePreview::new("tp", ThemeMode::Light).selected(true);
 
         assert!(preview.is_selected);
     }

@@ -1,8 +1,8 @@
 //! Radial Chart component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::GaugeSize;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Radial bar chart with multiple segments
 #[derive(IntoElement)]

@@ -1,22 +1,22 @@
 //! Separator and visual divider components
 
-mod types;
-mod separator;
-mod labeled_separator;
 mod decorative_separator;
-mod section_separator;
-mod timeline_separator;
-mod spacer;
 mod gap;
+mod labeled_separator;
+mod section_separator;
+mod separator;
+mod spacer;
+mod timeline_separator;
+mod types;
 
-pub use types::*;
-pub use separator::Separator;
-pub use labeled_separator::LabeledSeparator;
 pub use decorative_separator::DecorativeSeparator;
-pub use section_separator::SectionSeparator;
-pub use timeline_separator::TimelineSeparator;
-pub use spacer::Spacer;
 pub use gap::Gap;
+pub use labeled_separator::LabeledSeparator;
+pub use section_separator::SectionSeparator;
+pub use separator::Separator;
+pub use spacer::Spacer;
+pub use timeline_separator::TimelineSeparator;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {
@@ -33,25 +33,21 @@ mod tests {
 
     #[test]
     fn test_labeled_separator() {
-        let sep = LabeledSeparator::new("OR")
-            .position(LabelPosition::Center);
+        let sep = LabeledSeparator::new("OR").position(LabelPosition::Center);
         assert_eq!(sep.label.as_ref(), "OR");
         assert_eq!(sep.position, LabelPosition::Center);
     }
 
     #[test]
     fn test_decorative_separator() {
-        let sep = DecorativeSeparator::stars()
-            .margin(20.0);
+        let sep = DecorativeSeparator::stars().margin(20.0);
         assert_eq!(sep.pattern, SeparatorPattern::Stars);
         assert_eq!(sep.margin, 20.0);
     }
 
     #[test]
     fn test_timeline_separator() {
-        let sep = TimelineSeparator::new()
-            .completed(true)
-            .length(50.0);
+        let sep = TimelineSeparator::new().completed(true).length(50.0);
         assert!(sep.completed);
         assert_eq!(sep.length, 50.0);
     }

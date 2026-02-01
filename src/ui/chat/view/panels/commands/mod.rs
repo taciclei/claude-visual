@@ -6,19 +6,23 @@
 //! - **content** - Content rendering (slash commands and skills)
 //! - **footer** - Footer rendering with shortcuts
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 use super::super::types::CommandCategory;
 
-mod grouping;
-mod header;
 mod content;
 mod footer;
+mod grouping;
+mod header;
 
 impl ChatView {
-    pub fn render_commands_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_commands_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let (slash_commands, skills) = self.filtered_commands();
         let filter = self.commands_filter.clone();
         let category = self.commands_category;
@@ -54,9 +58,22 @@ impl ChatView {
                     .flex()
                     .flex_col()
                     .on_click(|_, _, _| {})
-                    .child(header::render_header(theme, &filter, category, slash_commands.len() + skills.len(), cx))
-                    .child(content::render_content(theme, category, &slash_commands, &skills, &skill_categories, cx))
-                    .child(footer::render_footer(theme))
+                    .child(header::render_header(
+                        theme,
+                        &filter,
+                        category,
+                        slash_commands.len() + skills.len(),
+                        cx,
+                    ))
+                    .child(content::render_content(
+                        theme,
+                        category,
+                        &slash_commands,
+                        &skills,
+                        &skill_categories,
+                        cx,
+                    ))
+                    .child(footer::render_footer(theme)),
             )
     }
 }

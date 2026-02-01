@@ -1,8 +1,8 @@
 //! Main copy button component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Copy button component
 #[derive(IntoElement)]
@@ -118,26 +118,17 @@ impl RenderOnce for CopyButton {
 
         // Apply variant styles
         button = match self.variant {
-            CopyButtonVariant::Default => {
-                button
-                    .bg(hsla(0.0, 0.0, 0.15, 1.0))
-                    .hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0)))
-            }
-            CopyButtonVariant::Ghost => {
-                button
-                    .hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
-            }
-            CopyButtonVariant::Outline => {
-                button
-                    .border_1()
-                    .border_color(hsla(0.0, 0.0, 0.3, 1.0))
-                    .hover(|style| style.bg(hsla(0.0, 0.0, 0.1, 1.0)))
-            }
-            CopyButtonVariant::Subtle => {
-                button
-                    .bg(hsla(0.0, 0.0, 0.1, 1.0))
-                    .hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0)))
-            }
+            CopyButtonVariant::Default => button
+                .bg(hsla(0.0, 0.0, 0.15, 1.0))
+                .hover(|style| style.bg(hsla(0.0, 0.0, 0.2, 1.0))),
+            CopyButtonVariant::Ghost => button.hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0))),
+            CopyButtonVariant::Outline => button
+                .border_1()
+                .border_color(hsla(0.0, 0.0, 0.3, 1.0))
+                .hover(|style| style.bg(hsla(0.0, 0.0, 0.1, 1.0))),
+            CopyButtonVariant::Subtle => button
+                .bg(hsla(0.0, 0.0, 0.1, 1.0))
+                .hover(|style| style.bg(hsla(0.0, 0.0, 0.15, 1.0))),
         };
 
         // Apply state
@@ -150,18 +141,13 @@ impl RenderOnce for CopyButton {
         }
 
         button
-            .child(
-                div()
-                    .text_size(px(icon_size))
-                    .text_color(color)
-                    .child(icon)
-            )
+            .child(div().text_size(px(icon_size)).text_color(color).child(icon))
             .when(self.show_label, |el| {
                 el.child(
                     div()
                         .text_size(px(icon_size - 2.0))
                         .text_color(color)
-                        .child(label_text)
+                        .child(label_text),
                 )
             })
     }

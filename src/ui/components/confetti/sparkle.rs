@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Sparkle effect overlay
 #[derive(IntoElement)]
@@ -63,7 +63,6 @@ impl RenderOnce for SparkleEffect {
             .absolute()
             .inset_0()
             .overflow_hidden()
-
             .children((0..self.sparkle_count).map(|_i| {
                 // Simple star/sparkle representation
                 div()

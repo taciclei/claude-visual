@@ -168,7 +168,10 @@ pub enum ClaudeEvent {
     /// Assistant message ended
     AssistantEnd,
     /// Tool use started
-    ToolUse { name: String, input: serde_json::Value },
+    ToolUse {
+        name: String,
+        input: serde_json::Value,
+    },
     /// Tool result received
     ToolResult { output: String, is_error: bool },
     /// Error occurred
@@ -184,9 +187,15 @@ pub enum ClaudeEvent {
         cost_usd: Option<f64>,
     },
     /// Task started (subagent)
-    TaskStarted { description: String, task_id: Option<String> },
+    TaskStarted {
+        description: String,
+        task_id: Option<String>,
+    },
     /// Task completed
-    TaskCompleted { task_id: Option<String>, result: String },
+    TaskCompleted {
+        task_id: Option<String>,
+        result: String,
+    },
     /// Permission request from Claude CLI
     PermissionRequest {
         /// Unique ID for this request
@@ -199,10 +208,7 @@ pub enum ClaudeEvent {
         command: Option<String>,
     },
     /// Permission response acknowledgement
-    PermissionResponse {
-        request_id: String,
-        granted: bool,
-    },
+    PermissionResponse { request_id: String, granted: bool },
 }
 
 /// Permission response to send back to Claude CLI

@@ -3,15 +3,15 @@
 //! Provides cleanup functionality for conversations, messages, and other stored data
 //! to manage disk space and improve performance.
 
-mod types;
 mod job;
 mod scheduler;
+mod types;
 mod utils;
 
 // Re-export public types
-pub use types::{CleanupConfig, CleanupTarget, CleanupItem, CleanupStats};
 pub use job::CleanupJob;
 pub use scheduler::CleanupScheduler;
+pub use types::{CleanupConfig, CleanupItem, CleanupStats, CleanupTarget};
 pub use utils::{get_available_space_mb, needs_disk_space_cleanup};
 
 #[cfg(test)]
@@ -31,21 +31,11 @@ mod tests {
         let config = CleanupConfig::default();
 
         // Recent item should not be cleaned
-        let recent = CleanupItem::conversation(
-            "1",
-            "test",
-            1000,
-            Utc::now() - Duration::days(1),
-        );
+        let recent = CleanupItem::conversation("1", "test", 1000, Utc::now() - Duration::days(1));
         assert!(!recent.should_cleanup(&config));
 
         // Old item should be cleaned
-        let old = CleanupItem::conversation(
-            "2",
-            "test",
-            1000,
-            Utc::now() - Duration::days(100),
-        );
+        let old = CleanupItem::conversation("2", "test", 1000, Utc::now() - Duration::days(100));
         assert!(old.should_cleanup(&config));
 
         // Protected item should not be cleaned

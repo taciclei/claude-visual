@@ -1,9 +1,9 @@
 //! Code action and command types
 
-use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use super::diagnostics::Diagnostic;
 use super::types::TextEdit;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 /// Code action
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,7 +1,7 @@
 //! Footer rendering with hints and stats
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
@@ -9,7 +9,12 @@ use super::ChatInput;
 
 impl ChatInput {
     /// Render footer with hints and character count
-    pub(super) fn render_footer(&self, theme: &Theme, text_is_empty: bool, is_disabled: bool) -> impl IntoElement {
+    pub(super) fn render_footer(
+        &self,
+        theme: &Theme,
+        text_is_empty: bool,
+        is_disabled: bool,
+    ) -> impl IntoElement {
         let history_indicator = self.history_indicator();
         let is_browsing = self.is_browsing_history();
 
@@ -36,7 +41,7 @@ impl ChatInput {
                                 .rounded_sm()
                                 .bg(theme.colors.info.opacity(0.15))
                                 .text_color(theme.colors.info)
-                                .child(indicator)
+                                .child(indicator),
                         )
                     })
                     .when(text_is_empty && !is_disabled && !is_browsing, |d| {
@@ -47,7 +52,7 @@ impl ChatInput {
                                     .rounded_sm()
                                     .bg(theme.colors.accent.opacity(0.1))
                                     .text_color(theme.colors.accent)
-                                    .child("/apex")
+                                    .child("/apex"),
                             )
                             .child(
                                 div()
@@ -55,7 +60,7 @@ impl ChatInput {
                                     .rounded_sm()
                                     .bg(theme.colors.accent.opacity(0.1))
                                     .text_color(theme.colors.accent)
-                                    .child("/explore")
+                                    .child("/explore"),
                             )
                             .child(
                                 div()
@@ -63,7 +68,7 @@ impl ChatInput {
                                     .rounded_sm()
                                     .bg(theme.colors.accent.opacity(0.1))
                                     .text_color(theme.colors.accent)
-                                    .child("/debug")
+                                    .child("/debug"),
                             )
                             .child("·")
                             .child("@ for files")
@@ -79,7 +84,7 @@ impl ChatInput {
                         d.child("Browsing history")
                             .child("·")
                             .child("↓ for newer · Esc to exit")
-                    })
+                    }),
             )
             // Right side - character count and token estimate
             .when(!text_is_empty, |d| {
@@ -101,8 +106,8 @@ impl ChatInput {
                         .child(
                             div()
                                 .text_color(theme.colors.warning.opacity(0.8))
-                                .child(format!("~{} tokens", estimated_tokens))
-                        )
+                                .child(format!("~{} tokens", estimated_tokens)),
+                        ),
                 )
             })
     }

@@ -1,9 +1,9 @@
 //! Checkbox group component
 
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::checkbox::Checkbox;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A group of checkboxes
 #[derive(IntoElement)]

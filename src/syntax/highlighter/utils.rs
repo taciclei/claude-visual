@@ -9,8 +9,8 @@ use super::types::HighlightedSpan;
 /// Map capture names to syntax colors
 pub(crate) fn capture_name_to_color(name: &str, colors: &SyntaxColors) -> Option<Hsla> {
     match name {
-        "keyword" | "keyword.control" | "keyword.function" | "keyword.return" |
-        "keyword.operator" | "keyword.import" | "keyword.export" => Some(colors.keyword),
+        "keyword" | "keyword.control" | "keyword.function" | "keyword.return"
+        | "keyword.operator" | "keyword.import" | "keyword.export" => Some(colors.keyword),
 
         "string" | "string.special" => Some(colors.string),
 
@@ -20,7 +20,9 @@ pub(crate) fn capture_name_to_color(name: &str, colors: &SyntaxColors) -> Option
 
         "function" | "function.call" | "function.method" | "method" => Some(colors.function),
 
-        "variable" | "variable.parameter" | "variable.builtin" | "parameter" => Some(colors.variable),
+        "variable" | "variable.parameter" | "variable.builtin" | "parameter" => {
+            Some(colors.variable)
+        }
 
         "constant" | "constant.builtin" | "boolean" => Some(colors.constant),
 
@@ -28,8 +30,9 @@ pub(crate) fn capture_name_to_color(name: &str, colors: &SyntaxColors) -> Option
 
         "operator" => Some(colors.operator),
 
-        "punctuation" | "punctuation.bracket" | "punctuation.delimiter" |
-        "punctuation.special" => Some(colors.punctuation),
+        "punctuation" | "punctuation.bracket" | "punctuation.delimiter" | "punctuation.special" => {
+            Some(colors.punctuation)
+        }
 
         "property" | "attribute" => Some(colors.variable),
 

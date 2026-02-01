@@ -1,8 +1,8 @@
 //! Separator with text in the middle
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Separator with text in the middle
 #[derive(IntoElement)]
@@ -76,12 +76,7 @@ impl RenderOnce for LabeledSeparator {
         });
         let thickness = self.thickness.pixels();
 
-        let line = || {
-            div()
-                .h(px(thickness))
-                .flex_1()
-                .bg(line_color)
-        };
+        let line = || div().h(px(thickness)).flex_1().bg(line_color);
 
         let label_el = div()
             .px_3()
@@ -90,28 +85,17 @@ impl RenderOnce for LabeledSeparator {
             .when_some(self.label_background, |d, bg| d.bg(bg))
             .child(self.label);
 
-        let mut container = div()
-            .flex()
-            .items_center()
-            .w_full()
-            .gap_2();
+        let mut container = div().flex().items_center().w_full().gap_2();
 
         match self.position {
             LabelPosition::Start => {
-                container = container
-                    .child(label_el)
-                    .child(line());
+                container = container.child(label_el).child(line());
             }
             LabelPosition::Center => {
-                container = container
-                    .child(line())
-                    .child(label_el)
-                    .child(line());
+                container = container.child(line()).child(label_el).child(line());
             }
             LabelPosition::End => {
-                container = container
-                    .child(line())
-                    .child(label_el);
+                container = container.child(line()).child(label_el);
             }
         }
 

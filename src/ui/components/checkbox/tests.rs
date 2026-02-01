@@ -16,8 +16,7 @@ mod tests {
 
     #[test]
     fn test_checkbox_indeterminate() {
-        let checkbox = Checkbox::new("select-all", "Select All")
-            .indeterminate();
+        let checkbox = Checkbox::new("select-all", "Select All").indeterminate();
         assert_eq!(checkbox.state, CheckboxState::Indeterminate);
     }
 
@@ -27,7 +26,10 @@ mod tests {
             .description("Receive weekly updates")
             .disabled(false);
         assert_eq!(option.id.as_ref(), "newsletter");
-        assert_eq!(option.description.as_deref(), Some("Receive weekly updates"));
+        assert_eq!(
+            option.description.as_deref(),
+            Some("Receive weekly updates")
+        );
     }
 
     #[test]

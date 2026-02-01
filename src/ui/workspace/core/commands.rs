@@ -1,14 +1,18 @@
 //! Command execution for Workspace
 
-use gpui::*;
+use super::super::types::SidebarTab;
+use super::workspace::Workspace;
 use crate::project::manager::Project;
 use crate::ui::cloud::TeamViewMode;
-use super::workspace::Workspace;
-use super::super::types::SidebarTab;
+use gpui::*;
 
 impl Workspace {
     /// Execute a command by ID
-    pub(in crate::ui::workspace) fn execute_command(&mut self, command_id: &str, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn execute_command(
+        &mut self,
+        command_id: &str,
+        cx: &mut Context<Self>,
+    ) {
         tracing::info!("Executing command: {}", command_id);
         match command_id {
             // Chat commands
@@ -96,14 +100,20 @@ impl Workspace {
     }
 
     /// Send a skill command to the active chat view
-    pub(in crate::ui::workspace) fn send_skill_command(&mut self, command: &str, cx: &mut Context<Self>) {
+    pub(in crate::ui::workspace) fn send_skill_command(
+        &mut self,
+        command: &str,
+        cx: &mut Context<Self>,
+    ) {
         if let Some(chat_view) = self.chat_views.get(self.active_chat_index) {
             chat_view.update(cx, |view, cx| {
                 view.input.update(cx, |input, cx| {
                     input.set_text(command.to_string(), cx);
                 });
                 // Emit submit event
-                cx.emit(crate::ui::chat::view::types::ChatViewEvent::Submit(command.to_string()));
+                cx.emit(crate::ui::chat::view::types::ChatViewEvent::Submit(
+                    command.to_string(),
+                ));
             });
         }
     }
@@ -138,23 +148,25 @@ impl Workspace {
             chrono::Local::now().format("%Y%m%d-%H%M%S")
         );
 
-        cx.background_executor().spawn(async move {
-            let file = rfd::AsyncFileDialog::new()
-                .set_title("Export Conversation")
-                .set_file_name(&default_filename)
-                .add_filter("Markdown", &["md"])
-                .add_filter("All Files", &["*"])
-                .save_file()
-                .await;
+        cx.background_executor()
+            .spawn(async move {
+                let file = rfd::AsyncFileDialog::new()
+                    .set_title("Export Conversation")
+                    .set_file_name(&default_filename)
+                    .add_filter("Markdown", &["md"])
+                    .add_filter("All Files", &["*"])
+                    .save_file()
+                    .await;
 
-            if let Some(file) = file {
-                let path = file.path();
-                match std::fs::write(path, &markdown) {
-                    Ok(_) => tracing::info!("Conversation exported to {:?}", path),
-                    Err(e) => tracing::error!("Failed to export conversation: {}", e),
+                if let Some(file) = file {
+                    let path = file.path();
+                    match std::fs::write(path, &markdown) {
+                        Ok(_) => tracing::info!("Conversation exported to {:?}", path),
+                        Err(e) => tracing::error!("Failed to export conversation: {}", e),
+                    }
                 }
-            }
-        }).detach();
+            })
+            .detach();
     }
 
     /// Open native folder picker to add a project
@@ -176,13 +188,16 @@ impl Workspace {
                 // Add to database and refresh sidebar
                 let _ = this.update(cx, |workspace, cx| {
                     // Add project via project manager
-                    workspace.app_state.project_manager.update(cx, |manager, _cx| {
-                        if let Err(e) = manager.add_project(project) {
-                            tracing::error!("Failed to add project: {}", e);
-                        } else {
-                            tracing::info!("Project added successfully");
-                        }
-                    });
+                    workspace
+                        .app_state
+                        .project_manager
+                        .update(cx, |manager, _cx| {
+                            if let Err(e) = manager.add_project(project) {
+                                tracing::error!("Failed to add project: {}", e);
+                            } else {
+                                tracing::info!("Project added successfully");
+                            }
+                        });
 
                     // Refresh the projects sidebar
                     workspace.projects_sidebar.update(cx, |sidebar, cx| {

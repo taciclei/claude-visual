@@ -1,7 +1,7 @@
 //! Main carousel component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{CarouselAnimation, CarouselNavigation, CarouselSlide};
 
@@ -90,8 +90,14 @@ impl RenderOnce for Carousel {
 
         let total_slides = self.slides.len();
         let current = self.current_index.min(total_slides.saturating_sub(1));
-        let show_arrows = matches!(self.navigation, CarouselNavigation::Arrows | CarouselNavigation::Both);
-        let show_dots = matches!(self.navigation, CarouselNavigation::Dots | CarouselNavigation::Both);
+        let show_arrows = matches!(
+            self.navigation,
+            CarouselNavigation::Arrows | CarouselNavigation::Both
+        );
+        let show_dots = matches!(
+            self.navigation,
+            CarouselNavigation::Dots | CarouselNavigation::Both
+        );
         let can_go_prev = self.loop_slides || current > 0;
         let can_go_next = self.loop_slides || current < total_slides.saturating_sub(1);
 
@@ -126,11 +132,7 @@ impl RenderOnce for Carousel {
                                 .p_6()
                                 // Image/icon
                                 .when_some(slide.image, |d, img| {
-                                    d.child(
-                                        div()
-                                            .text_3xl()
-                                            .child(img)
-                                    )
+                                    d.child(div().text_3xl().child(img))
                                 })
                                 // Title
                                 .when_some(slide.title, |d, title| {
@@ -140,7 +142,7 @@ impl RenderOnce for Carousel {
                                             .font_weight(FontWeight::BOLD)
                                             .text_color(text)
                                             .text_center()
-                                            .child(title)
+                                            .child(title),
                                     )
                                 })
                                 // Description
@@ -151,9 +153,9 @@ impl RenderOnce for Carousel {
                                             .text_color(text_muted)
                                             .text_center()
                                             .max_w(px(400.0))
-                                            .child(desc)
+                                            .child(desc),
                                     )
-                                })
+                                }),
                         )
                     })
                     // Navigation arrows
@@ -165,7 +167,6 @@ impl RenderOnce for Carousel {
                                     .absolute()
                                     .left_2()
                                     .top_1_2()
-
                                     .size(px(40.0))
                                     .rounded_full()
                                     .bg(hsla(0.0, 0.0, 0.0, 0.5))
@@ -173,9 +174,15 @@ impl RenderOnce for Carousel {
                                     .items_center()
                                     .justify_center()
                                     .text_color(if can_go_prev { text } else { text_muted })
-                                    .cursor(if can_go_prev { CursorStyle::PointingHand } else { CursorStyle::default() })
-                                    .when(can_go_prev, |d| d.hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.7))))
-                                    .child("‹")
+                                    .cursor(if can_go_prev {
+                                        CursorStyle::PointingHand
+                                    } else {
+                                        CursorStyle::default()
+                                    })
+                                    .when(can_go_prev, |d| {
+                                        d.hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.7)))
+                                    })
+                                    .child("‹"),
                             )
                             // Next arrow
                             .child(
@@ -183,7 +190,6 @@ impl RenderOnce for Carousel {
                                     .absolute()
                                     .right_2()
                                     .top_1_2()
-
                                     .size(px(40.0))
                                     .rounded_full()
                                     .bg(hsla(0.0, 0.0, 0.0, 0.5))
@@ -191,9 +197,15 @@ impl RenderOnce for Carousel {
                                     .items_center()
                                     .justify_center()
                                     .text_color(if can_go_next { text } else { text_muted })
-                                    .cursor(if can_go_next { CursorStyle::PointingHand } else { CursorStyle::default() })
-                                    .when(can_go_next, |d| d.hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.7))))
-                                    .child("›")
+                                    .cursor(if can_go_next {
+                                        CursorStyle::PointingHand
+                                    } else {
+                                        CursorStyle::default()
+                                    })
+                                    .when(can_go_next, |d| {
+                                        d.hover(|s| s.bg(hsla(0.0, 0.0, 0.0, 0.7)))
+                                    })
+                                    .child("›"),
                             )
                     })
                     // Progress bar
@@ -210,10 +222,10 @@ impl RenderOnce for Carousel {
                                     div()
                                         .h_full()
                                         .w(relative((current + 1) as f32 / total_slides as f32))
-                                        .bg(accent)
-                                )
+                                        .bg(accent),
+                                ),
                         )
-                    })
+                    }),
             )
             // Dots navigation
             .when(show_dots && total_slides > 1, |d| {
@@ -225,17 +237,25 @@ impl RenderOnce for Carousel {
                         .items_center()
                         .justify_center()
                         .gap_2()
-                        .children(
-                            (0..total_slides).map(move |idx| {
-                                let is_current = idx == current;
-                                div()
-                                    .size(px(if is_current { 10.0 } else { 8.0 }))
-                                    .rounded_full()
-                                    .bg(if is_current { accent } else { text_muted.opacity(0.3) })
-                                    .cursor_pointer()
-                                    .hover(|s| s.bg(if is_current { accent } else { text_muted.opacity(0.5) }))
-                            })
-                        )
+                        .children((0..total_slides).map(move |idx| {
+                            let is_current = idx == current;
+                            div()
+                                .size(px(if is_current { 10.0 } else { 8.0 }))
+                                .rounded_full()
+                                .bg(if is_current {
+                                    accent
+                                } else {
+                                    text_muted.opacity(0.3)
+                                })
+                                .cursor_pointer()
+                                .hover(|s| {
+                                    s.bg(if is_current {
+                                        accent
+                                    } else {
+                                        text_muted.opacity(0.5)
+                                    })
+                                })
+                        })),
                 )
             })
     }

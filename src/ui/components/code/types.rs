@@ -39,6 +39,6 @@ pub enum JsonType {
     Number(f64),
     Boolean(bool),
     Null,
-    Array(usize), // Just count for display
+    Array(usize),  // Just count for display
     Object(usize), // Just count for display
 }

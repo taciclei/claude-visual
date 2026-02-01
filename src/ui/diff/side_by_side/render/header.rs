@@ -1,7 +1,7 @@
 //! Header rendering for side-by-side diff view
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::diff::side_by_side::core::SideBySideDiffView;
 use crate::ui::diff::side_by_side::types::DiffDisplayMode;
@@ -121,18 +121,13 @@ impl SideBySideDiffView {
                             ),
                     )
                     // Hunk progress
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted_color)
-                            .child(format!(
-                                "{}/{} hunks ({} ✓ {} ✗)",
-                                applied_count + rejected_count,
-                                total_hunks,
-                                applied_count,
-                                rejected_count
-                            )),
-                    )
+                    .child(div().text_xs().text_color(text_muted_color).child(format!(
+                        "{}/{} hunks ({} ✓ {} ✗)",
+                        applied_count + rejected_count,
+                        total_hunks,
+                        applied_count,
+                        rejected_count
+                    )))
                     // Comments
                     .when(comment_count > 0, |d| {
                         d.child(

@@ -1,8 +1,8 @@
 //! Slash command autocomplete
 
-use gpui::*;
-use super::ChatInput;
 use super::utils::{fuzzy_match_commands, CommandMatch};
+use super::ChatInput;
+use gpui::*;
 
 impl ChatInput {
     /// Set available slash commands (from Claude CLI session info)
@@ -13,19 +13,60 @@ impl ChatInput {
         // Add built-in Claude Code skills as fallback if not already present
         let builtin_skills = vec![
             // Core skills
-            "apex", "brainstorm", "explore", "debug", "review", "oneshot",
-            "explain", "refactor", "docs", "ultrathink", "search",
+            "apex",
+            "brainstorm",
+            "explore",
+            "debug",
+            "review",
+            "oneshot",
+            "explain",
+            "refactor",
+            "docs",
+            "ultrathink",
+            "search",
             // Git operations
-            "commit", "create-pr", "fix-pr-comments", "merge", "pr",
+            "commit",
+            "create-pr",
+            "fix-pr-comments",
+            "merge",
+            "pr",
             // CLI commands
-            "think", "memory", "compact", "resume", "help", "usage",
-            "add-dir", "status", "doctor", "mcp", "permissions", "config",
-            "test", "summarize", "clear", "model", "vim", "init",
-            "hooks", "allowed-tools", "task", "cost", "bug", "login", "logout",
+            "think",
+            "memory",
+            "compact",
+            "resume",
+            "help",
+            "usage",
+            "add-dir",
+            "status",
+            "doctor",
+            "mcp",
+            "permissions",
+            "config",
+            "test",
+            "summarize",
+            "clear",
+            "model",
+            "vim",
+            "init",
+            "hooks",
+            "allowed-tools",
+            "task",
+            "cost",
+            "bug",
+            "login",
+            "logout",
             // Advanced skills
-            "clean-code", "review-code", "ci-fixer",
-            "keybindings-help", "create-hooks", "create-skills",
-            "plan", "claude-memory", "create-prompt", "create-agent",
+            "clean-code",
+            "review-code",
+            "ci-fixer",
+            "keybindings-help",
+            "create-hooks",
+            "create-skills",
+            "plan",
+            "claude-memory",
+            "create-prompt",
+            "create-agent",
         ];
 
         for skill in builtin_skills {
@@ -52,7 +93,8 @@ impl ChatInput {
 
             // Store both commands and their match data
             self.command_matches = matches;
-            self.filtered_commands = self.command_matches
+            self.filtered_commands = self
+                .command_matches
                 .iter()
                 .map(|m| m.command.clone())
                 .collect();
@@ -87,14 +129,19 @@ impl ChatInput {
     /// Select next command in autocomplete
     pub(super) fn select_next_command(&mut self, cx: &mut Context<Self>) {
         if !self.filtered_commands.is_empty() {
-            self.selected_command_index = (self.selected_command_index + 1) % self.filtered_commands.len();
+            self.selected_command_index =
+                (self.selected_command_index + 1) % self.filtered_commands.len();
             cx.notify();
         }
     }
 
     /// Insert selected command from autocomplete
     pub(super) fn insert_selected_command(&mut self, cx: &mut Context<Self>) {
-        if let Some(cmd) = self.filtered_commands.get(self.selected_command_index).cloned() {
+        if let Some(cmd) = self
+            .filtered_commands
+            .get(self.selected_command_index)
+            .cloned()
+        {
             self.text = format!("/{} ", cmd);
             self.cursor_position = self.text.len();
             self.show_command_autocomplete = false;

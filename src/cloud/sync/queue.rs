@@ -1,5 +1,5 @@
-use super::types::*;
 use super::manager::SyncManager;
+use super::types::*;
 
 impl SyncManager {
     /// Queue an operation
@@ -61,7 +61,9 @@ impl SyncManager {
                     let local_id = item.operation.local_id().to_string();
                     let mut state = self.state.write().await;
                     state.id_mapping.insert(local_id.clone(), remote_id.clone());
-                    state.reverse_mapping.insert(remote_id.clone(), local_id.clone());
+                    state
+                        .reverse_mapping
+                        .insert(remote_id.clone(), local_id.clone());
 
                     let _ = self.event_tx.send(SyncEvent::ItemSynced {
                         local_id,

@@ -1,10 +1,10 @@
 //! Compact/Default variant rendering
 
-use gpui::*;
-use gpui::prelude::*;
+use super::AudioColors;
 use crate::ui::components::audio_player::player::AudioPlayer;
 use crate::ui::pct;
-use super::AudioColors;
+use gpui::prelude::*;
+use gpui::*;
 
 pub(crate) fn render_compact(player: &AudioPlayer) -> impl IntoElement {
     let colors = AudioColors::default();
@@ -57,8 +57,8 @@ pub(crate) fn render_compact(player: &AudioPlayer) -> impl IntoElement {
                     div()
                         .text_size(px(button_size * 0.4))
                         .text_color(colors.primary_fg)
-                        .child(play_icon)
-                )
+                        .child(play_icon),
+                ),
         )
         .child(
             div()
@@ -77,8 +77,8 @@ pub(crate) fn render_compact(player: &AudioPlayer) -> impl IntoElement {
                                 .h_full()
                                 .w(pct(progress * 100.0))
                                 .bg(colors.track_fg)
-                                .rounded_full()
-                        )
+                                .rounded_full(),
+                        ),
                 )
                 .when(player.show_time, |el| {
                     el.child(
@@ -88,16 +88,16 @@ pub(crate) fn render_compact(player: &AudioPlayer) -> impl IntoElement {
                             .text_size(px(font_size))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
                             .child(AudioPlayer::format_time(player.current_time))
-                            .child(AudioPlayer::format_time(player.duration))
+                            .child(AudioPlayer::format_time(player.duration)),
                     )
-                })
+                }),
         )
         .when(player.show_volume, |el| {
             el.child(
                 div()
                     .text_size(px(14.0))
                     .cursor_pointer()
-                    .child(volume_icon)
+                    .child(volume_icon),
             )
         })
 }

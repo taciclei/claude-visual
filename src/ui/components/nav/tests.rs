@@ -25,13 +25,8 @@ fn test_nav_orientations() {
 
 #[test]
 fn test_nav_section() {
-    let items = vec![
-        NavItem::new("a", "Item A"),
-        NavItem::new("b", "Item B"),
-    ];
-    let section = NavSection::new()
-        .title("Section")
-        .items(items);
+    let items = vec![NavItem::new("a", "Item A"), NavItem::new("b", "Item B")];
+    let section = NavSection::new().title("Section").items(items);
 
     assert_eq!(section.title.unwrap().as_ref(), "Section");
     assert_eq!(section.items.len(), 2);
@@ -48,8 +43,7 @@ fn test_sidebar_collapsed() {
 
 #[test]
 fn test_page_indicator() {
-    let indicator = PageIndicator::new(2, 5)
-        .show_numbers(true);
+    let indicator = PageIndicator::new(2, 5).show_numbers(true);
 
     assert_eq!(indicator.current, 2);
     assert_eq!(indicator.total, 5);

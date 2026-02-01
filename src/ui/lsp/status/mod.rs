@@ -7,10 +7,10 @@ use std::collections::HashMap;
 
 use crate::lsp::manager::Language;
 
-mod types;
 mod render;
+mod types;
 
-pub use types::{LspStatusBarEvent, LspServerStatus};
+pub use types::{LspServerStatus, LspStatusBarEvent};
 
 /// LSP status bar component
 pub struct LspStatusBar {

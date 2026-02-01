@@ -1,16 +1,20 @@
 //! Permissions panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
+mod footer;
 mod header;
 mod item;
-mod footer;
 
 impl ChatView {
-    pub fn render_permissions_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_permissions_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let permissions: Vec<_> = self.pending_permissions.iter().enumerate().collect();
         let permissions_count = permissions.len();
         let has_multiple = permissions_count > 1;
@@ -53,7 +57,7 @@ impl ChatView {
                     // Permissions list
                     .child(item::render_permissions_list(theme, permissions, cx))
                     // Footer with bulk actions
-                    .child(footer::render_footer(theme, is_empty, has_multiple, cx))
+                    .child(footer::render_footer(theme, is_empty, has_multiple, cx)),
             )
     }
 }

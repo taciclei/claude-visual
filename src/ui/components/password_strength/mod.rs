@@ -2,17 +2,17 @@
 //!
 //! Provides password strength indicators and validation feedback.
 
-mod types;
-mod meter;
-mod requirements;
 mod input;
 mod matcher;
+mod meter;
+mod requirements;
+mod types;
 
-pub use types::{PasswordStrength, StrengthMeterVariant, PasswordRequirement};
-pub use meter::PasswordStrengthMeter;
-pub use requirements::PasswordRequirements;
 pub use input::PasswordInput;
 pub use matcher::PasswordMatcher;
+pub use meter::PasswordStrengthMeter;
+pub use requirements::PasswordRequirements;
+pub use types::{PasswordRequirement, PasswordStrength, StrengthMeterVariant};
 
 #[cfg(test)]
 mod tests {
@@ -29,8 +29,14 @@ mod tests {
     #[test]
     fn test_password_strength_from_password() {
         assert_eq!(PasswordStrength::from_password(""), PasswordStrength::None);
-        assert_eq!(PasswordStrength::from_password("abc"), PasswordStrength::VeryWeak);
-        assert_eq!(PasswordStrength::from_password("Abc12345"), PasswordStrength::Fair);
+        assert_eq!(
+            PasswordStrength::from_password("abc"),
+            PasswordStrength::VeryWeak
+        );
+        assert_eq!(
+            PasswordStrength::from_password("Abc12345"),
+            PasswordStrength::Fair
+        );
         assert_eq!(
             PasswordStrength::from_password("MyStr0ng!Pass#2024"),
             PasswordStrength::Strong
@@ -57,8 +63,7 @@ mod tests {
 
     #[test]
     fn test_password_requirements_from_password() {
-        let reqs = PasswordRequirements::new("r")
-            .from_password("MyPass123!");
+        let reqs = PasswordRequirements::new("r").from_password("MyPass123!");
 
         assert_eq!(reqs.requirements.len(), 5);
         // All requirements should be met

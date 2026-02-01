@@ -1,7 +1,7 @@
 //! VideoCard render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::controls::{format_time, format_views};
 use super::VideoCard;
@@ -35,7 +35,7 @@ impl RenderOnce for VideoCard {
                             .justify_center()
                             .text_size(px(48.0))
                             .text_color(hsla(0.0, 0.0, 0.3, 1.0))
-                            .child(self.thumbnail.clone().unwrap_or("🎬".into()))
+                            .child(self.thumbnail.clone().unwrap_or("🎬".into())),
                     )
                     .child(
                         div()
@@ -49,8 +49,8 @@ impl RenderOnce for VideoCard {
                             .text_size(px(12.0))
                             .font_weight(gpui::FontWeight::MEDIUM)
                             .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                            .child(format_time(self.duration))
-                    )
+                            .child(format_time(self.duration)),
+                    ),
             )
             // Info
             .child(
@@ -69,7 +69,7 @@ impl RenderOnce for VideoCard {
                             .justify_center()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                            .child(self.channel.chars().next().unwrap_or('?').to_string())
+                            .child(self.channel.chars().next().unwrap_or('?').to_string()),
                     )
                     // Metadata
                     .child(
@@ -84,13 +84,13 @@ impl RenderOnce for VideoCard {
                                     .font_weight(gpui::FontWeight::MEDIUM)
                                     .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                                     .line_clamp(2)
-                                    .child(self.title.clone())
+                                    .child(self.title.clone()),
                             )
                             .child(
                                 div()
                                     .text_size(px(12.0))
                                     .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                                    .child(self.channel.clone())
+                                    .child(self.channel.clone()),
                             )
                             .child(
                                 div()
@@ -100,9 +100,9 @@ impl RenderOnce for VideoCard {
                                         "{} • {}",
                                         format_views(self.views),
                                         self.uploaded_at
-                                    ))
-                            )
-                    )
+                                    )),
+                            ),
+                    ),
             )
     }
 }

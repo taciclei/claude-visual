@@ -1,9 +1,9 @@
 //! File entry with diagnostics
 
-use std::path::PathBuf;
 use crate::ui::sidebar::explorer_diagnostics::{
-    DiagnosticCounts, DiagnosticBadge, IconDecoration, BadgeStyle, ExplorerDiagnosticsStore
+    BadgeStyle, DiagnosticBadge, DiagnosticCounts, ExplorerDiagnosticsStore, IconDecoration,
 };
+use std::path::PathBuf;
 
 /// Explorer file entry with diagnostics
 #[derive(Debug, Clone)]
@@ -25,7 +25,8 @@ pub struct FileEntryWithDiagnostics {
 impl FileEntryWithDiagnostics {
     /// Create from path and store
     pub fn new(path: PathBuf, store: &mut ExplorerDiagnosticsStore) -> Self {
-        let name = path.file_name()
+        let name = path
+            .file_name()
             .map(|n| n.to_string_lossy().to_string())
             .unwrap_or_default();
         let is_dir = path.is_dir();

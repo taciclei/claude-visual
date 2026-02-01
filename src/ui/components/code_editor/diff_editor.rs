@@ -1,7 +1,7 @@
 //! Diff editor component for side-by-side comparison
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Diff editor - side by side comparison
 #[derive(IntoElement)]
@@ -96,7 +96,7 @@ impl RenderOnce for DiffEditor {
                                 .text_size(px(12.0))
                                 .font_weight(gpui::FontWeight::MEDIUM)
                                 .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                                .child(title)
+                                .child(title),
                         )
                     })
                     .child(
@@ -121,8 +121,7 @@ impl RenderOnce for DiffEditor {
                                     .h(px(line_height))
                                     .bg(bg)
                                     .when(is_deleted, |el| {
-                                        el.border_l_2()
-                                            .border_color(hsla(0.0, 0.7, 0.5, 1.0))
+                                        el.border_l_2().border_color(hsla(0.0, 0.7, 0.5, 1.0))
                                     })
                                     .child(
                                         div()
@@ -134,7 +133,7 @@ impl RenderOnce for DiffEditor {
                                             .pr(px(8.0))
                                             .text_size(px(self.font_size))
                                             .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                            .child((i + 1).to_string())
+                                            .child((i + 1).to_string()),
                                     )
                                     .child(
                                         div()
@@ -144,10 +143,10 @@ impl RenderOnce for DiffEditor {
                                             .pl(px(8.0))
                                             .text_size(px(self.font_size))
                                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                            .when_some(line, |el, l| el.child(l))
+                                            .when_some(line, |el, l| el.child(l)),
                                     )
-                            }))
-                    )
+                            })),
+                    ),
             )
             // Right side
             .child(
@@ -165,7 +164,7 @@ impl RenderOnce for DiffEditor {
                                 .text_size(px(12.0))
                                 .font_weight(gpui::FontWeight::MEDIUM)
                                 .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                                .child(title)
+                                .child(title),
                         )
                     })
                     .child(
@@ -190,8 +189,7 @@ impl RenderOnce for DiffEditor {
                                     .h(px(line_height))
                                     .bg(bg)
                                     .when(is_added, |el| {
-                                        el.border_l_2()
-                                            .border_color(hsla(0.35, 0.7, 0.5, 1.0))
+                                        el.border_l_2().border_color(hsla(0.35, 0.7, 0.5, 1.0))
                                     })
                                     .child(
                                         div()
@@ -203,7 +201,7 @@ impl RenderOnce for DiffEditor {
                                             .pr(px(8.0))
                                             .text_size(px(self.font_size))
                                             .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                            .child((i + 1).to_string())
+                                            .child((i + 1).to_string()),
                                     )
                                     .child(
                                         div()
@@ -213,10 +211,10 @@ impl RenderOnce for DiffEditor {
                                             .pl(px(8.0))
                                             .text_size(px(self.font_size))
                                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                            .when_some(line, |el, l| el.child(l))
+                                            .when_some(line, |el, l| el.child(l)),
                                     )
-                            }))
-                    )
+                            })),
+                    ),
             )
     }
 }

@@ -5,8 +5,8 @@ use std::sync::Arc;
 use gpui::prelude::*;
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Banner component
 pub struct Banner {
@@ -36,7 +36,11 @@ pub struct Banner {
 }
 
 impl Banner {
-    pub fn new(app_state: Arc<AppState>, message: impl Into<String>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        message: impl Into<String>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             message: message.into(),
@@ -78,14 +82,24 @@ impl Banner {
     }
 
     /// Set action
-    pub fn set_action(&mut self, label: impl Into<String>, id: impl Into<String>, cx: &mut Context<Self>) {
+    pub fn set_action(
+        &mut self,
+        label: impl Into<String>,
+        id: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) {
         self.action_label = Some(label.into());
         self.action_id = Some(id.into());
         cx.notify();
     }
 
     /// Set link
-    pub fn set_link(&mut self, text: impl Into<String>, id: impl Into<String>, cx: &mut Context<Self>) {
+    pub fn set_link(
+        &mut self,
+        text: impl Into<String>,
+        id: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) {
         self.link_text = Some(text.into());
         self.link_id = Some(id.into());
         cx.notify();
@@ -160,7 +174,10 @@ impl Render for Banner {
             ),
         };
 
-        let icon = self.icon.clone().unwrap_or_else(|| self.banner_type.icon().to_string());
+        let icon = self
+            .icon
+            .clone()
+            .unwrap_or_else(|| self.banner_type.icon().to_string());
 
         div()
             .id("banner")
@@ -178,7 +195,7 @@ impl Render for Banner {
                         .flex_shrink_0()
                         .text_base()
                         .text_color(icon_color)
-                        .child(icon)
+                        .child(icon),
                 )
             })
             // Message
@@ -187,7 +204,7 @@ impl Render for Banner {
                     .flex_1()
                     .text_sm()
                     .text_color(text_color)
-                    .child(self.message.clone())
+                    .child(self.message.clone()),
             )
             // Link
             .when_some(self.link_text.clone(), |d, text| {
@@ -202,7 +219,7 @@ impl Render for Banner {
                         .on_click(cx.listener(move |this, _, _window, cx| {
                             cx.emit(BannerEvent::LinkClicked(link_id.clone()));
                         }))
-                        .child(text)
+                        .child(text),
                 )
             })
             // Action button
@@ -222,7 +239,7 @@ impl Render for Banner {
                         .on_click(cx.listener(move |this, _, _window, cx| {
                             cx.emit(BannerEvent::ActionClicked(action_id.clone()));
                         }))
-                        .child(label)
+                        .child(label),
                 )
             })
             // Dismiss button
@@ -238,11 +255,14 @@ impl Render for Banner {
                         .text_sm()
                         .text_color(theme.colors.text_muted)
                         .cursor_pointer()
-                        .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                        .hover(|s| {
+                            s.bg(theme.colors.surface_hover)
+                                .text_color(theme.colors.text)
+                        })
                         .on_click(cx.listener(|this, _, _window, cx| {
                             this.dismiss(cx);
                         }))
-                        .child("×")
+                        .child("×"),
                 )
             })
             .into_any_element()

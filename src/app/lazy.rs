@@ -69,8 +69,7 @@ impl StartupMetrics {
 
     /// Get time to window shown
     pub fn time_to_window(&self) -> Option<std::time::Duration> {
-        self.window_shown
-            .map(|t| t.duration_since(self.start_time))
+        self.window_shown.map(|t| t.duration_since(self.start_time))
     }
 
     /// Get time to interactive

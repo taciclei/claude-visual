@@ -2,9 +2,9 @@
 //!
 //! Displays hover information from LSP servers.
 
+use gpui::prelude::*;
+use gpui::prelude::*;
 use gpui::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 
 use crate::lsp::protocol::{Hover, HoverContents, MarkedString, MarkupContent};
 
@@ -83,20 +83,16 @@ impl HoverPanel {
     fn extract_text(contents: &HoverContents) -> Vec<HoverContentBlock> {
         match contents {
             HoverContents::String(s) => vec![HoverContentBlock::Text(s.clone())],
-            HoverContents::Array(strings) => {
-                strings
-                    .iter()
-                    .map(|s| match s {
-                        MarkedString::String(text) => HoverContentBlock::Text(text.clone()),
-                        MarkedString::LanguageString { language, value } => {
-                            HoverContentBlock::Code {
-                                language: language.clone(),
-                                code: value.clone(),
-                            }
-                        }
-                    })
-                    .collect()
-            }
+            HoverContents::Array(strings) => strings
+                .iter()
+                .map(|s| match s {
+                    MarkedString::String(text) => HoverContentBlock::Text(text.clone()),
+                    MarkedString::LanguageString { language, value } => HoverContentBlock::Code {
+                        language: language.clone(),
+                        code: value.clone(),
+                    },
+                })
+                .collect(),
             HoverContents::Markup(markup) => Self::parse_markup(markup),
         }
     }
@@ -240,9 +236,12 @@ impl Render for HoverPanel {
                         }
                     })),
             )
-            .on_mouse_down(MouseButton::Left, cx.listener(|this, _, _window, cx| {
-                this.hide(cx);
-            }))
+            .on_mouse_down(
+                MouseButton::Left,
+                cx.listener(|this, _, _window, cx| {
+                    this.hide(cx);
+                }),
+            )
             .into_any_element()
     }
 }

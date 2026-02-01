@@ -1,7 +1,7 @@
 //! Color palette display
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 #[derive(Clone)]
 pub struct ColorPalette {
@@ -70,7 +70,7 @@ impl RenderOnce for ColorPalette {
                             .rounded(px(4.0))
                             .border_1()
                             .border_color(border)
-                            .bg(color)
+                            .bg(color),
                     )
                     .child(
                         div()
@@ -79,7 +79,7 @@ impl RenderOnce for ColorPalette {
                             .max_w(px(self.swatch_size + 16.0))
                             .text_ellipsis()
                             .overflow_hidden()
-                            .child(name)
+                            .child(name),
                     )
             }))
     }

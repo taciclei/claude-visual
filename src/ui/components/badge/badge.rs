@@ -2,11 +2,11 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Badge component for displaying counts, status, or labels
 pub struct Badge {
@@ -39,7 +39,11 @@ impl Badge {
     }
 
     /// Create a badge with text content
-    pub fn with_text(app_state: Arc<AppState>, text: impl Into<String>, cx: &mut Context<Self>) -> Self {
+    pub fn with_text(
+        app_state: Arc<AppState>,
+        text: impl Into<String>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut badge = Self::new(app_state, cx);
         badge.content = text.into();
         badge
@@ -148,26 +152,10 @@ impl Render for Badge {
                 theme.colors.text_muted,
                 Some(theme.colors.border),
             ),
-            BadgeVariant::Primary => (
-                theme.colors.accent,
-                gpui::white(),
-                None,
-            ),
-            BadgeVariant::Success => (
-                theme.colors.success,
-                gpui::white(),
-                None,
-            ),
-            BadgeVariant::Warning => (
-                theme.colors.warning,
-                gpui::black(),
-                None,
-            ),
-            BadgeVariant::Error => (
-                theme.colors.error,
-                gpui::white(),
-                None,
-            ),
+            BadgeVariant::Primary => (theme.colors.accent, gpui::white(), None),
+            BadgeVariant::Success => (theme.colors.success, gpui::white(), None),
+            BadgeVariant::Warning => (theme.colors.warning, gpui::black(), None),
+            BadgeVariant::Error => (theme.colors.error, gpui::white(), None),
             BadgeVariant::Outline => (
                 gpui::transparent_black(),
                 theme.colors.text_muted,
@@ -176,7 +164,11 @@ impl Render for Badge {
         };
 
         let content = self.display_content();
-        let min_width = if self.dot { height } else { height.max(content.len() as f32 * font_size * 0.6 + padding * 2.0) };
+        let min_width = if self.dot {
+            height
+        } else {
+            height.max(content.len() as f32 * font_size * 0.6 + padding * 2.0)
+        };
 
         div()
             .id("badge")

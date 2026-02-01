@@ -1,10 +1,10 @@
 //! AudioPlayer RenderOnce implementation
 
-use gpui::*;
-use gpui::prelude::*;
 use super::player::AudioPlayer;
+use super::render::{render_compact, render_full, render_minimal};
 use super::types::AudioPlayerVariant;
-use super::render::{render_minimal, render_full, render_compact};
+use gpui::prelude::*;
+use gpui::*;
 
 impl RenderOnce for AudioPlayer {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {

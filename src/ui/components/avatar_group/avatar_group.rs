@@ -1,8 +1,8 @@
 //! Avatar group component for displaying multiple avatars
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Avatar group displaying multiple avatars
 #[derive(Clone, IntoElement)]
@@ -82,64 +82,62 @@ impl RenderOnce for AvatarGroup {
             .flex()
             .items_center()
             .children(
-                self.avatars.into_iter().take(visible_count).enumerate().map(move |(idx, avatar)| {
-                    let initials = avatar.get_initials();
-                    let bg_color = avatar.get_color(idx);
-                    let is_online = avatar.is_online;
+                self.avatars
+                    .into_iter()
+                    .take(visible_count)
+                    .enumerate()
+                    .map(move |(idx, avatar)| {
+                        let initials = avatar.get_initials();
+                        let bg_color = avatar.get_color(idx);
+                        let is_online = avatar.is_online;
 
-                    let mut avatar_el = div()
-                        .size(px(avatar_size))
-                        .rounded_full()
-                        .bg(bg_color)
-                        .flex()
-                        .items_center()
-                        .justify_center()
-                        .text_color(text)
-                        .font_weight(FontWeight::MEDIUM)
-                        .relative();
-
-                    // Apply negative margin for overlap (except first)
-                    if idx > 0 {
-                        avatar_el = avatar_el.ml(px(-overlap));
-                    }
-
-                    // Border for visual separation
-                    if bordered {
-                        avatar_el = avatar_el
-                            .border_2()
-                            .border_color(border_color);
-                    }
-
-                    // Initials
-                    avatar_el = avatar_el.child(
-                        div()
+                        let mut avatar_el = div()
+                            .size(px(avatar_size))
+                            .rounded_full()
+                            .bg(bg_color)
+                            .flex()
+                            .items_center()
+                            .justify_center()
                             .text_color(text)
-                            .child(initials)
-                    );
+                            .font_weight(FontWeight::MEDIUM)
+                            .relative();
 
-                    // Online indicator
-                    if let Some(online) = is_online {
-                        let indicator_color = if online {
-                            hsla(0.38, 0.7, 0.5, 1.0) // Green
-                        } else {
-                            hsla(0.0, 0.0, 0.4, 1.0) // Gray
-                        };
+                        // Apply negative margin for overlap (except first)
+                        if idx > 0 {
+                            avatar_el = avatar_el.ml(px(-overlap));
+                        }
 
-                        avatar_el = avatar_el.child(
-                            div()
-                                .absolute()
-                                .bottom_0()
-                                .right_0()
-                                .size(px(avatar_size * 0.3))
-                                .rounded_full()
-                                .bg(indicator_color)
-                                .border_2()
-                                .border_color(border_color)
-                        );
-                    }
+                        // Border for visual separation
+                        if bordered {
+                            avatar_el = avatar_el.border_2().border_color(border_color);
+                        }
 
-                    avatar_el
-                })
+                        // Initials
+                        avatar_el = avatar_el.child(div().text_color(text).child(initials));
+
+                        // Online indicator
+                        if let Some(online) = is_online {
+                            let indicator_color = if online {
+                                hsla(0.38, 0.7, 0.5, 1.0) // Green
+                            } else {
+                                hsla(0.0, 0.0, 0.4, 1.0) // Gray
+                            };
+
+                            avatar_el = avatar_el.child(
+                                div()
+                                    .absolute()
+                                    .bottom_0()
+                                    .right_0()
+                                    .size(px(avatar_size * 0.3))
+                                    .rounded_full()
+                                    .bg(indicator_color)
+                                    .border_2()
+                                    .border_color(border_color),
+                            );
+                        }
+
+                        avatar_el
+                    }),
             )
             // Overflow indicator
             .when(overflow_count > 0, |d| {
@@ -156,7 +154,7 @@ impl RenderOnce for AvatarGroup {
                         .justify_center()
                         .text_color(text_muted)
                         .font_weight(FontWeight::MEDIUM)
-                        .child(format!("+{}", overflow_count))
+                        .child(format!("+{}", overflow_count)),
                 )
             })
     }

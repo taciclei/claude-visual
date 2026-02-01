@@ -1,7 +1,7 @@
-use gpui::*;
-use gpui::prelude::*;
-use super::types::*;
 use super::radio::Radio;
+use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A group of radio buttons
 #[derive(IntoElement)]

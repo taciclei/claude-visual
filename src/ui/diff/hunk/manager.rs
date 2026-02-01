@@ -47,12 +47,7 @@ impl DiffHunkManager {
                 new_line = new_start;
 
                 current_hunk = Some(ManagedHunk::new(
-                    hunk_id,
-                    line,
-                    old_start,
-                    old_count,
-                    new_start,
-                    new_count,
+                    hunk_id, line, old_start, old_count, new_start, new_count,
                 ));
                 hunk_id += 1;
             } else if let Some(ref mut hunk) = current_hunk {

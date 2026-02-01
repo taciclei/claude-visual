@@ -1,8 +1,8 @@
 //! Completion generation implementation
 
+use super::manager::InputCompletionManager;
 use super::types::*;
 use super::utils::fuzzy_match;
-use super::manager::InputCompletionManager;
 
 impl InputCompletionManager {
     /// Handle text input
@@ -73,7 +73,8 @@ impl InputCompletionManager {
         self.items.sort_by(|a, b| {
             let score_a = a.match_score(&query).unwrap_or(i32::MIN);
             let score_b = b.match_score(&query).unwrap_or(i32::MIN);
-            score_b.cmp(&score_a)
+            score_b
+                .cmp(&score_a)
                 .then_with(|| a.kind.sort_priority().cmp(&b.kind.sort_priority()))
         });
 
@@ -91,7 +92,8 @@ impl InputCompletionManager {
     pub(crate) fn add_command_completions(&mut self) {
         for (name, description) in &self.commands {
             if name.starts_with(&self.query) || fuzzy_match(name, &self.query).is_some() {
-                self.items.push(ChatCompletionItem::command(name, description));
+                self.items
+                    .push(ChatCompletionItem::command(name, description));
             }
         }
     }
@@ -101,7 +103,8 @@ impl InputCompletionManager {
         // File mentions
         if self.config.show_files {
             for path in &self.recent_files {
-                let name = path.file_name()
+                let name = path
+                    .file_name()
                     .map(|n| n.to_string_lossy().to_string())
                     .unwrap_or_default();
 
@@ -121,7 +124,8 @@ impl InputCompletionManager {
 
         for (type_name, desc) in mention_types {
             if type_name.starts_with(&self.query) {
-                self.items.push(ChatCompletionItem::mention(type_name, "", Some(desc)));
+                self.items
+                    .push(ChatCompletionItem::mention(type_name, "", Some(desc)));
             }
         }
     }

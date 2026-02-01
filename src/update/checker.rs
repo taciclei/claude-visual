@@ -74,7 +74,10 @@ impl UpdateChecker {
     /// Create a new update checker
     pub fn new() -> Self {
         Self {
-            api_url: format!("https://api.github.com/repos/{}/releases/latest", GITHUB_REPO),
+            api_url: format!(
+                "https://api.github.com/repos/{}/releases/latest",
+                GITHUB_REPO
+            ),
             include_prerelease: false,
         }
     }

@@ -1,24 +1,19 @@
 //! Accordion component for collapsible content sections
 
-mod types;
 mod accordion;
-mod simple_accordion;
 mod faq_accordion;
+mod simple_accordion;
+mod types;
 
 // Re-export types
 pub use types::{
-    AccordionMode,
-    AccordionStyle,
-    AccordionEvent,
-    AccordionItem,
-    SimpleAccordionItem,
-    FaqItem,
+    AccordionEvent, AccordionItem, AccordionMode, AccordionStyle, FaqItem, SimpleAccordionItem,
 };
 
 // Re-export components
 pub use accordion::Accordion;
-pub use simple_accordion::SimpleAccordion;
 pub use faq_accordion::FaqAccordion;
+pub use simple_accordion::SimpleAccordion;
 
 #[cfg(test)]
 mod tests {
@@ -39,8 +34,7 @@ mod tests {
 
     #[test]
     fn test_simple_accordion_item() {
-        let item = SimpleAccordionItem::new("Title", "Content")
-            .icon("📁");
+        let item = SimpleAccordionItem::new("Title", "Content").icon("📁");
 
         assert_eq!(item.title, "Title");
         assert_eq!(item.content, "Content");

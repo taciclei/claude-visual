@@ -30,9 +30,7 @@ impl SplashManager {
     /// Check if minimum time has elapsed
     pub fn can_dismiss(&self) -> bool {
         match self.start_time {
-            Some(start) => {
-                start.elapsed() >= Duration::from_millis(self.min_display_time)
-            }
+            Some(start) => start.elapsed() >= Duration::from_millis(self.min_display_time),
             None => true,
         }
     }

@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use super::CodeBlockView;
 use super::super::types::CodeDisplayMode;
+use super::CodeBlockView;
 
 impl CodeBlockView {
     /// Toggle collapsed state
@@ -23,12 +23,15 @@ impl CodeBlockView {
 
         // Auto-hide after 2 seconds
         cx.spawn(async move |this, cx| {
-            cx.background_executor().timer(std::time::Duration::from_secs(2)).await;
+            cx.background_executor()
+                .timer(std::time::Duration::from_secs(2))
+                .await;
             let _ = this.update(cx, |view, cx| {
                 view.show_copied_feedback = false;
                 cx.notify();
             });
-        }).detach();
+        })
+        .detach();
     }
 
     /// Toggle between normal and diff display modes

@@ -1,8 +1,8 @@
 //! Event API for extensions to subscribe to application events
 
+use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::sync::Arc;
-use parking_lot::RwLock;
 
 use super::types::{ApiResult, EventSubscription};
 
@@ -27,7 +27,12 @@ impl EventApi {
     }
 
     /// Subscribe to an event
-    pub fn subscribe(&self, extension_id: &str, event_name: &str, callback_index: u32) -> ApiResult {
+    pub fn subscribe(
+        &self,
+        extension_id: &str,
+        event_name: &str,
+        callback_index: u32,
+    ) -> ApiResult {
         let id = uuid::Uuid::new_v4().to_string();
         let subscription = EventSubscription {
             id: id.clone(),

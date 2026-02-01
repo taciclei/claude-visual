@@ -1,8 +1,6 @@
 //! OpenAI provider core implementation
 
-use super::types::{
-    OpenAIApiRequest, OpenAIFunction, OpenAIMessage, OpenAITool,
-};
+use super::types::{OpenAIApiRequest, OpenAIFunction, OpenAIMessage, OpenAITool};
 use super::OPENAI_API_URL;
 use crate::ai::provider::{AIError, AIRequest, ProviderConfig};
 

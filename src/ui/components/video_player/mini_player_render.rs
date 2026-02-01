@@ -1,7 +1,7 @@
 //! MiniPlayer render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::PlaybackState;
 use super::MiniPlayer;
@@ -40,7 +40,7 @@ impl RenderOnce for MiniPlayer {
                     .child(
                         div()
                             .text_size(px(20.0))
-                            .child(self.thumbnail.clone().unwrap_or("🎬".into()))
+                            .child(self.thumbnail.clone().unwrap_or("🎬".into())),
                     )
                     // Progress
                     .child(
@@ -55,9 +55,9 @@ impl RenderOnce for MiniPlayer {
                                 div()
                                     .h_full()
                                     .w(relative(self.progress))
-                                    .bg(hsla(0.0, 0.7, 0.5, 1.0))
-                            )
-                    )
+                                    .bg(hsla(0.0, 0.7, 0.5, 1.0)),
+                            ),
+                    ),
             )
             // Title
             .child(
@@ -66,7 +66,7 @@ impl RenderOnce for MiniPlayer {
                     .text_size(px(13.0))
                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
                     .text_ellipsis()
-                    .child(self.title.clone())
+                    .child(self.title.clone()),
             )
             // Controls
             .child(
@@ -88,16 +88,16 @@ impl RenderOnce for MiniPlayer {
                                 div()
                                     .text_size(px(14.0))
                                     .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                    .child(play_icon)
-                            )
+                                    .child(play_icon),
+                            ),
                     )
                     .child(
                         div()
                             .text_size(px(14.0))
                             .text_color(hsla(0.0, 0.0, 0.6, 1.0))
                             .cursor_pointer()
-                            .child("✕")
-                    )
+                            .child("✕"),
+                    ),
             )
     }
 }

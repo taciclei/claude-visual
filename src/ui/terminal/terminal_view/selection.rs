@@ -21,11 +21,7 @@ impl TerminalView {
             if let Some(line) = self.lines.get(row) {
                 let line_text: String = line.spans.iter().map(|s| s.text.as_str()).collect();
                 let start_col = if row == start.0 { start.1 } else { 0 };
-                let end_col = if row == end.0 {
-                    end.1
-                } else {
-                    line_text.len()
-                };
+                let end_col = if row == end.0 { end.1 } else { line_text.len() };
 
                 if start_col < line_text.len() {
                     let actual_end = end_col.min(line_text.len());

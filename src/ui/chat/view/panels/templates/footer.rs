@@ -1,7 +1,7 @@
 //! Templates panel footer
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use super::super::super::types::NotificationType;
@@ -13,7 +13,11 @@ impl ChatView {
         cx: &mut Context<Self>,
     ) -> impl IntoElement {
         let save_listener = cx.listener(|this, _, _window, cx| {
-            this.show_notification("Use ⌘S to save current input as template", NotificationType::Info, cx);
+            this.show_notification(
+                "Use ⌘S to save current input as template",
+                NotificationType::Info,
+                cx,
+            );
         });
 
         let text_muted = theme.colors.text_muted;
@@ -34,7 +38,7 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(text_muted)
-                    .child("Click to insert • Type to filter")
+                    .child("Click to insert • Type to filter"),
             )
             .child(
                 div()
@@ -48,7 +52,7 @@ impl ChatView {
                     .cursor_pointer()
                     .hover(move |s| s.bg(accent_bg_hover))
                     .on_click(save_listener)
-                    .child("+ Save Current as Template")
+                    .child("+ Save Current as Template"),
             )
     }
 }

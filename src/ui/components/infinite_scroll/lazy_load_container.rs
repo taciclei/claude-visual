@@ -1,7 +1,7 @@
 //! Lazy load container that loads content when visible
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Lazy load container that loads content when visible
 #[derive(IntoElement)]
@@ -71,17 +71,14 @@ impl RenderOnce for LazyLoadContainer {
             })
             .when(self.loading, |d| {
                 // Loading state
-                d.flex()
-                    .items_center()
-                    .justify_center()
-                    .child(
-                        div()
-                            .size_6()
-                            .rounded_full()
-                            .border_2()
-                            .border_color(rgba(0x3333331a))
-                            .border_color(rgb(0x3b82f6)),
-                    )
+                d.flex().items_center().justify_center().child(
+                    div()
+                        .size_6()
+                        .rounded_full()
+                        .border_2()
+                        .border_color(rgba(0x3333331a))
+                        .border_color(rgb(0x3b82f6)),
+                )
             })
     }
 }

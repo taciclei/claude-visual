@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::form_field::FormField;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Field group with title
 #[derive(IntoElement)]

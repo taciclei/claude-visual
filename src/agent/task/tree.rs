@@ -92,21 +92,13 @@ impl TaskTree {
     pub fn children(&self, id: &str) -> Vec<&AgentTask> {
         self.tasks
             .get(id)
-            .map(|n| {
-                n.children
-                    .iter()
-                    .filter_map(|cid| self.get(cid))
-                    .collect()
-            })
+            .map(|n| n.children.iter().filter_map(|cid| self.get(cid)).collect())
             .unwrap_or_default()
     }
 
     /// Get root tasks
     pub fn roots(&self) -> Vec<&AgentTask> {
-        self.roots
-            .iter()
-            .filter_map(|id| self.get(id))
-            .collect()
+        self.roots.iter().filter_map(|id| self.get(id)).collect()
     }
 
     /// Get all tasks (flat list)
@@ -173,7 +165,8 @@ impl TaskTree {
         if total == 0 {
             return 0.0;
         }
-        let completed = self.all_tasks()
+        let completed = self
+            .all_tasks()
             .iter()
             .filter(|t| t.status == TaskStatus::Completed)
             .count();
@@ -182,9 +175,7 @@ impl TaskTree {
 
     /// Check if all tasks are complete
     pub fn is_complete(&self) -> bool {
-        self.all_tasks()
-            .iter()
-            .all(|t| t.status.is_terminal())
+        self.all_tasks().iter().all(|t| t.status.is_terminal())
     }
 
     /// Check if any task failed

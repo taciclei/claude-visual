@@ -1,7 +1,7 @@
 //! Token usage section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -20,7 +20,7 @@ impl ChatView {
                     .text_xs()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text_muted)
-                    .child("TOKEN USAGE")
+                    .child("TOKEN USAGE"),
             )
             .child(
                 div()
@@ -31,10 +31,28 @@ impl ChatView {
                     .flex()
                     .flex_col()
                     .gap_1()
-                    .child(self.render_detail_row("Input Tokens", &Self::format_token_count(self.stats.input_tokens), &theme))
-                    .child(self.render_detail_row("Output Tokens", &Self::format_token_count(self.stats.output_tokens), &theme))
-                    .child(self.render_detail_row("Total Tokens", &Self::format_token_count(self.stats.input_tokens + self.stats.output_tokens), &theme))
-                    .child(self.render_detail_row("Context Used", &format!("{:.1}%", self.context_usage_percentage() * 100.0), &theme))
+                    .child(self.render_detail_row(
+                        "Input Tokens",
+                        &Self::format_token_count(self.stats.input_tokens),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Output Tokens",
+                        &Self::format_token_count(self.stats.output_tokens),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Total Tokens",
+                        &Self::format_token_count(
+                            self.stats.input_tokens + self.stats.output_tokens,
+                        ),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Context Used",
+                        &format!("{:.1}%", self.context_usage_percentage() * 100.0),
+                        &theme,
+                    )),
             )
     }
 }

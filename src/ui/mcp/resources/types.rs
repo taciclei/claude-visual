@@ -23,20 +23,11 @@ pub struct PromptItem {
 /// Events emitted by the MCP resources panel
 pub enum McpResourcesPanelEvent {
     /// Request to read a resource
-    ReadResource {
-        server: String,
-        uri: String,
-    },
+    ReadResource { server: String, uri: String },
     /// Request to attach a resource to context
-    AttachResource {
-        server: String,
-        uri: String,
-    },
+    AttachResource { server: String, uri: String },
     /// Request to use a prompt
-    UsePrompt {
-        server: String,
-        prompt_name: String,
-    },
+    UsePrompt { server: String, prompt_name: String },
     /// Refresh resources/prompts
     Refresh,
 }

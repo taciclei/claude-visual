@@ -1,9 +1,9 @@
-use gpui::*;
-use gpui::prelude::*;
+use super::colors::default_colors;
 use super::core::ModelSelector;
 use super::types::{ModelCategory, SimpleColors};
-use super::colors::default_colors;
 use crate::ai::provider::ModelInfo;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for ModelSelector {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -55,14 +55,11 @@ impl Render for ModelSelector {
                             .flex()
                             .flex_col()
                             .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(theme.text)
-                                    .child(
-                                        selected_model
-                                            .map(|m| m.name.clone())
-                                            .unwrap_or_else(|| "Select model".to_string()),
-                                    ),
+                                div().text_sm().text_color(theme.text).child(
+                                    selected_model
+                                        .map(|m| m.name.clone())
+                                        .unwrap_or_else(|| "Select model".to_string()),
+                                ),
                             )
                             .child(
                                 div()
@@ -73,19 +70,23 @@ impl Render for ModelSelector {
                     )
                     .child(
                         // Chevron
-                        div()
-                            .text_color(theme.text_muted)
-                            .child(if is_expanded { "▲" } else { "▼" }),
+                        div().text_color(theme.text_muted).child(if is_expanded {
+                            "▲"
+                        } else {
+                            "▼"
+                        }),
                     ),
             )
-            .when(is_expanded, |el| {
-                el.child(self.render_dropdown(&theme, cx))
-            })
+            .when(is_expanded, |el| el.child(self.render_dropdown(&theme, cx)))
     }
 }
 
 impl ModelSelector {
-    pub(crate) fn render_dropdown(&self, theme: &SimpleColors, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_dropdown(
+        &self,
+        theme: &SimpleColors,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let filtered = self.filtered_models();
 
         div()
@@ -102,7 +103,6 @@ impl ModelSelector {
             .max_h_80()
             .id("scroll-model-dropdown")
             .overflow_y_scroll()
-
             .child(
                 // Search input
                 div()
@@ -119,11 +119,21 @@ impl ModelSelector {
             )
             .children(
                 // Group by category
-                self.render_category_section("Cloud Models".to_string(), ModelCategory::Cloud, &filtered, &theme, cx),
+                self.render_category_section(
+                    "Cloud Models".to_string(),
+                    ModelCategory::Cloud,
+                    &filtered,
+                    &theme,
+                    cx,
+                ),
             )
-            .children(
-                self.render_category_section("Local Models".to_string(), ModelCategory::Local, &filtered, &theme, cx),
-            )
+            .children(self.render_category_section(
+                "Local Models".to_string(),
+                ModelCategory::Local,
+                &filtered,
+                &theme,
+                cx,
+            ))
     }
 
     pub(crate) fn render_category_section(
@@ -166,7 +176,10 @@ impl ModelSelector {
                     let provider = &self.providers[provider_idx];
 
                     div()
-                        .id(SharedString::from(format!("model-option-{}-{}", provider_idx, model.id)))
+                        .id(SharedString::from(format!(
+                            "model-option-{}-{}",
+                            provider_idx, model.id
+                        )))
                         .px_3()
                         .py_2()
                         .flex()
@@ -209,30 +222,20 @@ impl ModelSelector {
                                     div()
                                         .text_xs()
                                         .text_color(theme.text_muted)
-                                        .child(format!(
-                                            "{}K context",
-                                            model.context_length / 1000
-                                        )),
+                                        .child(format!("{}K context", model.context_length / 1000)),
                                 ),
                         )
                         .child(
                             // Cost indicator (for cloud models)
-                            div()
-                                .text_xs()
-                                .text_color(theme.text_muted)
-                                .child(
-                                    model
-                                        .input_cost_per_1k
-                                        .map(|c| format!("${:.4}/1K", c))
-                                        .unwrap_or_else(|| "Free".to_string()),
-                                ),
+                            div().text_xs().text_color(theme.text_muted).child(
+                                model
+                                    .input_cost_per_1k
+                                    .map(|c| format!("${:.4}/1K", c))
+                                    .unwrap_or_else(|| "Free".to_string()),
+                            ),
                         )
                         .when(is_selected, |el| {
-                            el.child(
-                                div()
-                                    .text_color(theme.accent)
-                                    .child("✓"),
-                            )
+                            el.child(div().text_color(theme.accent).child("✓"))
                         })
                 })),
         )

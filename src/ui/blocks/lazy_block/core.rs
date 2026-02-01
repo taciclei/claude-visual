@@ -1,9 +1,9 @@
 //! Core lazy block implementation
 
+use super::config::LazyBlockConfig;
+use super::types::{LazyBlockEvent, LazyState};
 use gpui::*;
 use std::sync::Arc;
-use super::config::LazyBlockConfig;
-use super::types::{LazyState, LazyBlockEvent};
 
 /// Lazy block wrapper that defers rendering
 pub struct LazyBlock<T: IntoElement + Clone + 'static> {

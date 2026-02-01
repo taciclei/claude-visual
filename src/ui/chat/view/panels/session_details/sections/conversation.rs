@@ -1,7 +1,7 @@
 //! Conversation section rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
@@ -22,7 +22,7 @@ impl ChatView {
                     .text_xs()
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_color(theme.colors.text_muted)
-                    .child("CONVERSATION")
+                    .child("CONVERSATION"),
             )
             .child(
                 div()
@@ -33,11 +33,27 @@ impl ChatView {
                     .flex()
                     .flex_col()
                     .gap_1()
-                    .child(self.render_detail_row("Messages", &format!("{}", stats.message_count), &theme))
-                    .child(self.render_detail_row("Your Messages", &format!("{}", stats.user_message_count), &theme))
-                    .child(self.render_detail_row("Claude Messages", &format!("{}", stats.assistant_message_count), &theme))
-                    .child(self.render_detail_row("Tool Uses", &format!("{}", stats.tool_use_count), &theme))
-                    .child(self.render_detail_row("Duration", &stats.format_duration(), &theme))
+                    .child(self.render_detail_row(
+                        "Messages",
+                        &format!("{}", stats.message_count),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Your Messages",
+                        &format!("{}", stats.user_message_count),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Claude Messages",
+                        &format!("{}", stats.assistant_message_count),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row(
+                        "Tool Uses",
+                        &format!("{}", stats.tool_use_count),
+                        &theme,
+                    ))
+                    .child(self.render_detail_row("Duration", &stats.format_duration(), &theme)),
             )
     }
 }

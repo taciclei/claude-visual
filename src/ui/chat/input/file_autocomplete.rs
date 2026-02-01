@@ -1,19 +1,30 @@
 //! File mention autocomplete
 
-use std::path::Path;
-use gpui::*;
-use crate::ai::mention::PartialMentionKind;
-use super::ChatInput;
 use super::utils::{fuzzy_match_files, FileMatch};
+use super::ChatInput;
+use crate::ai::mention::PartialMentionKind;
+use gpui::*;
+use std::path::Path;
 
 /// Maximum number of files to index for autocomplete
 const MAX_FILES: usize = 1000;
 
 /// Default ignore patterns
 const IGNORE_PATTERNS: &[&str] = &[
-    "node_modules", ".git", "target", "dist", "build",
-    ".next", ".nuxt", ".cache", "__pycache__", ".venv",
-    "venv", ".env", "coverage", ".nyc_output",
+    "node_modules",
+    ".git",
+    "target",
+    "dist",
+    "build",
+    ".next",
+    ".nuxt",
+    ".cache",
+    "__pycache__",
+    ".venv",
+    "venv",
+    ".env",
+    "coverage",
+    ".nyc_output",
 ];
 
 impl ChatInput {

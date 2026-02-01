@@ -1,7 +1,7 @@
 //! Permissions panel footer component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 
@@ -54,9 +54,9 @@ pub fn render_footer(
                             .items_center()
                             .gap_1()
                             .child("⌨️")
-                            .child("Press A to approve all, D to deny all")
+                            .child("Press A to approve all, D to deny all"),
                     )
-                })
+                }),
         )
         // Right side - bulk action buttons (when multiple permissions)
         .when(has_multiple, move |d| {
@@ -82,13 +82,10 @@ pub fn render_footer(
                             .text_xs()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(success_color)
-                            .hover(move |s| {
-                                s.bg(success_bg_2)
-                                    .border_color(success_border_2)
-                            })
+                            .hover(move |s| s.bg(success_bg_2).border_color(success_border_2))
                             .on_click(approve_all_listener)
                             .child("✓✓")
-                            .child("Approve All")
+                            .child("Approve All"),
                     )
                     // Deny All button
                     .child(
@@ -107,14 +104,11 @@ pub fn render_footer(
                             .text_xs()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(error_color)
-                            .hover(move |s| {
-                                s.bg(error_bg_2)
-                                    .border_color(error_border_2)
-                            })
+                            .hover(move |s| s.bg(error_bg_2).border_color(error_border_2))
                             .on_click(deny_all_listener)
                             .child("××")
-                            .child("Deny All")
-                    )
+                            .child("Deny All"),
+                    ),
             )
         })
 }

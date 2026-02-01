@@ -1,8 +1,8 @@
 //! Password requirements checklist component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Password requirements checklist
 #[derive(IntoElement)]
@@ -29,10 +29,22 @@ impl PasswordRequirements {
     pub fn from_password(mut self, password: &str) -> Self {
         self.requirements = vec![
             PasswordRequirement::new("At least 8 characters", password.len() >= 8),
-            PasswordRequirement::new("Contains uppercase letter", password.chars().any(|c| c.is_uppercase())),
-            PasswordRequirement::new("Contains lowercase letter", password.chars().any(|c| c.is_lowercase())),
-            PasswordRequirement::new("Contains a number", password.chars().any(|c| c.is_numeric())),
-            PasswordRequirement::new("Contains special character", password.chars().any(|c| !c.is_alphanumeric())),
+            PasswordRequirement::new(
+                "Contains uppercase letter",
+                password.chars().any(|c| c.is_uppercase()),
+            ),
+            PasswordRequirement::new(
+                "Contains lowercase letter",
+                password.chars().any(|c| c.is_lowercase()),
+            ),
+            PasswordRequirement::new(
+                "Contains a number",
+                password.chars().any(|c| c.is_numeric()),
+            ),
+            PasswordRequirement::new(
+                "Contains special character",
+                password.chars().any(|c| !c.is_alphanumeric()),
+            ),
         ];
         self
     }
@@ -72,7 +84,7 @@ impl RenderOnce for PasswordRequirements {
                             .w(px(16.0))
                             .text_size(px(12.0))
                             .text_color(color)
-                            .child(icon)
+                            .child(icon),
                     )
                     .child(
                         div()
@@ -82,7 +94,7 @@ impl RenderOnce for PasswordRequirements {
                             } else {
                                 hsla(0.0, 0.0, 0.8, 1.0)
                             })
-                            .child(req.label.clone())
+                            .child(req.label.clone()),
                     )
             }))
     }

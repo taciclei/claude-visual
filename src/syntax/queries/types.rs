@@ -22,7 +22,11 @@ impl CompiledQuery {
             message: e.to_string(),
         })?;
 
-        let capture_names: Vec<String> = query.capture_names().iter().map(|s| s.to_string()).collect();
+        let capture_names: Vec<String> = query
+            .capture_names()
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
         let capture_count = capture_names.len();
 
         Ok(Self {

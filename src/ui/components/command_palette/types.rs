@@ -14,8 +14,18 @@ pub struct Command {
 }
 
 impl Command {
-    pub const fn new(id: &'static str, label: &'static str, shortcut: Option<&'static str>, category: &'static str) -> Self {
-        Self { id, label, shortcut, category }
+    pub const fn new(
+        id: &'static str,
+        label: &'static str,
+        shortcut: Option<&'static str>,
+        category: &'static str,
+    ) -> Self {
+        Self {
+            id,
+            label,
+            shortcut,
+            category,
+        }
     }
 }
 
@@ -26,33 +36,118 @@ pub const COMMANDS: &[Command] = &[
     Command::new("export_markdown", "Export as Markdown", Some("⌘E"), "Chat"),
     Command::new("clear_conversation", "Clear Conversation", None, "Chat"),
     Command::new("search_messages", "Search Messages", Some("⌘F"), "Chat"),
-    Command::new("copy_conversation", "Copy Conversation", Some("⇧⌘C"), "Chat"),
+    Command::new(
+        "copy_conversation",
+        "Copy Conversation",
+        Some("⇧⌘C"),
+        "Chat",
+    ),
     Command::new("collapse_all", "Collapse All Messages", Some("⌘["), "Chat"),
     Command::new("expand_all", "Expand All Messages", Some("⌘]"), "Chat"),
     Command::new("toggle_compact", "Toggle Compact Mode", None, "Chat"),
     Command::new("toggle_timestamps", "Toggle Timestamps", None, "Chat"),
     Command::new("toggle_bookmarks", "Show Bookmarked Only", None, "Chat"),
     // Claude Code Skills - Implementation
-    Command::new("skill_apex", "APEX: Full Implementation Workflow", None, "Skills"),
-    Command::new("skill_ultrathink", "Ultrathink: Deep Thinking Mode", None, "Skills"),
-    Command::new("skill_oneshot", "Oneshot: Ultra-fast Implementation", None, "Skills"),
-    Command::new("skill_refactor", "Refactor: Multi-agent Refactoring", None, "Skills"),
-    Command::new("skill_clean_code", "Clean Code: Apply Best Practices", None, "Skills"),
+    Command::new(
+        "skill_apex",
+        "APEX: Full Implementation Workflow",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_ultrathink",
+        "Ultrathink: Deep Thinking Mode",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_oneshot",
+        "Oneshot: Ultra-fast Implementation",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_refactor",
+        "Refactor: Multi-agent Refactoring",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_clean_code",
+        "Clean Code: Apply Best Practices",
+        None,
+        "Skills",
+    ),
     // Claude Code Skills - Research & Exploration
-    Command::new("skill_explore", "Explore: Deep Codebase Analysis", None, "Skills"),
-    Command::new("skill_search", "Search: Quick Answer Lookup", None, "Skills"),
-    Command::new("skill_explain", "Explain: Code Feature Deep Dive", None, "Skills"),
-    Command::new("skill_brainstorm", "Brainstorm: Multi-perspective Research", None, "Skills"),
+    Command::new(
+        "skill_explore",
+        "Explore: Deep Codebase Analysis",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_search",
+        "Search: Quick Answer Lookup",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_explain",
+        "Explain: Code Feature Deep Dive",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_brainstorm",
+        "Brainstorm: Multi-perspective Research",
+        None,
+        "Skills",
+    ),
     Command::new("skill_docs", "Docs: Documentation Research", None, "Skills"),
     // Claude Code Skills - Debugging
-    Command::new("skill_debug", "Debug: Systematic Error Analysis", None, "Skills"),
-    Command::new("skill_ci_fixer", "CI Fixer: Auto-fix Pipeline Errors", None, "Skills"),
+    Command::new(
+        "skill_debug",
+        "Debug: Systematic Error Analysis",
+        None,
+        "Skills",
+    ),
+    Command::new(
+        "skill_ci_fixer",
+        "CI Fixer: Auto-fix Pipeline Errors",
+        None,
+        "Skills",
+    ),
     // Claude Code Skills - Git Operations
-    Command::new("skill_commit", "Commit: Smart Commit Message", None, "Git Skills"),
-    Command::new("skill_create_pr", "Create PR: Generate Pull Request", None, "Git Skills"),
-    Command::new("skill_review", "Review: Deep PR Analysis", None, "Git Skills"),
-    Command::new("skill_merge", "Merge: Intelligent Branch Merge", None, "Git Skills"),
-    Command::new("skill_fix_pr", "Fix PR: Address Review Comments", None, "Git Skills"),
+    Command::new(
+        "skill_commit",
+        "Commit: Smart Commit Message",
+        None,
+        "Git Skills",
+    ),
+    Command::new(
+        "skill_create_pr",
+        "Create PR: Generate Pull Request",
+        None,
+        "Git Skills",
+    ),
+    Command::new(
+        "skill_review",
+        "Review: Deep PR Analysis",
+        None,
+        "Git Skills",
+    ),
+    Command::new(
+        "skill_merge",
+        "Merge: Intelligent Branch Merge",
+        None,
+        "Git Skills",
+    ),
+    Command::new(
+        "skill_fix_pr",
+        "Fix PR: Address Review Comments",
+        None,
+        "Git Skills",
+    ),
     // Claude CLI commands
     Command::new("cli_resume", "Resume Previous Session", None, "Claude"),
     Command::new("cli_usage", "Show Token Usage", None, "Claude"),
@@ -74,7 +169,12 @@ pub const COMMANDS: &[Command] = &[
     Command::new("increase_font", "Increase Font Size", Some("⌘+"), "View"),
     Command::new("decrease_font", "Decrease Font Size", Some("⌘-"), "View"),
     Command::new("reset_font", "Reset Font Size", Some("⌘0"), "View"),
-    Command::new("show_shortcuts", "Show Keyboard Shortcuts", Some("⌘?"), "View"),
+    Command::new(
+        "show_shortcuts",
+        "Show Keyboard Shortcuts",
+        Some("⌘?"),
+        "View",
+    ),
     // Panel commands
     Command::new("show_projects", "Show Projects Panel", None, "Panels"),
     Command::new("show_files", "Show Files Panel", None, "Panels"),
@@ -89,8 +189,18 @@ pub const COMMANDS: &[Command] = &[
     // Navigation commands
     Command::new("scroll_top", "Scroll to Top", Some("⌘↑"), "Navigate"),
     Command::new("scroll_bottom", "Scroll to Bottom", Some("⌘↓"), "Navigate"),
-    Command::new("select_next_msg", "Select Next Message", Some("⌥↓"), "Navigate"),
-    Command::new("select_prev_msg", "Select Previous Message", Some("⌥↑"), "Navigate"),
+    Command::new(
+        "select_next_msg",
+        "Select Next Message",
+        Some("⌥↓"),
+        "Navigate",
+    ),
+    Command::new(
+        "select_prev_msg",
+        "Select Previous Message",
+        Some("⌥↑"),
+        "Navigate",
+    ),
     // Project commands
     Command::new("open_project", "Open Project", Some("⌘O"), "Project"),
     Command::new("add_favorite", "Add to Favorites", None, "Project"),

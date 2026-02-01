@@ -74,11 +74,9 @@ impl ThemeLoader {
         let themes_dir = self.themes_dir.clone();
 
         // Run discovery in blocking task
-        let result = tokio::task::spawn_blocking(move || {
-            discover_themes_sync(&themes_dir)
-        })
-        .await
-        .map_err(|e| ThemeLoadError::ReadError(e.to_string()))?;
+        let result = tokio::task::spawn_blocking(move || discover_themes_sync(&themes_dir))
+            .await
+            .map_err(|e| ThemeLoadError::ReadError(e.to_string()))?;
 
         match &result {
             Ok(themes) => {

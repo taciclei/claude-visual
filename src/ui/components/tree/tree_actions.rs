@@ -1,8 +1,8 @@
 //! Tree action methods
 
-use gpui::*;
 use super::tree_state::Tree;
-use super::types::{TreeNode, TreeEvent};
+use super::types::{TreeEvent, TreeNode};
+use gpui::*;
 
 impl Tree {
     /// Expand node

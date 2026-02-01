@@ -1,8 +1,8 @@
 //! Render trait implementation for MCP tools panel
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpToolsPanel;
+use gpui::prelude::*;
+use gpui::*;
 
 impl Render for McpToolsPanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -40,33 +40,34 @@ impl Render for McpToolsPanel {
                                         .child("Pending Approvals"),
                                 )
                                 .children(
-                                    pending.iter().map(|call| self.render_pending_call(call, cx)),
+                                    pending
+                                        .iter()
+                                        .map(|call| self.render_pending_call(call, cx)),
                                 ),
                         )
                     })
-                    .when(filtered_tools.is_empty() && self.pending_calls.is_empty(), |this| {
-                this.child(
-                            div()
-                                .py_4()
-                                .text_center()
-                                .text_sm()
-                                .text_color(theme.colors.text_muted)
-                                .child("No tools available"),
-                        )
-                    })
+                    .when(
+                        filtered_tools.is_empty() && self.pending_calls.is_empty(),
+                        |this| {
+                            this.child(
+                                div()
+                                    .py_4()
+                                    .text_center()
+                                    .text_sm()
+                                    .text_color(theme.colors.text_muted)
+                                    .child("No tools available"),
+                            )
+                        },
+                    )
                     .when(!filtered_tools.is_empty(), |this| {
                         let tools: Vec<_> = filtered_tools.iter().cloned().cloned().collect();
                         this.child(
-                            div()
-                                .flex()
-                                .flex_col()
-                                .gap_1()
-                                .children(
-                                    tools
-                                        .iter()
-                                        .enumerate()
-                                        .map(|(i, tool)| self.render_tool_item(tool, i, cx)),
-                                ),
+                            div().flex().flex_col().gap_1().children(
+                                tools
+                                    .iter()
+                                    .enumerate()
+                                    .map(|(i, tool)| self.render_tool_item(tool, i, cx)),
+                            ),
                         )
                     }),
             )

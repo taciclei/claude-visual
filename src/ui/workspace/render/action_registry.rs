@@ -1,21 +1,21 @@
 //! Action handler registration for workspace
 
-use gpui::*;
+use super::super::core::Workspace;
 use crate::{
     AddTestsAction, BookmarkSelectedMessage, ClearConversation, CloseTab, CollapseAllMessages,
-    CopyConversation, CopySelectedMessage, ExecuteCodeAction, ExplainCodeAction, ExpandAllMessages,
-    ExportConversation, ImproveCodeAction, NewConversation, NewTab, NextSearchResult, NextTab,
-    OpenCommandPalette, OpenSettings, PrevSearchResult, PrevTab, RefactorCodeAction, ReviewCodeAction,
-    SaveCodeToFileAction, SelectFirstMessage, SelectLastMessage, SelectNextMessage, SelectPrevMessage,
+    CopyConversation, CopyLastResponse, CopySelectedMessage, CycleMessageFilter, DecreaseFontSize,
+    DismissOverlays, ExecuteCodeAction, ExpandAllMessages, ExplainCodeAction, ExportConversation,
+    ImproveCodeAction, IncreaseFontSize, NewConversation, NewTab, NextSearchResult, NextTab,
+    OpenCommandPalette, OpenSettings, PrevSearchResult, PrevTab, RefactorCodeAction,
+    RegenerateLastResponse, ResetFontSize, ReviewCodeAction, SaveCodeToFileAction, ScrollToBottom,
+    ScrollToTop, SelectFirstMessage, SelectLastMessage, SelectNextMessage, SelectPrevMessage,
     SelectTab1, SelectTab2, SelectTab3, SelectTab4, SelectTab5, SelectTab6, SelectTab7, SelectTab8,
-    SelectTab9, ToggleChatSearch, ToggleSidebar, ToggleStats, ToggleTheme, ToggleVimMode,
-    ToggleWordWrap, ToggleLineNumbers, ToggleFocusMode, ShowShortcuts, IncreaseFontSize,
-    DecreaseFontSize, ResetFontSize, ToggleHighContrast, ToggleCompactMode, ToggleTimestamps,
-    ToggleAutoScroll, ToggleBookmarkedFilter, CycleMessageFilter, ScrollToTop, ScrollToBottom,
-    DismissOverlays, ToggleModelSwitcher, CopyLastResponse, RegenerateLastResponse,
-    SkipToMain, SkipToInput, SkipToNavigation, SkipToSidebar,
+    SelectTab9, ShowShortcuts, SkipToInput, SkipToMain, SkipToNavigation, SkipToSidebar,
+    ToggleAutoScroll, ToggleBookmarkedFilter, ToggleChatSearch, ToggleCompactMode, ToggleFocusMode,
+    ToggleHighContrast, ToggleLineNumbers, ToggleModelSwitcher, ToggleSidebar, ToggleStats,
+    ToggleTheme, ToggleTimestamps, ToggleVimMode, ToggleWordWrap,
 };
-use super::super::core::Workspace;
+use gpui::*;
 
 /// Registers all action handlers on the provided div
 pub fn register_actions(div: Stateful<Div>, cx: &mut Context<Workspace>) -> Stateful<Div> {

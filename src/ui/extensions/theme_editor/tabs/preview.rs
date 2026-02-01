@@ -1,7 +1,7 @@
 //! Preview tab rendering
 
-use gpui::*;
 use crate::ui::span;
+use gpui::*;
 
 use crate::ui::extensions::theme_editor::ThemeEditor;
 
@@ -190,7 +190,11 @@ impl ThemeEditor {
                         div()
                             .flex()
                             .child(span().text_color(editing.syntax.keyword).child("fn "))
-                            .child(span().text_color(editing.syntax.function).child("calculate"))
+                            .child(
+                                span()
+                                    .text_color(editing.syntax.function)
+                                    .child("calculate"),
+                            )
                             .child(span().text_color(editing.syntax.punctuation).child("("))
                             .child(span().text_color(editing.syntax.variable).child("x"))
                             .child(span().text_color(editing.syntax.punctuation).child(": "))
@@ -226,7 +230,11 @@ impl ThemeEditor {
                             .flex()
                             .child(span().text_color(editing.syntax.function).child("println!"))
                             .child(span().text_color(editing.syntax.punctuation).child("("))
-                            .child(span().text_color(editing.syntax.string).child("\"Result: {}\""))
+                            .child(
+                                span()
+                                    .text_color(editing.syntax.string)
+                                    .child("\"Result: {}\""),
+                            )
                             .child(span().text_color(editing.syntax.punctuation).child(", "))
                             .child(span().text_color(editing.syntax.variable).child("result"))
                             .child(span().text_color(editing.syntax.punctuation).child(");")),
@@ -239,11 +247,7 @@ impl ThemeEditor {
                             .child(span().text_color(editing.syntax.variable).child("result")),
                     )
                     // Line 6: closing brace
-                    .child(
-                        div()
-                            .text_color(editing.syntax.punctuation)
-                            .child("}"),
-                    ),
+                    .child(div().text_color(editing.syntax.punctuation).child("}")),
             )
     }
 }

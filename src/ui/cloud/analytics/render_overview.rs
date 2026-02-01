@@ -1,14 +1,18 @@
 //! Overview rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::cloud::team::UsageAnalytics;
 use super::panel::AnalyticsPanel;
+use crate::cloud::team::UsageAnalytics;
 
 impl AnalyticsPanel {
     /// Render overview
-    pub(super) fn render_overview(&self, analytics: &UsageAnalytics, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_overview(
+        &self,
+        analytics: &UsageAnalytics,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
 
         div()

@@ -1,8 +1,8 @@
 //! DAP event body types
 
+use super::types::Source;
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
-use super::types::Source;
 
 /// Stopped event body
 #[derive(Debug, Clone, Serialize, Deserialize)]

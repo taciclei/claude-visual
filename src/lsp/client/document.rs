@@ -6,7 +6,13 @@ use super::core::LspClient;
 
 impl LspClient {
     /// Open a document
-    pub async fn did_open(&self, uri: &str, language_id: &str, version: i32, text: &str) -> Result<(), String> {
+    pub async fn did_open(
+        &self,
+        uri: &str,
+        language_id: &str,
+        version: i32,
+        text: &str,
+    ) -> Result<(), String> {
         self.notify(
             "textDocument/didOpen",
             Some(json!({

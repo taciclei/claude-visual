@@ -36,9 +36,7 @@ impl TeamManager {
             .ok_or_else(|| TeamError::Unauthorized("Not a team member".to_string()))?;
 
         if !role.can_manage_projects() && !team.settings.members_can_create_projects {
-            return Err(TeamError::Unauthorized(
-                "Cannot share projects".to_string(),
-            ));
+            return Err(TeamError::Unauthorized("Cannot share projects".to_string()));
         }
 
         let now = Utc::now();

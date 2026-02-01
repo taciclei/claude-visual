@@ -2,16 +2,16 @@
 //!
 //! GPUI component for displaying and interacting with the terminal.
 
-mod types;
 mod core;
 mod handlers;
+mod render;
 mod scroll;
 mod selection;
-mod utils;
-mod traits;
-mod render;
 mod tests;
+mod traits;
+mod types;
+mod utils;
 
 // Re-export public types
-pub use types::TerminalViewEvent;
 pub use core::TerminalView;
+pub use types::TerminalViewEvent;

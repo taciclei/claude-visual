@@ -2,19 +2,19 @@
 //!
 //! Provides visual meter and gauge components for displaying values.
 
-mod types;
-mod meter;
-mod circular_gauge;
 mod battery;
+mod circular_gauge;
+mod meter;
 mod signal;
 mod speedometer;
+mod types;
 
-pub use types::{MeterSize, MeterVariant, MeterOrientation};
-pub use meter::Meter;
-pub use circular_gauge::CircularGauge;
 pub use battery::BatteryIndicator;
+pub use circular_gauge::CircularGauge;
+pub use meter::Meter;
 pub use signal::SignalStrength;
 pub use speedometer::Speedometer;
+pub use types::{MeterOrientation, MeterSize, MeterVariant};
 
 #[cfg(test)]
 mod tests {

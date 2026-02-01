@@ -1,7 +1,7 @@
 //! Diagnostic types for errors, warnings, and related information
 
-use serde::{Deserialize, Serialize};
 use super::types::{Location, Range};
+use serde::{Deserialize, Serialize};
 
 /// Diagnostic severity
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

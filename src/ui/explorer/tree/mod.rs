@@ -2,14 +2,14 @@
 //!
 //! GPUI component for browsing files and directories.
 
-mod types;
 mod core;
 mod keyboard;
 mod render;
+mod types;
 
 // Re-export public types
-pub use types::{FileTreeEvent, DraggedFile, DraggedFiles};
 pub use core::FileTree;
+pub use types::{DraggedFile, DraggedFiles, FileTreeEvent};
 
 #[cfg(test)]
 mod tests {

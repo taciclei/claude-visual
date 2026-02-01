@@ -1,11 +1,11 @@
 //! Main chip/tag component
 
-use std::sync::Arc;
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Single chip/tag component
 pub struct Chip {
@@ -31,7 +31,11 @@ pub struct Chip {
 }
 
 impl Chip {
-    pub fn new(app_state: Arc<AppState>, label: impl Into<String>, _cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        app_state: Arc<AppState>,
+        label: impl Into<String>,
+        _cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             label: label.into(),
@@ -124,21 +128,33 @@ impl Render for Chip {
                 if self.selected {
                     (base_color, base_color, white())
                 } else {
-                    (theme.colors.surface_hover, theme.colors.border, theme.colors.text)
+                    (
+                        theme.colors.surface_hover,
+                        theme.colors.border,
+                        theme.colors.text,
+                    )
                 }
             }
             ChipVariant::Outlined => {
                 if self.selected {
                     (base_color.opacity(0.1), base_color, base_color)
                 } else {
-                    (theme.colors.surface.opacity(0.0), theme.colors.border, theme.colors.text)
+                    (
+                        theme.colors.surface.opacity(0.0),
+                        theme.colors.border,
+                        theme.colors.text,
+                    )
                 }
             }
             ChipVariant::Soft => {
                 if self.selected {
                     (base_color.opacity(0.2), base_color.opacity(0.0), base_color)
                 } else {
-                    (theme.colors.surface_hover.opacity(0.5), theme.colors.surface_hover.opacity(0.0), theme.colors.text_muted)
+                    (
+                        theme.colors.surface_hover.opacity(0.5),
+                        theme.colors.surface_hover.opacity(0.0),
+                        theme.colors.text_muted,
+                    )
                 }
             }
         };
@@ -174,7 +190,7 @@ impl Render for Chip {
                         .justify_center()
                         .text_size(px(font_size - 2.0))
                         .ml(px(-padding + 4.0))
-                        .child(avatar)
+                        .child(avatar),
                 )
             })
             // Icon
@@ -183,7 +199,7 @@ impl Render for Chip {
                     div()
                         .text_size(px(font_size))
                         .text_color(text_color)
-                        .child(icon)
+                        .child(icon),
                 )
             })
             // Label
@@ -191,7 +207,7 @@ impl Render for Chip {
                 div()
                     .text_size(px(font_size))
                     .text_color(text_color)
-                    .child(self.label.clone())
+                    .child(self.label.clone()),
             )
             // Delete button
             .when(self.deletable, |d| {
@@ -210,7 +226,7 @@ impl Render for Chip {
                         .on_click(cx.listener(|this, _, _window, cx| {
                             cx.emit(ChipEvent::Deleted);
                         }))
-                        .child("×")
+                        .child("×"),
                 )
             })
     }

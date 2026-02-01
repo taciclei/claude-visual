@@ -1,12 +1,12 @@
 //! Toolbar with quick action buttons
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::theme::Theme;
 
-use super::ChatInput;
 use super::types::ChatInputEvent;
+use super::ChatInput;
 
 impl ChatInput {
     /// Render toolbar with attach, command, templates, skills, and think mode buttons
@@ -65,12 +65,7 @@ impl ChatInput {
                     .on_click(cx.listener(move |_this, _, _window, cx| {
                         cx.emit(ChatInputEvent::Submit(skill_cmd.clone()));
                     }))
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(btn_color)
-                            .child(*icon)
-                    )
+                    .child(div().text_xs().text_color(btn_color).child(*icon))
             }))
             // Separator
             .child(
@@ -78,7 +73,7 @@ impl ChatInput {
                     .w(px(20.0))
                     .h_px()
                     .bg(theme.colors.border.opacity(0.5))
-                    .my_1()
+                    .my_1(),
             )
             // Secondary skills (more subtle styling)
             .child(self.render_secondary_skills(theme, cx))
@@ -86,10 +81,7 @@ impl ChatInput {
 
     /// Render secondary skill buttons
     fn render_secondary_skills(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
-        let secondary_skills = [
-            ("👀", "review"),
-            ("🚀", "oneshot"),
-        ];
+        let secondary_skills = [("👀", "review"), ("🚀", "oneshot")];
 
         div()
             .flex()
@@ -120,7 +112,7 @@ impl ChatInput {
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child(*icon)
+                            .child(*icon),
                     )
             }))
     }
@@ -159,8 +151,8 @@ impl ChatInput {
                         div()
                             .text_sm()
                             .text_color(theme.colors.text_muted)
-                            .child("📎")
-                    )
+                            .child("📎"),
+                    ),
             )
             // Keyboard hint: @ for mentions
             .child(
@@ -168,7 +160,7 @@ impl ChatInput {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .font_family("monospace")
-                    .child("@")
+                    .child("@"),
             )
     }
 
@@ -209,8 +201,8 @@ impl ChatInput {
                             .text_sm()
                             .text_color(theme.colors.text_muted)
                             .font_family("monospace")
-                            .child("/")
-                    )
+                            .child("/"),
+                    ),
             )
             // Keyboard hint: / for commands
             .child(
@@ -218,7 +210,7 @@ impl ChatInput {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .font_family("monospace")
-                    .child("/")
+                    .child("/"),
             )
     }
 
@@ -236,9 +228,17 @@ impl ChatInput {
                     .id("templates-button")
                     .size(px(32.0))
                     .rounded_md()
-                    .bg(if is_open { theme.colors.accent.opacity(0.2) } else { theme.colors.surface })
+                    .bg(if is_open {
+                        theme.colors.accent.opacity(0.2)
+                    } else {
+                        theme.colors.surface
+                    })
                     .border_1()
-                    .border_color(if is_open { theme.colors.accent.opacity(0.5) } else { theme.colors.border })
+                    .border_color(if is_open {
+                        theme.colors.accent.opacity(0.5)
+                    } else {
+                        theme.colors.border
+                    })
                     .flex()
                     .items_center()
                     .justify_center()
@@ -253,9 +253,13 @@ impl ChatInput {
                     .child(
                         div()
                             .text_sm()
-                            .text_color(if is_open { theme.colors.accent } else { theme.colors.text_muted })
-                            .child("📋")
-                    )
+                            .text_color(if is_open {
+                                theme.colors.accent
+                            } else {
+                                theme.colors.text_muted
+                            })
+                            .child("📋"),
+                    ),
             )
             // Keyboard hint
             .child(
@@ -263,7 +267,7 @@ impl ChatInput {
                     .text_xs()
                     .text_color(theme.colors.text_muted)
                     .font_family("monospace")
-                    .child("T")
+                    .child("T"),
             )
     }
 
@@ -310,20 +314,19 @@ impl ChatInput {
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(ChatInputEvent::ToggleThinkMode);
                     }))
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_color(icon_color)
-                            .child("🧠")
-                    )
+                    .child(div().text_sm().text_color(icon_color).child("🧠")),
             )
             // Status hint
             .child(
                 div()
                     .text_xs()
-                    .text_color(if is_enabled { theme.colors.warning } else { theme.colors.text_muted })
+                    .text_color(if is_enabled {
+                        theme.colors.warning
+                    } else {
+                        theme.colors.text_muted
+                    })
                     .font_family("monospace")
-                    .child(if is_enabled { "ON" } else { "—" })
+                    .child(if is_enabled { "ON" } else { "—" }),
             )
     }
 }

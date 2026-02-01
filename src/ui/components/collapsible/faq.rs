@@ -1,7 +1,7 @@
 //! FAQ components with questions and answers
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// FAQ item with question and answer
 #[derive(IntoElement)]

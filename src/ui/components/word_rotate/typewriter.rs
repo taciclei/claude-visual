@@ -1,7 +1,7 @@
 //! Typewriter component - types out text character by character
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Typewriter effect component - types out text character by character
 #[derive(IntoElement)]
@@ -66,10 +66,7 @@ impl RenderOnce for Typewriter {
         let color = self.text_color.unwrap_or(hsla(0.0, 0.0, 0.9, 1.0));
         let cursor_color = self.cursor_color.unwrap_or(hsla(0.6, 0.7, 0.5, 1.0));
 
-        let visible_text: String = self.text
-            .chars()
-            .take(self.visible_chars)
-            .collect();
+        let visible_text: String = self.text.chars().take(self.visible_chars).collect();
 
         div()
             .id(self.id)
@@ -78,14 +75,14 @@ impl RenderOnce for Typewriter {
                 div()
                     .text_size(px(self.font_size))
                     .text_color(color)
-                    .child(visible_text)
+                    .child(visible_text),
             )
             .when(self.cursor_visible, |el| {
                 el.child(
                     div()
                         .text_size(px(self.font_size))
                         .text_color(cursor_color)
-                        .child(self.cursor_char.clone())
+                        .child(self.cursor_char.clone()),
                 )
             })
     }

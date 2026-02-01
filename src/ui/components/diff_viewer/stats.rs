@@ -1,9 +1,9 @@
 //! Diff statistics and file change badge components
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::types::*;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Diff stat summary
 #[derive(IntoElement)]
@@ -74,15 +74,11 @@ impl RenderOnce for DiffStat {
             .gap_3()
             .text_sm()
             .when(!self.compact, |d| {
-                d.child(
-                    div()
-                        .text_color(rgba(0xccccccff))
-                        .child(format!(
-                            "{} file{} changed",
-                            self.files_changed,
-                            if self.files_changed == 1 { "" } else { "s" }
-                        )),
-                )
+                d.child(div().text_color(rgba(0xccccccff)).child(format!(
+                    "{} file{} changed",
+                    self.files_changed,
+                    if self.files_changed == 1 { "" } else { "s" }
+                )))
             })
             .child(
                 div()
@@ -109,12 +105,7 @@ impl RenderOnce for DiffStat {
                         .rounded_full()
                         .overflow_hidden()
                         .bg(rgb(0xef4444))
-                        .child(
-                            div()
-                                .h_full()
-                                .w(pct(add_ratio * 100.0))
-                                .bg(rgb(0x22c55e)),
-                        ),
+                        .child(div().h_full().w(pct(add_ratio * 100.0)).bg(rgb(0x22c55e))),
                 )
             })
     }

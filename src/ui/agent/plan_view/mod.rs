@@ -2,11 +2,11 @@
 //!
 //! Displays an execution plan with steps, dependencies, and risk levels.
 
-mod state;
 mod rendering;
+mod state;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::agent::planner::Plan;
 use crate::app::theme::Theme;
@@ -43,44 +43,32 @@ impl Render for PlanView {
         let theme_background = self.theme.colors.background;
         let theme_text_muted = self.theme.colors.text_muted;
 
-        div()
-            .flex()
-            .flex_col()
-            .h_full()
-            .bg(theme_background)
-            .child(
-                if let Some(plan) = &self.plan {
+        div().flex().flex_col().h_full().bg(theme_background).child(
+            if let Some(plan) = &self.plan {
+                div()
+                    .flex()
+                    .flex_col()
+                    .h_full()
+                    .child(self.render_header(plan))
+                    .child(
+                        div()
+                            .flex()
+                            .flex_col()
+                            .gap_2()
+                            .flex_1()
+                            .id("plan-scroll-container")
+                            .overflow_y_scroll()
+                            .p_4()
+                            .children(plan.steps.iter().map(|step| self.render_step(step, cx))),
+                    )
+            } else {
+                div().flex().items_center().justify_center().h_full().child(
                     div()
-                        .flex()
-                        .flex_col()
-                        .h_full()
-                        .child(self.render_header(plan))
-                        .child(
-                            div()
-                                .flex()
-                                .flex_col()
-                                .gap_2()
-                                .flex_1()
-                                .id("plan-scroll-container")
-                                .overflow_y_scroll()
-                                .p_4()
-                                .children(
-                                    plan.steps.iter().map(|step| self.render_step(step, cx))
-                                )
-                        )
-                } else {
-                    div()
-                        .flex()
-                        .items_center()
-                        .justify_center()
-                        .h_full()
-                        .child(
-                            div()
-                                .text_sm()
-                                .text_color(theme_text_muted)
-                                .child("No plan loaded")
-                        )
-                }
-            )
+                        .text_sm()
+                        .text_color(theme_text_muted)
+                        .child("No plan loaded"),
+                )
+            },
+        )
     }
 }

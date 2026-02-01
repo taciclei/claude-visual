@@ -1,7 +1,7 @@
 //! Link type definitions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Link style variants
 #[derive(Debug, Clone, Copy, Default, PartialEq)]

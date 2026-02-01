@@ -2,19 +2,19 @@
 //!
 //! Provides infinite scrolling, lazy loading, and pull-to-refresh functionality.
 
-mod types;
 mod infinite_scroll;
 mod lazy_load_container;
-mod pull_to_refresh;
-mod virtual_scroller;
 mod load_more_trigger;
+mod pull_to_refresh;
+mod types;
+mod virtual_scroller;
 
-pub use types::*;
 pub use infinite_scroll::InfiniteScroll;
 pub use lazy_load_container::LazyLoadContainer;
-pub use pull_to_refresh::PullToRefresh;
-pub use virtual_scroller::VirtualScroller;
 pub use load_more_trigger::LoadMoreTrigger;
+pub use pull_to_refresh::PullToRefresh;
+pub use types::*;
+pub use virtual_scroller::VirtualScroller;
 
 #[cfg(test)]
 mod tests {

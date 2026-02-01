@@ -4,8 +4,8 @@ use std::sync::Arc;
 
 use gpui::*;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// Table component
 pub struct Table {
@@ -158,12 +158,10 @@ impl Table {
     /// Sort by column
     pub fn sort_by(&mut self, column: &str, cx: &mut Context<Self>) {
         let direction = match &self.sort {
-            Some(sort) if sort.column == column => {
-                match sort.direction {
-                    SortDirection::Ascending => SortDirection::Descending,
-                    SortDirection::Descending => SortDirection::Ascending,
-                }
-            }
+            Some(sort) if sort.column == column => match sort.direction {
+                SortDirection::Ascending => SortDirection::Descending,
+                SortDirection::Descending => SortDirection::Ascending,
+            },
             _ => SortDirection::Ascending,
         };
 

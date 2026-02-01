@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use super::CodeBlockView;
 use super::super::types::SearchMatch;
+use super::CodeBlockView;
 
 impl CodeBlockView {
     /// Toggle search visibility

@@ -164,8 +164,7 @@ impl CloudAuth {
             .get(&profile.provider)
             .ok_or_else(|| AuthError::OAuth("Provider not configured".to_string()))?;
 
-        let new_tokens =
-            refresh_access_token(profile.provider, config, &refresh_token).await?;
+        let new_tokens = refresh_access_token(profile.provider, config, &refresh_token).await?;
 
         *self.tokens.write().await = Some(new_tokens.clone());
         self.save_tokens(&new_tokens).await?;

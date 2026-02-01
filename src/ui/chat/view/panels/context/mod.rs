@@ -1,19 +1,23 @@
 //! Context panel render functions
 
-mod header;
-mod usage_bar;
 mod files_section;
-mod tools_section;
-mod session_info;
 mod footer;
+mod header;
+mod session_info;
+mod tools_section;
+mod usage_bar;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_context_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_context_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let theme_clone = theme.clone();
         let session_info = self.session_info.as_ref();
 
@@ -62,10 +66,10 @@ impl ChatView {
                             // Session info
                             .when_some(session_info, |d, info| {
                                 d.child(self.render_session_info(&theme_clone, info))
-                            })
+                            }),
                     )
                     // Footer
-                    .child(self.render_context_footer(&theme_clone, cx))
+                    .child(self.render_context_footer(&theme_clone, cx)),
             )
     }
 }

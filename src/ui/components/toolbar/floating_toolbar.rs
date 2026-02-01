@@ -1,8 +1,8 @@
 //! Floating action toolbar component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Floating action toolbar - contextual actions
 #[derive(IntoElement)]
@@ -101,7 +101,7 @@ impl RenderOnce for FloatingToolbar {
                         } else {
                             hsla(0.0, 0.0, 0.8, 1.0)
                         })
-                        .child(item.icon.clone())
+                        .child(item.icon.clone()),
                 )
             }))
     }

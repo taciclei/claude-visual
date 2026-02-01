@@ -1,7 +1,7 @@
 //! Command display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Command display (for terminal commands)
 #[derive(Clone)]
@@ -58,14 +58,10 @@ impl RenderOnce for Command {
                     .child(
                         div()
                             .text_color(prompt)
-                            .child(self.shell.unwrap_or_else(|| "$".to_string()))
+                            .child(self.shell.unwrap_or_else(|| "$".to_string())),
                     )
                     // Command
-                    .child(
-                        div()
-                            .text_color(text)
-                            .child(self.command)
-                    )
+                    .child(div().text_color(text).child(self.command)),
             )
             .when(self.copyable, |d| {
                 d.child(
@@ -78,8 +74,11 @@ impl RenderOnce for Command {
                         .text_xs()
                         .text_color(text_muted)
                         .cursor_pointer()
-                        .hover(|s| s.bg(hsla(0.0, 0.0, 0.18, 1.0)).text_color(hsla(0.0, 0.0, 0.9, 1.0)))
-                        .child("📋")
+                        .hover(|s| {
+                            s.bg(hsla(0.0, 0.0, 0.18, 1.0))
+                                .text_color(hsla(0.0, 0.0, 0.9, 1.0))
+                        })
+                        .child("📋"),
                 )
             })
     }

@@ -1,7 +1,7 @@
 //! Thumbs up/down feedback component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Thumbs up/down feedback
 #[derive(Clone)]
@@ -54,15 +54,14 @@ impl RenderOnce for ThumbsFeedback {
                     .justify_center()
                     .text_base()
                     .when(up_selected, |d| {
-                        d.bg(success.opacity(0.15))
-                            .text_color(success)
+                        d.bg(success.opacity(0.15)).text_color(success)
                     })
                     .when(!up_selected, |d| {
                         d.text_color(muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover).text_color(text))
                     })
-                    .child("👍")
+                    .child("👍"),
             )
             // Thumbs down
             .child(
@@ -74,15 +73,14 @@ impl RenderOnce for ThumbsFeedback {
                     .justify_center()
                     .text_base()
                     .when(down_selected, |d| {
-                        d.bg(error.opacity(0.15))
-                            .text_color(error)
+                        d.bg(error.opacity(0.15)).text_color(error)
                     })
                     .when(!down_selected, |d| {
                         d.text_color(muted)
                             .cursor_pointer()
                             .hover(|s| s.bg(surface_hover).text_color(text))
                     })
-                    .child("👎")
+                    .child("👎"),
             )
     }
 }

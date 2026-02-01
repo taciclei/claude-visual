@@ -1,7 +1,7 @@
 //! Content area rendering for history sidebar
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::HistorySidebar;
 use super::super::types::DisplayMode;
@@ -16,7 +16,13 @@ impl HistorySidebar {
     ) -> impl IntoElement {
         let mut conversation_children = Vec::new();
         for (id, title, time, is_selected) in conversation_items {
-            conversation_children.push(self.render_conversation_item(id, title, time, is_selected, cx));
+            conversation_children.push(self.render_conversation_item(
+                id,
+                title,
+                time,
+                is_selected,
+                cx,
+            ));
         }
 
         let mut search_children = Vec::new();

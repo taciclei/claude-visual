@@ -9,29 +9,29 @@ use crate::app::state::AppState;
 use crate::ui::vim::VimState;
 
 // Module declarations
-mod types;
-mod vim;
 mod autocomplete;
 mod file_autocomplete;
-mod mentions;
-mod history;
 mod file_drop;
+mod history;
 mod key_handling;
-mod text_ops;
+mod mentions;
 mod render;
+mod text_ops;
+mod types;
+mod vim;
 
 // Rendering modules
-mod utils;
-mod drag_overlay;
-mod vim_indicator;
-mod context_chips;
 mod command_dropdown;
+mod context_chips;
+mod drag_overlay;
 mod file_dropdown;
-mod templates_dropdown;
-mod toolbar;
+mod footer;
 mod input_area;
 mod send_button;
-mod footer;
+mod templates_dropdown;
+mod toolbar;
+mod utils;
+mod vim_indicator;
 
 // Re-exports
 pub use types::ChatInputEvent;
@@ -188,7 +188,10 @@ impl ChatInput {
     pub fn insert_text(&mut self, text: &str, cx: &mut Context<Self>) {
         // Add a space before if there's text and cursor is not at start
         if self.cursor_position > 0 && !self.text.is_empty() {
-            let char_before = self.text.chars().nth(self.cursor_position.saturating_sub(1));
+            let char_before = self
+                .text
+                .chars()
+                .nth(self.cursor_position.saturating_sub(1));
             if char_before != Some(' ') {
                 self.text.insert(self.cursor_position, ' ');
                 self.cursor_position += 1;

@@ -1,9 +1,9 @@
 //! Podcast player component
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::types::PlaybackState;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Podcast player component
 #[derive(IntoElement)]
@@ -97,8 +97,8 @@ impl RenderOnce for PodcastPlayer {
                     .child(
                         div()
                             .text_size(px(32.0))
-                            .child(self.artwork.unwrap_or("🎙️".into()))
-                    )
+                            .child(self.artwork.unwrap_or("🎙️".into())),
+                    ),
             )
             // Content
             .child(
@@ -118,14 +118,14 @@ impl RenderOnce for PodcastPlayer {
                                     .font_weight(gpui::FontWeight::SEMIBOLD)
                                     .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                                     .text_ellipsis()
-                                    .child(self.title.clone())
+                                    .child(self.title.clone()),
                             )
                             .child(
                                 div()
                                     .text_size(px(13.0))
                                     .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                                    .child(self.podcast_name.clone())
-                            )
+                                    .child(self.podcast_name.clone()),
+                            ),
                     )
                     // Progress
                     .child(
@@ -144,8 +144,8 @@ impl RenderOnce for PodcastPlayer {
                                             .h_full()
                                             .w(pct(progress * 100.0))
                                             .bg(hsla(0.6, 0.7, 0.5, 1.0))
-                                            .rounded_full()
-                                    )
+                                            .rounded_full(),
+                                    ),
                             )
                             .child(
                                 div()
@@ -162,8 +162,8 @@ impl RenderOnce for PodcastPlayer {
                                         "-{}:{:02}",
                                         ((self.duration - self.current_time) / 60.0).floor() as i32,
                                         ((self.duration - self.current_time) % 60.0).floor() as i32
-                                    ))
-                            )
+                                    )),
+                            ),
                     )
                     // Controls
                     .child(
@@ -181,7 +181,7 @@ impl RenderOnce for PodcastPlayer {
                                             .text_size(px(14.0))
                                             .text_color(hsla(0.0, 0.0, 0.7, 1.0))
                                             .cursor_pointer()
-                                            .child("-15s")
+                                            .child("-15s"),
                                     )
                                     .child(
                                         div()
@@ -197,16 +197,16 @@ impl RenderOnce for PodcastPlayer {
                                                 div()
                                                     .text_size(px(18.0))
                                                     .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                                    .child(play_icon)
-                                            )
+                                                    .child(play_icon),
+                                            ),
                                     )
                                     .child(
                                         div()
                                             .text_size(px(14.0))
                                             .text_color(hsla(0.0, 0.0, 0.7, 1.0))
                                             .cursor_pointer()
-                                            .child("+30s")
-                                    )
+                                            .child("+30s"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -218,9 +218,9 @@ impl RenderOnce for PodcastPlayer {
                                     .font_weight(gpui::FontWeight::MEDIUM)
                                     .text_color(hsla(0.0, 0.0, 0.7, 1.0))
                                     .cursor_pointer()
-                                    .child(format!("{}x", self.playback_speed))
-                            )
-                    )
+                                    .child(format!("{}x", self.playback_speed)),
+                            ),
+                    ),
             )
     }
 }

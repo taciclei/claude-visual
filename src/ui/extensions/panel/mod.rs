@@ -3,13 +3,13 @@
 //! This panel displays installed extensions and allows users to
 //! enable, disable, and configure them.
 
-mod types;
+mod available_tab;
+mod installed_tab;
 mod panel;
 mod render_item;
 mod render_tabs;
-mod installed_tab;
-mod available_tab;
+mod types;
 mod updates_tab;
 
-pub use types::*;
 pub use panel::*;
+pub use types::*;

@@ -81,24 +81,26 @@ impl RenderOnce for Ticker {
                                     .text_size(px(12.0))
                                     .font_weight(gpui::FontWeight::SEMIBOLD)
                                     .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                                    .child(item.symbol.clone())
+                                    .child(item.symbol.clone()),
                             )
                             .child(
                                 div()
                                     .text_size(px(13.0))
                                     .font_weight(gpui::FontWeight::MEDIUM)
                                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(item.value.clone())
+                                    .child(item.value.clone()),
                             )
                             .when(change_text.is_some(), |el| {
                                 el.child(
                                     div()
                                         .text_size(px(12.0))
-                                        .text_color(change_color.unwrap_or(hsla(0.0, 0.0, 0.6, 1.0)))
-                                        .child(change_text.unwrap_or_default())
+                                        .text_color(
+                                            change_color.unwrap_or(hsla(0.0, 0.0, 0.6, 1.0)),
+                                        )
+                                        .child(change_text.unwrap_or_default()),
                                 )
                             })
-                    }))
+                    })),
             )
     }
 }

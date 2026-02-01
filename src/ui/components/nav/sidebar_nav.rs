@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::NavSection;
 
@@ -77,7 +77,11 @@ impl RenderOnce for SidebarNav {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.08, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.2, 1.0));
-        let width = if self.collapsed { self.collapsed_width } else { self.width };
+        let width = if self.collapsed {
+            self.collapsed_width
+        } else {
+            self.width
+        };
 
         div()
             .id(self.id)
@@ -90,13 +94,12 @@ impl RenderOnce for SidebarNav {
             .border_color(border)
             .child(
                 // Header
-                div()
-                    .when(self.header.is_some(), |el| {
-                        el.p(px(12.0))
-                            .border_b_1()
-                            .border_color(border)
-                            .child(self.header.unwrap())
-                    })
+                div().when(self.header.is_some(), |el| {
+                    el.p(px(12.0))
+                        .border_b_1()
+                        .border_color(border)
+                        .child(self.header.unwrap())
+                }),
             )
             .child(
                 // Sections
@@ -118,7 +121,7 @@ impl RenderOnce for SidebarNav {
                                         .text_size(px(11.0))
                                         .font_weight(gpui::FontWeight::SEMIBOLD)
                                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                        .child(section.title.unwrap_or_default())
+                                        .child(section.title.unwrap_or_default()),
                                 )
                             })
                             .children(section.items.into_iter().map(|item| {
@@ -134,15 +137,11 @@ impl RenderOnce for SidebarNav {
                                     .gap(px(10.0))
                                     .rounded(px(6.0))
                                     .cursor_pointer()
-                                    .when(is_active, |el| {
-                                        el.bg(hsla(0.0, 0.0, 0.15, 1.0))
-                                    })
+                                    .when(is_active, |el| el.bg(hsla(0.0, 0.0, 0.15, 1.0)))
                                     .when(!is_active && !item.disabled, |el| {
                                         el.hover(|style| style.bg(hsla(0.0, 0.0, 0.12, 1.0)))
                                     })
-                                    .when(item.disabled, |el| {
-                                        el.opacity(0.5).cursor_not_allowed()
-                                    })
+                                    .when(item.disabled, |el| el.opacity(0.5).cursor_not_allowed())
                                     .when(item.icon.is_some(), |el| {
                                         el.child(
                                             div()
@@ -152,7 +151,7 @@ impl RenderOnce for SidebarNav {
                                                 } else {
                                                     hsla(0.0, 0.0, 0.5, 1.0)
                                                 })
-                                                .child(item.icon.clone().unwrap_or_default())
+                                                .child(item.icon.clone().unwrap_or_default()),
                                         )
                                     })
                                     .when(!self.collapsed, |el| {
@@ -164,7 +163,7 @@ impl RenderOnce for SidebarNav {
                                                 } else {
                                                     hsla(0.0, 0.0, 0.7, 1.0)
                                                 })
-                                                .child(item.label.clone())
+                                                .child(item.label.clone()),
                                         )
                                     })
                                     .when(item.badge.is_some() && !self.collapsed, |el| {
@@ -177,21 +176,20 @@ impl RenderOnce for SidebarNav {
                                                 .bg(hsla(0.0, 0.7, 0.5, 1.0))
                                                 .text_size(px(10.0))
                                                 .text_color(hsla(0.0, 0.0, 1.0, 1.0))
-                                                .child(item.badge.unwrap_or_default())
+                                                .child(item.badge.unwrap_or_default()),
                                         )
                                     })
                             }))
-                    }))
+                    })),
             )
             .child(
                 // Footer
-                div()
-                    .when(self.footer.is_some(), |el| {
-                        el.p(px(12.0))
-                            .border_t_1()
-                            .border_color(border)
-                            .child(self.footer.unwrap())
-                    })
+                div().when(self.footer.is_some(), |el| {
+                    el.p(px(12.0))
+                        .border_t_1()
+                        .border_color(border)
+                        .child(self.footer.unwrap())
+                }),
             )
     }
 }

@@ -1,8 +1,8 @@
 //! Credit card CVV input component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct CvvInput {
@@ -82,14 +82,14 @@ impl RenderOnce for CvvInput {
                             .text_size(px(16.0))
                             .font_weight(gpui::FontWeight::MEDIUM)
                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                            .child(display_value)
-                    )
+                            .child(display_value),
+                    ),
             )
             .child(
                 div()
                     .text_size(px(12.0))
                     .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                    .child("3-4 digits")
+                    .child("3-4 digits"),
             )
     }
 }

@@ -5,9 +5,9 @@
 //! - Save, use, and remove favorite prompts
 //! - Sort favorites by usage count
 
-use gpui::*;
 use super::core::ChatView;
 use super::types::{FavoritePrompt, NotificationType};
+use gpui::*;
 
 impl ChatView {
     // ==================== Favorite Prompts ====================
@@ -23,7 +23,11 @@ impl ChatView {
         let text = self.input.read(cx).text().to_string();
         if !text.trim().is_empty() {
             self.favorite_prompts.push(FavoritePrompt::new(text, label));
-            self.show_notification("Prompt saved to favorites".to_string(), NotificationType::Success, cx);
+            self.show_notification(
+                "Prompt saved to favorites".to_string(),
+                NotificationType::Success,
+                cx,
+            );
         }
     }
 

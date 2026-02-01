@@ -1,8 +1,8 @@
 //! Basic Gauge component
 
-use gpui::*;
+use super::types::{GaugeSize, GaugeStyle, GaugeZone};
 use gpui::prelude::*;
-use super::types::{GaugeStyle, GaugeSize, GaugeZone};
+use gpui::*;
 
 /// Gauge meter component
 #[derive(IntoElement)]

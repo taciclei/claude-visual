@@ -2,7 +2,7 @@
 
 #[cfg(test)]
 mod tests {
-    use crate::ui::accessibility::focus::{FocusManager, FocusableElement, FocusTrap, FocusZone};
+    use crate::ui::accessibility::focus::{FocusManager, FocusTrap, FocusZone, FocusableElement};
 
     #[test]
     fn test_focus_navigation() {

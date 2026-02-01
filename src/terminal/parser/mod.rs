@@ -2,17 +2,17 @@
 //!
 //! Parses ANSI escape sequences for terminal rendering.
 
-mod types;
 mod color;
-mod style;
-mod state;
-mod events;
 mod escape;
+mod events;
 mod sgr;
+mod state;
+mod style;
+mod types;
 
 #[cfg(test)]
 mod tests;
 
 // Re-export public types
-pub use types::{AnsiColor, AnsiEvent, TextStyle};
 pub use state::AnsiParser;
+pub use types::{AnsiColor, AnsiEvent, TextStyle};

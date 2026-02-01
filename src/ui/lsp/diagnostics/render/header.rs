@@ -1,7 +1,7 @@
 //! Header rendering for diagnostics panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::lsp::protocol::DiagnosticSeverity;
 use crate::ui::lsp::diagnostics::core::DiagnosticsPanel;
@@ -79,12 +79,7 @@ pub fn render_header(
                         .flex()
                         .items_center()
                         .gap_1()
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(colors_error)
-                                .child("✕"),
-                        )
+                        .child(div().text_xs().text_color(colors_error).child("✕"))
                         .child(
                             div()
                                 .text_xs()
@@ -101,12 +96,7 @@ pub fn render_header(
                         .flex()
                         .items_center()
                         .gap_1()
-                        .child(
-                            div()
-                                .text_xs()
-                                .text_color(colors_warning)
-                                .child("⚠"),
-                        )
+                        .child(div().text_xs().text_color(colors_warning).child("⚠"))
                         .child(
                             div()
                                 .text_xs()
@@ -135,12 +125,7 @@ pub fn render_header(
                                 })
                                 .hover(|style| style.bg(colors_hover))
                                 .on_click(filter_all_click)
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(colors_text_muted)
-                                        .child("All"),
-                                ),
+                                .child(div().text_xs().text_color(colors_text_muted).child("All")),
                         )
                         .child(
                             div()
@@ -155,12 +140,7 @@ pub fn render_header(
                                 )
                                 .hover(|style| style.bg(colors_hover))
                                 .on_click(filter_errors_click)
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(colors_error)
-                                        .child("Errors"),
-                                ),
+                                .child(div().text_xs().text_color(colors_error).child("Errors")),
                         )
                         .child(
                             div()
@@ -176,10 +156,7 @@ pub fn render_header(
                                 .hover(|style| style.bg(colors_hover))
                                 .on_click(filter_warnings_click)
                                 .child(
-                                    div()
-                                        .text_xs()
-                                        .text_color(colors_warning)
-                                        .child("Warnings"),
+                                    div().text_xs().text_color(colors_warning).child("Warnings"),
                                 ),
                         ),
                 ),

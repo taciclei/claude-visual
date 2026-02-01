@@ -1,20 +1,20 @@
 //! Rendering implementation for worktree panel
 
-mod header;
+mod create_button;
 mod file_status;
+mod header;
 mod no_changes;
 mod worktrees_list;
-mod create_button;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::WorktreePanel;
-use header::render_header;
+use create_button::render_create_button;
 use file_status::render_file_status;
+use header::render_header;
 use no_changes::{render_no_changes, render_no_git_repo};
 use worktrees_list::render_worktrees_list;
-use create_button::render_create_button;
 
 impl Render for WorktreePanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -23,7 +23,8 @@ impl Render for WorktreePanel {
         let current_branch = self.current_branch.clone();
 
         // Pre-compute worktree items for rendering
-        let worktree_items: Vec<_> = self.worktrees
+        let worktree_items: Vec<_> = self
+            .worktrees
             .iter()
             .enumerate()
             .map(|(idx, wt)| {
@@ -40,13 +41,15 @@ impl Render for WorktreePanel {
             .collect();
 
         // Pre-compute file status items
-        let staged_files: Vec<_> = self.file_statuses
+        let staged_files: Vec<_> = self
+            .file_statuses
             .iter()
             .filter(|f| f.is_staged())
             .map(|f| (f.path.clone(), f.status_char(), f.index_status))
             .collect();
 
-        let unstaged_files: Vec<_> = self.file_statuses
+        let unstaged_files: Vec<_> = self
+            .file_statuses
             .iter()
             .filter(|f| f.is_unstaged() && !f.is_staged())
             .map(|f| (f.path.clone(), f.status_char(), f.workdir_status))
@@ -60,7 +63,12 @@ impl Render for WorktreePanel {
             .flex_col()
             .bg(theme.colors.surface)
             // Branch header (when git repo) or not-git-repo message
-            .child(render_header(&theme, is_git_repo, current_branch, has_changes))
+            .child(render_header(
+                &theme,
+                is_git_repo,
+                current_branch,
+                has_changes,
+            ))
             // Main content area
             .child(
                 div()
@@ -68,16 +76,20 @@ impl Render for WorktreePanel {
                     .id("scroll-worktrees")
                     .overflow_y_scroll()
                     // Not a git repo message
-                    .when(!is_git_repo, |d| {
-                        d.child(render_no_git_repo(&theme))
-                    })
+                    .when(!is_git_repo, |d| d.child(render_no_git_repo(&theme, cx)))
                     // File status section
                     .when(is_git_repo && has_changes, |d| {
-                        d.child(render_file_status(self, &theme, staged_files, unstaged_files, cx))
+                        d.child(render_file_status(
+                            self,
+                            &theme,
+                            staged_files,
+                            unstaged_files,
+                            cx,
+                        ))
                     })
                     // No changes message
                     .when(is_git_repo && !has_changes, |d| {
-                        d.child(render_no_changes(&theme))
+                        d.child(render_no_changes(&theme, cx))
                     })
                     // Worktrees section (collapsed by default, shown if multiple)
                     .when(is_git_repo && worktree_items.len() > 1, |d| {
@@ -85,8 +97,6 @@ impl Render for WorktreePanel {
                     }),
             )
             // Create worktree button (only show if git repo)
-            .when(is_git_repo, |d| {
-                d.child(render_create_button(&theme, cx))
-            })
+            .when(is_git_repo, |d| d.child(render_create_button(&theme, cx)))
     }
 }

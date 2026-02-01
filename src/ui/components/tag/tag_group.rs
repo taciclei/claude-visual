@@ -1,11 +1,11 @@
 //! TagGroup component for displaying multiple tags
 
-use std::sync::Arc;
 use gpui::prelude::*;
 use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
 use super::types::*;
+use crate::app::state::AppState;
 
 /// A group of tags
 pub struct TagGroup {
@@ -71,9 +71,18 @@ impl Render for TagGroup {
                     TagColor::Success => (theme.colors.success.opacity(0.15), theme.colors.success),
                     TagColor::Warning => (theme.colors.warning.opacity(0.15), theme.colors.warning),
                     TagColor::Error => (theme.colors.error.opacity(0.15), theme.colors.error),
-                    TagColor::Info => (hsla(210.0 / 360.0, 0.8, 0.5, 0.15), hsla(210.0 / 360.0, 0.8, 0.5, 1.0)),
-                    TagColor::Purple => (hsla(270.0 / 360.0, 0.6, 0.5, 0.15), hsla(270.0 / 360.0, 0.6, 0.5, 1.0)),
-                    TagColor::Pink => (hsla(330.0 / 360.0, 0.7, 0.6, 0.15), hsla(330.0 / 360.0, 0.7, 0.6, 1.0)),
+                    TagColor::Info => (
+                        hsla(210.0 / 360.0, 0.8, 0.5, 0.15),
+                        hsla(210.0 / 360.0, 0.8, 0.5, 1.0),
+                    ),
+                    TagColor::Purple => (
+                        hsla(270.0 / 360.0, 0.6, 0.5, 0.15),
+                        hsla(270.0 / 360.0, 0.6, 0.5, 1.0),
+                    ),
+                    TagColor::Pink => (
+                        hsla(330.0 / 360.0, 0.7, 0.6, 0.15),
+                        hsla(330.0 / 360.0, 0.7, 0.6, 1.0),
+                    ),
                 };
 
                 div()

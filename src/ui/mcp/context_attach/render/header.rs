@@ -1,14 +1,18 @@
 //! Header rendering for MCP context attachment panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::McpContextAttachPanel;
 use super::super::types::*;
 
 impl McpContextAttachPanel {
     /// Render the panel header with title, badge, and controls
-    pub(super) fn render_header(&self, attached_count: usize, cx: &Context<Self>) -> impl IntoElement {
+    pub(super) fn render_header(
+        &self,
+        attached_count: usize,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx);
         let surface_hover = theme.colors.surface_hover;
         let text_color = theme.colors.text;
@@ -92,10 +96,7 @@ impl McpContextAttachPanel {
                             .rounded_sm()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .hover(|s| {
-                                s.bg(surface_hover)
-                                    .text_color(text_color)
-                            })
+                            .hover(|s| s.bg(surface_hover).text_color(text_color))
                             .cursor_pointer()
                             .on_click(close_listener)
                             .child("×"),

@@ -1,8 +1,8 @@
 //! Basic drawer panel component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Slide-out drawer panel
 #[derive(Clone)]
@@ -85,31 +85,19 @@ impl RenderOnce for DrawerPanel {
 
         // Backdrop overlay
         let backdrop_el = if self.show_backdrop {
-            div()
-                .absolute()
-                .inset_0()
-                .bg(backdrop)
-                .into_any_element()
+            div().absolute().inset_0().bg(backdrop).into_any_element()
         } else {
             div().into_any_element()
         };
 
         // Build drawer panel
-        let mut drawer = div()
-            .bg(surface)
-            .flex()
-            .flex_col()
-            .overflow_hidden();
+        let mut drawer = div().bg(surface).flex().flex_col().overflow_hidden();
 
         // Apply size
         if is_horizontal {
-            drawer = drawer
-                .w(self.size.width(self.position))
-                .h_full();
+            drawer = drawer.w(self.size.width(self.position)).h_full();
         } else {
-            drawer = drawer
-                .w_full()
-                .h(self.size.height(self.position));
+            drawer = drawer.w_full().h(self.size.height(self.position));
         }
 
         // Apply border based on position
@@ -136,7 +124,7 @@ impl RenderOnce for DrawerPanel {
                         .text_base()
                         .font_weight(FontWeight::SEMIBOLD)
                         .text_color(text)
-                        .child(title)
+                        .child(title),
                 )
             })
             .when(self.show_close, |d| {
@@ -151,7 +139,7 @@ impl RenderOnce for DrawerPanel {
                         .text_color(text_muted)
                         .cursor_pointer()
                         .hover(|s| s.bg(hsla(0.0, 0.0, 0.18, 1.0)).text_color(text))
-                        .child("×")
+                        .child("×"),
                 )
             });
 
@@ -175,27 +163,16 @@ impl RenderOnce for DrawerPanel {
                 .items_center()
                 .justify_end()
                 .gap_2()
-                .child(
-                    div()
-                        .text_sm()
-                        .text_color(text_muted)
-                        .child(footer_text)
-                )
+                .child(div().text_sm().text_color(text_muted).child(footer_text))
                 .into_any_element()
         } else {
             div().into_any_element()
         };
 
-        drawer = drawer
-            .child(header)
-            .child(content)
-            .child(footer_el);
+        drawer = drawer.child(header).child(content).child(footer_el);
 
         // Container with backdrop
-        let mut container = div()
-            .relative()
-            .size_full()
-            .flex();
+        let mut container = div().relative().size_full().flex();
 
         if is_horizontal {
             container = container.flex_row();
@@ -209,8 +186,6 @@ impl RenderOnce for DrawerPanel {
             }
         }
 
-        container
-            .child(backdrop_el)
-            .child(drawer)
+        container.child(backdrop_el).child(drawer)
     }
 }

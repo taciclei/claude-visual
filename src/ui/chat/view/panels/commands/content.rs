@@ -1,7 +1,7 @@
 //! Commands panel content rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use super::super::super::types::CommandCategory;
@@ -20,16 +20,22 @@ pub fn render_content(
         .flex_1()
         .overflow_y_scroll()
         .p_2()
-        .when(category == CommandCategory::All || category == CommandCategory::SlashCommands, |d| {
-            d.when(!slash_commands.is_empty(), |d| {
-                d.child(render_slash_commands_section(theme, slash_commands, cx))
-            })
-        })
-        .when(category == CommandCategory::All || category == CommandCategory::Skills, |d| {
-            d.when(!skills.is_empty(), |d| {
-                d.child(render_skills_section(theme, skills, skill_categories, cx))
-            })
-        })
+        .when(
+            category == CommandCategory::All || category == CommandCategory::SlashCommands,
+            |d| {
+                d.when(!slash_commands.is_empty(), |d| {
+                    d.child(render_slash_commands_section(theme, slash_commands, cx))
+                })
+            },
+        )
+        .when(
+            category == CommandCategory::All || category == CommandCategory::Skills,
+            |d| {
+                d.when(!skills.is_empty(), |d| {
+                    d.child(render_skills_section(theme, skills, skill_categories, cx))
+                })
+            },
+        )
         .when(slash_commands.is_empty() && skills.is_empty(), |d| {
             d.child(render_empty_state(theme))
         })
@@ -54,36 +60,31 @@ fn render_slash_commands_section(
                 .text_xs()
                 .font_weight(FontWeight::SEMIBOLD)
                 .text_color(theme.colors.text_muted)
-                .child(format!("SLASH COMMANDS ({})", slash_commands.len()))
+                .child(format!("SLASH COMMANDS ({})", slash_commands.len())),
         )
-        .child(
-            div()
-                .flex()
-                .flex_wrap()
-                .gap_1()
-                .px_2()
-                .children(slash_commands.iter().enumerate().map(|(idx, cmd)| {
-                    let cmd_clone = cmd.clone();
+        .child(div().flex().flex_wrap().gap_1().px_2().children(
+            slash_commands.iter().enumerate().map(|(idx, cmd)| {
+                let cmd_clone = cmd.clone();
 
-                    div()
-                        .id(ElementId::Name(format!("cmd-slash-{}", idx).into()))
-                        .px_3()
-                        .py_1()
-                        .rounded_md()
-                        .bg(background)
-                        .border_1()
-                        .border_color(border)
-                        .text_xs()
-                        .font_family("JetBrains Mono")
-                        .text_color(info)
-                        .cursor_pointer()
-                        .hover(move |s| s.bg(info.opacity(0.1)).border_color(info))
-                        .on_click(cx.listener(move |this, _, _window, cx| {
-                            this.use_slash_command(&cmd_clone, cx);
-                        }))
-                        .child(format!("/{}", cmd))
-                }))
-        )
+                div()
+                    .id(ElementId::Name(format!("cmd-slash-{}", idx).into()))
+                    .px_3()
+                    .py_1()
+                    .rounded_md()
+                    .bg(background)
+                    .border_1()
+                    .border_color(border)
+                    .text_xs()
+                    .font_family("JetBrains Mono")
+                    .text_color(info)
+                    .cursor_pointer()
+                    .hover(move |s| s.bg(info.opacity(0.1)).border_color(info))
+                    .on_click(cx.listener(move |this, _, _window, cx| {
+                        this.use_slash_command(&cmd_clone, cx);
+                    }))
+                    .child(format!("/{}", cmd))
+            }),
+        ))
 }
 
 fn render_skills_section(
@@ -106,47 +107,49 @@ fn render_skills_section(
                 .text_xs()
                 .font_weight(FontWeight::SEMIBOLD)
                 .text_color(theme.colors.text_muted)
-                .child(format!("SKILLS ({})", skills.len()))
+                .child(format!("SKILLS ({})", skills.len())),
         )
-        .children(skill_categories.iter().filter(|(_, items)| !items.is_empty()).map(move |(cat_name, items)| {
-            div()
-                .mb_2()
-                .child(
+        .children(
+            skill_categories
+                .iter()
+                .filter(|(_, items)| !items.is_empty())
+                .map(move |(cat_name, items)| {
                     div()
-                        .px_2()
-                        .text_xs()
-                        .text_color(theme.colors.text_muted)
-                        .child(format!("{} ({})", cat_name, items.len()))
-                )
-                .child(
-                    div()
-                        .flex()
-                        .flex_wrap()
-                        .gap_1()
-                        .px_2()
-                        .children(items.iter().enumerate().map(|(idx, skill)| {
-                            let skill_clone = (*skill).clone();
-                            let skill_icon = grouping::get_skill_icon(skill);
-
+                        .mb_2()
+                        .child(
                             div()
-                                .id(ElementId::Name(format!("cmd-skill-{}-{}", cat_name, idx).into()))
-                                .px_3()
-                                .py_1()
-                                .rounded_md()
-                                .bg(background)
-                                .border_1()
-                                .border_color(border)
+                                .px_2()
                                 .text_xs()
-                                .text_color(accent)
-                                .cursor_pointer()
-                                .hover(move |s| s.bg(accent.opacity(0.1)).border_color(accent))
-                                .on_click(cx.listener(move |this, _, _window, cx| {
-                                    this.use_skill(&skill_clone, cx);
-                                }))
-                                .child(format!("{} {}", skill_icon, skill))
-                        }))
-                )
-        }))
+                                .text_color(theme.colors.text_muted)
+                                .child(format!("{} ({})", cat_name, items.len())),
+                        )
+                        .child(div().flex().flex_wrap().gap_1().px_2().children(
+                            items.iter().enumerate().map(|(idx, skill)| {
+                                let skill_clone = (*skill).clone();
+                                let skill_icon = grouping::get_skill_icon(skill);
+
+                                div()
+                                    .id(ElementId::Name(
+                                        format!("cmd-skill-{}-{}", cat_name, idx).into(),
+                                    ))
+                                    .px_3()
+                                    .py_1()
+                                    .rounded_md()
+                                    .bg(background)
+                                    .border_1()
+                                    .border_color(border)
+                                    .text_xs()
+                                    .text_color(accent)
+                                    .cursor_pointer()
+                                    .hover(move |s| s.bg(accent.opacity(0.1)).border_color(accent))
+                                    .on_click(cx.listener(move |this, _, _window, cx| {
+                                        this.use_skill(&skill_clone, cx);
+                                    }))
+                                    .child(format!("{} {}", skill_icon, skill))
+                            }),
+                        ))
+                }),
+        )
 }
 
 fn render_empty_state(theme: &crate::app::theme::Theme) -> impl IntoElement {
@@ -165,20 +168,20 @@ fn render_empty_state(theme: &crate::app::theme::Theme) -> impl IntoElement {
                 .flex()
                 .items_center()
                 .justify_center()
-                .child(div().text_xl().child("⚡"))
+                .child(div().text_xl().child("⚡")),
         )
         .child(
             div()
                 .text_sm()
                 .font_weight(FontWeight::MEDIUM)
                 .text_color(theme.colors.text)
-                .child("No commands available")
+                .child("No commands available"),
         )
         .child(
             div()
                 .text_xs()
                 .text_color(theme.colors.text_muted)
                 .text_center()
-                .child("Start a session to load available commands and skills")
+                .child("Start a session to load available commands and skills"),
         )
 }

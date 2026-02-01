@@ -1,20 +1,20 @@
 //! Spinner and loading indicator components
 
-mod types;
-mod spinner;
-mod loading_overlay;
-mod skeleton_loader;
-mod loading_button;
-mod progress_spinner;
 mod inline_loader;
+mod loading_button;
+mod loading_overlay;
+mod progress_spinner;
+mod skeleton_loader;
+mod spinner;
+mod types;
 
-pub use types::{SpinnerSize, SpinnerVariant};
-pub use spinner::Spinner;
-pub use loading_overlay::LoadingOverlay;
-pub use skeleton_loader::SkeletonLoader;
-pub use loading_button::LoadingButton;
-pub use progress_spinner::ProgressSpinner;
 pub use inline_loader::InlineLoader;
+pub use loading_button::LoadingButton;
+pub use loading_overlay::LoadingOverlay;
+pub use progress_spinner::ProgressSpinner;
+pub use skeleton_loader::SkeletonLoader;
+pub use spinner::Spinner;
+pub use types::{SpinnerSize, SpinnerVariant};
 
 #[cfg(test)]
 mod tests {
@@ -41,9 +41,7 @@ mod tests {
 
     #[test]
     fn test_loading_button() {
-        let btn = LoadingButton::new("Submit")
-            .loading(true)
-            .disabled(false);
+        let btn = LoadingButton::new("Submit").loading(true).disabled(false);
 
         assert!(btn.is_loading);
         assert!(!btn.disabled);

@@ -1,8 +1,8 @@
 //! Avatar stack component (vertical arrangement)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Avatar stack (vertical arrangement)
 #[derive(Clone)]
@@ -57,60 +57,58 @@ impl RenderOnce for AvatarStack {
             .flex_col()
             .gap_2()
             .children(
-                self.avatars.into_iter().enumerate().map(move |(idx, avatar)| {
-                    let initials = avatar.get_initials();
-                    let bg_color = avatar.get_color(idx);
-                    let name = avatar.name.clone();
-                    let is_online = avatar.is_online;
+                self.avatars
+                    .into_iter()
+                    .enumerate()
+                    .map(move |(idx, avatar)| {
+                        let initials = avatar.get_initials();
+                        let bg_color = avatar.get_color(idx);
+                        let name = avatar.name.clone();
+                        let is_online = avatar.is_online;
 
-                    div()
-                        .flex()
-                        .items_center()
-                        .gap_2()
-                        // Avatar
-                        .child(
-                            div()
-                                .relative()
-                                .size(px(avatar_size))
-                                .rounded_full()
-                                .bg(bg_color)
-                                .border_2()
-                                .border_color(border_color)
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_color(text)
-                                .font_weight(FontWeight::MEDIUM)
-                                .child(initials)
-                                // Online indicator
-                                .when_some(is_online, |d, online| {
-                                    d.child(
-                                        div()
-                                            .absolute()
-                                            .bottom_0()
-                                            .right_0()
-                                            .size(px(avatar_size * 0.3))
-                                            .rounded_full()
-                                            .bg(if online {
-                                                hsla(0.38, 0.7, 0.5, 1.0)
-                                            } else {
-                                                hsla(0.0, 0.0, 0.4, 1.0)
-                                            })
-                                            .border_2()
-                                            .border_color(border_color)
-                                    )
-                                })
-                        )
-                        // Name
-                        .when(show_names, |d| {
-                            d.child(
+                        div()
+                            .flex()
+                            .items_center()
+                            .gap_2()
+                            // Avatar
+                            .child(
                                 div()
-                                    .text_sm()
-                                    .text_color(text_muted)
-                                    .child(name)
+                                    .relative()
+                                    .size(px(avatar_size))
+                                    .rounded_full()
+                                    .bg(bg_color)
+                                    .border_2()
+                                    .border_color(border_color)
+                                    .flex()
+                                    .items_center()
+                                    .justify_center()
+                                    .text_color(text)
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .child(initials)
+                                    // Online indicator
+                                    .when_some(is_online, |d, online| {
+                                        d.child(
+                                            div()
+                                                .absolute()
+                                                .bottom_0()
+                                                .right_0()
+                                                .size(px(avatar_size * 0.3))
+                                                .rounded_full()
+                                                .bg(if online {
+                                                    hsla(0.38, 0.7, 0.5, 1.0)
+                                                } else {
+                                                    hsla(0.0, 0.0, 0.4, 1.0)
+                                                })
+                                                .border_2()
+                                                .border_color(border_color),
+                                        )
+                                    }),
                             )
-                        })
-                })
+                            // Name
+                            .when(show_names, |d| {
+                                d.child(div().text_sm().text_color(text_muted).child(name))
+                            })
+                    }),
             )
     }
 }

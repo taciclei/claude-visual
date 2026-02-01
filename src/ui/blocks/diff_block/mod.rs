@@ -1,11 +1,11 @@
 //! Diff visualization block component
 
-mod types;
-mod parser;
 mod component;
+mod parser;
 mod render;
 mod render_content;
 mod render_line;
+mod types;
 
-pub use types::{DiffLine, DiffHunk, DiffBlockEvent};
 pub use component::DiffBlockView;
+pub use types::{DiffBlockEvent, DiffHunk, DiffLine};

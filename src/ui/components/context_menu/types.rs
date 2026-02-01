@@ -63,7 +63,11 @@ impl ContextMenuItem {
         }
     }
 
-    pub fn submenu(id: impl Into<String>, label: impl Into<String>, children: Vec<ContextMenuItem>) -> Self {
+    pub fn submenu(
+        id: impl Into<String>,
+        label: impl Into<String>,
+        children: Vec<ContextMenuItem>,
+    ) -> Self {
         Self {
             id: id.into(),
             label: label.into(),
@@ -89,7 +93,12 @@ impl ContextMenuItem {
         }
     }
 
-    pub fn radio(id: impl Into<String>, label: impl Into<String>, group: impl Into<String>, selected: bool) -> Self {
+    pub fn radio(
+        id: impl Into<String>,
+        label: impl Into<String>,
+        group: impl Into<String>,
+        selected: bool,
+    ) -> Self {
         Self {
             id: id.into(),
             label: label.into(),
@@ -97,7 +106,7 @@ impl ContextMenuItem {
             shortcut: None,
             item_type: ContextMenuItemType::Radio {
                 group: group.into(),
-                selected
+                selected,
             },
             disabled: false,
             danger: false,

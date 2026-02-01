@@ -2,13 +2,13 @@
 
 use std::sync::Arc;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::app::state::AppState;
 
-use super::types::{ScopeItem, VariableItem};
 use super::events::VariablesViewEvent;
+use super::types::{ScopeItem, VariableItem};
 
 impl EventEmitter<VariablesViewEvent> for VariablesView {}
 
@@ -50,14 +50,23 @@ impl VariablesView {
     }
 
     /// Update variable children
-    pub fn update_children(&mut self, reference: i64, children: Vec<VariableItem>, cx: &mut Context<Self>) {
+    pub fn update_children(
+        &mut self,
+        reference: i64,
+        children: Vec<VariableItem>,
+        cx: &mut Context<Self>,
+    ) {
         for scope in &mut self.scopes {
             Self::update_variable_children(&mut scope.variables, reference, &children);
         }
         cx.notify();
     }
 
-    fn update_variable_children(variables: &mut [VariableItem], reference: i64, children: &[VariableItem]) {
+    fn update_variable_children(
+        variables: &mut [VariableItem],
+        reference: i64,
+        children: &[VariableItem],
+    ) {
         for var in variables {
             if var.variables_reference == reference {
                 var.children = children.to_vec();
@@ -71,7 +80,12 @@ impl VariablesView {
     }
 
     /// Render a variable item
-    fn render_variable(&self, var: &VariableItem, theme: &crate::app::theme::Theme, cx: &Context<Self>) -> impl IntoElement {
+    fn render_variable(
+        &self,
+        var: &VariableItem,
+        theme: &crate::app::theme::Theme,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let name = var.name.clone();
         let value = var.display_value();
         let var_type = var.var_type.clone();
@@ -95,11 +109,14 @@ impl VariablesView {
         });
 
         let children: Vec<_> = if expanded {
-            var.children.iter().map(|child| {
-                let mut child = child.clone();
-                child.depth = depth + 1;
-                self.render_variable(&child, theme, cx).into_any_element()
-            }).collect()
+            var.children
+                .iter()
+                .map(|child| {
+                    let mut child = child.clone();
+                    child.depth = depth + 1;
+                    self.render_variable(&child, theme, cx).into_any_element()
+                })
+                .collect()
         } else {
             Vec::new()
         };
@@ -144,12 +161,7 @@ impl VariablesView {
                             .text_color(accent_color)
                             .child(name.clone()),
                     )
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted)
-                            .child(":"),
-                    )
+                    .child(div().text_xs().text_color(text_muted).child(":"))
                     .child(
                         div()
                             .flex_1()
@@ -212,12 +224,11 @@ impl Render for VariablesView {
                             .bg(surface_color)
                             .cursor_pointer()
                             .on_click(on_scope_toggle)
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child(if expanded { "▼" } else { "▶" }),
-                            )
+                            .child(div().text_xs().text_color(text_muted).child(if expanded {
+                                "▼"
+                            } else {
+                                "▶"
+                            }))
                             .child(
                                 div()
                                     .text_xs()
@@ -233,9 +244,12 @@ impl Render for VariablesView {
                             ),
                     )
                     .when(expanded, |d| {
-                        d.children(scope.variables.iter().map(|var| {
-                            self.render_variable(var, &theme, cx)
-                        }))
+                        d.children(
+                            scope
+                                .variables
+                                .iter()
+                                .map(|var| self.render_variable(var, &theme, cx)),
+                        )
                     })
             }))
             .when(self.scopes.is_empty(), |d| {

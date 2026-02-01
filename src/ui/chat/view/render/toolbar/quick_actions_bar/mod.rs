@@ -1,19 +1,23 @@
 //! Quick actions bar render function
 
-mod session_skills;
-mod quick_actions;
 mod keyboard_hints;
 mod panel_buttons;
+mod quick_actions;
+mod session_skills;
 mod status_indicators;
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use crate::ui::chat::view::core::ChatView;
 use crate::ui::chat::view::types::ChatViewEvent;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
-    pub fn render_quick_actions_bar(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_quick_actions_bar(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         div()
             .flex()
             .items_center()
@@ -36,7 +40,7 @@ impl ChatView {
             // Draft indicator
             .when(self.has_draft(), |d| {
                 d.child(self.render_separator(theme))
-                .child(self.render_draft_indicator(&theme))
+                    .child(self.render_draft_indicator(&theme))
             })
             // Panel buttons
             .child(self.render_panel_buttons(theme, cx))
@@ -45,10 +49,6 @@ impl ChatView {
     }
 
     fn render_separator(&self, theme: &crate::app::theme::Theme) -> Div {
-        div()
-            .w(px(1.0))
-            .h(px(12.0))
-            .bg(theme.colors.border)
-            .mx_1()
+        div().w(px(1.0)).h(px(12.0)).bg(theme.colors.border).mx_1()
     }
 }

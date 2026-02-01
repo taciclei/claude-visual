@@ -71,7 +71,7 @@ impl ChatView {
                 self.show_notification(
                     format!("Message {} copied to clipboard", idx + 1),
                     NotificationType::Success,
-                    cx
+                    cx,
                 );
                 tracing::info!("Copied selected message {} to clipboard", idx + 1);
             }
@@ -91,7 +91,7 @@ impl ChatView {
                         format!("Bookmark removed from message {}", idx + 1)
                     },
                     NotificationType::Info,
-                    cx
+                    cx,
                 );
                 tracing::info!(
                     "Message {} bookmark toggled: {}",
@@ -120,7 +120,8 @@ impl ChatView {
     pub fn start_editing_title(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         // Initialize buffer with current title or display title
         self.title_edit_buffer = self.conversation_title.clone().unwrap_or_else(|| {
-            if let Some(first_user_msg) = self.messages.iter().find(|m| m.role == MessageRole::User) {
+            if let Some(first_user_msg) = self.messages.iter().find(|m| m.role == MessageRole::User)
+            {
                 let content = first_user_msg.content.trim();
                 if content.len() > 50 {
                     content[..47].to_string()

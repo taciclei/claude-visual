@@ -1,21 +1,29 @@
 //! Templates panel render functions
 
-mod header;
-mod search;
-mod list;
 mod footer;
+mod header;
+mod list;
+mod search;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 
 impl ChatView {
-    pub fn render_templates_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_templates_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let templates_by_cat = self.templates_by_category();
         let filter = self.templates_filter.clone();
         let total_count = self.prompt_templates.len();
-        let custom_count = self.prompt_templates.iter().filter(|t| !t.is_builtin).count();
+        let custom_count = self
+            .prompt_templates
+            .iter()
+            .filter(|t| !t.is_builtin)
+            .count();
 
         let overlay_listener = cx.listener(|this, _, _window, cx| {
             this.toggle_templates_panel(cx);
@@ -50,7 +58,7 @@ impl ChatView {
                     .child(self.render_templates_header(theme, total_count, custom_count, cx))
                     .child(self.render_templates_search(theme, filter, cx))
                     .child(self.render_templates_list(theme, templates_by_cat, cx))
-                    .child(self.render_templates_footer(theme, cx))
+                    .child(self.render_templates_footer(theme, cx)),
             )
     }
 }

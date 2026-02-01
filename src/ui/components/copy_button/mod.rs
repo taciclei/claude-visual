@@ -2,11 +2,11 @@
 //!
 //! Provides copy button components with visual feedback.
 
-mod types;
 mod copy_button;
 mod copy_code_button;
 mod copy_link;
 mod share_button;
+mod types;
 
 // Re-export types
 pub use types::*;

@@ -1,14 +1,18 @@
 //! Session history panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::pct;
-use crate::claude::message::MessageRole;
 use super::super::core::ChatView;
+use crate::claude::message::MessageRole;
+use crate::ui::pct;
 
 impl ChatView {
-    pub fn render_session_history_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_session_history_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let sessions: Vec<_> = self.recent_sessions.iter().enumerate().collect();
 
         // Full-screen overlay
@@ -55,18 +59,14 @@ impl ChatView {
                                     .flex()
                                     .items_center()
                                     .gap_2()
-                                    .child(
-                                        div()
-                                            .text_base()
-                                            .child("📋")
-                                    )
+                                    .child(div().text_base().child("📋"))
                                     .child(
                                         div()
                                             .text_sm()
                                             .font_weight(FontWeight::SEMIBOLD)
                                             .text_color(theme.colors.text)
-                                            .child("Recent Sessions")
-                                    )
+                                            .child("Recent Sessions"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -81,8 +81,8 @@ impl ChatView {
                                     .on_click(cx.listener(|this, _, _window, cx| {
                                         this.toggle_session_history(cx);
                                     }))
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Sessions list
                     .child(
@@ -98,12 +98,13 @@ impl ChatView {
                                         .text_center()
                                         .text_sm()
                                         .text_color(theme.colors.text_muted)
-                                        .child("No recent sessions")
+                                        .child("No recent sessions"),
                                 )
                             })
                             .children(sessions.into_iter().map(|(idx, session)| {
                                 let session_id = session.session_id.clone();
-                                let elapsed = chrono::Utc::now().signed_duration_since(session.last_active);
+                                let elapsed =
+                                    chrono::Utc::now().signed_duration_since(session.last_active);
                                 let time_str = if elapsed.num_hours() < 1 {
                                     format!("{} min ago", elapsed.num_minutes())
                                 } else if elapsed.num_hours() < 24 {
@@ -137,14 +138,14 @@ impl ChatView {
                                                     .text_sm()
                                                     .font_weight(FontWeight::MEDIUM)
                                                     .text_color(theme.colors.text)
-                                                    .child(session.title.clone())
+                                                    .child(session.title.clone()),
                                             )
                                             .child(
                                                 div()
                                                     .text_xs()
                                                     .text_color(theme.colors.text_muted)
-                                                    .child(time_str)
-                                            )
+                                                    .child(time_str),
+                                            ),
                                     )
                                     // Info row
                                     .child(
@@ -160,7 +161,10 @@ impl ChatView {
                                                     .items_center()
                                                     .gap_1()
                                                     .child("💬")
-                                                    .child(format!("{} messages", session.message_count))
+                                                    .child(format!(
+                                                        "{} messages",
+                                                        session.message_count
+                                                    )),
                                             )
                                             .child(
                                                 div()
@@ -168,7 +172,7 @@ impl ChatView {
                                                     .items_center()
                                                     .gap_1()
                                                     .child("🤖")
-                                                    .child(session.model.clone())
+                                                    .child(session.model.clone()),
                                             )
                                             .child(
                                                 div()
@@ -176,10 +180,10 @@ impl ChatView {
                                                     .items_center()
                                                     .gap_1()
                                                     .child("📁")
-                                                    .child(session.cwd.clone())
-                                            )
+                                                    .child(session.cwd.clone()),
+                                            ),
                                     )
-                            }))
+                            })),
                     )
                     // Footer
                     .child(
@@ -207,12 +211,11 @@ impl ChatView {
                                             .border_1()
                                             .border_color(theme.colors.border)
                                             .font_family("monospace")
-                                            .child("⎋")
+                                            .child("⎋"),
                                     )
-                                    .child("Close")
-                            )
-                    )
+                                    .child("Close"),
+                            ),
+                    ),
             )
     }
-
 }

@@ -1,9 +1,9 @@
 //! Basic link component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::{LinkVariant, LinkSize};
+use super::types::{LinkSize, LinkVariant};
 
 /// A basic link component
 #[derive(IntoElement)]
@@ -136,9 +136,7 @@ impl RenderOnce for Link {
                 .px_3()
                 .py_1()
                 .rounded(px(4.0))
-                .hover(|s| {
-                    s.bg(hover_color)
-                }),
+                .hover(|s| s.bg(hover_color)),
         };
 
         if self.disabled {

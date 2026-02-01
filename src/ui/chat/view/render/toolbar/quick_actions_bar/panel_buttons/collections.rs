@@ -1,8 +1,8 @@
 //! Collection panel buttons - favorites, pinned messages, recent files
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::chat::view::core::ChatView;
+use gpui::prelude::*;
+use gpui::*;
 
 impl ChatView {
     /// Render favorites panel button (⭐ with count)
@@ -32,15 +32,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_favorites_panel {
-                    text_color_active
-                } else if fav_count > 0 {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_favorites_panel {
+                text_color_active
+            } else if fav_count > 0 {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("⭐")
@@ -73,15 +71,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_pinned_panel {
-                    text_color_active
-                } else if pin_count > 0 {
-                    text_color_active
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_pinned_panel {
+                text_color_active
+            } else if pin_count > 0 {
+                text_color_active
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("📌")
@@ -115,15 +111,13 @@ impl ChatView {
             .rounded_md()
             .cursor_pointer()
             .text_xs()
-            .text_color(
-                if self.show_recent_files_panel {
-                    text_color_active
-                } else if file_count > 0 {
-                    text_color_available
-                } else {
-                    text_color_inactive
-                }
-            )
+            .text_color(if self.show_recent_files_panel {
+                text_color_active
+            } else if file_count > 0 {
+                text_color_available
+            } else {
+                text_color_inactive
+            })
             .hover(move |s| s.bg(surface_hover).text_color(text_color_hover))
             .on_click(on_click)
             .child("📂")

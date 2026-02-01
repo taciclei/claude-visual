@@ -22,23 +22,41 @@ impl ErrorCategory {
     pub fn from_message(msg: &str) -> Self {
         let msg_lower = msg.to_lowercase();
 
-        if msg_lower.contains("network") || msg_lower.contains("connection")
-            || msg_lower.contains("timeout") || msg_lower.contains("refused")
-            || msg_lower.contains("dns") || msg_lower.contains("offline") {
+        if msg_lower.contains("network")
+            || msg_lower.contains("connection")
+            || msg_lower.contains("timeout")
+            || msg_lower.contains("refused")
+            || msg_lower.contains("dns")
+            || msg_lower.contains("offline")
+        {
             ErrorCategory::Network
-        } else if msg_lower.contains("rate limit") || msg_lower.contains("quota")
-            || msg_lower.contains("too many requests") || msg_lower.contains("429") {
+        } else if msg_lower.contains("rate limit")
+            || msg_lower.contains("quota")
+            || msg_lower.contains("too many requests")
+            || msg_lower.contains("429")
+        {
             ErrorCategory::RateLimit
-        } else if msg_lower.contains("context") || msg_lower.contains("token limit")
-            || msg_lower.contains("too long") || msg_lower.contains("exceeds")
-            || msg_lower.contains("maximum") {
+        } else if msg_lower.contains("context")
+            || msg_lower.contains("token limit")
+            || msg_lower.contains("too long")
+            || msg_lower.contains("exceeds")
+            || msg_lower.contains("maximum")
+        {
             ErrorCategory::ContextOverflow
-        } else if msg_lower.contains("auth") || msg_lower.contains("permission")
-            || msg_lower.contains("denied") || msg_lower.contains("unauthorized")
-            || msg_lower.contains("api key") || msg_lower.contains("401") || msg_lower.contains("403") {
+        } else if msg_lower.contains("auth")
+            || msg_lower.contains("permission")
+            || msg_lower.contains("denied")
+            || msg_lower.contains("unauthorized")
+            || msg_lower.contains("api key")
+            || msg_lower.contains("401")
+            || msg_lower.contains("403")
+        {
             ErrorCategory::Auth
-        } else if msg_lower.contains("tool") || msg_lower.contains("bash")
-            || msg_lower.contains("command") || msg_lower.contains("execution") {
+        } else if msg_lower.contains("tool")
+            || msg_lower.contains("bash")
+            || msg_lower.contains("command")
+            || msg_lower.contains("execution")
+        {
             ErrorCategory::ToolError
         } else {
             ErrorCategory::General
@@ -94,7 +112,9 @@ impl ErrorCategory {
     }
 
     /// Get extended skill suggestions for recovery
-    pub fn skill_suggestions(&self) -> Vec<(&'static str, &'static str, &'static str, &'static str)> {
+    pub fn skill_suggestions(
+        &self,
+    ) -> Vec<(&'static str, &'static str, &'static str, &'static str)> {
         // (icon, label, command, description)
         match self {
             ErrorCategory::Network => vec![
@@ -138,7 +158,9 @@ impl ErrorCategory {
         match self {
             ErrorCategory::Network => "Tip: /explore and /explain work offline for local code",
             ErrorCategory::RateLimit => "Tip: Use /compact to reduce context and avoid rate limits",
-            ErrorCategory::ContextOverflow => "Tip: /memory saves key info to CLAUDE.md for persistence",
+            ErrorCategory::ContextOverflow => {
+                "Tip: /memory saves key info to CLAUDE.md for persistence"
+            }
             ErrorCategory::Auth => "Tip: Run 'claude doctor' in terminal to diagnose auth issues",
             ErrorCategory::ToolError => "Tip: /debug provides step-by-step error analysis",
             ErrorCategory::General => "Tip: /brainstorm helps research complex problems",

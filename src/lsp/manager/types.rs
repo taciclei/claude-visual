@@ -1,7 +1,7 @@
 //! LSP Manager types
 
-use crate::lsp::protocol::ServerCapabilities;
 use super::language::Language;
+use crate::lsp::protocol::ServerCapabilities;
 
 /// Language server info
 #[derive(Debug, Clone)]

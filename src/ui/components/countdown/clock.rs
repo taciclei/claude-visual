@@ -1,8 +1,8 @@
 //! Clock display component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Clock display component
 #[derive(IntoElement)]
@@ -110,7 +110,7 @@ impl RenderOnce for Clock {
                             .font_weight(gpui::FontWeight::BOLD)
                             .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                             .font_family("monospace")
-                            .child(format!("{:02}", display_hours))
+                            .child(format!("{:02}", display_hours)),
                     )
                     .child(
                         div()
@@ -118,7 +118,7 @@ impl RenderOnce for Clock {
                             .font_weight(gpui::FontWeight::BOLD)
                             .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                             .opacity(colon_opacity)
-                            .child(":")
+                            .child(":"),
                     )
                     .child(
                         div()
@@ -126,7 +126,7 @@ impl RenderOnce for Clock {
                             .font_weight(gpui::FontWeight::BOLD)
                             .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                             .font_family("monospace")
-                            .child(format!("{:02}", self.minutes))
+                            .child(format!("{:02}", self.minutes)),
                     )
                     .when(self.show_seconds, |el| {
                         el.child(
@@ -135,7 +135,7 @@ impl RenderOnce for Clock {
                                 .font_weight(gpui::FontWeight::BOLD)
                                 .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                                 .opacity(colon_opacity)
-                                .child(":")
+                                .child(":"),
                         )
                         .child(
                             div()
@@ -143,9 +143,9 @@ impl RenderOnce for Clock {
                                 .font_weight(gpui::FontWeight::BOLD)
                                 .text_color(hsla(0.0, 0.0, 0.95, 1.0))
                                 .font_family("monospace")
-                                .child(format!("{:02}", self.seconds.unwrap_or(0)))
+                                .child(format!("{:02}", self.seconds.unwrap_or(0))),
                         )
-                    })
+                    }),
             )
             .when(period.is_some(), |el| {
                 el.child(
@@ -154,7 +154,7 @@ impl RenderOnce for Clock {
                         .font_weight(gpui::FontWeight::MEDIUM)
                         .text_color(hsla(0.0, 0.0, 0.6, 1.0))
                         .ml(px(4.0))
-                        .child(period.unwrap_or(""))
+                        .child(period.unwrap_or("")),
                 )
             })
     }

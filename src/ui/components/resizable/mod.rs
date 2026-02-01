@@ -1,16 +1,16 @@
 //! Resizable panel and container components
 
-mod types;
-mod resizable_panel;
-mod resize_handle;
-mod resizable_split_view;
 mod corner_resize_handle;
+mod resizable_panel;
+mod resizable_split_view;
+mod resize_handle;
+mod types;
 
-pub use types::*;
-pub use resizable_panel::ResizablePanel;
-pub use resize_handle::ResizeHandle;
-pub use resizable_split_view::ResizableSplitView;
 pub use corner_resize_handle::CornerResizeHandle;
+pub use resizable_panel::ResizablePanel;
+pub use resizable_split_view::ResizableSplitView;
+pub use resize_handle::ResizeHandle;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

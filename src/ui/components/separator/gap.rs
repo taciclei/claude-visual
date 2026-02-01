@@ -1,8 +1,8 @@
 //! Gap component with optional line
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Gap component with optional line
 #[derive(IntoElement)]
@@ -56,18 +56,20 @@ impl RenderOnce for Gap {
             SeparatorOrientation::Horizontal => {
                 let mut gap = div().h(px(self.size)).w_full();
                 if self.show_line {
-                    gap = gap.flex().items_center().child(
-                        div().h(px(1.0)).w_full().bg(line_color),
-                    );
+                    gap = gap
+                        .flex()
+                        .items_center()
+                        .child(div().h(px(1.0)).w_full().bg(line_color));
                 }
                 gap
             }
             SeparatorOrientation::Vertical => {
                 let mut gap = div().w(px(self.size)).h_full();
                 if self.show_line {
-                    gap = gap.flex().items_center().child(
-                        div().w(px(1.0)).h_full().bg(line_color),
-                    );
+                    gap = gap
+                        .flex()
+                        .items_center()
+                        .child(div().w(px(1.0)).h_full().bg(line_color));
                 }
                 gap
             }

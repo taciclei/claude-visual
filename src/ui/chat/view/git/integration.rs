@@ -2,8 +2,8 @@
 
 use gpui::*;
 
-use crate::ui::chat::view::types::*;
 use crate::ui::chat::view::core::ChatView;
+use crate::ui::chat::view::types::*;
 
 impl ChatView {
     // ==================== Git Integration ====================

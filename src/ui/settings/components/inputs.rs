@@ -1,7 +1,7 @@
-use gpui::*;
-use gpui::prelude::*;
-use crate::ui::pct;
 use super::super::SettingsModal;
+use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     /// Render a slider
@@ -22,12 +22,7 @@ impl SettingsModal {
             .flex()
             .items_center()
             .justify_between()
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(theme.colors.text)
-                    .child(label),
-            )
+            .child(div().text_sm().text_color(theme.colors.text).child(label))
             .child(
                 div()
                     .flex()

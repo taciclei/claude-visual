@@ -112,16 +112,16 @@ impl Theme {
             },
             syntax: SyntaxColors {
                 // High contrast syntax colors
-                keyword: hsla(300.0 / 360.0, 1.0, 0.80, 1.0),      // Bright magenta
-                string: hsla(100.0 / 360.0, 1.0, 0.65, 1.0),       // Bright green
-                number: hsla(30.0 / 360.0, 1.0, 0.70, 1.0),        // Bright orange
-                comment: hsla(0.0, 0.0, 0.60, 1.0),                 // Light gray
-                function: hsla(190.0 / 360.0, 1.0, 0.70, 1.0),     // Bright cyan
-                variable: hsla(0.0, 0.0, 1.0, 1.0),                 // White
-                constant: hsla(40.0 / 360.0, 1.0, 0.70, 1.0),      // Bright yellow-orange
-                type_name: hsla(170.0 / 360.0, 1.0, 0.65, 1.0),    // Bright teal
-                operator: hsla(0.0, 0.0, 1.0, 1.0),                 // White
-                punctuation: hsla(0.0, 0.0, 0.85, 1.0),             // Light gray
+                keyword: hsla(300.0 / 360.0, 1.0, 0.80, 1.0), // Bright magenta
+                string: hsla(100.0 / 360.0, 1.0, 0.65, 1.0),  // Bright green
+                number: hsla(30.0 / 360.0, 1.0, 0.70, 1.0),   // Bright orange
+                comment: hsla(0.0, 0.0, 0.60, 1.0),           // Light gray
+                function: hsla(190.0 / 360.0, 1.0, 0.70, 1.0), // Bright cyan
+                variable: hsla(0.0, 0.0, 1.0, 1.0),           // White
+                constant: hsla(40.0 / 360.0, 1.0, 0.70, 1.0), // Bright yellow-orange
+                type_name: hsla(170.0 / 360.0, 1.0, 0.65, 1.0), // Bright teal
+                operator: hsla(0.0, 0.0, 1.0, 1.0),           // White
+                punctuation: hsla(0.0, 0.0, 0.85, 1.0),       // Light gray
             },
             accessibility: AccessibilitySettings::high_accessibility(),
         }
@@ -157,16 +157,16 @@ impl Theme {
             },
             syntax: SyntaxColors {
                 // Dark, high contrast syntax colors
-                keyword: hsla(280.0 / 360.0, 1.0, 0.35, 1.0),      // Dark purple
-                string: hsla(120.0 / 360.0, 1.0, 0.25, 1.0),       // Dark green
-                number: hsla(20.0 / 360.0, 1.0, 0.35, 1.0),        // Dark orange
-                comment: hsla(0.0, 0.0, 0.40, 1.0),                 // Dark gray
-                function: hsla(200.0 / 360.0, 1.0, 0.30, 1.0),     // Dark blue
-                variable: hsla(0.0, 0.0, 0.0, 1.0),                 // Black
-                constant: hsla(30.0 / 360.0, 1.0, 0.30, 1.0),      // Dark orange
-                type_name: hsla(180.0 / 360.0, 1.0, 0.25, 1.0),    // Dark teal
-                operator: hsla(0.0, 0.0, 0.0, 1.0),                 // Black
-                punctuation: hsla(0.0, 0.0, 0.20, 1.0),             // Dark gray
+                keyword: hsla(280.0 / 360.0, 1.0, 0.35, 1.0), // Dark purple
+                string: hsla(120.0 / 360.0, 1.0, 0.25, 1.0),  // Dark green
+                number: hsla(20.0 / 360.0, 1.0, 0.35, 1.0),   // Dark orange
+                comment: hsla(0.0, 0.0, 0.40, 1.0),           // Dark gray
+                function: hsla(200.0 / 360.0, 1.0, 0.30, 1.0), // Dark blue
+                variable: hsla(0.0, 0.0, 0.0, 1.0),           // Black
+                constant: hsla(30.0 / 360.0, 1.0, 0.30, 1.0), // Dark orange
+                type_name: hsla(180.0 / 360.0, 1.0, 0.25, 1.0), // Dark teal
+                operator: hsla(0.0, 0.0, 0.0, 1.0),           // Black
+                punctuation: hsla(0.0, 0.0, 0.20, 1.0),       // Dark gray
             },
             accessibility: AccessibilitySettings::high_accessibility(),
         }

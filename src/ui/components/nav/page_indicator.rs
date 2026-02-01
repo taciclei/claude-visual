@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Breadcrumb-style page indicator
 #[derive(IntoElement)]
@@ -44,20 +44,17 @@ impl RenderOnce for PageIndicator {
                     div()
                         .text_size(px(12.0))
                         .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                        .child(format!("{} / {}", self.current + 1, self.total))
+                        .child(format!("{} / {}", self.current + 1, self.total)),
                 )
             })
             .when(!self.show_numbers, |el| {
                 el.children((0..self.total).map(|i| {
                     let is_current = i == self.current;
-                    div()
-                        .size(px(8.0))
-                        .rounded_full()
-                        .bg(if is_current {
-                            active_color
-                        } else {
-                            hsla(0.0, 0.0, 0.3, 1.0)
-                        })
+                    div().size(px(8.0)).rounded_full().bg(if is_current {
+                        active_color
+                    } else {
+                        hsla(0.0, 0.0, 0.3, 1.0)
+                    })
                 }))
             })
     }

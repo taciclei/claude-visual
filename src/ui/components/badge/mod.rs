@@ -1,12 +1,12 @@
 //! Badge component for counts and status indicators
 
-mod types;
 mod badge;
 mod badge_wrapper;
+mod types;
 
-pub use types::{BadgeVariant, BadgeSize, BadgePosition};
 pub use badge::Badge;
 pub use badge_wrapper::BadgeWrapper;
+pub use types::{BadgePosition, BadgeSize, BadgeVariant};
 
 #[cfg(test)]
 mod tests {

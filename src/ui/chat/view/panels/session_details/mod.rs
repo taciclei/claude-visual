@@ -2,14 +2,18 @@
 
 mod sections;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 use super::super::types::NotificationType;
 
 impl ChatView {
-    pub fn render_session_details(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub fn render_session_details(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let session_info = self.session_info.as_ref();
 
         // Extract listeners before div builder chain
@@ -77,7 +81,13 @@ impl ChatView {
                                     .items_center()
                                     .gap_2()
                                     .child(div().text_lg().child("📊"))
-                                    .child(div().text_base().font_weight(FontWeight::SEMIBOLD).text_color(text).child("Session Details"))
+                                    .child(
+                                        div()
+                                            .text_base()
+                                            .font_weight(FontWeight::SEMIBOLD)
+                                            .text_color(text)
+                                            .child("Session Details"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -90,8 +100,8 @@ impl ChatView {
                                     .text_color(text_muted)
                                     .hover(move |s| s.bg(surface_hover))
                                     .on_click(close_click)
-                                    .child("×")
-                            )
+                                    .child("×"),
+                            ),
                     )
                     // Content
                     .child(
@@ -119,9 +129,12 @@ impl ChatView {
                             // Conversation Stats Section
                             .child(self.render_conversation_section(theme))
                             // Slash Commands Section
-                            .when_some(session_info.filter(|i| !i.slash_commands.is_empty()), |d, info| {
-                                d.child(self.render_slash_commands_section(info, theme, cx))
-                            })
+                            .when_some(
+                                session_info.filter(|i| !i.slash_commands.is_empty()),
+                                |d, info| {
+                                    d.child(self.render_slash_commands_section(info, theme, cx))
+                                },
+                            )
                             // Skills Section
                             .when_some(session_info.filter(|i| !i.skills.is_empty()), |d, info| {
                                 d.child(self.render_skills_section(info, theme, cx))
@@ -133,7 +146,7 @@ impl ChatView {
                             // Available Tools Section
                             .when_some(session_info.filter(|i| !i.tools.is_empty()), |d, info| {
                                 d.child(self.render_available_tools_section(info, theme))
-                            })
+                            }),
                     )
                     // Footer
                     .child(
@@ -145,12 +158,7 @@ impl ChatView {
                             .flex()
                             .items_center()
                             .justify_between()
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child("⌥S to toggle")
-                            )
+                            .child(div().text_xs().text_color(text_muted).child("⌥S to toggle"))
                             .child(
                                 div()
                                     .id("copy-session-id-btn")
@@ -163,9 +171,9 @@ impl ChatView {
                                     .text_color(accent)
                                     .hover(move |s| s.bg(accent_hover))
                                     .on_click(copy_session_click)
-                                    .child("Copy Session ID")
-                            )
-                    )
+                                    .child("Copy Session ID"),
+                            ),
+                    ),
             )
     }
 }

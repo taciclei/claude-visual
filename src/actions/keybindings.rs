@@ -1,5 +1,5 @@
-use gpui::*;
 use super::*;
+use gpui::*;
 
 /// Bind keyboard shortcuts
 pub fn bind_keys(cx: &mut App) {

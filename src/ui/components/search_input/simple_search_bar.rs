@@ -1,7 +1,7 @@
 //! Simple stateless search bar component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Simple stateless search bar
 #[derive(Clone)]
@@ -44,17 +44,15 @@ impl RenderOnce for SimpleSearchBar {
             .flex()
             .items_center()
             .gap_2()
-            .child(
-                div()
-                    .text_color(text_muted)
-                    .child("🔍")
-            )
+            .child(div().text_color(text_muted).child("🔍"))
             .child(
                 div()
                     .flex_1()
                     .text_sm()
                     .when(has_query, |d| d.text_color(text).child(self.query))
-                    .when(!has_query, |d| d.text_color(text_muted).child(self.placeholder))
+                    .when(!has_query, |d| {
+                        d.text_color(text_muted).child(self.placeholder)
+                    }),
             )
     }
 }

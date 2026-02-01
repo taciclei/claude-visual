@@ -4,7 +4,10 @@ use crate::ui::workspace::core::Workspace;
 
 impl Workspace {
     /// Get language from file extension for syntax highlighting
-    pub(in crate::ui::workspace) fn detect_language_from_path(&self, path: &str) -> Option<&'static str> {
+    pub(in crate::ui::workspace) fn detect_language_from_path(
+        &self,
+        path: &str,
+    ) -> Option<&'static str> {
         let ext = std::path::Path::new(path)
             .extension()
             .and_then(|e| e.to_str())?;
@@ -32,7 +35,10 @@ impl Workspace {
     }
 
     /// Prepare lines for side-by-side display
-    pub(in crate::ui::workspace) fn prepare_side_by_side_lines(&self, lines: &[&str]) -> Vec<(String, String)> {
+    pub(in crate::ui::workspace) fn prepare_side_by_side_lines(
+        &self,
+        lines: &[&str],
+    ) -> Vec<(String, String)> {
         let mut result = Vec::new();
         let mut i = 0;
 

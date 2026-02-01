@@ -1,5 +1,5 @@
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::panel::ExtensionsPanel;
 
@@ -15,11 +15,7 @@ impl ExtensionsPanel {
             .items_center()
             .justify_center()
             .gap_4()
-            .child(
-                div()
-                    .text_3xl()
-                    .child("Coming Soon"),
-            )
+            .child(div().text_3xl().child("Coming Soon"))
             .child(
                 div()
                     .text_base()

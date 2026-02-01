@@ -1,8 +1,8 @@
 //! PIN Input component - for numeric PINs
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 #[derive(IntoElement)]
 pub struct PinInput {
@@ -94,14 +94,11 @@ impl RenderOnce for PinInput {
 
                         if self.masked {
                             // Show dots
-                            div()
-                                .size(px(dot_size))
-                                .rounded_full()
-                                .bg(if has_value {
-                                    state_color
-                                } else {
-                                    hsla(0.0, 0.0, 0.25, 1.0)
-                                })
+                            div().size(px(dot_size)).rounded_full().bg(if has_value {
+                                state_color
+                            } else {
+                                hsla(0.0, 0.0, 0.25, 1.0)
+                            })
                         } else {
                             // Show numbers
                             div()
@@ -122,11 +119,11 @@ impl RenderOnce for PinInput {
                                             .text_size(px(dot_size))
                                             .font_weight(gpui::FontWeight::SEMIBOLD)
                                             .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                            .child(chars[i].to_string())
+                                            .child(chars[i].to_string()),
                                     )
                                 })
                         }
-                    }))
+                    })),
             )
             .when(self.show_toggle, |el| {
                 el.child(
@@ -135,7 +132,7 @@ impl RenderOnce for PinInput {
                         .cursor_pointer()
                         .text_size(px(dot_size))
                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child(if self.masked { "👁" } else { "🔒" })
+                        .child(if self.masked { "👁" } else { "🔒" }),
                 )
             })
     }

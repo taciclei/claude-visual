@@ -7,7 +7,12 @@ use super::core::FileTree;
 
 impl FileTree {
     /// Handle key events
-    pub(crate) fn handle_key(&mut self, event: &KeyDownEvent, _window: &mut Window, cx: &mut Context<Self>) {
+    pub(crate) fn handle_key(
+        &mut self,
+        event: &KeyDownEvent,
+        _window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
         match event.keystroke.key.as_str() {
             "up" => self.select_previous(cx),
             "down" => self.select_next(cx),
@@ -53,7 +58,8 @@ impl FileTree {
     /// Select previous item
     pub(crate) fn select_previous(&mut self, cx: &mut Context<Self>) {
         if let Some(ref root) = self.root {
-            let entries: Vec<PathBuf> = root.visible_entries()
+            let entries: Vec<PathBuf> = root
+                .visible_entries()
                 .iter()
                 .map(|e| e.path.clone())
                 .collect();
@@ -73,7 +79,8 @@ impl FileTree {
     /// Select next item
     pub(crate) fn select_next(&mut self, cx: &mut Context<Self>) {
         if let Some(ref root) = self.root {
-            let entries: Vec<PathBuf> = root.visible_entries()
+            let entries: Vec<PathBuf> = root
+                .visible_entries()
                 .iter()
                 .map(|e| e.path.clone())
                 .collect();

@@ -2,8 +2,8 @@
 
 use crate::agent::task::TaskTree;
 
-use super::executor::AgentExecutor;
 use super::super::types::{ExecutorEvent, ExecutorState, ExecutorStats};
+use super::executor::AgentExecutor;
 
 impl AgentExecutor {
     /// Check if a step should be auto-approved

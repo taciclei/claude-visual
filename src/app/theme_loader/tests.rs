@@ -28,8 +28,14 @@ fn create_test_theme_file(dir: &Path, name: &str, is_dark: bool) -> PathBuf {
 
 #[test]
 fn test_theme_format_detection() {
-    assert_eq!(ThemeFormat::from_path(Path::new("theme.json")), Some(ThemeFormat::Json));
-    assert_eq!(ThemeFormat::from_path(Path::new("theme.toml")), Some(ThemeFormat::Toml));
+    assert_eq!(
+        ThemeFormat::from_path(Path::new("theme.json")),
+        Some(ThemeFormat::Json)
+    );
+    assert_eq!(
+        ThemeFormat::from_path(Path::new("theme.toml")),
+        Some(ThemeFormat::Toml)
+    );
     assert_eq!(ThemeFormat::from_path(Path::new("theme.txt")), None);
 }
 

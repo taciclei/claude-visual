@@ -1,9 +1,9 @@
 //! Message operation methods for ChatView
 
-use gpui::*;
 use super::core::ChatView;
-use crate::claude::message::MessageRole;
 use super::types::NotificationType;
+use crate::claude::message::MessageRole;
+use gpui::*;
 
 impl ChatView {
     /// Get the number of messages in the conversation
@@ -22,7 +22,7 @@ impl ChatView {
             self.show_notification(
                 "Cannot edit while streaming".to_string(),
                 NotificationType::Warning,
-                cx
+                cx,
             );
             return;
         }
@@ -36,13 +36,13 @@ impl ChatView {
             self.show_notification(
                 "Editing last message".to_string(),
                 NotificationType::Info,
-                cx
+                cx,
             );
         } else {
             self.show_notification(
                 "No message to edit".to_string(),
                 NotificationType::Warning,
-                cx
+                cx,
             );
         }
     }
@@ -56,14 +56,14 @@ impl ChatView {
             self.show_notification(
                 format!("Last response copied ({} words)", word_count),
                 NotificationType::Success,
-                cx
+                cx,
             );
             tracing::info!("Last response copied to clipboard ({} words)", word_count);
         } else {
             self.show_notification(
                 "No assistant response to copy".to_string(),
                 NotificationType::Warning,
-                cx
+                cx,
             );
         }
     }
@@ -72,7 +72,11 @@ impl ChatView {
     /// This removes all messages after the specified index and puts the message content in input for editing
     pub fn branch_from_message(&mut self, message_index: usize, cx: &mut Context<Self>) {
         if self.streaming.is_streaming {
-            self.show_notification("Cannot branch while streaming", NotificationType::Warning, cx);
+            self.show_notification(
+                "Cannot branch while streaming",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 
@@ -85,7 +89,11 @@ impl ChatView {
 
         // Only allow branching from user messages
         if message.role != MessageRole::User {
-            self.show_notification("Can only branch from your messages", NotificationType::Warning, cx);
+            self.show_notification(
+                "Can only branch from your messages",
+                NotificationType::Warning,
+                cx,
+            );
             return;
         }
 
@@ -102,9 +110,12 @@ impl ChatView {
         });
 
         self.show_notification(
-            format!("Branching from message (removed {} messages)", removed_count),
+            format!(
+                "Branching from message (removed {} messages)",
+                removed_count
+            ),
             NotificationType::Info,
-            cx
+            cx,
         );
         cx.notify();
     }
@@ -143,7 +154,7 @@ impl ChatView {
         self.show_notification(
             format!("Conversation copied ({} messages)", count),
             NotificationType::Success,
-            cx
+            cx,
         );
         tracing::info!("Conversation copied to clipboard ({} messages)", count);
     }
@@ -160,7 +171,7 @@ impl ChatView {
         self.show_notification(
             format!("Conversation copied as Markdown ({} messages)", count),
             NotificationType::Success,
-            cx
+            cx,
         );
         tracing::info!("Conversation copied as Markdown ({} messages)", count);
     }

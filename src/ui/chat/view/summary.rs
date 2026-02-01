@@ -2,9 +2,9 @@
 
 use gpui::*;
 
-use crate::claude::message::MessageRole;
 use super::core::ChatView;
 use super::types::{ChatViewEvent, NotificationType};
+use crate::claude::message::MessageRole;
 
 impl ChatView {
     // ==================== Auto-Title & Summary ====================
@@ -50,7 +50,11 @@ impl ChatView {
         // Build a summary request
         let prompt = "Based on this conversation so far, suggest a short, descriptive title (max 50 chars). Reply with just the title, nothing else.".to_string();
         cx.emit(ChatViewEvent::Submit(prompt));
-        self.show_notification("Requesting AI title suggestion...", NotificationType::Info, cx);
+        self.show_notification(
+            "Requesting AI title suggestion...",
+            NotificationType::Info,
+            cx,
+        );
     }
 
     /// Request a conversation summary
@@ -62,22 +66,44 @@ impl ChatView {
 
         let prompt = "Please provide a brief summary of what we've discussed and accomplished in this conversation so far. Include key decisions made and any pending items.".to_string();
         cx.emit(ChatViewEvent::Submit(prompt));
-        self.show_notification("Requesting conversation summary...", NotificationType::Info, cx);
+        self.show_notification(
+            "Requesting conversation summary...",
+            NotificationType::Info,
+            cx,
+        );
     }
 
     /// Get a quick conversation summary (local, no AI call)
     pub fn get_quick_summary(&self) -> String {
-        let user_count = self.messages.iter().filter(|m| m.role == MessageRole::User).count();
-        let assistant_count = self.messages.iter().filter(|m| m.role == MessageRole::Assistant).count();
-        let tool_count = self.messages.iter().filter(|m| matches!(m.role, MessageRole::ToolUse | MessageRole::ToolResult)).count();
+        let user_count = self
+            .messages
+            .iter()
+            .filter(|m| m.role == MessageRole::User)
+            .count();
+        let assistant_count = self
+            .messages
+            .iter()
+            .filter(|m| m.role == MessageRole::Assistant)
+            .count();
+        let tool_count = self
+            .messages
+            .iter()
+            .filter(|m| matches!(m.role, MessageRole::ToolUse | MessageRole::ToolResult))
+            .count();
 
-        let total_words: usize = self.messages.iter()
+        let total_words: usize = self
+            .messages
+            .iter()
             .map(|m| m.content.split_whitespace().count())
             .sum();
 
         format!(
             "{} messages ({} you, {} Claude, {} tools), ~{} words",
-            self.messages.len(), user_count, assistant_count, tool_count, total_words
+            self.messages.len(),
+            user_count,
+            assistant_count,
+            tool_count,
+            total_words
         )
     }
 
@@ -128,7 +154,9 @@ impl ChatView {
         for msg in &self.messages {
             // Look for common file patterns
             for word in msg.content.split_whitespace() {
-                let trimmed = word.trim_matches(|c: char| c == '`' || c == '"' || c == '\'' || c == ':' || c == ',');
+                let trimmed = word.trim_matches(|c: char| {
+                    c == '`' || c == '"' || c == '\'' || c == ':' || c == ','
+                });
                 // Check if it looks like a file path
                 if (trimmed.contains('/') || trimmed.starts_with('.'))
                     && trimmed.contains('.')

@@ -1,6 +1,6 @@
 use super::{
     algorithms,
-    types::{CompressionAlgorithm, CompressionConfig, CompressedData, CompressionError},
+    types::{CompressedData, CompressionAlgorithm, CompressionConfig, CompressionError},
     utils::crc32,
 };
 
@@ -61,7 +61,9 @@ impl Compressor {
 
         match compressed.algorithm {
             CompressionAlgorithm::None => Ok(compressed.data.clone()),
-            CompressionAlgorithm::Lz4 => algorithms::decompress_lz4(&compressed.data, compressed.original_size),
+            CompressionAlgorithm::Lz4 => {
+                algorithms::decompress_lz4(&compressed.data, compressed.original_size)
+            }
             CompressionAlgorithm::Zstd => algorithms::decompress_zstd(&compressed.data),
             CompressionAlgorithm::Deflate => algorithms::decompress_deflate(&compressed.data),
         }
@@ -73,7 +75,10 @@ impl Compressor {
     }
 
     /// Decompress to string
-    pub fn decompress_string(&self, compressed: &CompressedData) -> Result<String, CompressionError> {
+    pub fn decompress_string(
+        &self,
+        compressed: &CompressedData,
+    ) -> Result<String, CompressionError> {
         let bytes = self.decompress(compressed)?;
         String::from_utf8(bytes).map_err(|_| CompressionError::InvalidUtf8)
     }

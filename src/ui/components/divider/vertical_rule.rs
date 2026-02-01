@@ -1,7 +1,7 @@
 //! Simple vertical rule component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// A simple vertical rule (stateless version)
 #[derive(Clone)]
@@ -39,10 +39,6 @@ impl RenderOnce for VerticalRule {
     fn render(self, _window: &mut Window, cx: &mut App) -> impl IntoElement {
         let color = self.color.unwrap_or(hsla(0.0, 0.0, 0.5, 0.2));
 
-        div()
-            .w(px(1.0))
-            .h_full()
-            .bg(color)
-            .mx(px(self.margin))
+        div().w(px(1.0)).h_full().bg(color).mx(px(self.margin))
     }
 }

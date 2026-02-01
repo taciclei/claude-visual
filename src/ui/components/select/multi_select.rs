@@ -1,7 +1,7 @@
 //! Multi-select component - allows selecting multiple options
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::types::{SelectOption, SelectSize};
 
@@ -80,7 +80,8 @@ impl RenderOnce for MultiSelect {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.15, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.3, 1.0));
 
-        let selected_labels: Vec<SharedString> = self.selected
+        let selected_labels: Vec<SharedString> = self
+            .selected
             .iter()
             .filter_map(|v| self.options.iter().find(|o| &o.value == v))
             .map(|o| o.label.clone())
@@ -106,7 +107,7 @@ impl RenderOnce for MultiSelect {
                     div()
                         .text_size(px(14.0))
                         .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                        .child(self.placeholder.clone())
+                        .child(self.placeholder.clone()),
                 )
             })
             .children(selected_labels.into_iter().map(|label| {
@@ -125,7 +126,7 @@ impl RenderOnce for MultiSelect {
                         div()
                             .text_size(px(10.0))
                             .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                            .child("×")
+                            .child("×"),
                     )
             }))
     }

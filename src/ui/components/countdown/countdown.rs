@@ -1,8 +1,8 @@
 //! Countdown timer component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Countdown timer component
 #[derive(IntoElement)]
@@ -147,136 +147,133 @@ impl RenderOnce for Countdown {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.12, 1.0));
 
         match self.variant {
-            CountdownVariant::Default | CountdownVariant::Minimal => {
-                div()
-                    .id(self.id)
-                    .flex()
-                    .items_center()
-                    .gap(px(4.0))
-                    .children(time_parts.iter().enumerate().map(|(i, (value, label))| {
-                        div()
-                            .flex()
-                            .items_center()
-                            .when(i > 0, |el| {
-                                el.child(
+            CountdownVariant::Default | CountdownVariant::Minimal => div()
+                .id(self.id)
+                .flex()
+                .items_center()
+                .gap(px(4.0))
+                .children(time_parts.iter().enumerate().map(|(i, (value, label))| {
+                    div()
+                        .flex()
+                        .items_center()
+                        .when(i > 0, |el| {
+                            el.child(
+                                div()
+                                    .text_size(px(font_size))
+                                    .text_color(hsla(0.0, 0.0, 0.4, 1.0))
+                                    .mx(px(4.0))
+                                    .child(self.separator.clone()),
+                            )
+                        })
+                        .child(
+                            div()
+                                .flex()
+                                .flex_col()
+                                .items_center()
+                                .child(
                                     div()
                                         .text_size(px(font_size))
-                                        .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                        .mx(px(4.0))
-                                        .child(self.separator.clone())
+                                        .font_weight(gpui::FontWeight::BOLD)
+                                        .text_color(text_color)
+                                        .child(format!("{:02}", value)),
                                 )
-                            })
-                            .child(
-                                div()
-                                    .flex()
-                                    .flex_col()
-                                    .items_center()
-                                    .child(
-                                        div()
-                                            .text_size(px(font_size))
-                                            .font_weight(gpui::FontWeight::BOLD)
-                                            .text_color(text_color)
-                                            .child(format!("{:02}", value))
-                                    )
-                                    .when(self.show_labels && self.variant != CountdownVariant::Minimal, |el| {
+                                .when(
+                                    self.show_labels && self.variant != CountdownVariant::Minimal,
+                                    |el| {
                                         el.child(
                                             div()
                                                 .text_size(px(label_size))
                                                 .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                                .child(*label)
+                                                .child(*label),
                                         )
-                                    })
-                            )
-                    }))
-                    .into_any_element()
-            }
-            CountdownVariant::Boxed => {
-                div()
-                    .id(self.id)
-                    .flex()
-                    .items_center()
-                    .gap(px(8.0))
-                    .children(time_parts.iter().enumerate().map(|(i, (value, label))| {
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap(px(8.0))
-                            .when(i > 0, |el| {
-                                el.child(
-                                    div()
-                                        .text_size(px(font_size * 0.8))
-                                        .text_color(hsla(0.0, 0.0, 0.4, 1.0))
-                                        .child(self.separator.clone())
-                                )
-                            })
-                            .child(
-                                div()
-                                    .w(px(box_size))
-                                    .py(px(8.0))
-                                    .flex()
-                                    .flex_col()
-                                    .items_center()
-                                    .gap(px(4.0))
-                                    .rounded(px(8.0))
-                                    .bg(bg)
-                                    .child(
-                                        div()
-                                            .text_size(px(font_size))
-                                            .font_weight(gpui::FontWeight::BOLD)
-                                            .text_color(text_color)
-                                            .child(format!("{:02}", value))
-                                    )
-                                    .when(self.show_labels, |el| {
-                                        el.child(
-                                            div()
-                                                .text_size(px(label_size))
-                                                .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                                .child(*label)
-                                        )
-                                    })
-                            )
-                    }))
-                    .into_any_element()
-            }
-            CountdownVariant::Circular => {
-                div()
-                    .id(self.id)
-                    .flex()
-                    .items_center()
-                    .gap(px(12.0))
-                    .children(time_parts.iter().map(|(value, label)| {
-                        div()
-                            .size(px(box_size))
-                            .rounded_full()
-                            .border_3()
-                            .border_color(if is_urgent {
-                                self.urgent_color.unwrap_or(hsla(0.0, 0.7, 0.5, 1.0))
-                            } else {
-                                hsla(0.6, 0.7, 0.5, 1.0)
-                            })
-                            .bg(bg)
-                            .flex()
-                            .flex_col()
-                            .items_center()
-                            .justify_center()
-                            .child(
+                                    },
+                                ),
+                        )
+                }))
+                .into_any_element(),
+            CountdownVariant::Boxed => div()
+                .id(self.id)
+                .flex()
+                .items_center()
+                .gap(px(8.0))
+                .children(time_parts.iter().enumerate().map(|(i, (value, label))| {
+                    div()
+                        .flex()
+                        .items_center()
+                        .gap(px(8.0))
+                        .when(i > 0, |el| {
+                            el.child(
                                 div()
                                     .text_size(px(font_size * 0.8))
-                                    .font_weight(gpui::FontWeight::BOLD)
-                                    .text_color(text_color)
-                                    .child(format!("{:02}", value))
+                                    .text_color(hsla(0.0, 0.0, 0.4, 1.0))
+                                    .child(self.separator.clone()),
                             )
-                            .when(self.show_labels, |el| {
-                                el.child(
+                        })
+                        .child(
+                            div()
+                                .w(px(box_size))
+                                .py(px(8.0))
+                                .flex()
+                                .flex_col()
+                                .items_center()
+                                .gap(px(4.0))
+                                .rounded(px(8.0))
+                                .bg(bg)
+                                .child(
                                     div()
-                                        .text_size(px(label_size * 0.8))
-                                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                                        .child(*label)
+                                        .text_size(px(font_size))
+                                        .font_weight(gpui::FontWeight::BOLD)
+                                        .text_color(text_color)
+                                        .child(format!("{:02}", value)),
                                 )
-                            })
-                    }))
-                    .into_any_element()
-            }
+                                .when(self.show_labels, |el| {
+                                    el.child(
+                                        div()
+                                            .text_size(px(label_size))
+                                            .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                                            .child(*label),
+                                    )
+                                }),
+                        )
+                }))
+                .into_any_element(),
+            CountdownVariant::Circular => div()
+                .id(self.id)
+                .flex()
+                .items_center()
+                .gap(px(12.0))
+                .children(time_parts.iter().map(|(value, label)| {
+                    div()
+                        .size(px(box_size))
+                        .rounded_full()
+                        .border_3()
+                        .border_color(if is_urgent {
+                            self.urgent_color.unwrap_or(hsla(0.0, 0.7, 0.5, 1.0))
+                        } else {
+                            hsla(0.6, 0.7, 0.5, 1.0)
+                        })
+                        .bg(bg)
+                        .flex()
+                        .flex_col()
+                        .items_center()
+                        .justify_center()
+                        .child(
+                            div()
+                                .text_size(px(font_size * 0.8))
+                                .font_weight(gpui::FontWeight::BOLD)
+                                .text_color(text_color)
+                                .child(format!("{:02}", value)),
+                        )
+                        .when(self.show_labels, |el| {
+                            el.child(
+                                div()
+                                    .text_size(px(label_size * 0.8))
+                                    .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                                    .child(*label),
+                            )
+                        })
+                }))
+                .into_any_element(),
         }
     }
 }

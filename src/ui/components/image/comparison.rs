@@ -1,7 +1,7 @@
 //! Image comparison slider component (before/after)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Image comparison slider (before/after)
 #[derive(IntoElement)]
@@ -17,10 +17,7 @@ pub struct ImageComparison {
 }
 
 impl ImageComparison {
-    pub fn new(
-        before: impl Into<SharedString>,
-        after: impl Into<SharedString>,
-    ) -> Self {
+    pub fn new(before: impl Into<SharedString>, after: impl Into<SharedString>) -> Self {
         Self {
             before_src: before.into(),
             after_src: after.into(),

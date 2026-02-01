@@ -1,23 +1,23 @@
 //! CodeBlockView struct and core implementation
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
 use crate::app::state::AppState;
 
 use super::types::*;
 
+mod actions;
 mod core;
+mod diff;
 mod highlights;
 mod search;
-mod diff;
-mod actions;
 
+pub use actions::*;
 pub use core::*;
+pub use diff::*;
 pub use highlights::*;
 pub use search::*;
-pub use diff::*;
-pub use actions::*;
 
 /// A stateful code block that can be collapsed
 pub struct CodeBlockView {
@@ -53,7 +53,12 @@ impl Focusable for CodeBlockView {
 }
 
 impl CodeBlockView {
-    pub fn new(code: String, language: Option<String>, app_state: Arc<AppState>, cx: &mut Context<Self>) -> Self {
+    pub fn new(
+        code: String,
+        language: Option<String>,
+        app_state: Arc<AppState>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         Self {
             app_state,
             code,

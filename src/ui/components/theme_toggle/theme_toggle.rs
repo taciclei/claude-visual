@@ -1,8 +1,8 @@
 //! Main theme toggle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Theme toggle component
 #[derive(IntoElement)]
@@ -63,7 +63,11 @@ impl RenderOnce for ThemeToggle {
                 let is_dark = self.mode == ThemeMode::Dark;
                 let track_width = height * 1.8;
                 let thumb_size = height - 8.0;
-                let thumb_offset = if is_dark { track_width - thumb_size - 4.0 } else { 4.0 };
+                let thumb_offset = if is_dark {
+                    track_width - thumb_size - 4.0
+                } else {
+                    4.0
+                };
 
                 div()
                     .id(self.id)
@@ -98,49 +102,43 @@ impl RenderOnce for ThemeToggle {
                                     .child(
                                         div()
                                             .text_size(px(icon_size * 0.7))
-                                            .child(self.mode.icon())
-                                    )
-                            )
+                                            .child(self.mode.icon()),
+                                    ),
+                            ),
                     )
                     .when(self.show_label, |el| {
                         el.child(
                             div()
                                 .text_size(px(13.0))
                                 .text_color(hsla(0.0, 0.0, 0.7, 1.0))
-                                .child(self.mode.label())
+                                .child(self.mode.label()),
                         )
                     })
             }
-            ThemeToggleVariant::Button => {
-                div()
-                    .id(self.id)
-                    .flex()
-                    .items_center()
-                    .justify_center()
-                    .gap(px(6.0))
-                    .h(px(height))
-                    .px(px(if self.show_label { 12.0 } else { 0.0 }))
-                    .w(px(if self.show_label { 0.0 } else { height }))
-                    .when(!self.show_label, |el| el.w(px(height)))
-                    .bg(hsla(0.0, 0.0, 0.15, 1.0))
-                    .border_1()
-                    .border_color(hsla(0.0, 0.0, 0.25, 1.0))
-                    .rounded(px(8.0))
-                    .cursor_pointer()
-                    .child(
+            ThemeToggleVariant::Button => div()
+                .id(self.id)
+                .flex()
+                .items_center()
+                .justify_center()
+                .gap(px(6.0))
+                .h(px(height))
+                .px(px(if self.show_label { 12.0 } else { 0.0 }))
+                .w(px(if self.show_label { 0.0 } else { height }))
+                .when(!self.show_label, |el| el.w(px(height)))
+                .bg(hsla(0.0, 0.0, 0.15, 1.0))
+                .border_1()
+                .border_color(hsla(0.0, 0.0, 0.25, 1.0))
+                .rounded(px(8.0))
+                .cursor_pointer()
+                .child(div().text_size(px(icon_size)).child(self.mode.icon()))
+                .when(self.show_label, |el| {
+                    el.child(
                         div()
-                            .text_size(px(icon_size))
-                            .child(self.mode.icon())
+                            .text_size(px(13.0))
+                            .text_color(hsla(0.0, 0.0, 0.9, 1.0))
+                            .child(self.mode.label()),
                     )
-                    .when(self.show_label, |el| {
-                        el.child(
-                            div()
-                                .text_size(px(13.0))
-                                .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                .child(self.mode.label())
-                        )
-                    })
-            }
+                }),
             ThemeToggleVariant::Segmented => {
                 let modes: Vec<ThemeMode> = if self.include_system {
                     vec![ThemeMode::Light, ThemeMode::Dark, ThemeMode::System]
@@ -171,11 +169,7 @@ impl RenderOnce for ThemeToggle {
                             })
                             .rounded(px(6.0))
                             .cursor_pointer()
-                            .child(
-                                div()
-                                    .text_size(px(icon_size))
-                                    .child(m.icon())
-                            )
+                            .child(div().text_size(px(icon_size)).child(m.icon()))
                             .when(self.show_label, |el| {
                                 el.child(
                                     div()
@@ -185,49 +179,43 @@ impl RenderOnce for ThemeToggle {
                                         } else {
                                             hsla(0.0, 0.0, 0.6, 1.0)
                                         })
-                                        .child(m.label())
+                                        .child(m.label()),
                                 )
                             })
                     }))
             }
-            ThemeToggleVariant::Dropdown => {
-                div()
-                    .id(self.id)
-                    .flex()
-                    .items_center()
-                    .justify_between()
-                    .gap(px(8.0))
-                    .h(px(height))
-                    .px(px(12.0))
-                    .bg(hsla(0.0, 0.0, 0.12, 1.0))
-                    .border_1()
-                    .border_color(hsla(0.0, 0.0, 0.2, 1.0))
-                    .rounded(px(8.0))
-                    .cursor_pointer()
-                    .child(
-                        div()
-                            .flex()
-                            .items_center()
-                            .gap(px(8.0))
-                            .child(
-                                div()
-                                    .text_size(px(icon_size))
-                                    .child(self.mode.icon())
-                            )
-                            .child(
-                                div()
-                                    .text_size(px(13.0))
-                                    .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                                    .child(self.mode.label())
-                            )
-                    )
-                    .child(
-                        div()
-                            .text_size(px(10.0))
-                            .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child("▼")
-                    )
-            }
+            ThemeToggleVariant::Dropdown => div()
+                .id(self.id)
+                .flex()
+                .items_center()
+                .justify_between()
+                .gap(px(8.0))
+                .h(px(height))
+                .px(px(12.0))
+                .bg(hsla(0.0, 0.0, 0.12, 1.0))
+                .border_1()
+                .border_color(hsla(0.0, 0.0, 0.2, 1.0))
+                .rounded(px(8.0))
+                .cursor_pointer()
+                .child(
+                    div()
+                        .flex()
+                        .items_center()
+                        .gap(px(8.0))
+                        .child(div().text_size(px(icon_size)).child(self.mode.icon()))
+                        .child(
+                            div()
+                                .text_size(px(13.0))
+                                .text_color(hsla(0.0, 0.0, 0.9, 1.0))
+                                .child(self.mode.label()),
+                        ),
+                )
+                .child(
+                    div()
+                        .text_size(px(10.0))
+                        .text_color(hsla(0.0, 0.0, 0.5, 1.0))
+                        .child("▼"),
+                ),
         }
     }
 }

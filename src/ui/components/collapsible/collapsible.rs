@@ -1,8 +1,8 @@
 //! Basic collapsible section with trigger and content
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::CollapsibleAnimation;
+use gpui::prelude::*;
+use gpui::*;
 
 /// A basic collapsible section with trigger and content
 #[derive(IntoElement)]
@@ -99,10 +99,7 @@ impl RenderOnce for Collapsible {
             .overflow_hidden();
 
         if self.border {
-            container = container
-                .border_1()
-                .border_color(border_color)
-                .rounded_lg();
+            container = container.border_1().border_color(border_color).rounded_lg();
         }
 
         if let Some(bg) = self.background {

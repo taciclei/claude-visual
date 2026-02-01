@@ -1,5 +1,5 @@
-use gpui::*;
 use super::*;
+use gpui::*;
 
 /// Register global action handlers
 pub fn register_handlers(cx: &mut App) {

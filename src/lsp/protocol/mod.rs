@@ -2,28 +2,28 @@
 //!
 //! Types for Language Server Protocol communication.
 
-mod types;
+mod actions;
+mod capabilities;
+mod completion;
 mod diagnostics;
 mod documentation;
-mod completion;
 mod hover;
+mod initialization;
 mod signature;
 mod symbols;
-mod capabilities;
-mod initialization;
-mod actions;
+mod types;
 
 // Re-export all public types
-pub use types::*;
+pub use actions::*;
+pub use capabilities::*;
+pub use completion::*;
 pub use diagnostics::*;
 pub use documentation::*;
-pub use completion::*;
 pub use hover::*;
+pub use initialization::*;
 pub use signature::*;
 pub use symbols::*;
-pub use capabilities::*;
-pub use initialization::*;
-pub use actions::*;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

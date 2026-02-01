@@ -1,8 +1,8 @@
 //! Toggle group component (single selection)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Toggle group component (single selection)
 #[derive(IntoElement)]
@@ -138,14 +138,12 @@ impl RenderOnce for ToggleGroup {
         // Apply variant-specific container styles
         container = match self.variant {
             ToggleGroupVariant::Default => container.bg(background).p(px(2.0)),
-            ToggleGroupVariant::Outline => container
-                .border_1()
-                .border_color(Hsla {
-                    h: 0.0,
-                    s: 0.0,
-                    l: 0.3,
-                    a: 1.0,
-                }),
+            ToggleGroupVariant::Outline => container.border_1().border_color(Hsla {
+                h: 0.0,
+                s: 0.0,
+                l: 0.3,
+                a: 1.0,
+            }),
             ToggleGroupVariant::Ghost => container,
             ToggleGroupVariant::Pill => container.bg(background).rounded_full().p(px(2.0)),
         };
@@ -179,12 +177,11 @@ impl RenderOnce for ToggleGroup {
             // Apply selection styles
             if is_selected {
                 button = match self.variant {
-                    ToggleGroupVariant::Default | ToggleGroupVariant::Pill => {
-                        button.bg(selected_bg).text_color(selected_text).rounded_md()
-                    }
-                    ToggleGroupVariant::Outline => button
+                    ToggleGroupVariant::Default | ToggleGroupVariant::Pill => button
                         .bg(selected_bg)
-                        .text_color(selected_text),
+                        .text_color(selected_text)
+                        .rounded_md(),
+                    ToggleGroupVariant::Outline => button.bg(selected_bg).text_color(selected_text),
                     ToggleGroupVariant::Ghost => button
                         .text_color(selected_bg)
                         .font_weight(gpui::FontWeight::SEMIBOLD),
@@ -209,26 +206,17 @@ impl RenderOnce for ToggleGroup {
 
             // Add separator for outline variant
             if matches!(self.variant, ToggleGroupVariant::Outline) && i > 0 {
-                container = container.child(
-                    div()
-                        .w(px(1.0))
-                        .h(px(height - 8.0))
-                        .bg(Hsla {
-                            h: 0.0,
-                            s: 0.0,
-                            l: 0.3,
-                            a: 1.0,
-                        }),
-                );
+                container = container.child(div().w(px(1.0)).h(px(height - 8.0)).bg(Hsla {
+                    h: 0.0,
+                    s: 0.0,
+                    l: 0.3,
+                    a: 1.0,
+                }));
             }
 
             // Icon
             if let Some(icon) = &item.icon {
-                button = button.child(
-                    div()
-                        .text_size(px(font_size - 2.0))
-                        .child(icon.clone()),
-                );
+                button = button.child(div().text_size(px(font_size - 2.0)).child(icon.clone()));
             }
 
             // Label

@@ -1,13 +1,17 @@
 //! Context panel header component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 use crate::app::theme::Theme;
 
 impl ChatView {
-    pub(super) fn render_context_header(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_context_header(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .px_4()
             .py_3()
@@ -27,8 +31,8 @@ impl ChatView {
                             .text_sm()
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_color(theme.colors.text)
-                            .child("Session Context")
-                    )
+                            .child("Session Context"),
+                    ),
             )
             .child(
                 div()
@@ -43,7 +47,7 @@ impl ChatView {
                     .on_click(cx.listener(|this, _, _window, cx| {
                         this.toggle_context_panel(cx);
                     }))
-                    .child("×")
+                    .child("×"),
             )
     }
 }

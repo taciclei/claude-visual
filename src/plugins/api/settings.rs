@@ -1,9 +1,9 @@
 //! Settings API for extensions to store configuration
 
 use anyhow::{Context, Result};
+use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::sync::Arc;
-use parking_lot::RwLock;
 
 use super::types::ApiResult;
 
@@ -77,12 +77,14 @@ impl SettingsApi {
         let settings_path = settings_dir.join(format!("{}.json", extension_id));
 
         if settings_path.exists() {
-            let content = std::fs::read_to_string(&settings_path)
-                .context("Failed to read settings file")?;
-            let ext_settings: HashMap<String, String> = serde_json::from_str(&content)
-                .context("Failed to parse settings file")?;
+            let content =
+                std::fs::read_to_string(&settings_path).context("Failed to read settings file")?;
+            let ext_settings: HashMap<String, String> =
+                serde_json::from_str(&content).context("Failed to parse settings file")?;
 
-            self.settings.write().insert(extension_id.to_string(), ext_settings);
+            self.settings
+                .write()
+                .insert(extension_id.to_string(), ext_settings);
         }
 
         Ok(())

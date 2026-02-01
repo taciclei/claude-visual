@@ -1,13 +1,13 @@
 //! Divider component for visual separation
 
-mod types;
 mod divider;
 mod horizontal_rule;
+mod types;
 mod vertical_rule;
 
-pub use types::*;
 pub use divider::Divider;
 pub use horizontal_rule::HorizontalRule;
+pub use types::*;
 pub use vertical_rule::VerticalRule;
 
 #[cfg(test)]

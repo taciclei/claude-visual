@@ -1,9 +1,9 @@
 //! Basic meter component
 
-use gpui::*;
-use gpui::prelude::*;
+use super::types::{MeterOrientation, MeterSize, MeterVariant};
 use crate::ui::pct;
-use super::types::{MeterSize, MeterVariant, MeterOrientation};
+use gpui::prelude::*;
+use gpui::*;
 
 /// Basic meter component - displays a value within a range
 #[derive(IntoElement)]
@@ -149,7 +149,9 @@ impl RenderOnce for Meter {
         let is_vertical = self.orientation == MeterOrientation::Vertical;
 
         let value_text = if let Some(format) = &self.format {
-            format.to_string().replace("{value}", &self.value.to_string())
+            format
+                .to_string()
+                .replace("{value}", &self.value.to_string())
         } else {
             format!("{:.0}%", percentage * 100.0)
         };
@@ -168,7 +170,7 @@ impl RenderOnce for Meter {
                 div()
                     .text_size(px(12.0))
                     .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                    .child(label.clone())
+                    .child(label.clone()),
             );
         }
 
@@ -188,7 +190,7 @@ impl RenderOnce for Meter {
                         .w_full()
                         .h(pct(percentage * 100.0))
                         .rounded(px(height / 2.0))
-                        .bg(color)
+                        .bg(color),
                 )
         } else {
             div()
@@ -202,7 +204,7 @@ impl RenderOnce for Meter {
                         .h_full()
                         .w(pct(percentage * 100.0))
                         .rounded(px(height / 2.0))
-                        .bg(color)
+                        .bg(color),
                 )
         };
 
@@ -215,7 +217,7 @@ impl RenderOnce for Meter {
                     .text_size(px(12.0))
                     .font_weight(gpui::FontWeight::MEDIUM)
                     .text_color(hsla(0.0, 0.0, 0.8, 1.0))
-                    .child(value_text)
+                    .child(value_text),
             );
         }
 

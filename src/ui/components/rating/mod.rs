@@ -1,16 +1,16 @@
 //! Rating component for star ratings and feedback
 
-mod types;
 mod rating;
+mod reaction_picker;
 mod star_rating;
 mod thumbs_feedback;
-mod reaction_picker;
+mod types;
 
-pub use types::{RatingSize, RatingEvent};
 pub use rating::Rating;
+pub use reaction_picker::ReactionPicker;
 pub use star_rating::StarRating;
 pub use thumbs_feedback::ThumbsFeedback;
-pub use reaction_picker::ReactionPicker;
+pub use types::{RatingEvent, RatingSize};
 
 #[cfg(test)]
 mod tests {
@@ -18,8 +18,7 @@ mod tests {
 
     #[test]
     fn test_star_rating() {
-        let rating = StarRating::new(3.5, 5)
-            .size(RatingSize::Large);
+        let rating = StarRating::new(3.5, 5).size(RatingSize::Large);
 
         assert!((rating.value - 3.5).abs() < f32::EPSILON);
         assert_eq!(rating.max, 5);

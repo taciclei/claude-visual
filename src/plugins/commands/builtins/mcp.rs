@@ -3,15 +3,16 @@
 use super::super::types::*;
 
 /// Register MCP built-in commands
-pub(crate) fn register_mcp_commands(
-    register: impl Fn(SlashCommand, CommandHandler),
-) {
+pub(crate) fn register_mcp_commands(register: impl Fn(SlashCommand, CommandHandler)) {
     // /mcp-servers - List MCP servers
     register(
         SlashCommand {
             name: "mcp-servers".to_string(),
             description: "List connected MCP servers".to_string(),
-            help: Some("Usage: /mcp-servers\n\nList all connected MCP servers and their status.".to_string()),
+            help: Some(
+                "Usage: /mcp-servers\n\nList all connected MCP servers and their status."
+                    .to_string(),
+            ),
             extension_id: None,
             is_builtin: true,
             args: vec![],
@@ -104,7 +105,8 @@ pub(crate) fn register_mcp_commands(
                  Execute a tool from an MCP server.\n\n\
                  Examples:\n\
                    /mcp-tool filesystem read_file {\"path\": \"/tmp/test.txt\"}\n\
-                   /mcp-tool github list_repos".to_string()
+                   /mcp-tool github list_repos"
+                    .to_string(),
             ),
             extension_id: None,
             is_builtin: true,
@@ -133,13 +135,17 @@ pub(crate) fn register_mcp_commands(
             let parts: Vec<&str> = args.splitn(3, char::is_whitespace).collect();
             if parts.len() < 2 {
                 return CommandResult::Error(
-                    "Usage: /mcp-tool <server> <tool> [args_json]".to_string()
+                    "Usage: /mcp-tool <server> <tool> [args_json]".to_string(),
                 );
             }
             let server = parts[0].to_string();
             let tool = parts[1].to_string();
             let arguments = parts.get(2).map(|s| s.to_string());
-            CommandResult::McpToolCall { server, tool, arguments }
+            CommandResult::McpToolCall {
+                server,
+                tool,
+                arguments,
+            }
         }),
     );
 
@@ -152,7 +158,8 @@ pub(crate) fn register_mcp_commands(
                 "Usage: /mcp-read <server> <uri>\n\n\
                  Read a resource from an MCP server.\n\n\
                  Example:\n\
-                   /mcp-read filesystem file:///home/user/doc.txt".to_string()
+                   /mcp-read filesystem file:///home/user/doc.txt"
+                    .to_string(),
             ),
             extension_id: None,
             is_builtin: true,
@@ -174,9 +181,7 @@ pub(crate) fn register_mcp_commands(
         Box::new(|args, _ctx| {
             let parts: Vec<&str> = args.splitn(2, char::is_whitespace).collect();
             if parts.len() < 2 {
-                return CommandResult::Error(
-                    "Usage: /mcp-read <server> <uri>".to_string()
-                );
+                return CommandResult::Error("Usage: /mcp-read <server> <uri>".to_string());
             }
             let server = parts[0].to_string();
             let uri = parts[1].to_string();
@@ -193,7 +198,8 @@ pub(crate) fn register_mcp_commands(
                 "Usage: /mcp-prompt <server> <prompt> [args_json]\n\n\
                  Get a prompt from an MCP server and insert it.\n\n\
                  Example:\n\
-                   /mcp-prompt memory recall {\"topic\": \"rust patterns\"}".to_string()
+                   /mcp-prompt memory recall {\"topic\": \"rust patterns\"}"
+                    .to_string(),
             ),
             extension_id: None,
             is_builtin: true,
@@ -222,13 +228,17 @@ pub(crate) fn register_mcp_commands(
             let parts: Vec<&str> = args.splitn(3, char::is_whitespace).collect();
             if parts.len() < 2 {
                 return CommandResult::Error(
-                    "Usage: /mcp-prompt <server> <prompt> [args_json]".to_string()
+                    "Usage: /mcp-prompt <server> <prompt> [args_json]".to_string(),
                 );
             }
             let server = parts[0].to_string();
             let prompt = parts[1].to_string();
             let arguments = parts.get(2).map(|s| s.to_string());
-            CommandResult::McpPromptGet { server, prompt, arguments }
+            CommandResult::McpPromptGet {
+                server,
+                prompt,
+                arguments,
+            }
         }),
     );
 }

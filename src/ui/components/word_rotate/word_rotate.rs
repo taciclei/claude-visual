@@ -1,8 +1,8 @@
 //! WordRotate component - cycles through words with animation
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Word rotate component - cycles through words with animation
 #[derive(IntoElement)]
@@ -77,21 +77,18 @@ impl WordRotate {
 impl RenderOnce for WordRotate {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         let color = self.text_color.unwrap_or(hsla(0.0, 0.0, 0.95, 1.0));
-        let current_word = self.words
+        let current_word = self
+            .words
             .get(self.current_index)
             .cloned()
             .unwrap_or("".into());
 
-        div()
-            .id(self.id)
-            .relative()
-            .overflow_hidden()
-            .child(
-                div()
-                    .text_size(px(self.font_size))
-                    .font_weight(self.font_weight)
-                    .text_color(color)
-                    .child(current_word)
-            )
+        div().id(self.id).relative().overflow_hidden().child(
+            div()
+                .text_size(px(self.font_size))
+                .font_weight(self.font_weight)
+                .text_color(color)
+                .child(current_word),
+        )
     }
 }

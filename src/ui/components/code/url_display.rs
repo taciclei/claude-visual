@@ -1,7 +1,7 @@
 //! URL display component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// URL display
 #[derive(Clone)]
@@ -36,13 +36,14 @@ impl UrlDisplay {
         }
 
         // Strip protocol
-        let url = self.url
+        let url = self
+            .url
             .trim_start_matches("https://")
             .trim_start_matches("http://");
 
         // Truncate if too long
         if url.len() > 40 {
-            format!("{}...{}", &url[..20], &url[url.len()-15..])
+            format!("{}...{}", &url[..20], &url[url.len() - 15..])
         } else {
             url.to_string()
         }
@@ -56,11 +57,7 @@ impl RenderOnce for UrlDisplay {
 
         let display = self.display_url();
 
-        let mut container = div()
-            .flex()
-            .items_center()
-            .gap_1()
-            .text_sm();
+        let mut container = div().flex().items_center().gap_1().text_sm();
 
         if self.clickable {
             container = container
@@ -71,8 +68,6 @@ impl RenderOnce for UrlDisplay {
             container = container.text_color(text_muted);
         }
 
-        container
-            .child("🔗")
-            .child(display)
+        container.child("🔗").child(display)
     }
 }

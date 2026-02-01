@@ -1,7 +1,7 @@
 //! Skip link for accessibility
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Skip link for accessibility
 #[derive(IntoElement)]
@@ -60,7 +60,6 @@ impl RenderOnce for SkipLink {
             .rounded_md()
             .text_size(px(14.0))
             .font_weight(gpui::FontWeight::MEDIUM)
-
             .focus(|s| s.top_2())
             .child(self.label)
     }

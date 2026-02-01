@@ -25,13 +25,28 @@ pub(super) fn status_text(status: SyncStatus, is_panel: bool) -> &'static str {
         SyncStatus::Idle => "Idle",
         SyncStatus::Syncing => "Syncing...",
         SyncStatus::Offline => "Offline",
-        SyncStatus::Error => if is_panel { "Sync Error" } else { "Error" },
-        SyncStatus::Synced => if is_panel { "Up to date" } else { "Synced" },
+        SyncStatus::Error => {
+            if is_panel {
+                "Sync Error"
+            } else {
+                "Error"
+            }
+        }
+        SyncStatus::Synced => {
+            if is_panel {
+                "Up to date"
+            } else {
+                "Synced"
+            }
+        }
     }
 }
 
 /// Format last sync time as human-readable string
-pub(super) fn format_last_sync(last_sync: Option<chrono::DateTime<chrono::Utc>>, is_panel: bool) -> String {
+pub(super) fn format_last_sync(
+    last_sync: Option<chrono::DateTime<chrono::Utc>>,
+    is_panel: bool,
+) -> String {
     if let Some(time) = last_sync {
         let now = chrono::Utc::now();
         let duration = now.signed_duration_since(time);

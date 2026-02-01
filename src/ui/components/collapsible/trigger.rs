@@ -1,7 +1,7 @@
 //! Collapsible trigger with chevron icon
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Collapsible trigger with chevron icon
 #[derive(IntoElement)]

@@ -189,8 +189,8 @@ impl ContextManager {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::types::ContextItemType;
+    use super::*;
 
     #[test]
     fn test_context_manager() {

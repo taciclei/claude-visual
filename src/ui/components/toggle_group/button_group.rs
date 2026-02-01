@@ -1,8 +1,8 @@
 //! Button group component (multiple buttons grouped together)
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Button group (multiple buttons grouped together)
 #[derive(IntoElement)]
@@ -155,7 +155,10 @@ impl RenderOnce for ButtonGroup {
                             a: 1.0,
                         }
                     };
-                    button.border_1().border_color(border_color).text_color(text)
+                    button
+                        .border_1()
+                        .border_color(border_color)
+                        .text_color(text)
                 }
                 ButtonGroupVariant::Ghost => {
                     let text = if item.active {

@@ -1,7 +1,7 @@
 //! Gradient display
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 #[derive(Clone)]
 pub struct GradientBar {
@@ -47,10 +47,7 @@ impl RenderOnce for GradientBar {
                 let l = self.start.l + (self.end.l - self.start.l) * t;
                 let a = self.start.a + (self.end.a - self.start.a) * t;
 
-                div()
-                    .flex_1()
-                    .h_full()
-                    .bg(hsla(h, s, l, a))
+                div().flex_1().h_full().bg(hsla(h, s, l, a))
             }))
     }
 }

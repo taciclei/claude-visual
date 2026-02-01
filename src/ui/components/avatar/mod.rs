@@ -1,12 +1,12 @@
 //! Avatar component for user/assistant display
 
-mod types;
 mod avatar;
 mod avatar_group;
+mod types;
 
-pub use types::*;
 pub use avatar::Avatar;
 pub use avatar_group::{AvatarGroup, AvatarGroupItem};
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

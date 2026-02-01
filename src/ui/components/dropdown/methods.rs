@@ -25,7 +25,11 @@ impl Dropdown {
     }
 
     /// Create with options
-    pub fn with_options(app_state: Arc<AppState>, options: Vec<DropdownOption>, cx: &mut Context<Self>) -> Self {
+    pub fn with_options(
+        app_state: Arc<AppState>,
+        options: Vec<DropdownOption>,
+        cx: &mut Context<Self>,
+    ) -> Self {
         let mut dropdown = Self::new(app_state, cx);
         dropdown.options = options;
         dropdown
@@ -121,9 +125,9 @@ impl Dropdown {
 
     /// Get selected option
     pub fn selected_option(&self) -> Option<&DropdownOption> {
-        self.selected.as_ref().and_then(|id| {
-            self.options.iter().find(|o| &o.id == id)
-        })
+        self.selected
+            .as_ref()
+            .and_then(|id| self.options.iter().find(|o| &o.id == id))
     }
 
     /// Get filtered options (for search)
@@ -132,7 +136,8 @@ impl Dropdown {
             self.options.iter().collect()
         } else {
             let query = self.search_query.to_lowercase();
-            self.options.iter()
+            self.options
+                .iter()
                 .filter(|o| o.label.to_lowercase().contains(&query))
                 .collect()
         }

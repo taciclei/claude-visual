@@ -1,28 +1,28 @@
 //! Link and anchor components
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-mod types;
-mod link;
-mod nav_link;
-mod breadcrumb;
-mod skip_link;
-mod footer_link;
-mod link_list;
 mod anchor_link;
+mod breadcrumb;
+mod footer_link;
+mod link;
+mod link_list;
+mod nav_link;
+mod skip_link;
+mod types;
 
 // Re-export types
-pub use types::{LinkVariant, LinkSize, LinkListDirection};
+pub use types::{LinkListDirection, LinkSize, LinkVariant};
 
 // Re-export components
-pub use link::Link;
-pub use nav_link::NavLink;
-pub use breadcrumb::BreadcrumbLink;
-pub use skip_link::SkipLink;
-pub use footer_link::FooterLink;
-pub use link_list::LinkList;
 pub use anchor_link::AnchorLink;
+pub use breadcrumb::BreadcrumbLink;
+pub use footer_link::FooterLink;
+pub use link::Link;
+pub use link_list::LinkList;
+pub use nav_link::NavLink;
+pub use skip_link::SkipLink;
 
 #[cfg(test)]
 mod tests {
@@ -41,10 +41,7 @@ mod tests {
 
     #[test]
     fn test_nav_link() {
-        let link = NavLink::new("Home", "/")
-            .active(true)
-            .icon("🏠")
-            .badge("3");
+        let link = NavLink::new("Home", "/").active(true).icon("🏠").badge("3");
         assert!(link.active);
         assert_eq!(link.icon.as_deref(), Some("🏠"));
         assert_eq!(link.badge.as_deref(), Some("3"));
@@ -72,8 +69,7 @@ mod tests {
 
     #[test]
     fn test_anchor_link() {
-        let link = AnchorLink::new("Introduction", "intro")
-            .show_hash(true);
+        let link = AnchorLink::new("Introduction", "intro").show_hash(true);
         assert_eq!(link.label.as_ref(), "Introduction");
         assert_eq!(link.anchor_id.as_ref(), "intro");
         assert!(link.show_hash);

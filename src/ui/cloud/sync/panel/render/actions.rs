@@ -1,10 +1,10 @@
 //! Actions rendering for sync status panel
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::super::SyncStatusPanel;
 use super::super::super::types::SyncStatusPanelEvent;
+use super::super::SyncStatusPanel;
 use crate::cloud::SyncStatus;
 
 impl SyncStatusPanel {
@@ -43,12 +43,7 @@ impl SyncStatusPanel {
                     .flex_row()
                     .items_center()
                     .gap_2()
-                    .child(
-                        div()
-                            .text_xs()
-                            .text_color(text_muted)
-                            .child("Auto-sync"),
-                    )
+                    .child(div().text_xs().text_color(text_muted).child("Auto-sync"))
                     .child(
                         div()
                             .id("toggle-auto-sync")
@@ -91,12 +86,8 @@ impl SyncStatusPanel {
                     } else {
                         background_color
                     })
-                    .when(!is_syncing, |this| {
-                this.hover(|this| this.opacity(0.9))
-                    })
-                    .when(is_syncing, |this| {
-                this.cursor_not_allowed()
-                    })
+                    .when(!is_syncing, |this| this.hover(|this| this.opacity(0.9)))
+                    .when(is_syncing, |this| this.cursor_not_allowed())
                     .on_click(on_sync_now)
                     .child(if is_syncing { "Syncing..." } else { "Sync Now" }),
             )

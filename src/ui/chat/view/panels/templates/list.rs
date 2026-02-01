@@ -1,7 +1,7 @@
 //! Templates panel list with categories
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 use std::collections::HashMap;
 
 use super::super::super::core::ChatView;
@@ -14,7 +14,14 @@ impl ChatView {
         templates_by_cat: HashMap<&str, Vec<&PromptTemplate>>,
         cx: &mut Context<Self>,
     ) -> impl IntoElement {
-        let categories = ["coding", "review", "explain", "git", "architecture", "custom"];
+        let categories = [
+            "coding",
+            "review",
+            "explain",
+            "git",
+            "architecture",
+            "custom",
+        ];
         let text_color = theme.colors.text;
         let text_muted = theme.colors.text_muted;
         let border_color = theme.colors.border;
@@ -59,24 +66,15 @@ impl ChatView {
                                 .items_center()
                                 .gap_2()
                                 .mb_2()
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .child(cat_icon.to_string())
-                                )
+                                .child(div().text_xs().child(cat_icon.to_string()))
                                 .child(
                                     div()
                                         .text_xs()
                                         .font_weight(FontWeight::SEMIBOLD)
                                         .text_color(text_muted)
-                                        .child(cat_label.to_string())
+                                        .child(cat_label.to_string()),
                                 )
-                                .child(
-                                    div()
-                                        .h(px(1.0))
-                                        .flex_1()
-                                        .bg(border_fade)
-                                )
+                                .child(div().h(px(1.0)).flex_1().bg(border_fade)),
                         )
                         .child(
                             div()
@@ -96,7 +94,7 @@ impl ChatView {
                                         error_color,
                                         cx,
                                     )
-                                }))
+                                })),
                         )
                 })
             }))
@@ -116,21 +114,21 @@ impl ChatView {
                                 .flex()
                                 .items_center()
                                 .justify_center()
-                                .child(div().text_xl().child("📝"))
+                                .child(div().text_xl().child("📝")),
                         )
                         .child(
                             div()
                                 .text_sm()
                                 .font_weight(FontWeight::MEDIUM)
                                 .text_color(text_color)
-                                .child("No templates found")
+                                .child("No templates found"),
                         )
                         .child(
                             div()
                                 .text_xs()
                                 .text_color(text_muted)
-                                .child("Try a different search term")
-                        )
+                                .child("Try a different search term"),
+                        ),
                 )
             })
     }
@@ -193,7 +191,7 @@ impl ChatView {
                     .justify_center()
                     .flex_shrink_0()
                     .text_sm()
-                    .child(template_icon)
+                    .child(template_icon),
             )
             .child(
                 div()
@@ -204,15 +202,15 @@ impl ChatView {
                             .text_sm()
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(text_color)
-                            .child(template_name)
+                            .child(template_name),
                     )
                     .child(
                         div()
                             .text_xs()
                             .text_color(text_muted)
                             .line_clamp(2)
-                            .child(template_content)
-                    )
+                            .child(template_content),
+                    ),
             )
             .child(
                 div()
@@ -225,13 +223,15 @@ impl ChatView {
                             div()
                                 .text_xs()
                                 .text_color(text_muted)
-                                .child(format!("{}x", usage_count))
+                                .child(format!("{}x", usage_count)),
                         )
                     })
                     .when(!is_builtin, move |d| {
                         d.child(
                             div()
-                                .id(ElementId::Name(format!("delete-template-{}", template.id).into()))
+                                .id(ElementId::Name(
+                                    format!("delete-template-{}", template.id).into(),
+                                ))
                                 .size(px(20.0))
                                 .rounded_md()
                                 .flex()
@@ -242,9 +242,9 @@ impl ChatView {
                                 .hover(move |s| s.bg(error_bg).text_color(error_color))
                                 .cursor_pointer()
                                 .on_click(delete_listener)
-                                .child("×")
+                                .child("×"),
                         )
-                    })
+                    }),
             )
     }
 }

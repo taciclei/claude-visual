@@ -1,8 +1,8 @@
 //! Navigation drawer with menu items
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Navigation drawer with menu items
 #[derive(Clone)]
@@ -91,8 +91,8 @@ impl RenderOnce for NavigationDrawer {
                             .text_lg()
                             .font_weight(FontWeight::BOLD)
                             .text_color(text)
-                            .child(self.title)
-                    )
+                            .child(self.title),
+                    ),
             )
             // Menu items
             .child(
@@ -101,56 +101,43 @@ impl RenderOnce for NavigationDrawer {
                     .py_2()
                     .id("scroll-nav-drawer")
                     .overflow_y_scroll()
-                    .children(
-                        self.items.into_iter().enumerate().map(|(idx, item)| {
-                            let is_selected = selected_idx == Some(idx);
+                    .children(self.items.into_iter().enumerate().map(|(idx, item)| {
+                        let is_selected = selected_idx == Some(idx);
 
-                            div()
-                                .w_full()
-                                .px_3()
-                                .py_2()
-                                .mx_2()
-                                .rounded(px(6.0))
-                                .flex()
-                                .items_center()
-                                .gap_3()
-                                .cursor_pointer()
-                                .when(is_selected, |d| {
-                                    d.bg(accent.opacity(0.15))
-                                        .text_color(accent)
-                                })
-                                .when(!is_selected, |d| {
-                                    d.text_color(text_muted)
-                                        .hover(|s| s.bg(surface_hover).text_color(text))
-                                })
-                                .when_some(item.icon, |d, icon| {
-                                    d.child(
-                                        div()
-                                            .w(px(20.0))
-                                            .text_center()
-                                            .child(icon)
-                                    )
-                                })
-                                .child(
+                        div()
+                            .w_full()
+                            .px_3()
+                            .py_2()
+                            .mx_2()
+                            .rounded(px(6.0))
+                            .flex()
+                            .items_center()
+                            .gap_3()
+                            .cursor_pointer()
+                            .when(is_selected, |d| {
+                                d.bg(accent.opacity(0.15)).text_color(accent)
+                            })
+                            .when(!is_selected, |d| {
+                                d.text_color(text_muted)
+                                    .hover(|s| s.bg(surface_hover).text_color(text))
+                            })
+                            .when_some(item.icon, |d, icon| {
+                                d.child(div().w(px(20.0)).text_center().child(icon))
+                            })
+                            .child(div().flex_1().text_sm().child(item.label))
+                            .when_some(item.badge, |d, badge| {
+                                d.child(
                                     div()
-                                        .flex_1()
-                                        .text_sm()
-                                        .child(item.label)
+                                        .px_2()
+                                        .py(px(2.0))
+                                        .rounded(px(10.0))
+                                        .bg(accent)
+                                        .text_xs()
+                                        .text_color(gpui::white())
+                                        .child(badge),
                                 )
-                                .when_some(item.badge, |d, badge| {
-                                    d.child(
-                                        div()
-                                            .px_2()
-                                            .py(px(2.0))
-                                            .rounded(px(10.0))
-                                            .bg(accent)
-                                            .text_xs()
-                                            .text_color(gpui::white())
-                                            .child(badge)
-                                    )
-                                })
-                        })
-                    )
+                            })
+                    })),
             )
     }
 }

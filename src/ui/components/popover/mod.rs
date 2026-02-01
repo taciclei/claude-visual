@@ -1,14 +1,14 @@
 //! Popover component for floating content
 
-mod types;
-mod popover;
 mod content;
 mod menu;
+mod popover;
+mod types;
 
-pub use types::*;
-pub use popover::Popover;
 pub use content::PopoverContent;
 pub use menu::{MenuPopover, MenuPopoverItem};
+pub use popover::Popover;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

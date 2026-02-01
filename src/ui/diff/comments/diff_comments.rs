@@ -1,7 +1,9 @@
 //! Manager for all comments in a diff
 
+use super::{
+    comment_location::CommentLocation, comment_thread::CommentThread, inline_comment::InlineComment,
+};
 use std::collections::HashMap;
-use super::{comment_location::CommentLocation, comment_thread::CommentThread, inline_comment::InlineComment};
 
 /// Manager for all comments in a diff
 #[derive(Debug, Clone)]
@@ -28,28 +30,49 @@ impl DiffComments {
     }
 
     /// Get or create a thread at a location
-    pub fn get_or_create_thread(&mut self, hunk_id: usize, line_index: usize, side: &str) -> &mut CommentThread {
+    pub fn get_or_create_thread(
+        &mut self,
+        hunk_id: usize,
+        line_index: usize,
+        side: &str,
+    ) -> &mut CommentThread {
         let location = CommentLocation::new(hunk_id, line_index, side);
 
-        self.threads.entry(location).or_insert_with(|| {
-            CommentThread::new(hunk_id, line_index, side)
-        })
+        self.threads
+            .entry(location)
+            .or_insert_with(|| CommentThread::new(hunk_id, line_index, side))
     }
 
     /// Get thread at location
-    pub fn get_thread(&self, hunk_id: usize, line_index: usize, side: &str) -> Option<&CommentThread> {
+    pub fn get_thread(
+        &self,
+        hunk_id: usize,
+        line_index: usize,
+        side: &str,
+    ) -> Option<&CommentThread> {
         let location = CommentLocation::new(hunk_id, line_index, side);
         self.threads.get(&location)
     }
 
     /// Get mutable thread at location
-    pub fn get_thread_mut(&mut self, hunk_id: usize, line_index: usize, side: &str) -> Option<&mut CommentThread> {
+    pub fn get_thread_mut(
+        &mut self,
+        hunk_id: usize,
+        line_index: usize,
+        side: &str,
+    ) -> Option<&mut CommentThread> {
         let location = CommentLocation::new(hunk_id, line_index, side);
         self.threads.get_mut(&location)
     }
 
     /// Add a new comment
-    pub fn add_comment(&mut self, hunk_id: usize, line_index: usize, side: &str, content: String) -> String {
+    pub fn add_comment(
+        &mut self,
+        hunk_id: usize,
+        line_index: usize,
+        side: &str,
+        content: String,
+    ) -> String {
         let comment = InlineComment::new(self.current_user.clone(), content);
         let id = comment.id.clone();
 
@@ -60,7 +83,14 @@ impl DiffComments {
     }
 
     /// Reply to a comment
-    pub fn reply(&mut self, hunk_id: usize, line_index: usize, side: &str, parent_id: &str, content: String) -> Option<String> {
+    pub fn reply(
+        &mut self,
+        hunk_id: usize,
+        line_index: usize,
+        side: &str,
+        parent_id: &str,
+        content: String,
+    ) -> Option<String> {
         let comment = InlineComment::reply(parent_id, self.current_user.clone(), content);
         let id = comment.id.clone();
 
@@ -73,13 +103,19 @@ impl DiffComments {
     /// Check if location has comments
     pub fn has_comments(&self, hunk_id: usize, line_index: usize, side: &str) -> bool {
         let location = CommentLocation::new(hunk_id, line_index, side);
-        self.threads.get(&location).map(|t| !t.comments.is_empty()).unwrap_or(false)
+        self.threads
+            .get(&location)
+            .map(|t| !t.comments.is_empty())
+            .unwrap_or(false)
     }
 
     /// Get comment count at location
     pub fn comment_count(&self, hunk_id: usize, line_index: usize, side: &str) -> usize {
         let location = CommentLocation::new(hunk_id, line_index, side);
-        self.threads.get(&location).map(|t| t.comment_count()).unwrap_or(0)
+        self.threads
+            .get(&location)
+            .map(|t| t.comment_count())
+            .unwrap_or(0)
     }
 
     /// Get all threads for a hunk

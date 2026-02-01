@@ -1,18 +1,22 @@
 //! Export panel render functions
 
-mod header;
-mod stats;
-mod format_selector;
-mod options;
 mod actions;
+mod format_selector;
+mod header;
+mod options;
+mod stats;
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use crate::ui::chat::view::core::ChatView;
 
 impl ChatView {
-    pub(crate) fn render_export_panel(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_export_panel(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let on_overlay_click = cx.listener(|this, _, _window, cx| {
             this.toggle_export_panel(cx);
         });
@@ -49,7 +53,7 @@ impl ChatView {
                     // Options
                     .child(self.render_export_options(theme, cx))
                     // Actions
-                    .child(self.render_export_actions(theme, cx))
+                    .child(self.render_export_actions(theme, cx)),
             )
     }
 }

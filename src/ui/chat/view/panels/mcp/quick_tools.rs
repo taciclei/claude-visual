@@ -1,13 +1,17 @@
 //! Quick MCP tools dropdown for fast tool access
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::super::core::ChatView;
 
 impl ChatView {
     /// Render quick MCP tools dropdown (shown on hover/click of MCP button)
-    pub(crate) fn render_mcp_quick_tools(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_mcp_quick_tools(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let quick_tools = self.get_quick_mcp_tools();
         let all_tools = self.get_all_mcp_tools();
         let has_tools = !all_tools.is_empty();
@@ -65,18 +69,14 @@ impl ChatView {
                                     .flex()
                                     .items_center()
                                     .gap_2()
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .child("🔧")
-                                    )
+                                    .child(div().text_sm().child("🔧"))
                                     .child(
                                         div()
                                             .text_sm()
                                             .font_weight(FontWeight::MEDIUM)
                                             .text_color(text)
-                                            .child("Quick Tools")
-                                    )
+                                            .child("Quick Tools"),
+                                    ),
                             )
                             .child(
                                 div()
@@ -93,8 +93,8 @@ impl ChatView {
                                         this.panels.mcp_panel = true;
                                         cx.notify();
                                     }))
-                                    .child("View all →")
-                            )
+                                    .child("View all →"),
+                            ),
                     )
                     // Content
                     .child(
@@ -111,25 +111,21 @@ impl ChatView {
                                         .flex_col()
                                         .items_center()
                                         .gap_2()
-                                        .child(
-                                            div()
-                                                .text_2xl()
-                                                .child("🔌")
-                                        )
+                                        .child(div().text_2xl().child("🔌"))
                                         .child(
                                             div()
                                                 .text_sm()
                                                 .text_color(text_muted)
                                                 .text_center()
-                                                .child("No MCP tools available")
+                                                .child("No MCP tools available"),
                                         )
                                         .child(
                                             div()
                                                 .text_xs()
                                                 .text_color(text_muted)
                                                 .text_center()
-                                                .child("Connect to MCP servers in settings")
-                                        )
+                                                .child("Connect to MCP servers in settings"),
+                                        ),
                                 )
                             })
                             .when(has_tools && has_quick_tools, |d| {
@@ -138,60 +134,87 @@ impl ChatView {
                                         .flex()
                                         .flex_col()
                                         // Favorite/Recent tools section
-                                        .children(quick_tools.iter().enumerate().map(|(idx, (tool_name, is_favorite))| {
-                                            let tool_name_click = tool_name.clone();
-                                            let tool_name_fav = tool_name.clone();
-                                            let is_fav = *is_favorite;
+                                        .children(quick_tools.iter().enumerate().map(
+                                            |(idx, (tool_name, is_favorite))| {
+                                                let tool_name_click = tool_name.clone();
+                                                let tool_name_fav = tool_name.clone();
+                                                let is_fav = *is_favorite;
 
-                                            div()
-                                                .id(ElementId::Name(format!("quick-tool-{}", idx).into()))
-                                                .px_3()
-                                                .py_2()
-                                                .flex()
-                                                .items_center()
-                                                .justify_between()
-                                                .hover(move |s| s.bg(surface_hover))
-                                                .cursor_pointer()
-                                                .on_click(cx.listener(move |this, _, _window, cx| {
-                                                    this.use_mcp_tool(&tool_name_click, cx);
-                                                }))
-                                                .child(
-                                                    div()
-                                                        .flex()
-                                                        .items_center()
-                                                        .gap_2()
-                                                        .flex_1()
-                                                        .overflow_hidden()
-                                                        .child(
-                                                            div()
-                                                                .text_sm()
-                                                                .text_color(info)
-                                                                .child("🔧")
-                                                        )
-                                                        .child(
-                                                            div()
-                                                                .text_sm()
-                                                                .text_color(text)
-                                                                .truncate()
-                                                                .child(format_tool_name(tool_name))
-                                                        )
-                                                )
-                                                .child(
-                                                    div()
-                                                        .id(ElementId::Name(format!("quick-tool-fav-{}", idx).into()))
-                                                        .px_1()
-                                                        .py_0p5()
-                                                        .rounded_sm()
-                                                        .text_sm()
-                                                        .text_color(if is_fav { warning } else { text_muted })
-                                                        .hover(move |s| s.bg(warning.opacity(0.1)).text_color(warning))
-                                                        .cursor_pointer()
-                                                        .on_click(cx.listener(move |this, _, _window, cx| {
-                                                            this.toggle_mcp_tool_favorite(&tool_name_fav, cx);
-                                                        }))
-                                                        .child(if is_fav { "★" } else { "☆" })
-                                                )
-                                        }))
+                                                div()
+                                                    .id(ElementId::Name(
+                                                        format!("quick-tool-{}", idx).into(),
+                                                    ))
+                                                    .px_3()
+                                                    .py_2()
+                                                    .flex()
+                                                    .items_center()
+                                                    .justify_between()
+                                                    .hover(move |s| s.bg(surface_hover))
+                                                    .cursor_pointer()
+                                                    .on_click(cx.listener(
+                                                        move |this, _, _window, cx| {
+                                                            this.use_mcp_tool(&tool_name_click, cx);
+                                                        },
+                                                    ))
+                                                    .child(
+                                                        div()
+                                                            .flex()
+                                                            .items_center()
+                                                            .gap_2()
+                                                            .flex_1()
+                                                            .overflow_hidden()
+                                                            .child(
+                                                                div()
+                                                                    .text_sm()
+                                                                    .text_color(info)
+                                                                    .child("🔧"),
+                                                            )
+                                                            .child(
+                                                                div()
+                                                                    .text_sm()
+                                                                    .text_color(text)
+                                                                    .truncate()
+                                                                    .child(format_tool_name(
+                                                                        tool_name,
+                                                                    )),
+                                                            ),
+                                                    )
+                                                    .child(
+                                                        div()
+                                                            .id(ElementId::Name(
+                                                                format!("quick-tool-fav-{}", idx)
+                                                                    .into(),
+                                                            ))
+                                                            .px_1()
+                                                            .py_0p5()
+                                                            .rounded_sm()
+                                                            .text_sm()
+                                                            .text_color(if is_fav {
+                                                                warning
+                                                            } else {
+                                                                text_muted
+                                                            })
+                                                            .hover(move |s| {
+                                                                s.bg(warning.opacity(0.1))
+                                                                    .text_color(warning)
+                                                            })
+                                                            .cursor_pointer()
+                                                            .on_click(cx.listener(
+                                                                move |this, _, _window, cx| {
+                                                                    this.toggle_mcp_tool_favorite(
+                                                                        &tool_name_fav,
+                                                                        cx,
+                                                                    );
+                                                                },
+                                                            ))
+                                                            .child(if is_fav {
+                                                                "★"
+                                                            } else {
+                                                                "☆"
+                                                            }),
+                                                    )
+                                            },
+                                        )),
                                 )
                             })
                             .when(has_tools && !has_quick_tools, |d| {
@@ -206,16 +229,16 @@ impl ChatView {
                                             div()
                                                 .text_sm()
                                                 .text_color(text_muted)
-                                                .child("No recent tools yet")
+                                                .child("No recent tools yet"),
                                         )
                                         .child(
                                             div()
                                                 .text_xs()
                                                 .text_color(text_muted)
-                                                .child("Use tools to see them here")
-                                        )
+                                                .child("Use tools to see them here"),
+                                        ),
                                 )
-                            })
+                            }),
                     )
                     // Footer with tool count
                     .when(has_tools, |d| {
@@ -232,16 +255,16 @@ impl ChatView {
                                     div()
                                         .text_xs()
                                         .text_color(text_muted)
-                                        .child(format!("{} tools available", all_tools.len()))
+                                        .child(format!("{} tools available", all_tools.len())),
                                 )
                                 .child(
                                     div()
                                         .text_xs()
                                         .text_color(text_muted)
-                                        .child("★ to favorite")
-                                )
+                                        .child("★ to favorite"),
+                                ),
                         )
-                    })
+                    }),
             )
     }
 }

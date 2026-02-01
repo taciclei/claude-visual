@@ -2,13 +2,13 @@
 //!
 //! UI component for editing MCP server configuration.
 
-mod types;
 mod core;
 mod render;
+mod types;
 
 #[cfg(test)]
 mod tests;
 
 // Re-export public types
-pub use types::{EditingServerConfig, EditingField, ServerConfigEditorEvent};
 pub use core::ServerConfigEditor;
+pub use types::{EditingField, EditingServerConfig, ServerConfigEditorEvent};

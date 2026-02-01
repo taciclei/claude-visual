@@ -1,10 +1,10 @@
 //! Render implementation for CodeBlockView
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::view::CodeBlockView;
 use super::types::CodeDisplayMode;
+use super::view::CodeBlockView;
 
 impl Render for CodeBlockView {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {

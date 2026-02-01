@@ -17,33 +17,33 @@
 //! - **context_bar.rs** - Context files bar and context progress bar
 //! - **streaming_suggestions.rs** - Contextual skill suggestions during/after streaming
 
-pub mod status;
-pub mod toolbar;
-pub mod navigation;
-pub mod context_menu;
-pub mod welcome;
-pub mod indicators;
-pub mod hints;
-pub mod search;
-pub mod notifications;
-pub mod shortcuts;
-pub mod palette;
-pub mod git;
 pub mod context_bar;
+pub mod context_menu;
+pub mod git;
+pub mod hints;
+pub mod indicators;
+pub mod navigation;
+pub mod notifications;
+pub mod palette;
+pub mod search;
+pub mod shortcuts;
+pub mod status;
 pub mod streaming_suggestions;
+pub mod toolbar;
+pub mod welcome;
 
 // Re-export all render functions (they're already in impl blocks, so just ensure modules are loaded)
-pub use status::*;
-pub use toolbar::*;
-pub use navigation::*;
-pub use context_menu::*;
-pub use welcome::*;
-pub use indicators::*;
-pub use hints::*;
-pub use search::*;
-pub use notifications::*;
-pub use shortcuts::*;
-pub use palette::*;
-pub use git::*;
 pub use context_bar::*;
+pub use context_menu::*;
+pub use git::*;
+pub use hints::*;
+pub use indicators::*;
+pub use navigation::*;
+pub use notifications::*;
+pub use palette::*;
+pub use search::*;
+pub use shortcuts::*;
+pub use status::*;
 pub use streaming_suggestions::*;
+pub use toolbar::*;
+pub use welcome::*;

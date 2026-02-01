@@ -1,7 +1,7 @@
 //! Stateless empty placeholder component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Stateless empty placeholder
 #[derive(Clone)]
@@ -47,16 +47,7 @@ impl RenderOnce for EmptyPlaceholder {
             .items_center()
             .justify_center()
             .gap_2()
-            .child(
-                div()
-                    .text_size(px(32.0))
-                    .child(self.icon)
-            )
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child(self.message)
-            )
+            .child(div().text_size(px(32.0)).child(self.icon))
+            .child(div().text_sm().text_color(text_muted).child(self.message))
     }
 }

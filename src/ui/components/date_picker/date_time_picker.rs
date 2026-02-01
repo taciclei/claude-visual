@@ -1,8 +1,8 @@
 //! DateTime picker combining date and time
 
-use gpui::*;
+use super::types::{DatePickerSize, DateValue, TimeValue};
 use gpui::prelude::*;
-use super::types::{DateValue, TimeValue, DatePickerSize};
+use gpui::*;
 
 /// DateTime picker combining date and time
 #[derive(IntoElement)]
@@ -81,10 +81,12 @@ impl RenderOnce for DateTimePicker {
         let bg = self.background.unwrap_or(hsla(0.0, 0.0, 0.15, 1.0));
         let border = self.border_color.unwrap_or(hsla(0.0, 0.0, 0.3, 1.0));
 
-        let date_text: SharedString = self.date
+        let date_text: SharedString = self
+            .date
             .map(|d| d.format_display().into())
             .unwrap_or(self.date_placeholder.clone());
-        let time_text: SharedString = self.time
+        let time_text: SharedString = self
+            .time
             .map(|t| t.format_24h().into())
             .unwrap_or(self.time_placeholder.clone());
 
@@ -114,7 +116,7 @@ impl RenderOnce for DateTimePicker {
                         div()
                             .text_size(px(font_size))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child("📅")
+                            .child("📅"),
                     )
                     .child(
                         div()
@@ -124,8 +126,8 @@ impl RenderOnce for DateTimePicker {
                             } else {
                                 hsla(0.0, 0.0, 0.5, 1.0)
                             })
-                            .child(date_text)
-                    )
+                            .child(date_text),
+                    ),
             )
             .child(
                 // Time part
@@ -145,7 +147,7 @@ impl RenderOnce for DateTimePicker {
                         div()
                             .text_size(px(font_size))
                             .text_color(hsla(0.0, 0.0, 0.5, 1.0))
-                            .child("🕐")
+                            .child("🕐"),
                     )
                     .child(
                         div()
@@ -155,8 +157,8 @@ impl RenderOnce for DateTimePicker {
                             } else {
                                 hsla(0.0, 0.0, 0.5, 1.0)
                             })
-                            .child(time_text)
-                    )
+                            .child(time_text),
+                    ),
             )
     }
 }

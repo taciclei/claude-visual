@@ -1,7 +1,7 @@
 //! Pagination render implementation
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::component::Pagination;
 use super::types::*;
@@ -43,10 +43,12 @@ impl Render for Pagination {
                     div()
                         .id("pagination-first")
                         .size(px(button_size))
-                        .rounded(if is_pill { px(button_size / 2.0) } else { px(6.0) })
-                        .when(is_outlined, |d| {
-                            d.border_1().border_color(border_color)
+                        .rounded(if is_pill {
+                            px(button_size / 2.0)
+                        } else {
+                            px(6.0)
                         })
+                        .when(is_outlined, |d| d.border_1().border_color(border_color))
                         .flex()
                         .items_center()
                         .justify_center()
@@ -57,7 +59,7 @@ impl Render for Pagination {
                                 .hover(move |s| s.bg(surface_hover))
                                 .on_click(first_listener)
                         })
-                        .child("«")
+                        .child("«"),
                 )
             })
             // Previous button
@@ -70,10 +72,12 @@ impl Render for Pagination {
                     div()
                         .id("pagination-prev")
                         .size(px(button_size))
-                        .rounded(if is_pill { px(button_size / 2.0) } else { px(6.0) })
-                        .when(is_outlined, |d| {
-                            d.border_1().border_color(border_color)
+                        .rounded(if is_pill {
+                            px(button_size / 2.0)
+                        } else {
+                            px(6.0)
                         })
+                        .when(is_outlined, |d| d.border_1().border_color(border_color))
                         .flex()
                         .items_center()
                         .justify_center()
@@ -84,7 +88,7 @@ impl Render for Pagination {
                                 .hover(move |s| s.bg(surface_hover))
                                 .on_click(prev_listener)
                         })
-                        .child("‹")
+                        .child("‹"),
                 )
             })
             // Page numbers
@@ -98,24 +102,26 @@ impl Render for Pagination {
                             div()
                                 .id(SharedString::from(format!("pagination-page-{}", idx)))
                                 .size(px(button_size))
-                                .rounded(if is_pill { px(button_size / 2.0) } else { px(6.0) })
+                                .rounded(if is_pill {
+                                    px(button_size / 2.0)
+                                } else {
+                                    px(6.0)
+                                })
                                 .flex()
                                 .items_center()
                                 .justify_center()
                                 .text_size(px(font_size))
-                                .when(is_current, |d| {
-                                    d.bg(accent_color)
-                                        .text_color(gpui::white())
-                                })
+                                .when(is_current, |d| d.bg(accent_color).text_color(gpui::white()))
                                 .when(!is_current, |d| {
                                     d.text_color(text_color)
                                         .when(is_outlined, |d| {
                                             d.border_1().border_color(border_color)
                                         })
                                         .when(!self.disabled, |d| {
-                                            let page_listener = cx.listener(move |this, _, _window, cx| {
-                                                this.set_page(page_num, cx);
-                                            });
+                                            let page_listener =
+                                                cx.listener(move |this, _, _window, cx| {
+                                                    this.set_page(page_num, cx);
+                                                });
                                             d.cursor_pointer()
                                                 .hover(move |s| s.bg(surface_hover))
                                                 .on_click(page_listener)
@@ -124,18 +130,16 @@ impl Render for Pagination {
                                 .child(num.to_string())
                                 .into_any_element()
                         }
-                        None => {
-                            div()
-                                .id(SharedString::from(format!("pagination-ellipsis-{}", idx)))
-                                .size(px(button_size))
-                                .flex()
-                                .items_center()
-                                .justify_center()
-                                .text_size(px(font_size))
-                                .text_color(text_muted)
-                                .child("…")
-                                .into_any_element()
-                        }
+                        None => div()
+                            .id(SharedString::from(format!("pagination-ellipsis-{}", idx)))
+                            .size(px(button_size))
+                            .flex()
+                            .items_center()
+                            .justify_center()
+                            .text_size(px(font_size))
+                            .text_color(text_muted)
+                            .child("…")
+                            .into_any_element(),
                     }
                 }))
             })
@@ -145,7 +149,10 @@ impl Render for Pagination {
                     div()
                         .text_size(px(font_size))
                         .text_color(text_color)
-                        .child(format!("Page {} of {}", self.current_page, self.total_pages))
+                        .child(format!(
+                            "Page {} of {}",
+                            self.current_page, self.total_pages
+                        )),
                 )
             })
             // Next button
@@ -158,10 +165,12 @@ impl Render for Pagination {
                     div()
                         .id("pagination-next")
                         .size(px(button_size))
-                        .rounded(if is_pill { px(button_size / 2.0) } else { px(6.0) })
-                        .when(is_outlined, |d| {
-                            d.border_1().border_color(border_color)
+                        .rounded(if is_pill {
+                            px(button_size / 2.0)
+                        } else {
+                            px(6.0)
                         })
+                        .when(is_outlined, |d| d.border_1().border_color(border_color))
                         .flex()
                         .items_center()
                         .justify_center()
@@ -172,7 +181,7 @@ impl Render for Pagination {
                                 .hover(move |s| s.bg(surface_hover))
                                 .on_click(next_listener)
                         })
-                        .child("›")
+                        .child("›"),
                 )
             })
             // Last button
@@ -185,10 +194,12 @@ impl Render for Pagination {
                     div()
                         .id("pagination-last")
                         .size(px(button_size))
-                        .rounded(if is_pill { px(button_size / 2.0) } else { px(6.0) })
-                        .when(is_outlined, |d| {
-                            d.border_1().border_color(border_color)
+                        .rounded(if is_pill {
+                            px(button_size / 2.0)
+                        } else {
+                            px(6.0)
                         })
+                        .when(is_outlined, |d| d.border_1().border_color(border_color))
                         .flex()
                         .items_center()
                         .justify_center()
@@ -199,7 +210,7 @@ impl Render for Pagination {
                                 .hover(move |s| s.bg(surface_hover))
                                 .on_click(last_listener)
                         })
-                        .child("»")
+                        .child("»"),
                 )
             })
     }

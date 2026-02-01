@@ -1,7 +1,7 @@
 //! Types for MCP servers panel
 
-use gpui::*;
 use crate::mcp::McpServerConfig;
+use gpui::*;
 
 /// Connection status for an MCP server
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -23,7 +23,7 @@ impl ServerConnectionStatus {
             Self::Disconnected => hsla(0.0, 0.0, 0.5, 1.0), // Gray
             Self::Connecting => hsla(45.0 / 360.0, 0.8, 0.5, 1.0), // Yellow
             Self::Connected => hsla(120.0 / 360.0, 0.6, 0.4, 1.0), // Green
-            Self::Failed => hsla(0.0, 0.7, 0.5, 1.0), // Red
+            Self::Failed => hsla(0.0, 0.7, 0.5, 1.0),       // Red
         }
     }
 

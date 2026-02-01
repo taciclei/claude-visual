@@ -1,7 +1,7 @@
 //! Team list view rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::{TeamPanel, TeamPanelEvent};
 
@@ -96,7 +96,9 @@ impl TeamPanel {
                                             .justify_center()
                                             .text_sm()
                                             .text_color(theme.colors.text)
-                                            .child(team.name.chars().next().unwrap_or('T').to_string()),
+                                            .child(
+                                                team.name.chars().next().unwrap_or('T').to_string(),
+                                            ),
                                     )
                                     .child(
                                         div()
@@ -113,7 +115,10 @@ impl TeamPanel {
                                                 div()
                                                     .text_xs()
                                                     .text_color(theme.colors.text_muted)
-                                                    .child(format!("{} members", team.active_member_count())),
+                                                    .child(format!(
+                                                        "{} members",
+                                                        team.active_member_count()
+                                                    )),
                                             ),
                                     ),
                             )
@@ -159,12 +164,12 @@ impl TeamPanel {
                                 .rounded_md()
                                 .bg(theme.colors.surface)
                                 .mt_2()
-                                .child(
-                                    div()
-                                        .text_sm()
-                                        .text_color(theme.colors.text)
-                                        .child(format!("{} invited you to join", invite.inviter_name.clone().unwrap_or_default())),
-                                )
+                                .child(div().text_sm().text_color(theme.colors.text).child(
+                                    format!(
+                                        "{} invited you to join",
+                                        invite.inviter_name.clone().unwrap_or_default()
+                                    ),
+                                ))
                                 .child(
                                     div()
                                         .text_sm()
@@ -179,7 +184,9 @@ impl TeamPanel {
                                         .mt_2()
                                         .child(
                                             div()
-                                                .id(ElementId::Name(format!("accept-{}", invite.id).into()))
+                                                .id(ElementId::Name(
+                                                    format!("accept-{}", invite.id).into(),
+                                                ))
                                                 .px_2()
                                                 .py_1()
                                                 .rounded_md()
@@ -188,14 +195,20 @@ impl TeamPanel {
                                                 .cursor_pointer()
                                                 .text_xs()
                                                 .text_color(theme.colors.text)
-                                                .on_click(cx.listener(move |_this, _, _window, cx| {
-                                                    cx.emit(TeamPanelEvent::AcceptInvitation(invite_id.clone()));
-                                                }))
+                                                .on_click(cx.listener(
+                                                    move |_this, _, _window, cx| {
+                                                        cx.emit(TeamPanelEvent::AcceptInvitation(
+                                                            invite_id.clone(),
+                                                        ));
+                                                    },
+                                                ))
                                                 .child("Accept"),
                                         )
                                         .child(
                                             div()
-                                                .id(ElementId::Name(format!("decline-{}", invite.id).into()))
+                                                .id(ElementId::Name(
+                                                    format!("decline-{}", invite.id).into(),
+                                                ))
                                                 .px_2()
                                                 .py_1()
                                                 .rounded_md()
@@ -204,11 +217,15 @@ impl TeamPanel {
                                                 .cursor_pointer()
                                                 .text_xs()
                                                 .text_color(theme.colors.text)
-                                                .on_click(cx.listener(move |_this, _, _window, cx| {
-                                                    cx.emit(TeamPanelEvent::DeclineInvitation(invite_id2.clone()));
-                                                }))
+                                                .on_click(cx.listener(
+                                                    move |_this, _, _window, cx| {
+                                                        cx.emit(TeamPanelEvent::DeclineInvitation(
+                                                            invite_id2.clone(),
+                                                        ));
+                                                    },
+                                                ))
                                                 .child("Decline"),
-                                        )
+                                        ),
                                 )
                         })),
                 )

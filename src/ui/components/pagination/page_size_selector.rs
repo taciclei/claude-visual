@@ -1,7 +1,7 @@
 //! Page size selector component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Page size selector
 #[derive(Clone)]
@@ -35,12 +35,7 @@ impl RenderOnce for PageSizeSelector {
             .flex()
             .items_center()
             .gap_2()
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child("Show:")
-            )
+            .child(div().text_sm().text_color(text_muted).child("Show:"))
             .child(
                 div()
                     .h(px(28.0))
@@ -53,13 +48,8 @@ impl RenderOnce for PageSizeSelector {
                     .items_center()
                     .text_sm()
                     .text_color(text)
-                    .child(self.current.to_string())
+                    .child(self.current.to_string()),
             )
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(text_muted)
-                    .child("per page")
-            )
+            .child(div().text_sm().text_color(text_muted).child("per page"))
     }
 }

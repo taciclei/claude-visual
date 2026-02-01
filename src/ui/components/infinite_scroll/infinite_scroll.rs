@@ -1,8 +1,8 @@
 //! Infinite scroll container with load-more detection
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Infinite scroll container with load-more detection
 #[derive(IntoElement)]
@@ -143,17 +143,12 @@ impl InfiniteScroll {
                         .cursor_pointer()
                         .child("Retry"),
                 ),
-            LoadingState::EndReached => div()
-                .flex()
-                .items_center()
-                .justify_center()
-                .py_4()
-                .child(
-                    div()
-                        .text_sm()
-                        .text_color(text_color)
-                        .child(self.end_text.clone()),
-                ),
+            LoadingState::EndReached => div().flex().items_center().justify_center().py_4().child(
+                div()
+                    .text_sm()
+                    .text_color(text_color)
+                    .child(self.end_text.clone()),
+            ),
         }
     }
 }
@@ -173,8 +168,9 @@ impl RenderOnce for InfiniteScroll {
             .size_full()
             .overflow_y_scroll()
             .bg(self.background)
-            .when(self.show_loader && (self.state != LoadingState::Idle || !has_more), |d| {
-                d.child(self.render_loader())
-            })
+            .when(
+                self.show_loader && (self.state != LoadingState::Idle || !has_more),
+                |d| d.child(self.render_loader()),
+            )
     }
 }

@@ -46,7 +46,10 @@ pub fn japanese_bundle() -> TranslationBundle {
     bundle.add("sidebar.favorites", "お気に入り");
 
     // Chat
-    bundle.add("chat.placeholder", "メッセージを入力... (@でファイルをメンション)");
+    bundle.add(
+        "chat.placeholder",
+        "メッセージを入力... (@でファイルをメンション)",
+    );
     bundle.add("chat.send", "送信");
     bundle.add("chat.thinking", "Claudeが考え中...");
     bundle.add("chat.stop", "停止");

@@ -1,9 +1,9 @@
 //! Mode management for VimState
 
-use gpui::*;
+use super::super::VimEvent;
 use super::vim_state::VimState;
 use super::VimMode;
-use super::super::VimEvent;
+use gpui::*;
 
 impl VimState {
     /// Enable vim mode

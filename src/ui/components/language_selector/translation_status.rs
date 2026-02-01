@@ -1,8 +1,8 @@
 //! Translation status indicator component
 
-use gpui::*;
-use gpui::prelude::*;
 use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Translation status indicator
 #[derive(IntoElement)]
@@ -59,7 +59,7 @@ impl RenderOnce for TranslationStatus {
                 div()
                     .text_size(px(14.0))
                     .text_color(hsla(0.0, 0.0, 0.9, 1.0))
-                    .child(self.language.clone())
+                    .child(self.language.clone()),
             )
             .child(
                 div()
@@ -72,14 +72,14 @@ impl RenderOnce for TranslationStatus {
                             .h_full()
                             .w(pct(percentage as f32))
                             .bg(color)
-                            .rounded_full()
-                    )
+                            .rounded_full(),
+                    ),
             )
             .child(
                 div()
                     .text_size(px(12.0))
                     .text_color(color)
-                    .child(format!("{}%", percentage))
+                    .child(format!("{}%", percentage)),
             )
     }
 }

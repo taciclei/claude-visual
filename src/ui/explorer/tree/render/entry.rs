@@ -1,14 +1,19 @@
 //! Individual file/folder entry rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::ui::explorer::tree::core::FileTree;
-use crate::ui::explorer::tree::types::{SimpleColors, DragPreview, DraggedFile};
 use crate::ui::explorer::file_item::FileEntry;
+use crate::ui::explorer::tree::core::FileTree;
+use crate::ui::explorer::tree::types::{DragPreview, DraggedFile, SimpleColors};
 
 impl FileTree {
-    pub(crate) fn render_entry(&self, entry: &FileEntry, theme: &SimpleColors, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_entry(
+        &self,
+        entry: &FileEntry,
+        theme: &SimpleColors,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let path = entry.path.clone();
         let path_for_click = path.clone();
         let path_for_dbl = path.clone();
@@ -40,7 +45,9 @@ impl FileTree {
         });
 
         div()
-            .id(ElementId::Name(format!("tree-entry-{}", path.display()).into()))
+            .id(ElementId::Name(
+                format!("tree-entry-{}", path.display()).into(),
+            ))
             .flex()
             .items_center()
             .gap_1()
@@ -60,11 +67,9 @@ impl FileTree {
                 DraggedFile::new(path_for_drag.clone()),
                 move |dragged, _offset, _window, cx| {
                     // Drag preview showing file name with icon
-                    cx.new(|_| {
-                        DragPreview {
-                            is_directory: dragged.is_directory,
-                            name: dragged.name.clone(),
-                        }
+                    cx.new(|_| DragPreview {
+                        is_directory: dragged.is_directory,
+                        name: dragged.name.clone(),
                     })
                 },
             )
@@ -84,11 +89,7 @@ impl FileTree {
                 el.child(div().w_4()) // Spacer
             })
             // File icon
-            .child(
-                div()
-                    .text_sm()
-                    .child(entry.icon()),
-            )
+            .child(div().text_sm().child(entry.icon()))
             // File name
             .child(
                 div()
@@ -112,7 +113,9 @@ impl FileTree {
             // Add to context button (on hover)
             .child(
                 div()
-                    .id(ElementId::Name(format!("add-context-{}", path.display()).into()))
+                    .id(ElementId::Name(
+                        format!("add-context-{}", path.display()).into(),
+                    ))
                     .text_xs()
                     .text_color(text_muted_color)
                     .cursor_pointer()

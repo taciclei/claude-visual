@@ -1,7 +1,7 @@
 //! Error retry bar panel render functions
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::super::core::ChatView;
 use super::super::types::{ErrorCategory, NotificationType};
@@ -25,7 +25,11 @@ impl ChatView {
             "show_details" => {
                 // Toggle expanded error details
                 if let Some(ref error) = self.last_error {
-                    self.show_notification(&format!("Error details: {}", error.message), NotificationType::Error, cx);
+                    self.show_notification(
+                        &format!("Error details: {}", error.message),
+                        NotificationType::Error,
+                        cx,
+                    );
                 }
             }
             cmd if cmd.starts_with('/') => {
@@ -48,7 +52,11 @@ impl ChatView {
     }
 
     /// Render error retry bar with smart suggestions
-    pub fn render_error_retry_bar(&self, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_error_retry_bar(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let error = self.last_error.as_ref().unwrap();
         let suggestions = error.category.suggestions();
         let skill_suggestions = error.category.skill_suggestions();
@@ -82,7 +90,7 @@ impl ChatView {
                             .items_center()
                             .justify_center()
                             .text_base()
-                            .child(category_icon)
+                            .child(category_icon),
                     )
                     // Error message
                     .child(
@@ -96,7 +104,7 @@ impl ChatView {
                                     .text_xs()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(theme.colors.error)
-                                    .child(error_title)
+                                    .child(error_title),
                             )
                             .child(
                                 div()
@@ -104,8 +112,8 @@ impl ChatView {
                                     .text_color(theme.colors.text_muted)
                                     .max_w(px(500.0))
                                     .overflow_x_hidden()
-                                    .child(error.message.clone())
-                            )
+                                    .child(error.message.clone()),
+                            ),
                     )
                     // Dismiss button
                     .child(
@@ -119,12 +127,15 @@ impl ChatView {
                             .justify_center()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                            .hover(|s| {
+                                s.bg(theme.colors.surface_hover)
+                                    .text_color(theme.colors.text)
+                            })
                             .on_click(cx.listener(|this, _, _window, cx| {
                                 this.clear_error(cx);
                             }))
-                            .child("×")
-                    )
+                            .child("×"),
+                    ),
             )
             // Quick actions row
             .child(
@@ -137,45 +148,47 @@ impl ChatView {
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child("Quick:")
+                            .child("Quick:"),
                     )
-                    .children(suggestions.iter().enumerate().map(|(idx, (icon, label, action))| {
-                        let action_str = action.to_string();
-                        let is_primary = idx == 0;
+                    .children(suggestions.iter().enumerate().map(
+                        |(idx, (icon, label, action))| {
+                            let action_str = action.to_string();
+                            let is_primary = idx == 0;
 
-                        div()
-                            .id(SharedString::from(format!("error-suggestion-{}", idx)))
-                            .flex()
-                            .items_center()
-                            .gap_1()
-                            .px_2()
-                            .py_1()
-                            .rounded_md()
-                            .cursor_pointer()
-                            .text_xs()
-                            .when(is_primary, |d| {
-                                d.bg(theme.colors.warning.opacity(0.15))
-                                    .border_1()
-                                    .border_color(theme.colors.warning.opacity(0.3))
-                                    .text_color(theme.colors.warning)
-                                    .font_weight(FontWeight::MEDIUM)
-                            })
-                            .when(!is_primary, |d| {
-                                d.bg(theme.colors.surface)
-                                    .border_1()
-                                    .border_color(theme.colors.border)
-                                    .text_color(theme.colors.text_muted)
-                            })
-                            .hover(|s| {
-                                s.bg(theme.colors.surface_hover)
-                                    .border_color(theme.colors.accent.opacity(0.5))
-                            })
-                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                this.handle_error_suggestion(&action_str, cx);
-                            }))
-                            .child(*icon)
-                            .child(*label)
-                    }))
+                            div()
+                                .id(SharedString::from(format!("error-suggestion-{}", idx)))
+                                .flex()
+                                .items_center()
+                                .gap_1()
+                                .px_2()
+                                .py_1()
+                                .rounded_md()
+                                .cursor_pointer()
+                                .text_xs()
+                                .when(is_primary, |d| {
+                                    d.bg(theme.colors.warning.opacity(0.15))
+                                        .border_1()
+                                        .border_color(theme.colors.warning.opacity(0.3))
+                                        .text_color(theme.colors.warning)
+                                        .font_weight(FontWeight::MEDIUM)
+                                })
+                                .when(!is_primary, |d| {
+                                    d.bg(theme.colors.surface)
+                                        .border_1()
+                                        .border_color(theme.colors.border)
+                                        .text_color(theme.colors.text_muted)
+                                })
+                                .hover(|s| {
+                                    s.bg(theme.colors.surface_hover)
+                                        .border_color(theme.colors.accent.opacity(0.5))
+                                })
+                                .on_click(cx.listener(move |this, _, _window, cx| {
+                                    this.handle_error_suggestion(&action_str, cx);
+                                }))
+                                .child(*icon)
+                                .child(*label)
+                        },
+                    )),
             )
             // Extended skill suggestions row
             .child(
@@ -188,48 +201,50 @@ impl ChatView {
                         div()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .child("Skills:")
+                            .child("Skills:"),
                     )
-                    .children(skill_suggestions.iter().take(4).enumerate().map(|(idx, (icon, label, action, desc))| {
-                        let action_str = action.to_string();
-                        let desc_str = desc.to_string();
+                    .children(skill_suggestions.iter().take(4).enumerate().map(
+                        |(idx, (icon, label, action, desc))| {
+                            let action_str = action.to_string();
+                            let desc_str = desc.to_string();
 
-                        div()
-                            .id(SharedString::from(format!("error-skill-{}", idx)))
-                            .flex()
-                            .flex_col()
-                            .px_2()
-                            .py_1()
-                            .rounded_md()
-                            .cursor_pointer()
-                            .bg(theme.colors.accent.opacity(0.05))
-                            .border_1()
-                            .border_color(theme.colors.accent.opacity(0.15))
-                            .hover(|s| {
-                                s.bg(theme.colors.accent.opacity(0.15))
-                                    .border_color(theme.colors.accent.opacity(0.3))
-                            })
-                            .on_click(cx.listener(move |this, _, _window, cx| {
-                                this.handle_error_suggestion(&action_str, cx);
-                            }))
-                            .child(
-                                div()
-                                    .flex()
-                                    .items_center()
-                                    .gap_1()
-                                    .text_xs()
-                                    .text_color(theme.colors.accent)
-                                    .font_weight(FontWeight::MEDIUM)
-                                    .child(*icon)
-                                    .child(*label)
-                            )
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(theme.colors.text_muted.opacity(0.7))
-                                    .child(desc_str)
-                            )
-                    }))
+                            div()
+                                .id(SharedString::from(format!("error-skill-{}", idx)))
+                                .flex()
+                                .flex_col()
+                                .px_2()
+                                .py_1()
+                                .rounded_md()
+                                .cursor_pointer()
+                                .bg(theme.colors.accent.opacity(0.05))
+                                .border_1()
+                                .border_color(theme.colors.accent.opacity(0.15))
+                                .hover(|s| {
+                                    s.bg(theme.colors.accent.opacity(0.15))
+                                        .border_color(theme.colors.accent.opacity(0.3))
+                                })
+                                .on_click(cx.listener(move |this, _, _window, cx| {
+                                    this.handle_error_suggestion(&action_str, cx);
+                                }))
+                                .child(
+                                    div()
+                                        .flex()
+                                        .items_center()
+                                        .gap_1()
+                                        .text_xs()
+                                        .text_color(theme.colors.accent)
+                                        .font_weight(FontWeight::MEDIUM)
+                                        .child(*icon)
+                                        .child(*label),
+                                )
+                                .child(
+                                    div()
+                                        .text_xs()
+                                        .text_color(theme.colors.text_muted.opacity(0.7))
+                                        .child(desc_str),
+                                )
+                        },
+                    )),
             )
             // Tip row
             .child(
@@ -241,12 +256,17 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.info.opacity(0.8))
                     .child("💡")
-                    .child(tip)
+                    .child(tip),
             )
     }
 
     /// Render a detail row (label: value)
-    pub fn render_detail_row(&self, label: &str, value: &str, theme: &crate::app::theme::Theme) -> Div {
+    pub fn render_detail_row(
+        &self,
+        label: &str,
+        value: &str,
+        theme: &crate::app::theme::Theme,
+    ) -> Div {
         div()
             .flex()
             .items_center()
@@ -255,19 +275,26 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child(label.to_string())
+                    .child(label.to_string()),
             )
             .child(
                 div()
                     .text_xs()
                     .font_family("monospace")
                     .text_color(theme.colors.text)
-                    .child(value.to_string())
+                    .child(value.to_string()),
             )
     }
 
     /// Render a detail row with a copy button
-    pub fn render_detail_row_with_copy(&self, label: &str, value: &str, id_suffix: &str, theme: &crate::app::theme::Theme, cx: &mut Context<Self>) -> Div {
+    pub fn render_detail_row_with_copy(
+        &self,
+        label: &str,
+        value: &str,
+        id_suffix: &str,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let value_to_copy = value.to_string();
         div()
             .flex()
@@ -277,7 +304,7 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child(label.to_string())
+                    .child(label.to_string()),
             )
             .child(
                 div()
@@ -291,7 +318,7 @@ impl ChatView {
                             .text_color(theme.colors.text)
                             .max_w(px(200.0))
                             .overflow_hidden()
-                            .child(value.to_string())
+                            .child(value.to_string()),
                     )
                     .child(
                         div()
@@ -305,12 +332,17 @@ impl ChatView {
                             .cursor_pointer()
                             .text_xs()
                             .text_color(theme.colors.text_muted)
-                            .hover(|s| s.bg(theme.colors.surface_hover).text_color(theme.colors.text))
+                            .hover(|s| {
+                                s.bg(theme.colors.surface_hover)
+                                    .text_color(theme.colors.text)
+                            })
                             .on_click(cx.listener(move |_this, _, _window, cx| {
-                                cx.write_to_clipboard(gpui::ClipboardItem::new_string(value_to_copy.clone()));
+                                cx.write_to_clipboard(gpui::ClipboardItem::new_string(
+                                    value_to_copy.clone(),
+                                ));
                             }))
-                            .child("📋")
-                    )
+                            .child("📋"),
+                    ),
             )
     }
 }

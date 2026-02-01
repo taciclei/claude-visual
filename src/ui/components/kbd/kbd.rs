@@ -1,8 +1,8 @@
 //! Single keyboard key component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Single keyboard key
 #[derive(Clone, IntoElement)]
@@ -115,15 +115,9 @@ impl RenderOnce for Kbd {
                 .border_color(border)
                 .rounded(px(4.0))
                 .shadow_sm(),
-            KbdStyle::Flat => key
-                .bg(surface)
-                .rounded(px(4.0)),
-            KbdStyle::Outline => key
-                .border_1()
-                .border_color(border)
-                .rounded(px(4.0)),
-            KbdStyle::Minimal => key
-                .text_color(hsla(0.0, 0.0, 0.6, 1.0)),
+            KbdStyle::Flat => key.bg(surface).rounded(px(4.0)),
+            KbdStyle::Outline => key.border_1().border_color(border).rounded(px(4.0)),
+            KbdStyle::Minimal => key.text_color(hsla(0.0, 0.0, 0.6, 1.0)),
         };
 
         key.child(self.key)

@@ -16,7 +16,12 @@ impl VimKeyHandler {
     }
 
     /// Handle a key in normal mode
-    pub fn handle_normal(&mut self, key: &str, count: usize, pending_op: Option<char>) -> Option<VimAction> {
+    pub fn handle_normal(
+        &mut self,
+        key: &str,
+        count: usize,
+        pending_op: Option<char>,
+    ) -> Option<VimAction> {
         // If we have a pending operator, this key is the motion
         if let Some(op) = pending_op {
             return self.handle_operator_motion(op, key, count);
@@ -146,7 +151,12 @@ impl VimKeyHandler {
     }
 
     /// Handle motion after an operator (d, y, c)
-    fn handle_operator_motion(&mut self, operator: char, motion: &str, count: usize) -> Option<VimAction> {
+    fn handle_operator_motion(
+        &mut self,
+        operator: char,
+        motion: &str,
+        count: usize,
+    ) -> Option<VimAction> {
         // Check for special cases like dd, yy, cc
         if motion.len() == 1 && motion.chars().next() == Some(operator) {
             return match operator {

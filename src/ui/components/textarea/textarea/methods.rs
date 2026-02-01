@@ -1,8 +1,8 @@
 //! Textarea public API methods
 
-use gpui::*;
-use crate::ui::components::textarea::types::*;
 use super::state::Textarea;
+use crate::ui::components::textarea::types::*;
+use gpui::*;
 
 impl Textarea {
     /// Set text content
@@ -120,9 +120,7 @@ impl Textarea {
     /// Calculate visible rows based on content
     pub(super) fn visible_rows(&self) -> usize {
         match self.resize {
-            TextareaResize::Auto => {
-                self.line_count().clamp(self.min_rows, self.max_rows)
-            }
+            TextareaResize::Auto => self.line_count().clamp(self.min_rows, self.max_rows),
             _ => self.rows,
         }
     }

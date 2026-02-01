@@ -1,11 +1,11 @@
 //! Core logic for MCP logs panel
 
+use gpui::{Context, FocusHandle};
 use std::collections::VecDeque;
 use std::sync::Arc;
-use gpui::{Context, FocusHandle};
 
-use crate::app::state::AppState;
 use super::types::{LogEntry, LogFilter, LogLevel};
+use crate::app::state::AppState;
 
 /// MCP Server Logs Panel
 pub struct McpLogsPanel {

@@ -1,13 +1,13 @@
 //! Status bar component showing workspace state
 
-mod types;
 mod helpers;
 mod left_section;
 mod right_section;
 mod status_bar;
+mod types;
 
-pub use types::{StatusBarConfig, StatusBarEvent, StatusItem};
 pub use status_bar::StatusBar;
+pub use types::{StatusBarConfig, StatusBarEvent, StatusItem};
 
 #[cfg(test)]
 mod tests {

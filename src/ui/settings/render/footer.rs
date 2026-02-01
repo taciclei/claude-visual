@@ -1,9 +1,9 @@
 //! Settings modal footer with action buttons
 
-use gpui::*;
-use gpui::prelude::*;
-use crate::app::theme::Theme;
 use super::super::core::SettingsModal;
+use crate::app::theme::Theme;
+use gpui::prelude::*;
+use gpui::*;
 
 impl SettingsModal {
     pub(super) fn render_footer(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
@@ -57,9 +57,7 @@ impl SettingsModal {
                             .text_color(error_color)
                             .border_1()
                             .border_color(error_color.opacity(0.3))
-                            .hover(move |s| {
-                                s.bg(error_color.opacity(0.1))
-                            })
+                            .hover(move |s| s.bg(error_color.opacity(0.1)))
                             .on_click(on_reset)
                             .child("Reset to Defaults"),
                     )
@@ -75,10 +73,7 @@ impl SettingsModal {
                             .text_color(text_muted)
                             .border_1()
                             .border_color(border_color)
-                            .hover(move |s| {
-                                s.bg(surface_hover)
-                                    .text_color(text_color)
-                            })
+                            .hover(move |s| s.bg(surface_hover).text_color(text_color))
                             .on_click(on_export)
                             .child("Export"),
                     )
@@ -94,10 +89,7 @@ impl SettingsModal {
                             .text_color(text_muted)
                             .border_1()
                             .border_color(border_color)
-                            .hover(move |s| {
-                                s.bg(surface_hover)
-                                    .text_color(text_color)
-                            })
+                            .hover(move |s| s.bg(surface_hover).text_color(text_color))
                             .on_click(on_import)
                             .child("Import"),
                     )
@@ -124,10 +116,7 @@ impl SettingsModal {
                             .cursor_pointer()
                             .text_sm()
                             .text_color(text_muted)
-                            .hover(move |s| {
-                                s.bg(surface_hover)
-                                    .text_color(text_color)
-                            })
+                            .hover(move |s| s.bg(surface_hover).text_color(text_color))
                             .on_click(on_cancel)
                             .child("Cancel"),
                     )
@@ -146,8 +135,7 @@ impl SettingsModal {
                                     .hover(|s| s.opacity(0.9))
                             })
                             .when(!self.has_changes, |d| {
-                                d.bg(border_color)
-                                    .text_color(text_muted)
+                                d.bg(border_color).text_color(text_muted)
                             })
                             .on_click(on_save)
                             .child("Save Changes"),

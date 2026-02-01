@@ -1,8 +1,8 @@
 //! Layout and UI control methods
 
-use gpui::*;
 use super::state::AgentWorkspace;
 use super::types::*;
+use gpui::*;
 
 impl AgentWorkspace {
     /// Toggle expanded state

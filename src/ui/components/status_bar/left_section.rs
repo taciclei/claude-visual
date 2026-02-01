@@ -1,12 +1,12 @@
 //! Left section of status bar - project info, git, model, streaming, MCP, context, memory
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
-use super::types::StatusBarEvent;
 use super::helpers::shorten_path;
 use super::status_bar::StatusBar;
+use super::types::StatusBarEvent;
+use crate::app::theme::Theme;
 
 /// Render left section of status bar
 pub(crate) fn render_left_section(
@@ -39,26 +39,14 @@ pub(crate) fn render_left_section(
                 } else {
                     theme.colors.text_muted
                 })
-                .child(git_status)
+                .child(git_status),
         )
         // Bullet separator
-        .child(
-            div()
-                .text_color(theme.colors.text_muted)
-                .child("•")
-        )
+        .child(div().text_color(theme.colors.text_muted).child("•"))
         // Project path
-        .child(
-            div()
-                .text_color(theme.colors.text)
-                .child(path_display)
-        )
+        .child(div().text_color(theme.colors.text).child(path_display))
         // Bullet separator
-        .child(
-            div()
-                .text_color(theme.colors.text_muted)
-                .child("•")
-        )
+        .child(div().text_color(theme.colors.text_muted).child("•"))
         // Model name (clickable to open model switcher)
         .child(
             div()
@@ -80,8 +68,8 @@ pub(crate) fn render_left_section(
                     div()
                         .text_color(theme.colors.text_muted)
                         .text_xs()
-                        .child("▾")
-                )
+                        .child("▾"),
+                ),
         )
         // Streaming indicator (clickable to stop)
         .when(is_streaming, |this| {
@@ -99,24 +87,15 @@ pub(crate) fn render_left_section(
                     .on_click(cx.listener(|_this, _, _window, cx| {
                         cx.emit(StatusBarEvent::StopStreaming);
                     }))
-                    .child(
-                        div()
-                            .size(px(6.0))
-                            .rounded_full()
-                            .bg(theme.colors.success)
-                    )
-                    .child(
-                        div()
-                            .text_color(theme.colors.success)
-                            .child("streaming")
-                    )
+                    .child(div().size(px(6.0)).rounded_full().bg(theme.colors.success))
+                    .child(div().text_color(theme.colors.success).child("streaming"))
                     .child(
                         div()
                             .text_color(theme.colors.text_muted)
                             .ml_1()
                             .text_xs()
-                            .child("(⌘. to stop)")
-                    )
+                            .child("(⌘. to stop)"),
+                    ),
             )
         })
         // MCP servers indicator (when connected)
@@ -137,9 +116,9 @@ pub(crate) fn render_left_section(
                         d.child(
                             div()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("({})", mcp_tool_count))
+                                .child(format!("({})", mcp_tool_count)),
                         )
-                    })
+                    }),
             )
         })
         // Context files indicator (when files attached)
@@ -155,7 +134,7 @@ pub(crate) fn render_left_section(
                     .text_xs()
                     .text_color(theme.colors.accent)
                     .child("📎")
-                    .child(format!("{}", context_files_count))
+                    .child(format!("{}", context_files_count)),
             )
         })
         // Memory items indicator (when memories exist)
@@ -171,7 +150,7 @@ pub(crate) fn render_left_section(
                     .text_xs()
                     .text_color(theme.colors.warning)
                     .child("🧠")
-                    .child(format!("{}", memory_items_count))
+                    .child(format!("{}", memory_items_count)),
             )
         })
 }

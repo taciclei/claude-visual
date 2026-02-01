@@ -1,8 +1,8 @@
 //! Mark/annotation component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Mark/annotation on text
 #[derive(Clone)]
@@ -58,7 +58,7 @@ impl RenderOnce for Mark {
                     .rounded(px(2.0))
                     .text_xs()
                     .text_color(annotation_color)
-                    .child(note)
+                    .child(note),
             );
         }
 

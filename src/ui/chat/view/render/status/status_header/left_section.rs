@@ -1,15 +1,20 @@
 //! Left section badges rendering
 
-use gpui::*;
-use crate::app::theme::Theme;
-use crate::claude::message::{SessionInfo, McpServerStatus};
-use crate::ui::chat::view::types::NotificationType;
 use super::super::super::super::core::ChatView;
-use super::helpers::{get_folder_name, format_session_id_short};
+use super::helpers::{format_session_id_short, get_folder_name};
+use crate::app::theme::Theme;
+use crate::claude::message::{McpServerStatus, SessionInfo};
+use crate::ui::chat::view::types::NotificationType;
+use gpui::*;
 
 impl ChatView {
     /// Render the model badge (clickable for model switching)
-    pub(super) fn render_model_badge(&self, info: &SessionInfo, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_model_badge(
+        &self,
+        info: &SessionInfo,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .id("model-badge")
             .flex()
@@ -24,29 +29,29 @@ impl ChatView {
             .on_click(cx.listener(|this, _, _window, cx| {
                 this.toggle_model_switcher(cx);
             }))
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(theme.colors.accent)
-                    .child("🤖")
-            )
+            .child(div().text_xs().text_color(theme.colors.accent).child("🤖"))
             .child(
                 div()
                     .text_xs()
                     .text_color(theme.colors.accent)
                     .font_weight(FontWeight::MEDIUM)
-                    .child(info.model.clone())
+                    .child(info.model.clone()),
             )
             .child(
                 div()
                     .text_xs()
                     .text_color(theme.colors.accent.opacity(0.6))
-                    .child("▼")
+                    .child("▼"),
             )
     }
 
     /// Render the tools count badge
-    pub(super) fn render_tools_badge(&self, info: &SessionInfo, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_tools_badge(
+        &self,
+        info: &SessionInfo,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let tools_count = info.tools.len();
         div()
             .id("status-tools")
@@ -66,12 +71,17 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.info)
-                    .child(format!("🔧 {}", tools_count))
+                    .child(format!("🔧 {}", tools_count)),
             )
     }
 
     /// Render the skills/commands count badge
-    pub(super) fn render_skills_badge(&self, info: &SessionInfo, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_skills_badge(
+        &self,
+        info: &SessionInfo,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let total_count = info.skills.len() + info.slash_commands.len();
         div()
             .id("status-skills")
@@ -91,12 +101,17 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.warning)
-                    .child(format!("⚡ {}", total_count))
+                    .child(format!("⚡ {}", total_count)),
             )
     }
 
     /// Render the agents count badge
-    pub(super) fn render_agents_badge(&self, info: &SessionInfo, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_agents_badge(
+        &self,
+        info: &SessionInfo,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let agents_count = info.agents.len();
         div()
             .id("status-agents")
@@ -116,12 +131,16 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.success)
-                    .child(format!("🤖 {}", agents_count))
+                    .child(format!("🤖 {}", agents_count)),
             )
     }
 
     /// Render the think mode indicator
-    pub(super) fn render_think_mode_badge(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_think_mode_badge(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .id("status-think-mode")
             .flex()
@@ -141,12 +160,17 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.warning)
                     .font_weight(FontWeight::MEDIUM)
-                    .child("🧠 Think Mode")
+                    .child("🧠 Think Mode"),
             )
     }
 
     /// Render the pending permissions indicator
-    pub(super) fn render_permissions_badge(&self, count: usize, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_permissions_badge(
+        &self,
+        count: usize,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         div()
             .id("status-permissions")
             .flex()
@@ -166,7 +190,7 @@ impl ChatView {
                     .text_xs()
                     .text_color(theme.colors.error)
                     .font_weight(FontWeight::MEDIUM)
-                    .child(format!("🔐 {} pending", count))
+                    .child(format!("🔐 {} pending", count)),
             )
     }
 
@@ -196,7 +220,7 @@ impl ChatView {
                 div()
                     .text_xs()
                     .text_color(theme.colors.text_muted)
-                    .child("📁")
+                    .child("📁"),
             )
             .child(
                 div()
@@ -205,13 +229,15 @@ impl ChatView {
                     .max_w(px(200.0))
                     .overflow_hidden()
                     .text_ellipsis()
-                    .child(folder_name)
+                    .child(folder_name),
             )
     }
 
     /// Render the MCP servers status badge
     pub(super) fn render_mcp_badge(&self, info: &SessionInfo, theme: &Theme) -> impl IntoElement {
-        let connected_count = info.mcp_servers.iter()
+        let connected_count = info
+            .mcp_servers
+            .iter()
             .filter(|s| s.status == McpServerStatus::Connected)
             .count();
         let total_count = info.mcp_servers.len();
@@ -233,22 +259,22 @@ impl ChatView {
             .py_px()
             .rounded_sm()
             .bg(status_color.opacity(0.1))
+            .child(div().text_xs().text_color(status_color).child("🔌"))
             .child(
                 div()
                     .text_xs()
                     .text_color(status_color)
-                    .child("🔌")
-            )
-            .child(
-                div()
-                    .text_xs()
-                    .text_color(status_color)
-                    .child(format!("{}/{} MCP", connected_count, total_count))
+                    .child(format!("{}/{} MCP", connected_count, total_count)),
             )
     }
 
     /// Render the session ID badge (left section version)
-    pub(super) fn render_session_id_badge_left(&self, session_id: String, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(super) fn render_session_id_badge_left(
+        &self,
+        session_id: String,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let short_id = format_session_id_short(&session_id);
 
         div()
@@ -264,14 +290,18 @@ impl ChatView {
             .hover(|s| s.bg(theme.colors.text_muted.opacity(0.15)))
             .on_click(cx.listener(move |this, _, _window, cx| {
                 cx.write_to_clipboard(gpui::ClipboardItem::new_string(session_id.clone()));
-                this.show_notification("Session ID copied to clipboard", NotificationType::Success, cx);
+                this.show_notification(
+                    "Session ID copied to clipboard",
+                    NotificationType::Success,
+                    cx,
+                );
             }))
             .child(
                 div()
                     .text_xs()
                     .font_family("JetBrains Mono")
                     .text_color(theme.colors.text_muted)
-                    .child(short_id)
+                    .child(short_id),
             )
     }
 }

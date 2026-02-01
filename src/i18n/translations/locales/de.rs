@@ -46,7 +46,10 @@ pub fn german_bundle() -> TranslationBundle {
     bundle.add("sidebar.favorites", "Favoriten");
 
     // Chat
-    bundle.add("chat.placeholder", "Nachricht eingeben... (@ für Dateien erwähnen)");
+    bundle.add(
+        "chat.placeholder",
+        "Nachricht eingeben... (@ für Dateien erwähnen)",
+    );
     bundle.add("chat.send", "Senden");
     bundle.add("chat.thinking", "Claude denkt nach...");
     bundle.add("chat.stop", "Stopp");

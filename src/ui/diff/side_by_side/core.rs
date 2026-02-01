@@ -1,12 +1,12 @@
 //! Core implementation of side-by-side diff view
 
-use std::sync::Arc;
 use gpui::*;
+use std::sync::Arc;
 
-use crate::app::state::AppState;
-use super::super::hunk::{DiffHunkManager, HunkAction};
 use super::super::comments::DiffComments;
-use super::types::{SideBySideDiffEvent, DiffDisplayMode};
+use super::super::hunk::{DiffHunkManager, HunkAction};
+use super::types::{DiffDisplayMode, SideBySideDiffEvent};
+use crate::app::state::AppState;
 
 /// Side-by-side diff view component
 pub struct SideBySideDiffView {
@@ -74,7 +74,12 @@ impl SideBySideDiffView {
     }
 
     /// Apply action to hunk
-    pub fn apply_hunk_action(&mut self, hunk_id: usize, action: HunkAction, cx: &mut Context<Self>) {
+    pub fn apply_hunk_action(
+        &mut self,
+        hunk_id: usize,
+        action: HunkAction,
+        cx: &mut Context<Self>,
+    ) {
         self.hunk_manager.apply_action(hunk_id, action.clone());
         cx.emit(SideBySideDiffEvent::HunkActionPerformed { hunk_id, action });
         cx.notify();
@@ -111,8 +116,16 @@ impl SideBySideDiffView {
     }
 
     /// Add comment at line
-    pub fn add_comment(&mut self, hunk_id: usize, line_index: usize, side: &str, content: String, cx: &mut Context<Self>) {
-        self.comments.add_comment(hunk_id, line_index, side, content);
+    pub fn add_comment(
+        &mut self,
+        hunk_id: usize,
+        line_index: usize,
+        side: &str,
+        content: String,
+        cx: &mut Context<Self>,
+    ) {
+        self.comments
+            .add_comment(hunk_id, line_index, side, content);
         cx.emit(SideBySideDiffEvent::CommentAdded {
             hunk_id,
             line_index,

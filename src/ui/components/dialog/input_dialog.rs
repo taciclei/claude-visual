@@ -1,7 +1,7 @@
 //! Input dialog component (prompt for text)
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 /// Input dialog (prompt for text)
 #[derive(Clone)]
@@ -94,39 +94,35 @@ impl RenderOnce for InputDialog {
                                     .text_base()
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_color(text)
-                                    .child(self.title)
+                                    .child(self.title),
                             )
                             .when_some(self.message, |d, msg| {
-                                d.child(
-                                    div()
-                                        .text_sm()
-                                        .text_color(text_muted)
-                                        .child(msg)
-                                )
-                            })
+                                d.child(div().text_sm().text_color(text_muted).child(msg))
+                            }),
                     )
                     // Input field
                     .child(
-                        div()
-                            .w_full()
-                            .px_5()
-                            .child(
-                                div()
-                                    .w_full()
-                                    .px_3()
-                                    .py_2()
-                                    .bg(hsla(0.0, 0.0, 0.1, 1.0))
-                                    .rounded(px(6.0))
-                                    .border_1()
-                                    .border_color(border)
-                                    .text_sm()
-                                    .text_color(if self.default_value.is_empty() { text_muted } else { text })
-                                    .child(if self.default_value.is_empty() {
-                                        self.placeholder
-                                    } else {
-                                        self.default_value
-                                    })
-                            )
+                        div().w_full().px_5().child(
+                            div()
+                                .w_full()
+                                .px_3()
+                                .py_2()
+                                .bg(hsla(0.0, 0.0, 0.1, 1.0))
+                                .rounded(px(6.0))
+                                .border_1()
+                                .border_color(border)
+                                .text_sm()
+                                .text_color(if self.default_value.is_empty() {
+                                    text_muted
+                                } else {
+                                    text
+                                })
+                                .child(if self.default_value.is_empty() {
+                                    self.placeholder
+                                } else {
+                                    self.default_value
+                                }),
+                        ),
                     )
                     // Buttons
                     .child(
@@ -149,7 +145,7 @@ impl RenderOnce for InputDialog {
                                     .text_color(text)
                                     .cursor_pointer()
                                     .hover(|s| s.bg(surface_hover))
-                                    .child(self.cancel_label)
+                                    .child(self.cancel_label),
                             )
                             .child(
                                 div()
@@ -161,9 +157,9 @@ impl RenderOnce for InputDialog {
                                     .text_color(gpui::white())
                                     .cursor_pointer()
                                     .hover(|s| s.opacity(0.9))
-                                    .child(self.confirm_label)
-                            )
-                    )
+                                    .child(self.confirm_label),
+                            ),
+                    ),
             )
     }
 }

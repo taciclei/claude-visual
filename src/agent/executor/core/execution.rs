@@ -3,8 +3,8 @@
 use crate::agent::planner::Plan;
 use crate::agent::task::ToolCall;
 
-use super::executor::AgentExecutor;
 use super::super::types::{ExecutorEvent, ExecutorState, PlanResult};
+use super::executor::AgentExecutor;
 
 impl AgentExecutor {
     /// Load a plan for execution
@@ -33,24 +33,41 @@ impl AgentExecutor {
         let result = self.execute_plan().await;
 
         // Calculate duration
-        let duration_ms = self.started_at
+        let duration_ms = self
+            .started_at
             .map(|s| s.elapsed().as_millis() as u64)
             .unwrap_or(0);
 
         let plan_result = match &result {
             Ok(_) => PlanResult {
-                plan_id: self.current_plan.as_ref().map(|p| p.id.clone()).unwrap_or_default(),
+                plan_id: self
+                    .current_plan
+                    .as_ref()
+                    .map(|p| p.id.clone())
+                    .unwrap_or_default(),
                 success: true,
                 completed_steps: self.completed_steps.len(),
-                total_steps: self.current_plan.as_ref().map(|p| p.steps.len()).unwrap_or(0),
+                total_steps: self
+                    .current_plan
+                    .as_ref()
+                    .map(|p| p.steps.len())
+                    .unwrap_or(0),
                 error: None,
                 duration_ms,
             },
             Err(e) => PlanResult {
-                plan_id: self.current_plan.as_ref().map(|p| p.id.clone()).unwrap_or_default(),
+                plan_id: self
+                    .current_plan
+                    .as_ref()
+                    .map(|p| p.id.clone())
+                    .unwrap_or_default(),
                 success: false,
                 completed_steps: self.completed_steps.len(),
-                total_steps: self.current_plan.as_ref().map(|p| p.steps.len()).unwrap_or(0),
+                total_steps: self
+                    .current_plan
+                    .as_ref()
+                    .map(|p| p.steps.len())
+                    .unwrap_or(0),
                 error: Some(e.clone()),
                 duration_ms,
             },
@@ -120,7 +137,10 @@ impl AgentExecutor {
     }
 
     /// Execute a single step
-    pub(super) async fn execute_step(&mut self, step: &crate::agent::planner::PlanStep) -> Result<(), String> {
+    pub(super) async fn execute_step(
+        &mut self,
+        step: &crate::agent::planner::PlanStep,
+    ) -> Result<(), String> {
         // Find or create task for this step
         let task_id = format!("step-{}", step.step_number);
 
@@ -135,17 +155,25 @@ impl AgentExecutor {
                 result: None,
             };
 
-            self.emit_event(ExecutorEvent::ToolExecutionRequested(task_id.clone(), tool_call.clone()));
+            self.emit_event(ExecutorEvent::ToolExecutionRequested(
+                task_id.clone(),
+                tool_call.clone(),
+            ));
 
             // Execute tool if we have an executor
             if let Some(executor) = &self.tool_executor {
                 match executor.execute(&tool_call).await {
                     Ok(result) => {
-                        self.emit_event(ExecutorEvent::ToolExecutionCompleted(tool_name.clone(), result.clone()));
+                        self.emit_event(ExecutorEvent::ToolExecutionCompleted(
+                            tool_name.clone(),
+                            result.clone(),
+                        ));
                         if !result.success {
                             self.emit_event(ExecutorEvent::TaskFailed(
                                 task_id.clone(),
-                                result.error.unwrap_or_else(|| "Tool execution failed".to_string()),
+                                result
+                                    .error
+                                    .unwrap_or_else(|| "Tool execution failed".to_string()),
                             ));
                             return Err(format!("Tool {} failed", tool_name));
                         }

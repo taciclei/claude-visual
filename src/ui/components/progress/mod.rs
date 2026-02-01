@@ -1,14 +1,14 @@
 //! Progress bar component
 
-mod types;
-mod progress_bar;
 mod circular_progress;
 mod loading_indicator;
+mod progress_bar;
+mod types;
 
-pub use types::*;
-pub use progress_bar::ProgressBar;
 pub use circular_progress::CircularProgress;
 pub use loading_indicator::LoadingIndicator;
+pub use progress_bar::ProgressBar;
+pub use types::*;
 
 #[cfg(test)]
 mod tests {

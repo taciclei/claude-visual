@@ -1,9 +1,9 @@
 //! Content section rendering for tool result blocks
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use super::types::{ToolResultBlock, ToolExecutionStatus};
+use super::types::{ToolExecutionStatus, ToolResultBlock};
 
 impl ToolResultBlock {
     pub(super) fn render_content(&self, cx: &mut Context<Self>) -> impl IntoElement {

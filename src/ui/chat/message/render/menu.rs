@@ -1,15 +1,19 @@
 //! Context menu and action buttons rendering
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
-use crate::app::theme::Theme;
-use super::super::view::MessageView;
 use super::super::types::MessageAction;
+use super::super::view::MessageView;
+use crate::app::theme::Theme;
 
 impl MessageView {
     /// Render the context menu
-    pub(in crate::ui::chat::message) fn render_context_menu(&self, theme: &Theme, cx: &mut Context<Self>) -> Div {
+    pub(in crate::ui::chat::message) fn render_context_menu(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> Div {
         let actions = self.available_actions();
 
         div()
@@ -23,7 +27,6 @@ impl MessageView {
             .rounded_md()
             .shadow_lg()
             .py_1()
-
             .children(actions.into_iter().enumerate().map(|(idx, action)| {
                 let is_destructive = action.is_destructive();
                 let label = action.label();
@@ -36,13 +39,7 @@ impl MessageView {
                 div()
                     .w_full()
                     .when(needs_separator, |d| {
-                        d.child(
-                            div()
-                                .h(px(1.0))
-                                .w_full()
-                                .bg(theme.colors.border)
-                                .my_1()
-                        )
+                        d.child(div().h(px(1.0)).w_full().bg(theme.colors.border).my_1())
                     })
                     .child(
                         div()
@@ -62,11 +59,7 @@ impl MessageView {
                                     .flex()
                                     .items_center()
                                     .gap_2()
-                                    .child(
-                                        div()
-                                            .text_sm()
-                                            .child(icon)
-                                    )
+                                    .child(div().text_sm().child(icon))
                                     .child(
                                         div()
                                             .text_sm()
@@ -75,8 +68,8 @@ impl MessageView {
                                             } else {
                                                 theme.colors.text
                                             })
-                                            .child(label)
-                                    )
+                                            .child(label),
+                                    ),
                             )
                             .when_some(shortcut, |this, sc| {
                                 this.child(
@@ -84,15 +77,19 @@ impl MessageView {
                                         .text_xs()
                                         .text_color(theme.colors.text_muted)
                                         .font_family("monospace")
-                                        .child(sc)
+                                        .child(sc),
                                 )
-                            })
+                            }),
                     )
             }))
     }
 
     /// Render more actions button (three dots)
-    pub(in crate::ui::chat::message) fn render_more_button(&self, theme: &Theme, cx: &mut Context<Self>) -> impl IntoElement {
+    pub(in crate::ui::chat::message) fn render_more_button(
+        &self,
+        theme: &Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
         let theme_clone = theme.clone();
         div()
             .id("more-actions")

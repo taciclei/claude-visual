@@ -1,7 +1,7 @@
 //! StatsGrid component
 
-use gpui::*;
 use gpui::prelude::*;
+use gpui::*;
 
 use super::simple_stat::SimpleStat;
 
@@ -60,12 +60,8 @@ impl RenderOnce for StatsGrid {
                     .flex_1()
                     .min_w(px(120.0))
                     .p_4()
-                    .when(!is_first_in_row, |d| {
-                        d.border_l_1().border_color(border)
-                    })
-                    .when(!is_first_row, |d| {
-                        d.border_t_1().border_color(border)
-                    })
+                    .when(!is_first_in_row, |d| d.border_l_1().border_color(border))
+                    .when(!is_first_row, |d| d.border_t_1().border_color(border))
                     .flex()
                     .flex_col()
                     .gap_1()
@@ -74,26 +70,15 @@ impl RenderOnce for StatsGrid {
                             .flex()
                             .items_center()
                             .gap_2()
-                            .when_some(stat.icon, |d, icon| {
-                                d.child(
-                                    div()
-                                        .text_base()
-                                        .child(icon)
-                                )
-                            })
-                            .child(
-                                div()
-                                    .text_xs()
-                                    .text_color(text_muted)
-                                    .child(stat.label)
-                            )
+                            .when_some(stat.icon, |d, icon| d.child(div().text_base().child(icon)))
+                            .child(div().text_xs().text_color(text_muted).child(stat.label)),
                     )
                     .child(
                         div()
                             .text_xl()
                             .font_weight(FontWeight::BOLD)
                             .text_color(text)
-                            .child(stat.value)
+                            .child(stat.value),
                     )
             }))
     }

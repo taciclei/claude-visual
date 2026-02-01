@@ -38,7 +38,11 @@ mod tests {
     fn test_radio_card_group() {
         let group = RadioCardGroup::new()
             .option(RadioCardOption::new("basic", "Basic").price("$9/mo"))
-            .option(RadioCardOption::new("pro", "Pro").price("$19/mo").badge("Popular"))
+            .option(
+                RadioCardOption::new("pro", "Pro")
+                    .price("$19/mo")
+                    .badge("Popular"),
+            )
             .selected("pro")
             .columns(2);
         assert_eq!(group.options.len(), 2);

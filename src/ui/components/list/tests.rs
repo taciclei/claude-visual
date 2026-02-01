@@ -30,10 +30,7 @@ fn test_list() {
 
 #[test]
 fn test_action_item() {
-    let action = ActionItem::new("Delete")
-        .icon("🗑️")
-        .shortcut("⌘⌫")
-        .danger();
+    let action = ActionItem::new("Delete").icon("🗑️").shortcut("⌘⌫").danger();
 
     assert_eq!(action.label, "Delete");
     assert!(action.danger);

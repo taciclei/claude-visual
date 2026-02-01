@@ -1,8 +1,8 @@
 //! Like/Heart toggle component
 
-use gpui::*;
-use gpui::prelude::*;
 use super::types::*;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Like/Heart toggle
 #[derive(IntoElement)]
@@ -79,18 +79,13 @@ impl RenderOnce for LikeToggle {
         }
 
         button
-            .child(
-                div()
-                    .text_size(px(icon_size))
-                    .text_color(color)
-                    .child(icon)
-            )
+            .child(div().text_size(px(icon_size)).text_color(color).child(icon))
             .when(self.count.is_some(), |el| {
                 el.child(
                     div()
                         .text_size(px(icon_size * 0.7))
                         .text_color(hsla(0.0, 0.0, 0.6, 1.0))
-                        .child(self.count.unwrap().to_string())
+                        .child(self.count.unwrap().to_string()),
                 )
             })
     }

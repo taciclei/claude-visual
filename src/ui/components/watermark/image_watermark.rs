@@ -1,6 +1,6 @@
-use gpui::*;
-use gpui::prelude::*;
 use super::types::WatermarkPosition;
+use gpui::prelude::*;
+use gpui::*;
 
 /// Image watermark overlay
 #[derive(IntoElement)]
@@ -66,11 +66,7 @@ impl ImageWatermark {
 
 impl RenderOnce for ImageWatermark {
     fn render(self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
-        let base = div()
-            .id(self.id)
-            .absolute()
-            .inset_0()
-            .overflow_hidden();
+        let base = div().id(self.id).absolute().inset_0().overflow_hidden();
 
         let positioned = match self.position {
             WatermarkPosition::Center => base.flex().items_center().justify_center(),

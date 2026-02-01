@@ -1,13 +1,18 @@
 //! Server item rendering
 
-use gpui::*;
-use gpui::prelude::*;
 use super::core::McpServersPanel;
-use super::types::{ServerConnectionStatus, McpServersPanelEvent};
+use super::types::{McpServersPanelEvent, ServerConnectionStatus};
+use gpui::prelude::*;
+use gpui::*;
 
 impl McpServersPanel {
     /// Render a server item
-    pub(crate) fn render_server_item(&self, server: &super::types::ServerItem, index: usize, cx: &Context<Self>) -> impl IntoElement {
+    pub(crate) fn render_server_item(
+        &self,
+        server: &super::types::ServerItem,
+        index: usize,
+        cx: &Context<Self>,
+    ) -> impl IntoElement {
         let theme = self.app_state.theme.read(cx).clone();
         let is_selected = self.selected_server == Some(index);
         let is_enabled = server.config.enabled;
@@ -23,9 +28,7 @@ impl McpServersPanel {
             .px_3()
             .rounded_md()
             .cursor_pointer()
-            .when(is_selected, |this| {
-                this.bg(theme.colors.surface_hover)
-            })
+            .when(is_selected, |this| this.bg(theme.colors.surface_hover))
             .hover(|this| this.bg(theme.colors.surface_hover))
             .child(
                 div()
@@ -35,11 +38,7 @@ impl McpServersPanel {
                     .gap_2()
                     .child(
                         // Status indicator
-                        div()
-                            .w_2()
-                            .h_2()
-                            .rounded_full()
-                            .bg(server.status.color()),
+                        div().w_2().h_2().rounded_full().bg(server.status.color()),
                     )
                     .child(
                         // Server name and info
@@ -64,7 +63,7 @@ impl McpServersPanel {
                                             .child(server.name.clone()),
                                     )
                                     .when(!is_enabled, |this| {
-                this.child(
+                                        this.child(
                                             div()
                                                 .text_xs()
                                                 .text_color(theme.colors.text_muted)
@@ -85,17 +84,20 @@ impl McpServersPanel {
                                             .text_color(theme.colors.text_muted)
                                             .child(server.config.command.clone()),
                                     )
-                                    .when(server.status == ServerConnectionStatus::Connected, |this| {
-                this.child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(theme.colors.text_muted)
-                                                .child(format!(
-                                                    "{} tools, {} resources",
-                                                    server.tool_count, server.resource_count
-                                                )),
-                                        )
-                                    }),
+                                    .when(
+                                        server.status == ServerConnectionStatus::Connected,
+                                        |this| {
+                                            this.child(
+                                                div()
+                                                    .text_xs()
+                                                    .text_color(theme.colors.text_muted)
+                                                    .child(format!(
+                                                        "{} tools, {} resources",
+                                                        server.tool_count, server.resource_count
+                                                    )),
+                                            )
+                                        },
+                                    ),
                             ),
                     )
                     .child(
@@ -127,14 +129,18 @@ impl McpServersPanel {
                                     .child(if is_enabled { "Enabled" } else { "Disabled" })
                                     .on_click(cx.listener(move |_this, _event, _window, cx| {
                                         if is_enabled {
-                                            cx.emit(McpServersPanelEvent::DisableServer(name_for_toggle.clone()));
+                                            cx.emit(McpServersPanelEvent::DisableServer(
+                                                name_for_toggle.clone(),
+                                            ));
                                         } else {
-                                            cx.emit(McpServersPanelEvent::EnableServer(name_for_toggle.clone()));
+                                            cx.emit(McpServersPanelEvent::EnableServer(
+                                                name_for_toggle.clone(),
+                                            ));
                                         }
                                     })),
                             )
                             .when(is_enabled, |this| {
-                this.child(
+                                this.child(
                                     // Connect/Disconnect button
                                     div()
                                         .id(ElementId::Name(format!("connect-{}", index).into()))
@@ -144,13 +150,19 @@ impl McpServersPanel {
                                         .text_xs()
                                         .cursor_pointer()
                                         .bg(match server_status {
-                                            ServerConnectionStatus::Connected => theme.colors.error.opacity(0.2),
-                                            ServerConnectionStatus::Connecting => theme.colors.warning.opacity(0.2),
+                                            ServerConnectionStatus::Connected => {
+                                                theme.colors.error.opacity(0.2)
+                                            }
+                                            ServerConnectionStatus::Connecting => {
+                                                theme.colors.warning.opacity(0.2)
+                                            }
                                             _ => theme.colors.success.opacity(0.2),
                                         })
                                         .text_color(match server_status {
                                             ServerConnectionStatus::Connected => theme.colors.error,
-                                            ServerConnectionStatus::Connecting => theme.colors.warning,
+                                            ServerConnectionStatus::Connecting => {
+                                                theme.colors.warning
+                                            }
                                             _ => theme.colors.success,
                                         })
                                         .hover(|this| this.bg(theme.colors.surface_hover))
@@ -159,14 +171,26 @@ impl McpServersPanel {
                                             ServerConnectionStatus::Connecting => "Connecting...",
                                             _ => "Connect",
                                         })
-                                        .on_click(cx.listener(move |_this, _event, _window, cx| {
-                                            let name = name_for_connect.clone();
-                                            if server_status == ServerConnectionStatus::Connected {
-                                                cx.emit(McpServersPanelEvent::DisconnectServer(name));
-                                            } else if server_status != ServerConnectionStatus::Connecting {
-                                                cx.emit(McpServersPanelEvent::ConnectServer(name));
-                                            }
-                                        })),
+                                        .on_click(cx.listener(
+                                            move |_this, _event, _window, cx| {
+                                                let name = name_for_connect.clone();
+                                                if server_status
+                                                    == ServerConnectionStatus::Connected
+                                                {
+                                                    cx.emit(
+                                                        McpServersPanelEvent::DisconnectServer(
+                                                            name,
+                                                        ),
+                                                    );
+                                                } else if server_status
+                                                    != ServerConnectionStatus::Connecting
+                                                {
+                                                    cx.emit(McpServersPanelEvent::ConnectServer(
+                                                        name,
+                                                    ));
+                                                }
+                                            },
+                                        )),
                                 )
                             }),
                     ),

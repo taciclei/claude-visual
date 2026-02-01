@@ -2,15 +2,15 @@
 //!
 //! UI component for viewing and filtering MCP server logs.
 
-mod types;
 mod core;
 mod render;
+mod types;
 
 // Re-export public types
-pub use types::{LogLevel, LogEntry, LogFilter, McpLogsPanelEvent};
 pub use core::McpLogsPanel;
+pub use types::{LogEntry, LogFilter, LogLevel, McpLogsPanelEvent};
 
-use gpui::{App, EventEmitter, Focusable, FocusHandle};
+use gpui::{App, EventEmitter, FocusHandle, Focusable};
 
 // Implement EventEmitter
 impl EventEmitter<McpLogsPanelEvent> for McpLogsPanel {}

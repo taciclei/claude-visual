@@ -74,9 +74,13 @@ mod tests {
 
     #[test]
     fn test_json_rpc_request_serialization() {
-        let request = JsonRpcRequest::new(1, "initialize", Some(serde_json::json!({
-            "protocolVersion": "2024-11-05",
-        })));
+        let request = JsonRpcRequest::new(
+            1,
+            "initialize",
+            Some(serde_json::json!({
+                "protocolVersion": "2024-11-05",
+            })),
+        );
 
         let json = serde_json::to_string(&request).unwrap();
         assert!(json.contains("\"jsonrpc\":\"2.0\""));

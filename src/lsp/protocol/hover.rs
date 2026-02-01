@@ -1,8 +1,8 @@
 //! Hover information types
 
-use serde::{Deserialize, Serialize};
+use super::documentation::{MarkedString, MarkupContent, MarkupKind};
 use super::types::Range;
-use super::documentation::{MarkupContent, MarkupKind, MarkedString};
+use serde::{Deserialize, Serialize};
 
 /// Hover information
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,10 +1,10 @@
 //! Skeleton component for card/container layouts
 
-use std::sync::Arc;
-use gpui::*;
-use gpui::prelude::*;
 use crate::app::state::AppState;
 use crate::ui::pct;
+use gpui::prelude::*;
+use gpui::*;
+use std::sync::Arc;
 
 /// Skeleton for a card/container
 pub struct SkeletonCard {
@@ -71,7 +71,7 @@ impl Render for SkeletonCard {
                                 .size(px(40.0))
                                 .rounded_full()
                                 .bg(base_color)
-                                .flex_shrink_0()
+                                .flex_shrink_0(),
                         )
                     })
                     // Title lines
@@ -86,16 +86,16 @@ impl Render for SkeletonCard {
                                     .h(px(14.0))
                                     .w(pct(60.0))
                                     .rounded(px(2.0))
-                                    .bg(base_color)
+                                    .bg(base_color),
                             )
                             .child(
                                 div()
                                     .h(px(10.0))
                                     .w(pct(40.0))
                                     .rounded(px(2.0))
-                                    .bg(base_color)
-                            )
-                    )
+                                    .bg(base_color),
+                            ),
+                    ),
             )
             // Text lines
             .child(
@@ -112,7 +112,7 @@ impl Render for SkeletonCard {
                             .w(pct(width))
                             .rounded(px(2.0))
                             .bg(base_color)
-                    }))
+                    })),
             )
             // Actions
             .when(self.show_actions, |d| {
@@ -127,15 +127,15 @@ impl Render for SkeletonCard {
                                 .h(px(32.0))
                                 .w(px(80.0))
                                 .rounded(px(4.0))
-                                .bg(base_color)
+                                .bg(base_color),
                         )
                         .child(
                             div()
                                 .h(px(32.0))
                                 .w(px(80.0))
                                 .rounded(px(4.0))
-                                .bg(base_color)
-                        )
+                                .bg(base_color),
+                        ),
                 )
             })
     }

@@ -5,9 +5,9 @@ use std::sync::Arc;
 
 use gpui::*;
 
-use crate::app::state::AppState;
-use super::types::{PreviewState, FilePreviewEvent};
 use super::loader::load_file_preview;
+use super::types::{FilePreviewEvent, PreviewState};
+use crate::app::state::AppState;
 
 impl EventEmitter<FilePreviewEvent> for FilePreviewPanel {}
 
@@ -43,19 +43,20 @@ impl FilePreviewPanel {
         cx.spawn(async move |this, cx| {
             let result = std::thread::spawn(move || load_file_preview(&path)).join();
 
-            let _ = this.update(cx, |this, cx| {
-                match result {
-                    Ok(state) => this.state = state,
-                    Err(_) => {
-                        this.state = PreviewState::Error {
-                            path: PathBuf::new(),
-                            message: "Failed to load preview".to_string(),
-                        };
+            let _ = this
+                .update(cx, |this, cx| {
+                    match result {
+                        Ok(state) => this.state = state,
+                        Err(_) => {
+                            this.state = PreviewState::Error {
+                                path: PathBuf::new(),
+                                message: "Failed to load preview".to_string(),
+                            };
+                        }
                     }
-                }
-                cx.notify();
-            })
-            .ok();
+                    cx.notify();
+                })
+                .ok();
         })
         .detach();
     }
