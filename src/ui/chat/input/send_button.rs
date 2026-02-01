@@ -29,7 +29,7 @@ impl ChatInput {
                     .bg(if can_submit {
                         theme.colors.accent
                     } else {
-                        theme.colors.border
+                        theme.colors.surface_hover
                     })
                     .when(can_submit, |d| {
                         d.hover(|style| style.bg(theme.colors.accent_hover))

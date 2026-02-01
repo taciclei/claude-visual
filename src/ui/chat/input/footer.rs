@@ -45,7 +45,7 @@ impl ChatInput {
                         )
                     })
                     .when(text_is_empty && !is_disabled && !is_browsing, |d| {
-                        d.child("Try:")
+                        d.child("Skills:")
                             .child(
                                 div()
                                     .px_1()
@@ -71,7 +71,7 @@ impl ChatInput {
                                     .child("/debug"),
                             )
                             .child("·")
-                            .child("@ for files")
+                            .child("@file")
                             .child("·")
                             .child("↑ history")
                     })
