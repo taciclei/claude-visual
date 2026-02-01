@@ -86,8 +86,12 @@ pub(super) fn render_content(tool_display: &ToolDisplay, theme: &Theme, is_error
             let truncated = if line_count > 15 {
                 let lines: Vec<&str> = s.lines().take(15).collect();
                 format!("{}...\n({} more lines)", lines.join("\n"), line_count - 15)
-            } else if s.len() > 1000 {
-                format!("{}... ({} chars)", &s[..1000], s.len())
+            } else if s.chars().count() > 1000 {
+                format!(
+                    "{}... ({} chars)",
+                    s.chars().take(1000).collect::<String>(),
+                    s.len()
+                )
             } else {
                 s.clone()
             };
@@ -129,8 +133,8 @@ fn render_edit_content(
                 .child(format!("📄 {}", file_path)),
         )
         .when_some(old_text.as_ref(), move |d, old| {
-            let truncated = if old.len() > 100 {
-                format!("{}...", &old[..100])
+            let truncated = if old.chars().count() > 100 {
+                format!("{}...", old.chars().take(100).collect::<String>())
             } else {
                 old.clone()
             };
@@ -154,8 +158,8 @@ fn render_edit_content(
             )
         })
         .when_some(new_text.as_ref(), move |d, new| {
-            let truncated = if new.len() > 100 {
-                format!("{}...", &new[..100])
+            let truncated = if new.chars().count() > 100 {
+                format!("{}...", new.chars().take(100).collect::<String>())
             } else {
                 new.clone()
             };

@@ -111,9 +111,9 @@ impl ChatView {
             _ => "Message",
         };
 
-        // Create a quoted version (first 200 chars)
-        let content = if message.content.len() > 200 {
-            format!("{}...", &message.content[..200])
+        // Create a quoted version (first 200 chars, safe UTF-8 truncation)
+        let content = if message.content.chars().count() > 200 {
+            format!("{}...", message.content.chars().take(200).collect::<String>())
         } else {
             message.content.clone()
         };

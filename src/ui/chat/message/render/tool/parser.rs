@@ -45,8 +45,8 @@ pub(super) fn parse_tool_content(content: &str, is_tool_result: bool) -> ToolDis
             ToolDisplay::Prompt {
                 display: format!(
                     "💭 {}",
-                    if prompt.len() > 80 {
-                        format!("{}...", &prompt[..80])
+                    if prompt.chars().count() > 80 {
+                        format!("{}...", prompt.chars().take(80).collect::<String>())
                     } else {
                         prompt.to_string()
                     }
@@ -64,10 +64,14 @@ pub(super) fn parse_tool_content(content: &str, is_tool_result: bool) -> ToolDis
             ToolDisplay::Json(serde_json::to_string_pretty(&json).unwrap_or(content.to_string()))
         }
     } else {
-        // Not JSON, use as-is but truncate if too long
+        // Not JSON, use as-is but truncate if too long (safe char-based truncation)
         let line_count = content.lines().count();
-        if content.len() > 500 && !is_tool_result {
-            ToolDisplay::Plain(format!("{}... ({} lines)", &content[..500], line_count))
+        if content.chars().count() > 500 && !is_tool_result {
+            ToolDisplay::Plain(format!(
+                "{}... ({} lines)",
+                content.chars().take(500).collect::<String>(),
+                line_count
+            ))
         } else {
             ToolDisplay::Plain(content.to_string())
         }

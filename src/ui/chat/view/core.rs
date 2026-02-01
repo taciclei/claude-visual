@@ -1083,9 +1083,9 @@ impl Render for ChatView {
                         if !self.show_thinking {
                             return this;
                         }
-                        // Show truncated thinking content
-                        let preview = if thinking.len() > 200 {
-                            format!("{}...", &thinking[..200])
+                        // Show truncated thinking content (safe char-based truncation)
+                        let preview = if thinking.chars().count() > 200 {
+                            format!("{}...", thinking.chars().take(200).collect::<String>())
                         } else {
                             thinking
                         };

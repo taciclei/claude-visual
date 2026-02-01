@@ -57,7 +57,10 @@ impl ChatView {
         theme: &crate::app::theme::Theme,
         cx: &mut Context<Self>,
     ) -> Div {
-        let error = self.last_error.as_ref().unwrap();
+        // Guard: return empty div if no error (defensive, should be called via .when())
+        let Some(error) = self.last_error.as_ref() else {
+            return div();
+        };
         let suggestions = error.category.suggestions();
         let skill_suggestions = error.category.skill_suggestions();
         let category_icon = error.category.icon();
