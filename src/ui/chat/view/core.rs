@@ -28,7 +28,6 @@ pub struct ChatView {
     pub(crate) messages: Vec<ClaudeMessage>,
     pub(crate) input: Entity<ChatInput>,
     pub(crate) is_streaming: bool,
-    pub(crate) current_assistant_message: Option<String>,
     /// Streaming message view (temporary during streaming)
     pub(crate) streaming_message_view: Option<Entity<MessageView>>,
     /// Current conversation ID (if saved)
@@ -403,7 +402,6 @@ impl ChatView {
             messages: Vec::new(),
             input,
             is_streaming: false,
-            current_assistant_message: None,
             streaming_message_view: None,
             current_conversation_id: None,
             show_stats: true, // Show by default
@@ -1133,12 +1131,12 @@ impl Render for ChatView {
                     })
                     // Streaming indicator with Stop button and progress info
                     .when(is_streaming, |this| {
-                        // Calculate current response length
-                        let response_chars = self.current_assistant_message
+                        // Calculate current response length from streaming content
+                        let response_chars = self.streaming.current_message
                             .as_ref()
                             .map(|m| m.len())
                             .unwrap_or(0);
-                        let response_words = self.current_assistant_message
+                        let response_words = self.streaming.current_message
                             .as_ref()
                             .map(|m| m.split_whitespace().count())
                             .unwrap_or(0);
@@ -1311,8 +1309,8 @@ impl Render for ChatView {
                                 )
                         )
                     })
-                    // Empty state
-                    .when(self.messages.is_empty() && self.current_assistant_message.is_none(), |this| {
+                    // Empty state (show only when no messages and not streaming)
+                    .when(self.messages.is_empty() && self.streaming.current_message.is_none(), |this| {
                 this.child(
                             div()
                                 .flex_1()

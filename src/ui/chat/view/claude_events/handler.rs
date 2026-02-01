@@ -41,29 +41,35 @@ impl ChatView {
                 // Estimate tokens for streaming speed (before mutable borrow)
                 let estimated_new_tokens = (delta.len() as f64 / 3.0).ceil() as usize;
 
-                // Get the current content to update
-                let updated_content = if let Some(ref mut msg) = self.streaming.current_message {
+                // Update the current message content
+                if let Some(ref mut msg) = self.streaming.current_message {
                     msg.push_str(&delta);
-                    Some(msg.clone())
-                } else {
-                    None
-                };
+                }
 
-                // Update streaming speed after releasing borrow
+                // Update streaming speed
                 self.update_streaming_speed(estimated_new_tokens);
 
-                // Update the streaming view with new content
-                if let Some(content) = updated_content {
+                // Update existing streaming view or create new one
+                if let Some(ref view) = self.streaming_message_view {
+                    // Update existing view's content (more efficient than recreating)
+                    if let Some(ref content) = self.streaming.current_message {
+                        let content_clone = content.clone();
+                        view.update(cx, |v, cx| {
+                            v.update_content(content_clone, cx);
+                        });
+                    }
+                } else if let Some(ref content) = self.streaming.current_message {
+                    // Create new view only if one doesn't exist
                     let streaming_msg = ClaudeMessage {
                         role: MessageRole::Assistant,
-                        content,
+                        content: content.clone(),
                         timestamp: chrono::Utc::now(),
                         tool_name: None,
                         is_error: false,
                     };
                     self.streaming_message_view = Some(self.create_message_view(streaming_msg, cx));
-                    cx.notify();
                 }
+                cx.notify();
             }
             ClaudeEvent::AssistantEnd => {
                 self.streaming.is_streaming = false;

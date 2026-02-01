@@ -289,4 +289,23 @@ impl MessageView {
     pub(super) fn has_code_blocks(&self) -> bool {
         self.code_block_count() > 0
     }
+
+    /// Update the message content (used for streaming updates)
+    /// This efficiently updates just the content without recreating the view
+    pub fn update_content(&mut self, content: String, cx: &mut Context<Self>) {
+        if self.message.content != content {
+            self.message.content = content;
+            cx.notify();
+        }
+    }
+
+    /// Get the current message content
+    pub fn content(&self) -> &str {
+        &self.message.content
+    }
+
+    /// Get the message role
+    pub fn role(&self) -> MessageRole {
+        self.message.role
+    }
 }
