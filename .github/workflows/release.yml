@@ -56,7 +56,7 @@ jobs:
           hdiutil create -volname "Claude Visual" -srcfolder "Claude Visual.app" -ov -format UDZO claude-visual-${{ matrix.target }}.dmg
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: claude-visual-${{ matrix.target }}-dmg
           path: claude-visual-${{ matrix.target }}.dmg
@@ -132,13 +132,13 @@ jobs:
           ./scripts/build-deb.sh
 
       - name: Upload AppImage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: claude-visual-linux-appimage
           path: Claude_Visual-x86_64.AppImage
 
       - name: Upload Debian package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: claude-visual-linux-deb
           path: claude-visual_*.deb

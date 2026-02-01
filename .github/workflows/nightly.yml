@@ -138,7 +138,7 @@ jobs:
 
       - name: Upload DMG (macOS)
         if: runner.os == 'macOS'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.artifact }}-dmg
           path: ${{ matrix.artifact }}.dmg
@@ -146,14 +146,14 @@ jobs:
 
       - name: Upload AppImage (Linux)
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.artifact }}-appimage
           path: ${{ matrix.artifact }}.AppImage
           retention-days: 7
 
       - name: Upload tar.gz
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.artifact }}-tar
           path: ${{ matrix.artifact }}.tar.gz
