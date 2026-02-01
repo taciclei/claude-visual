@@ -91,15 +91,7 @@ impl ChatView {
                             .flex_1()
                             .overflow_y_scroll()
                             .when(sessions.is_empty(), |d| {
-                                d.child(
-                                    div()
-                                        .px_4()
-                                        .py_8()
-                                        .text_center()
-                                        .text_sm()
-                                        .text_color(theme.colors.text_muted)
-                                        .child("No recent sessions"),
-                                )
+                                d.child(self.render_session_history_empty_state(theme, cx))
                             })
                             .children(sessions.into_iter().map(|(idx, session)| {
                                 let session_id = session.session_id.clone();
@@ -215,6 +207,97 @@ impl ChatView {
                                     )
                                     .child("Close"),
                             ),
+                    ),
+            )
+    }
+
+    fn render_session_history_empty_state(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
+        use super::super::types::ChatViewEvent;
+
+        let accent = theme.colors.accent;
+        let info = theme.colors.info;
+
+        div()
+            .px_4()
+            .py_8()
+            .flex()
+            .flex_col()
+            .items_center()
+            .gap_3()
+            .child(div().text_3xl().child("📋"))
+            .child(
+                div()
+                    .text_sm()
+                    .font_weight(FontWeight::MEDIUM)
+                    .text_color(theme.colors.text)
+                    .child("No recent sessions"),
+            )
+            .child(
+                div()
+                    .text_xs()
+                    .text_color(theme.colors.text_muted)
+                    .text_center()
+                    .child("Start a new conversation or resume a previous one"),
+            )
+            // Quick skill suggestions
+            .child(
+                div()
+                    .pt_3()
+                    .flex()
+                    .flex_wrap()
+                    .justify_center()
+                    .gap_2()
+                    // Start with APEX
+                    .child(
+                        div()
+                            .id("session-empty-apex")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(accent.opacity(0.15))
+                            .border_1()
+                            .border_color(accent.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(accent)
+                            .hover(move |s| {
+                                s.bg(accent.opacity(0.25))
+                                    .border_color(accent.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_session_history(cx);
+                                cx.emit(ChatViewEvent::Submit("/apex".to_string()));
+                            }))
+                            .child("⚡ Start with APEX"),
+                    )
+                    // Explore codebase
+                    .child(
+                        div()
+                            .id("session-empty-explore")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(info.opacity(0.15))
+                            .border_1()
+                            .border_color(info.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(info)
+                            .hover(move |s| {
+                                s.bg(info.opacity(0.25))
+                                    .border_color(info.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_session_history(cx);
+                                cx.emit(ChatViewEvent::Submit("/explore".to_string()));
+                            }))
+                            .child("🔍 Explore Codebase"),
                     ),
             )
     }

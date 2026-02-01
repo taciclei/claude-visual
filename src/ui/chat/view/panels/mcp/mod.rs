@@ -76,7 +76,7 @@ impl ChatView {
                             .flex_1()
                             .overflow_y_scroll()
                             .when(servers.is_empty(), |d| {
-                                d.child(empty_state::render_empty_state(theme))
+                                d.child(empty_state::render_empty_state(theme, cx))
                             })
                             .children(servers.iter().enumerate().map(|(idx, server)| {
                                 let server_name = server.name.clone();
