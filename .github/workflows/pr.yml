@@ -1,0 +1,106 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          # Check for conventional commit format
+          if [[ ! "$PR_TITLE" =~ ^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?:\ .+ ]]; then
+            echo "::warning::PR title should follow conventional commits format (e.g., 'feat: add new feature')"
+          fi
+
+      - name: Check for CHANGELOG
+        if: contains(github.event.pull_request.labels.*.name, 'needs-changelog')
+        run: |
+          if ! git diff --name-only origin/main...HEAD | grep -q "CHANGELOG"; then
+            echo "::error::This PR requires a CHANGELOG entry"
+            exit 1
+          fi
+
+  size-check:
+    name: Check PR Size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR stats
+        id: stats
+        run: |
+          ADDITIONS=$(git diff --numstat origin/main...HEAD | awk '{s+=$1} END {print s}')
+          DELETIONS=$(git diff --numstat origin/main...HEAD | awk '{s+=$2} END {print s}')
+          FILES=$(git diff --name-only origin/main...HEAD | wc -l)
+          echo "additions=$ADDITIONS" >> $GITHUB_OUTPUT
+          echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Comment on large PRs
+        if: steps.stats.outputs.additions > 500
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const additions = ${{ steps.stats.outputs.additions }};
+            const deletions = ${{ steps.stats.outputs.deletions }};
+            const files = ${{ steps.stats.outputs.files }};
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## PR Size Report\n\n| Metric | Count |\n|--------|-------|\n| Files changed | ${files} |\n| Additions | +${additions} |\n| Deletions | -${deletions} |\n\n> Large PRs are harder to review. Consider breaking this into smaller PRs if possible.`
+            });
+
+  labeler:
+    name: Auto Label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changes and add labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const files = execSync('git diff --name-only origin/main...HEAD').toString().split('\n');
+
+            const labels = new Set();
+
+            for (const file of files) {
+              if (file.startsWith('src/ui/')) labels.add('ui');
+              if (file.startsWith('src/claude/')) labels.add('claude-integration');
+              if (file.startsWith('src/git/')) labels.add('git');
+              if (file.startsWith('.github/')) labels.add('ci');
+              if (file.endsWith('.md')) labels.add('documentation');
+              if (file.includes('test')) labels.add('tests');
+            }
+
+            if (labels.size > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: Array.from(labels)
+              });
+            }

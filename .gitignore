@@ -1,0 +1,34 @@
+# Rust
+/target/
+**/*.rs.bk
+# Note: Cargo.lock is committed for reproducible builds
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+
+# Local config
+.env
+*.local
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+
+# Debug
+*.dSYM/
+
+# App bundle
+Claude Visual.app/
+*.app/
+*.dmg
+
+# Release artifacts
+dist/
+release/

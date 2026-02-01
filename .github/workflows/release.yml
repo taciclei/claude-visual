@@ -1,0 +1,210 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  CARGO_TERM_COLOR: always
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        target:
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-${{ matrix.target }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.target }}-cargo-
+
+      - name: Build release
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Create app bundle
+        run: |
+          mkdir -p "Claude Visual.app/Contents/MacOS"
+          mkdir -p "Claude Visual.app/Contents/Resources"
+          cp target/${{ matrix.target }}/release/claude-visual "Claude Visual.app/Contents/MacOS/"
+          cp assets/Info.plist "Claude Visual.app/Contents/"
+          cp assets/icon.icns "Claude Visual.app/Contents/Resources/" 2>/dev/null || true
+
+      - name: Create DMG
+        run: |
+          hdiutil create -volname "Claude Visual" -srcfolder "Claude Visual.app" -ov -format UDZO claude-visual-${{ matrix.target }}.dmg
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-visual-${{ matrix.target }}-dmg
+          path: claude-visual-${{ matrix.target }}.dmg
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libvulkan-dev \
+            libxkbcommon-dev \
+            libwayland-dev \
+            libxcb-render0-dev \
+            libxcb-shape0-dev \
+            libxcb-xfixes0-dev
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Build release
+        run: cargo build --release
+
+      - name: Create AppImage
+        run: |
+          # Create AppDir structure
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+
+          cp target/release/claude-visual AppDir/usr/bin/
+          cp packaging/appimage/claude-visual.desktop AppDir/usr/share/applications/
+          cp packaging/appimage/claude-visual.desktop AppDir/
+          [ -f assets/icon.png ] && cp assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/claude-visual.png
+          [ -f assets/icon.png ] && cp assets/icon.png AppDir/claude-visual.png
+
+          # Create AppRun
+          cat > AppDir/AppRun << 'APPRUN'
+          #!/bin/bash
+          SELF=$(readlink -f "$0")
+          HERE=${SELF%/*}
+          export PATH="${HERE}/usr/bin:${PATH}"
+          export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
+          exec "${HERE}/usr/bin/claude-visual" "$@"
+          APPRUN
+          chmod +x AppDir/AppRun
+
+          # Download and run appimagetool
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          ./appimagetool-x86_64.AppImage AppDir Claude_Visual-x86_64.AppImage
+
+      - name: Create Debian package
+        run: |
+          chmod +x scripts/build-deb.sh
+          ./scripts/build-deb.sh
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-visual-linux-appimage
+          path: Claude_Visual-x86_64.AppImage
+
+      - name: Upload Debian package
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-visual-linux-deb
+          path: claude-visual_*.deb
+
+  create-release:
+    name: Create Release
+    needs: [build-macos, build-linux]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release files
+        run: |
+          # macOS builds
+          cp artifacts/claude-visual-aarch64-apple-darwin-dmg/claude-visual-aarch64-apple-darwin.dmg claude-visual-macos-arm64.dmg
+          cp artifacts/claude-visual-x86_64-apple-darwin-dmg/claude-visual-x86_64-apple-darwin.dmg claude-visual-macos-x64.dmg
+
+          # Linux builds
+          cp artifacts/claude-visual-linux-appimage/Claude_Visual-x86_64.AppImage claude-visual-linux-x86_64.AppImage
+          cp artifacts/claude-visual-linux-deb/claude-visual_*.deb claude-visual-linux-amd64.deb
+
+          # Make AppImage executable
+          chmod +x claude-visual-linux-x86_64.AppImage
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Extract version from tag
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # Generate changelog
+          cat > CHANGELOG.md << EOF
+          ## Changes in v$VERSION
+
+          ### Downloads
+
+          **macOS:**
+          - \`claude-visual-macos-arm64.dmg\` - Apple Silicon (M1/M2/M3)
+          - \`claude-visual-macos-x64.dmg\` - Intel Macs
+
+          **Linux:**
+          - \`claude-visual-linux-x86_64.AppImage\` - Universal Linux (AppImage)
+          - \`claude-visual-linux-amd64.deb\` - Debian/Ubuntu
+
+          ### Commits
+          EOF
+          git log --oneline --no-merges $(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")..HEAD >> CHANGELOG.md 2>/dev/null || echo "Initial release" >> CHANGELOG.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Claude Visual v${{ steps.changelog.outputs.version }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+          files: |
+            claude-visual-macos-arm64.dmg
+            claude-visual-macos-x64.dmg
+            claude-visual-linux-x86_64.AppImage
+            claude-visual-linux-amd64.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

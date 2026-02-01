@@ -1,0 +1,710 @@
+//! DAP Client Implementation
+//!
+//! Client for communicating with Debug Adapters via stdin/stdout.
+
+use std::collections::HashMap;
+use std::io::{BufRead, BufReader, Read, Write};
+use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
+use std::sync::atomic::{AtomicI64, Ordering};
+use std::sync::Arc;
+
+use serde_json::Value as JsonValue;
+use tokio::sync::{mpsc, oneshot, Mutex};
+
+use super::protocol::*;
+
+/// DAP client error
+#[derive(Debug, Clone)]
+pub enum DapClientError {
+    /// Failed to spawn adapter
+    SpawnError(String),
+    /// Communication error
+    IoError(String),
+    /// Protocol error
+    ProtocolError(String),
+    /// Request failed
+    RequestFailed { command: String, message: String },
+    /// Timeout
+    Timeout,
+    /// Not initialized
+    NotInitialized,
+    /// Already running
+    AlreadyRunning,
+}
+
+impl std::fmt::Display for DapClientError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            DapClientError::SpawnError(msg) => write!(f, "Failed to spawn adapter: {}", msg),
+            DapClientError::IoError(msg) => write!(f, "IO error: {}", msg),
+            DapClientError::ProtocolError(msg) => write!(f, "Protocol error: {}", msg),
+            DapClientError::RequestFailed { command, message } => {
+                write!(f, "Request '{}' failed: {}", command, message)
+            }
+            DapClientError::Timeout => write!(f, "Request timed out"),
+            DapClientError::NotInitialized => write!(f, "Client not initialized"),
+            DapClientError::AlreadyRunning => write!(f, "Debug session already running"),
+        }
+    }
+}
+
+impl std::error::Error for DapClientError {}
+
+/// DAP client configuration
+#[derive(Debug, Clone)]
+pub struct DapClientConfig {
+    /// Adapter command to run
+    pub command: String,
+    /// Command arguments
+    pub args: Vec<String>,
+    /// Working directory
+    pub cwd: Option<String>,
+    /// Environment variables
+    pub env: HashMap<String, String>,
+    /// Request timeout in milliseconds
+    pub timeout_ms: u64,
+}
+
+impl Default for DapClientConfig {
+    fn default() -> Self {
+        Self {
+            command: String::new(),
+            args: Vec::new(),
+            cwd: None,
+            env: HashMap::new(),
+            timeout_ms: 10000,
+        }
+    }
+}
+
+impl DapClientConfig {
+    /// Create config for rust-analyzer debugger
+    pub fn rust_analyzer() -> Self {
+        Self {
+            command: "rust-analyzer".to_string(),
+            args: vec!["debug".to_string()],
+            ..Default::default()
+        }
+    }
+
+    /// Create config for CodeLLDB
+    pub fn codelldb(extension_path: &str) -> Self {
+        Self {
+            command: format!("{}/adapter/codelldb", extension_path),
+            args: vec!["--port".to_string(), "0".to_string()],
+            ..Default::default()
+        }
+    }
+
+    /// Create config for Python debugger (debugpy)
+    pub fn debugpy() -> Self {
+        Self {
+            command: "python".to_string(),
+            args: vec![
+                "-m".to_string(),
+                "debugpy.adapter".to_string(),
+            ],
+            ..Default::default()
+        }
+    }
+
+    /// Create config for Node.js debugger
+    pub fn node_debug() -> Self {
+        Self {
+            command: "node".to_string(),
+            args: vec![
+                "--inspect-brk".to_string(),
+            ],
+            ..Default::default()
+        }
+    }
+
+    /// Create config for Go debugger (delve)
+    pub fn delve() -> Self {
+        Self {
+            command: "dlv".to_string(),
+            args: vec!["dap".to_string()],
+            ..Default::default()
+        }
+    }
+}
+
+/// Pending request tracker
+struct PendingRequest {
+    sender: oneshot::Sender<Result<DapResponse, DapClientError>>,
+}
+
+/// DAP client for communicating with debug adapters
+pub struct DapClient {
+    config: DapClientConfig,
+    process: Option<Child>,
+    stdin: Option<ChildStdin>,
+    seq: AtomicI64,
+    pending_requests: Arc<Mutex<HashMap<i64, PendingRequest>>>,
+    event_sender: Option<mpsc::UnboundedSender<DapEvent>>,
+    capabilities: Option<Capabilities>,
+    initialized: bool,
+}
+
+impl DapClient {
+    /// Create a new DAP client
+    pub fn new(config: DapClientConfig) -> Self {
+        Self {
+            config,
+            process: None,
+            stdin: None,
+            seq: AtomicI64::new(1),
+            pending_requests: Arc::new(Mutex::new(HashMap::new())),
+            event_sender: None,
+            capabilities: None,
+            initialized: false,
+        }
+    }
+
+    /// Start the debug adapter
+    pub fn start(&mut self) -> Result<mpsc::UnboundedReceiver<DapEvent>, DapClientError> {
+        if self.process.is_some() {
+            return Err(DapClientError::AlreadyRunning);
+        }
+
+        // Build command
+        let mut cmd = Command::new(&self.config.command);
+        cmd.args(&self.config.args)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+
+        if let Some(cwd) = &self.config.cwd {
+            cmd.current_dir(cwd);
+        }
+
+        for (key, value) in &self.config.env {
+            cmd.env(key, value);
+        }
+
+        // Spawn process
+        let mut child = cmd.spawn().map_err(|e| DapClientError::SpawnError(e.to_string()))?;
+
+        let stdin = child.stdin.take().ok_or_else(|| {
+            DapClientError::SpawnError("Failed to get stdin".to_string())
+        })?;
+
+        let stdout = child.stdout.take().ok_or_else(|| {
+            DapClientError::SpawnError("Failed to get stdout".to_string())
+        })?;
+
+        // Create event channel
+        let (event_tx, event_rx) = mpsc::unbounded_channel();
+        self.event_sender = Some(event_tx.clone());
+
+        // Start reader thread
+        let pending_requests = self.pending_requests.clone();
+        std::thread::spawn(move || {
+            Self::read_messages(stdout, pending_requests, event_tx);
+        });
+
+        self.process = Some(child);
+        self.stdin = Some(stdin);
+
+        Ok(event_rx)
+    }
+
+    /// Read messages from adapter
+    fn read_messages(
+        stdout: ChildStdout,
+        pending_requests: Arc<Mutex<HashMap<i64, PendingRequest>>>,
+        event_sender: mpsc::UnboundedSender<DapEvent>,
+    ) {
+        let mut reader = BufReader::new(stdout);
+        let mut headers = String::new();
+
+        loop {
+            headers.clear();
+
+            // Read headers
+            let mut content_length: Option<usize> = None;
+
+            loop {
+                let mut line = String::new();
+                match reader.read_line(&mut line) {
+                    Ok(0) => return, // EOF
+                    Ok(_) => {
+                        let line = line.trim();
+                        if line.is_empty() {
+                            break;
+                        }
+                        if let Some(len_str) = line.strip_prefix("Content-Length: ") {
+                            content_length = len_str.parse().ok();
+                        }
+                    }
+                    Err(_) => return,
+                }
+            }
+
+            // Read content
+            if let Some(length) = content_length {
+                let mut content = vec![0u8; length];
+                if reader.read_exact(&mut content).is_err() {
+                    return;
+                }
+
+                // Parse message
+                if let Ok(content_str) = String::from_utf8(content) {
+                    if let Ok(message) = serde_json::from_str::<DapMessage>(&content_str) {
+                        match message {
+                            DapMessage::Response(response) => {
+                                // Handle response
+                                let pending = pending_requests.blocking_lock();
+                                if let Some(request) = pending.get(&response.request_seq) {
+                                    // Move out of pending to satisfy borrow checker
+                                    drop(pending);
+                                    let mut pending = pending_requests.blocking_lock();
+                                    if let Some(request) = pending.remove(&response.request_seq) {
+                                        let _ = request.sender.send(Ok(response));
+                                    }
+                                }
+                            }
+                            DapMessage::Event(event) => {
+                                let _ = event_sender.send(event);
+                            }
+                            DapMessage::Request(_) => {
+                                // Reverse requests from adapter (e.g., runInTerminal)
+                                // TODO: Handle these
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// Send a request to the adapter
+    pub async fn send_request(
+        &mut self,
+        command: &str,
+        arguments: Option<JsonValue>,
+    ) -> Result<DapResponse, DapClientError> {
+        let stdin = self.stdin.as_mut().ok_or(DapClientError::NotInitialized)?;
+
+        let seq = self.seq.fetch_add(1, Ordering::SeqCst);
+
+        let request = DapRequest::new(seq, command, arguments);
+        let message = DapMessage::Request(request);
+
+        let content = serde_json::to_string(&message)
+            .map_err(|e| DapClientError::ProtocolError(e.to_string()))?;
+
+        let header = format!("Content-Length: {}\r\n\r\n", content.len());
+
+        stdin
+            .write_all(header.as_bytes())
+            .map_err(|e| DapClientError::IoError(e.to_string()))?;
+        stdin
+            .write_all(content.as_bytes())
+            .map_err(|e| DapClientError::IoError(e.to_string()))?;
+        stdin.flush().map_err(|e| DapClientError::IoError(e.to_string()))?;
+
+        // Wait for response
+        let (tx, rx) = oneshot::channel();
+        {
+            let mut pending = self.pending_requests.lock().await;
+            pending.insert(seq, PendingRequest { sender: tx });
+        }
+
+        // Wait with timeout
+        match tokio::time::timeout(
+            std::time::Duration::from_millis(self.config.timeout_ms),
+            rx,
+        )
+        .await
+        {
+            Ok(Ok(result)) => result,
+            Ok(Err(_)) => Err(DapClientError::ProtocolError("Channel closed".to_string())),
+            Err(_) => {
+                // Remove from pending
+                let mut pending = self.pending_requests.lock().await;
+                pending.remove(&seq);
+                Err(DapClientError::Timeout)
+            }
+        }
+    }
+
+    /// Initialize the debug adapter
+    pub async fn initialize(
+        &mut self,
+        adapter_id: &str,
+    ) -> Result<Capabilities, DapClientError> {
+        let args = InitializeArguments {
+            adapter_id: adapter_id.to_string(),
+            ..Default::default()
+        };
+
+        let response = self
+            .send_request("initialize", Some(serde_json::to_value(&args).unwrap()))
+            .await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "initialize".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let capabilities: Capabilities = response
+            .body
+            .map(|b| serde_json::from_value(b).unwrap_or_default())
+            .unwrap_or_default();
+
+        self.capabilities = Some(capabilities.clone());
+        self.initialized = true;
+
+        Ok(capabilities)
+    }
+
+    /// Send configurationDone request
+    pub async fn configuration_done(&mut self) -> Result<(), DapClientError> {
+        let response = self.send_request("configurationDone", None).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "configurationDone".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Launch a debug session
+    pub async fn launch(&mut self, args: LaunchArguments) -> Result<(), DapClientError> {
+        if !self.initialized {
+            return Err(DapClientError::NotInitialized);
+        }
+
+        let response = self
+            .send_request("launch", Some(serde_json::to_value(&args).unwrap()))
+            .await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "launch".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Attach to a running process
+    pub async fn attach(&mut self, args: AttachArguments) -> Result<(), DapClientError> {
+        if !self.initialized {
+            return Err(DapClientError::NotInitialized);
+        }
+
+        let response = self
+            .send_request("attach", Some(serde_json::to_value(&args).unwrap()))
+            .await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "attach".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Set breakpoints
+    pub async fn set_breakpoints(
+        &mut self,
+        source: Source,
+        breakpoints: Vec<BreakpointLocation>,
+    ) -> Result<Vec<Breakpoint>, DapClientError> {
+        let args = serde_json::json!({
+            "source": source,
+            "breakpoints": breakpoints.iter().map(|bp| {
+                serde_json::json!({
+                    "line": bp.line,
+                    "column": bp.column,
+                })
+            }).collect::<Vec<_>>(),
+        });
+
+        let response = self.send_request("setBreakpoints", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "setBreakpoints".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let breakpoints = response
+            .body
+            .and_then(|b| b.get("breakpoints").cloned())
+            .and_then(|b| serde_json::from_value(b).ok())
+            .unwrap_or_default();
+
+        Ok(breakpoints)
+    }
+
+    /// Continue execution
+    pub async fn continue_execution(&mut self, thread_id: i64) -> Result<bool, DapClientError> {
+        let args = serde_json::json!({ "threadId": thread_id });
+
+        let response = self.send_request("continue", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "continue".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let all_threads_continued = response
+            .body
+            .and_then(|b| b.get("allThreadsContinued").and_then(|v| v.as_bool()))
+            .unwrap_or(false);
+
+        Ok(all_threads_continued)
+    }
+
+    /// Step over (next)
+    pub async fn next(&mut self, thread_id: i64) -> Result<(), DapClientError> {
+        let args = serde_json::json!({ "threadId": thread_id });
+
+        let response = self.send_request("next", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "next".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Step into
+    pub async fn step_in(&mut self, thread_id: i64) -> Result<(), DapClientError> {
+        let args = serde_json::json!({ "threadId": thread_id });
+
+        let response = self.send_request("stepIn", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "stepIn".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Step out
+    pub async fn step_out(&mut self, thread_id: i64) -> Result<(), DapClientError> {
+        let args = serde_json::json!({ "threadId": thread_id });
+
+        let response = self.send_request("stepOut", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "stepOut".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Pause execution
+    pub async fn pause(&mut self, thread_id: i64) -> Result<(), DapClientError> {
+        let args = serde_json::json!({ "threadId": thread_id });
+
+        let response = self.send_request("pause", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "pause".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        Ok(())
+    }
+
+    /// Get threads
+    pub async fn threads(&mut self) -> Result<Vec<Thread>, DapClientError> {
+        let response = self.send_request("threads", None).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "threads".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let threads = response
+            .body
+            .and_then(|b| b.get("threads").cloned())
+            .and_then(|t| serde_json::from_value(t).ok())
+            .unwrap_or_default();
+
+        Ok(threads)
+    }
+
+    /// Get stack trace
+    pub async fn stack_trace(
+        &mut self,
+        thread_id: i64,
+        start_frame: Option<i64>,
+        levels: Option<i64>,
+    ) -> Result<Vec<StackFrame>, DapClientError> {
+        let mut args = serde_json::json!({ "threadId": thread_id });
+
+        if let Some(start) = start_frame {
+            args["startFrame"] = serde_json::json!(start);
+        }
+        if let Some(lvls) = levels {
+            args["levels"] = serde_json::json!(lvls);
+        }
+
+        let response = self.send_request("stackTrace", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "stackTrace".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let frames = response
+            .body
+            .and_then(|b| b.get("stackFrames").cloned())
+            .and_then(|f| serde_json::from_value(f).ok())
+            .unwrap_or_default();
+
+        Ok(frames)
+    }
+
+    /// Get scopes for a stack frame
+    pub async fn scopes(&mut self, frame_id: i64) -> Result<Vec<Scope>, DapClientError> {
+        let args = serde_json::json!({ "frameId": frame_id });
+
+        let response = self.send_request("scopes", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "scopes".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let scopes = response
+            .body
+            .and_then(|b| b.get("scopes").cloned())
+            .and_then(|s| serde_json::from_value(s).ok())
+            .unwrap_or_default();
+
+        Ok(scopes)
+    }
+
+    /// Get variables
+    pub async fn variables(
+        &mut self,
+        variables_reference: i64,
+    ) -> Result<Vec<Variable>, DapClientError> {
+        let args = serde_json::json!({ "variablesReference": variables_reference });
+
+        let response = self.send_request("variables", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "variables".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let variables = response
+            .body
+            .and_then(|b| b.get("variables").cloned())
+            .and_then(|v| serde_json::from_value(v).ok())
+            .unwrap_or_default();
+
+        Ok(variables)
+    }
+
+    /// Evaluate expression
+    pub async fn evaluate(
+        &mut self,
+        expression: &str,
+        frame_id: Option<i64>,
+        context: Option<&str>,
+    ) -> Result<Variable, DapClientError> {
+        let mut args = serde_json::json!({ "expression": expression });
+
+        if let Some(fid) = frame_id {
+            args["frameId"] = serde_json::json!(fid);
+        }
+        if let Some(ctx) = context {
+            args["context"] = serde_json::json!(ctx);
+        }
+
+        let response = self.send_request("evaluate", Some(args)).await?;
+
+        if !response.success {
+            return Err(DapClientError::RequestFailed {
+                command: "evaluate".to_string(),
+                message: response.message.unwrap_or_default(),
+            });
+        }
+
+        let result = response
+            .body
+            .and_then(|b| serde_json::from_value(b).ok())
+            .unwrap_or(Variable {
+                name: "result".to_string(),
+                value: String::new(),
+                var_type: None,
+                presentation_hint: None,
+                evaluate_name: None,
+                variables_reference: 0,
+                named_variables: 0,
+                indexed_variables: 0,
+                memory_reference: None,
+            });
+
+        Ok(result)
+    }
+
+    /// Disconnect from adapter
+    pub async fn disconnect(&mut self, terminate: bool) -> Result<(), DapClientError> {
+        let args = serde_json::json!({
+            "terminateDebuggee": terminate,
+        });
+
+        let _ = self.send_request("disconnect", Some(args)).await;
+
+        // Kill process
+        if let Some(mut process) = self.process.take() {
+            let _ = process.kill();
+        }
+
+        self.stdin = None;
+        self.initialized = false;
+        self.capabilities = None;
+
+        Ok(())
+    }
+
+    /// Get capabilities
+    pub fn capabilities(&self) -> Option<&Capabilities> {
+        self.capabilities.as_ref()
+    }
+
+    /// Check if initialized
+    pub fn is_initialized(&self) -> bool {
+        self.initialized
+    }
+}

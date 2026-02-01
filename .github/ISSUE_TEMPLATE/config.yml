@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions
+    url: https://github.com/taciclei/claude-visual/discussions
+    about: Have a question? Start a discussion.
+  - name: Documentation
+    url: https://github.com/taciclei/claude-visual#readme
+    about: Read the documentation

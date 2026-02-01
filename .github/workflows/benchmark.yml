@@ -1,0 +1,87 @@
+name: Benchmarks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  benchmark:
+    name: Run Benchmarks
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-bench-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-bench-
+
+      - name: Run benchmarks
+        run: |
+          cargo bench --bench '*' -- --noplot 2>&1 | tee benchmark_results.txt || true
+
+      - name: Check for regression
+        if: github.event_name == 'pull_request'
+        run: |
+          # Parse benchmark results and check for significant regressions
+          if grep -q "regressed" benchmark_results.txt; then
+            echo "::warning::Performance regression detected in benchmarks"
+          fi
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmark_results.txt
+          retention-days: 30
+
+  compile-time:
+    name: Check Compile Time
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Clean build
+        run: cargo clean
+
+      - name: Time clean build
+        run: |
+          START=$(date +%s)
+          cargo build --release 2>&1
+          END=$(date +%s)
+          DURATION=$((END - START))
+          echo "Clean build took ${DURATION} seconds"
+          echo "## Build Time: ${DURATION}s" >> $GITHUB_STEP_SUMMARY
+
+      - name: Time incremental build
+        run: |
+          # Make a small change to trigger incremental build
+          touch src/main.rs
+          START=$(date +%s)
+          cargo build --release 2>&1
+          END=$(date +%s)
+          DURATION=$((END - START))
+          echo "Incremental build took ${DURATION} seconds"
+          echo "## Incremental Build Time: ${DURATION}s" >> $GITHUB_STEP_SUMMARY

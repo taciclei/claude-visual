@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Claude Visual
+Comment=A visual client for Claude Code
+Exec=claude-visual %U
+Icon=claude-visual
+Terminal=false
+Type=Application
+Categories=Development;IDE;
+Keywords=AI;Code;Claude;Assistant;
+StartupWMClass=Claude Visual
+MimeType=text/plain;

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.claude-visual.app</id>
+  <name>Claude Visual</name>
+  <summary>A visual client for Claude Code</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+
+  <description>
+    <p>
+      Claude Visual is a GPU-accelerated visual interface for Claude Code CLI,
+      inspired by Warp terminal. Built with GPUI for fast, native performance.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Native GPU-accelerated UI with GPUI</li>
+      <li>Syntax highlighting for 8+ languages</li>
+      <li>Git integration with worktree support</li>
+      <li>Multi-tab conversations</li>
+      <li>Vim mode support</li>
+      <li>Split views</li>
+      <li>MCP protocol support</li>
+      <li>Multi-model AI support (Claude, OpenAI, Ollama)</li>
+      <li>Agent mode for autonomous tasks</li>
+      <li>Integrated terminal</li>
+      <li>File explorer with git status</li>
+      <li>Advanced diff viewer</li>
+      <li>Debugging integration (DAP)</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">com.claude-visual.app.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main chat interface</caption>
+      <image>https://raw.githubusercontent.com/claude-visual/claude-visual/main/screenshots/main.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/claude-visual/claude-visual</url>
+  <url type="bugtracker">https://github.com/claude-visual/claude-visual/issues</url>
+
+  <developer_name>Claude Visual Team</developer_name>
+
+  <releases>
+    <release version="0.1.0" date="2025-01-25">
+      <description>
+        <p>Initial release with core features:</p>
+        <ul>
+          <li>Chat interface with Claude Code</li>
+          <li>Syntax highlighting</li>
+          <li>Git integration</li>
+          <li>Multi-tab support</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1" />
+
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+</component>

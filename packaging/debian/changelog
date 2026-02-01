@@ -1,0 +1,14 @@
+claude-visual (0.1.0-1) unstable; urgency=medium
+
+  * Initial release.
+  * Chat interface with Claude Code CLI
+  * GPU-accelerated UI with GPUI
+  * Syntax highlighting for 8+ languages
+  * Git integration with worktree support
+  * Multi-tab conversations
+  * Vim mode support
+  * Split views
+  * MCP protocol support
+  * Multi-model AI support (Claude, OpenAI, Ollama)
+
+ -- Claude Visual Team <claude-visual@example.com>  Sat, 25 Jan 2025 12:00:00 +0000

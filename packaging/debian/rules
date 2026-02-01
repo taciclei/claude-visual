@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export CARGO_HOME = $(CURDIR)/debian/.cargo
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	cargo build --release
+
+override_dh_auto_install:
+	install -Dm755 target/release/claude-visual $(CURDIR)/debian/claude-visual/usr/bin/claude-visual
+	install -Dm644 packaging/appimage/claude-visual.desktop $(CURDIR)/debian/claude-visual/usr/share/applications/claude-visual.desktop
+	install -Dm644 assets/icon.png $(CURDIR)/debian/claude-visual/usr/share/icons/hicolor/256x256/apps/claude-visual.png
+
+override_dh_auto_clean:
+	cargo clean || true
+	rm -rf $(CARGO_HOME)
+
+override_dh_auto_test:
+	# Skip tests during package build
+	true

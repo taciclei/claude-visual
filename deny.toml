@@ -1,0 +1,47 @@
+# cargo-deny configuration
+# https://embarkstudios.github.io/cargo-deny/
+
+[advisories]
+# The database of advisories to check against
+db-path = "~/.cargo/advisory-db"
+# URL of the advisory database
+db-urls = ["https://github.com/rustsec/advisory-db"]
+# Allow advisories to remain open temporarily (for known issues)
+ignore = []
+
+[licenses]
+# License requirements
+unlicensed = "deny"
+# List of allowed licenses
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "MPL-2.0",
+    "Unicode-DFS-2016",
+]
+# Copyleft licenses are allowed for now but flagged
+copyleft = "warn"
+confidence-threshold = 0.8
+
+[bans]
+# Lint level for multiple versions of the same crate
+multiple-versions = "warn"
+# Wildcards in dependency specifications
+wildcards = "allow"
+# Allow specific duplicate dependencies (GPUI ecosystem may need this)
+skip = []
+# Deny specific crates
+deny = []
+
+[sources]
+# Allow crates from crates.io
+unknown-registry = "deny"
+# Allow git sources
+unknown-git = "allow"
+# List of allowed registries
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

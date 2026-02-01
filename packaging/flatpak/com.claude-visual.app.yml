@@ -1,0 +1,49 @@
+app-id: com.claude-visual.app
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+
+command: claude-visual
+
+finish-args:
+  # X11 and Wayland
+  - --socket=x11
+  - --socket=wayland
+  # GPU acceleration
+  - --device=dri
+  # Network access for Claude API
+  - --share=network
+  # Home directory access for project files
+  - --filesystem=home
+  # Git operations
+  - --filesystem=~/.gitconfig:ro
+  - --filesystem=~/.ssh:ro
+  # Claude CLI integration
+  - --filesystem=~/.config/claude:ro
+  # IPC for copy/paste
+  - --share=ipc
+  # Notifications
+  - --talk-name=org.freedesktop.Notifications
+
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/claude-visual/cargo
+    RUSTUP_HOME: /usr/lib/sdk/rust-stable/rustup
+
+modules:
+  - name: claude-visual
+    buildsystem: simple
+    build-commands:
+      - cargo --offline fetch --manifest-path Cargo.toml --verbose
+      - cargo --offline build --release --verbose
+      - install -Dm755 target/release/claude-visual /app/bin/claude-visual
+      - install -Dm644 packaging/flatpak/com.claude-visual.app.desktop /app/share/applications/com.claude-visual.app.desktop
+      - install -Dm644 assets/icon.png /app/share/icons/hicolor/256x256/apps/com.claude-visual.app.png
+      - install -Dm644 packaging/flatpak/com.claude-visual.app.metainfo.xml /app/share/metainfo/com.claude-visual.app.metainfo.xml
+    sources:
+      - type: dir
+        path: ../..
+      - cargo-sources.json

@@ -1,0 +1,41 @@
+version: 1
+
+AppDir:
+  path: ./AppDir
+
+  app_info:
+    id: com.claude-visual.app
+    name: Claude Visual
+    icon: claude-visual
+    version: 0.1.0
+    exec: usr/bin/claude-visual
+    exec_args: $@
+
+  apt:
+    arch: amd64
+    sources:
+      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C'
+
+    include:
+      - libgtk-3-0
+      - libvulkan1
+      - libxkbcommon0
+      - libwayland-client0
+      - libwayland-cursor0
+      - libwayland-egl1
+
+  files:
+    include:
+      - usr/bin/claude-visual
+      - usr/share/applications/claude-visual.desktop
+      - usr/share/icons/hicolor/256x256/apps/claude-visual.png
+
+  runtime:
+    env:
+      APPDIR_LIBRARY_PATH: '$APPDIR/usr/lib:$APPDIR/usr/lib/x86_64-linux-gnu'
+
+AppImage:
+  arch: x86_64
+  file_name: Claude_Visual-x86_64.AppImage
+  update-information: guess

@@ -1,0 +1,116 @@
+[package]
+name = "claude-visual"
+version = "0.1.0"
+edition = "2021"
+description = "A visual client for Claude Code, inspired by Warp terminal"
+license = "MIT"
+
+[dependencies]
+# UI - GPUI from crates.io
+gpui = "0.2"
+
+# Async runtime
+tokio = { version = "1", features = ["full", "process"] }
+futures = "0.3"
+async-stream = "0.3"
+smol = "2"
+
+# Markdown parsing
+pulldown-cmark = "0.12"
+
+# Syntax highlighting
+tree-sitter = "0.24"
+tree-sitter-rust = "0.23"
+tree-sitter-javascript = "0.23"
+tree-sitter-typescript = "0.23"
+tree-sitter-python = "0.23"
+tree-sitter-json = "0.24"
+tree-sitter-toml-ng = "0.7"
+tree-sitter-bash = "0.23"
+tree-sitter-md = "0.3"
+
+# Git operations
+git2 = "0.19"
+
+# Storage
+rusqlite = { version = "0.32", features = ["bundled"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+schemars = { version = "1", features = ["derive"] }
+
+# Error handling
+anyhow = "1"
+thiserror = "2"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Utils
+dirs = "5"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+parking_lot = "0.12"
+rand = "0.8"
+hex = "0.4"
+base64 = "0.22"
+urlencoding = "2"
+regex = "1"
+async-trait = "0.1"
+
+# HTTP client
+reqwest = { version = "0.12", features = ["json", "stream"] }
+
+# Cryptography
+argon2 = "0.5"
+aes-gcm = "0.10"
+chacha20poly1305 = "0.10"
+sha2 = "0.10"
+
+# File dialogs
+rfd = "0.15"
+
+# WASM Plugin System (optional, for Zed-compatible extensions)
+wasmtime = { version = "27", optional = true }
+wit-bindgen = { version = "0.36", optional = true }
+streaming-iterator = "0.1.9"
+
+[features]
+default = []
+plugins = ["wasmtime", "wit-bindgen"]
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = 3
+
+[profile.dev]
+opt-level = 1
+
+[package.metadata.bundle]
+name = "Claude Visual"
+identifier = "com.claude-visual.app"
+icon = ["assets/icon.icns"]
+version = "0.1.0"
+copyright = "Copyright © 2025"
+category = "Developer Tool"
+short_description = "A visual client for Claude Code"
+long_description = """
+Claude Visual is a GPU-accelerated visual interface for Claude Code CLI,
+inspired by Warp terminal. Built with GPUI for fast, native performance.
+"""
+osx_minimum_system_version = "12.0"
+
+# Patch all core-* crates from the same git tag to ensure consistency
+# core-text-v21.0.0 uses core-graphics 0.24 which matches zed-font-kit
+[patch.crates-io]
+core-text = { git = "https://github.com/servo/core-foundation-rs", tag = "core-text-v21.0.0", package = "core-text" }
+core-graphics = { git = "https://github.com/servo/core-foundation-rs", tag = "core-text-v21.0.0", package = "core-graphics" }
+core-graphics-types = { git = "https://github.com/servo/core-foundation-rs", tag = "core-text-v21.0.0", package = "core-graphics-types" }
+core-foundation = { git = "https://github.com/servo/core-foundation-rs", tag = "core-text-v21.0.0", package = "core-foundation" }
+core-foundation-sys = { git = "https://github.com/servo/core-foundation-rs", tag = "core-text-v21.0.0", package = "core-foundation-sys" }
+
