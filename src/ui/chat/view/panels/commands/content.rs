@@ -37,7 +37,7 @@ pub fn render_content(
             },
         )
         .when(slash_commands.is_empty() && skills.is_empty(), |d| {
-            d.child(render_empty_state(theme))
+            d.child(render_empty_state(theme, cx))
         })
 }
 
@@ -152,7 +152,15 @@ fn render_skills_section(
         )
 }
 
-fn render_empty_state(theme: &crate::app::theme::Theme) -> impl IntoElement {
+fn render_empty_state(
+    theme: &crate::app::theme::Theme,
+    cx: &mut Context<ChatView>,
+) -> impl IntoElement {
+    use super::super::super::types::ChatViewEvent;
+
+    let accent = theme.colors.accent;
+    let info = theme.colors.info;
+
     div()
         .px_4()
         .py_8()
@@ -183,5 +191,64 @@ fn render_empty_state(theme: &crate::app::theme::Theme) -> impl IntoElement {
                 .text_color(theme.colors.text_muted)
                 .text_center()
                 .child("Start a session to load available commands and skills"),
+        )
+        // Quick skill suggestions
+        .child(
+            div()
+                .pt_3()
+                .flex()
+                .flex_wrap()
+                .justify_center()
+                .gap_2()
+                // Start APEX
+                .child(
+                    div()
+                        .id("commands-empty-apex")
+                        .px_3()
+                        .py_2()
+                        .rounded_md()
+                        .cursor_pointer()
+                        .bg(accent.opacity(0.15))
+                        .border_1()
+                        .border_color(accent.opacity(0.3))
+                        .text_xs()
+                        .font_weight(FontWeight::MEDIUM)
+                        .text_color(accent)
+                        .hover(move |s| {
+                            s.bg(accent.opacity(0.25))
+                                .border_color(accent.opacity(0.5))
+                        })
+                        .on_click(cx.listener(|this, _, _window, cx| {
+                            this.panels.commands_panel = false;
+                            cx.emit(ChatViewEvent::Submit("/apex".to_string()));
+                            cx.notify();
+                        }))
+                        .child("⚡ Start with /apex"),
+                )
+                // Help
+                .child(
+                    div()
+                        .id("commands-empty-help")
+                        .px_3()
+                        .py_2()
+                        .rounded_md()
+                        .cursor_pointer()
+                        .bg(info.opacity(0.15))
+                        .border_1()
+                        .border_color(info.opacity(0.3))
+                        .text_xs()
+                        .font_weight(FontWeight::MEDIUM)
+                        .text_color(info)
+                        .hover(move |s| {
+                            s.bg(info.opacity(0.25))
+                                .border_color(info.opacity(0.5))
+                        })
+                        .on_click(cx.listener(|this, _, _window, cx| {
+                            this.panels.commands_panel = false;
+                            cx.emit(ChatViewEvent::Submit("/help".to_string()));
+                            cx.notify();
+                        }))
+                        .child("❓ Get /help"),
+                ),
         )
 }
