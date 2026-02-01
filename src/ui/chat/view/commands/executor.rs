@@ -36,7 +36,7 @@ impl ChatView {
             // Actions
             "copy_conversation" => self.copy_conversation_to_clipboard(cx),
             "export_conversation" => self.request_export(cx),
-            "clear_conversation" => self.clear_conversation(cx),
+            "clear_conversation" => self.request_clear_conversation(cx),
             "copy_selected" => self.copy_selected_message(cx),
             "bookmark_selected" => self.bookmark_selected_message(cx),
             "edit_last_message" => self.edit_last_message(cx),

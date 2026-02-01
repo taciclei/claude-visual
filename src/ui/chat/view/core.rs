@@ -252,6 +252,8 @@ pub struct ChatView {
     pub(crate) show_recent_files_panel: bool,
     /// Maximum recent files to track
     pub(crate) max_recent_files: usize,
+    /// Whether to show clear conversation confirmation dialog
+    pub(crate) show_clear_confirmation: bool,
     /// Highlighted message index (for search jump animation, with timestamp)
     pub(crate) highlighted_message: Option<(usize, std::time::Instant)>,
     /// Whether to show message preview on hover
@@ -385,8 +387,8 @@ impl ChatView {
                     });
                 }
                 ChatInputEvent::ClearConversation => {
-                    // Clear the conversation (Ctrl+L)
-                    this.clear_conversation(cx);
+                    // Show confirmation before clearing (Ctrl+L)
+                    this.request_clear_conversation(cx);
                 }
                 ChatInputEvent::OpenHistorySearch => {
                     // Open reverse history search (Ctrl+R)
@@ -524,6 +526,7 @@ impl ChatView {
             recent_files: Vec::new(),
             show_recent_files_panel: false,
             max_recent_files: 20,
+            show_clear_confirmation: false,
             highlighted_message: None,
             show_message_preview: true,
             navigation_history: Vec::new(),
@@ -2396,6 +2399,10 @@ impl Render for ChatView {
             // Context menu (floating, higher z-index)
             .when(self.context_menu.is_some(), |d| {
                 d.child(self.render_context_menu(&theme, cx))
+            })
+            // Clear conversation confirmation dialog (high priority overlay)
+            .when(self.show_clear_confirmation, |d| {
+                d.child(self.render_clear_confirmation_dialog(&theme, cx))
             })
             // Keyboard shortcuts help panel (modal overlay)
             .when(self.show_shortcuts_help, |d| {

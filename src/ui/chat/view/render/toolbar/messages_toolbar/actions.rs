@@ -89,7 +89,7 @@ impl ChatView {
                             .text_color(theme.colors.error)
                     })
                     .on_click(cx.listener(|this, _, _window, cx| {
-                        this.clear_conversation(cx);
+                        this.request_clear_conversation(cx);
                     }))
                     .child("Clear"),
             )

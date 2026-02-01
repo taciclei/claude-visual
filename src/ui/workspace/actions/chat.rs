@@ -79,7 +79,7 @@ impl Workspace {
         }
     }
 
-    /// Handle clear conversation action
+    /// Handle clear conversation action (shows confirmation dialog)
     pub(in crate::ui::workspace) fn handle_clear_conversation(
         &mut self,
         _: &ClearConversation,
@@ -88,7 +88,7 @@ impl Workspace {
     ) {
         if let Some(chat_view) = self.chat_views.get(self.active_chat_index) {
             chat_view.update(cx, |view, cx| {
-                view.clear_conversation(cx);
+                view.request_clear_conversation(cx);
             });
         }
     }

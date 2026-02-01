@@ -16,9 +16,11 @@
 //! - **git.rs** - Git quick actions
 //! - **context_bar.rs** - Context files bar and context progress bar
 //! - **streaming_suggestions.rs** - Contextual skill suggestions during/after streaming
+//! - **dialogs.rs** - Confirmation dialogs (clear conversation, etc.)
 
 pub mod context_bar;
 pub mod context_menu;
+pub mod dialogs;
 pub mod git;
 pub mod hints;
 pub mod indicators;
@@ -35,6 +37,7 @@ pub mod welcome;
 // Re-export all render functions (they're already in impl blocks, so just ensure modules are loaded)
 pub use context_bar::*;
 pub use context_menu::*;
+pub use dialogs::*;
 pub use git::*;
 pub use hints::*;
 pub use indicators::*;

@@ -181,6 +181,30 @@ impl ChatView {
         cx.notify();
     }
 
+    /// Request clear conversation (shows confirmation if messages exist)
+    pub fn request_clear_conversation(&mut self, cx: &mut Context<Self>) {
+        // If no messages, just clear directly
+        if self.messages.is_empty() {
+            self.clear_conversation(cx);
+            return;
+        }
+        // Show confirmation dialog
+        self.show_clear_confirmation = true;
+        cx.notify();
+    }
+
+    /// Confirm and execute clear conversation
+    pub fn confirm_clear_conversation(&mut self, cx: &mut Context<Self>) {
+        self.show_clear_confirmation = false;
+        self.clear_conversation(cx);
+    }
+
+    /// Cancel clear conversation confirmation
+    pub fn cancel_clear_confirmation(&mut self, cx: &mut Context<Self>) {
+        self.show_clear_confirmation = false;
+        cx.notify();
+    }
+
     /// Clear conversation but keep conversation ID (for continue from history)
     pub fn clear_messages(&mut self, cx: &mut Context<Self>) {
         if self.streaming.is_streaming {
