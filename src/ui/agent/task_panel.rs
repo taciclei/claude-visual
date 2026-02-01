@@ -3,7 +3,6 @@
 //! Displays the hierarchical task tree with status indicators.
 
 use gpui::prelude::*;
-use gpui::prelude::*;
 use gpui::*;
 
 use crate::agent::task::{AgentTask, TaskNode, TaskStatus, TaskTree};
