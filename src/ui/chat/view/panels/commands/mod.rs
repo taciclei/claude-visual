@@ -26,6 +26,7 @@ impl ChatView {
         let (slash_commands, skills) = self.filtered_commands();
         let filter = self.commands_filter.clone();
         let category = self.commands_category;
+        let hovered_skill = self.hovered_skill.clone();
 
         // Group skills by category
         let skill_categories = grouping::group_skills_by_category(&skills);
@@ -47,8 +48,8 @@ impl ChatView {
             .child(
                 div()
                     .id("commands-panel")
-                    .w(px(550.0))
-                    .max_h(px(500.0))
+                    .w(px(600.0))
+                    .max_h(px(550.0))
                     .bg(theme.colors.surface)
                     .rounded_lg()
                     .border_1()
@@ -71,6 +72,7 @@ impl ChatView {
                         &slash_commands,
                         &skills,
                         &skill_categories,
+                        &hovered_skill,
                         cx,
                     ))
                     .child(footer::render_footer(theme)),

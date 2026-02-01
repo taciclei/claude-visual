@@ -98,18 +98,24 @@ pub(crate) fn render_left_section(
                     ),
             )
         })
-        // MCP servers indicator (when connected)
+        // MCP servers indicator (clickable to open MCP panel)
         .when(mcp_server_count > 0, |this| {
             this.child(
                 div()
+                    .id("status-mcp")
                     .flex()
                     .items_center()
                     .gap_1()
                     .ml_2()
                     .px_1()
                     .rounded_sm()
+                    .cursor_pointer()
                     .text_xs()
                     .text_color(theme.colors.info)
+                    .hover(|s| s.bg(theme.colors.info.opacity(0.1)))
+                    .on_click(cx.listener(|_this, _, _window, cx| {
+                        cx.emit(StatusBarEvent::OpenMcpPanel);
+                    }))
                     .child("🔌")
                     .child(format!("{} MCP", mcp_server_count))
                     .when(mcp_tool_count > 0, |d| {
@@ -121,34 +127,46 @@ pub(crate) fn render_left_section(
                     }),
             )
         })
-        // Context files indicator (when files attached)
+        // Context files indicator (clickable to open context panel)
         .when(context_files_count > 0, |this| {
             this.child(
                 div()
+                    .id("status-context")
                     .flex()
                     .items_center()
                     .gap_1()
                     .ml_2()
                     .px_1()
                     .rounded_sm()
+                    .cursor_pointer()
                     .text_xs()
                     .text_color(theme.colors.accent)
+                    .hover(|s| s.bg(theme.colors.accent.opacity(0.1)))
+                    .on_click(cx.listener(|_this, _, _window, cx| {
+                        cx.emit(StatusBarEvent::OpenContextPanel);
+                    }))
                     .child("📎")
                     .child(format!("{}", context_files_count)),
             )
         })
-        // Memory items indicator (when memories exist)
+        // Memory items indicator (clickable to manage memory)
         .when(memory_items_count > 0, |this| {
             this.child(
                 div()
+                    .id("status-memory")
                     .flex()
                     .items_center()
                     .gap_1()
                     .ml_2()
                     .px_1()
                     .rounded_sm()
+                    .cursor_pointer()
                     .text_xs()
                     .text_color(theme.colors.warning)
+                    .hover(|s| s.bg(theme.colors.warning.opacity(0.1)))
+                    .on_click(cx.listener(|_this, _, _window, cx| {
+                        cx.emit(StatusBarEvent::OpenMemoryPanel);
+                    }))
                     .child("🧠")
                     .child(format!("{}", memory_items_count)),
             )

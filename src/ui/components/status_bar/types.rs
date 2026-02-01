@@ -43,4 +43,12 @@ pub enum StatusBarEvent {
     StopStreaming,
     /// Request to toggle vim mode
     ToggleVimMode,
+    /// Open MCP panel
+    OpenMcpPanel,
+    /// Open context panel
+    OpenContextPanel,
+    /// Open memory panel
+    OpenMemoryPanel,
+    /// Send a Claude Code skill command
+    SendSkillCommand(String),
 }

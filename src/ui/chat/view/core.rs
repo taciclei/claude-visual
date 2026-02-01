@@ -187,6 +187,8 @@ pub struct ChatView {
     pub(crate) commands_filter: String,
     /// Selected command category filter
     pub(crate) commands_category: CommandCategory,
+    /// Currently hovered skill for preview
+    pub(crate) hovered_skill: Option<String>,
     /// Whether to show prompt templates panel
     pub(crate) show_templates_panel: bool,
     /// Saved prompt templates
@@ -486,6 +488,7 @@ impl ChatView {
             show_commands_panel: false,
             commands_filter: String::new(),
             commands_category: CommandCategory::All,
+            hovered_skill: None,
             show_templates_panel: false,
             prompt_templates: default_prompt_templates(),
             templates_filter: String::new(),
