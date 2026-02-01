@@ -1,8 +1,6 @@
 //! Tooltip component
 
 use gpui::prelude::*;
-use gpui::prelude::*;
-use gpui::prelude::*;
 use gpui::*;
 
 /// Tooltip position
