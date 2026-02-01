@@ -4,7 +4,7 @@ use gpui::prelude::*;
 use gpui::*;
 
 use super::super::core::HistorySidebar;
-use super::super::types::DisplayMode;
+use super::super::types::{DisplayMode, HistorySidebarEvent};
 
 impl HistorySidebar {
     pub(super) fn render_content(
@@ -37,6 +37,10 @@ impl HistorySidebar {
         }
 
         let theme = self.app_state.theme.read(cx);
+        let accent = theme.colors.accent;
+        let info = theme.colors.info;
+        let text_muted = theme.colors.text_muted;
+        let text = theme.colors.text;
 
         let is_recent = display_mode == DisplayMode::Recent;
         let is_search = display_mode == DisplayMode::Search;
@@ -54,11 +58,83 @@ impl HistorySidebar {
                     this.child(
                         div()
                             .px_3()
-                            .py_4()
-                            .text_sm()
-                            .text_color(theme.colors.text_muted)
-                            .text_center()
-                            .child("No conversations yet"),
+                            .py_6()
+                            .flex()
+                            .flex_col()
+                            .items_center()
+                            .gap_3()
+                            .child(div().text_2xl().child("💬"))
+                            .child(
+                                div()
+                                    .text_sm()
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .text_color(text)
+                                    .child("No conversations yet"),
+                            )
+                            .child(
+                                div()
+                                    .text_xs()
+                                    .text_color(text_muted)
+                                    .text_center()
+                                    .child("Start a new conversation to get going"),
+                            )
+                            // Quick skill suggestions
+                            .child(
+                                div()
+                                    .pt_2()
+                                    .flex()
+                                    .flex_wrap()
+                                    .justify_center()
+                                    .gap_2()
+                                    // APEX skill
+                                    .child(
+                                        div()
+                                            .id("history-empty-apex")
+                                            .px_2()
+                                            .py_1()
+                                            .rounded_md()
+                                            .cursor_pointer()
+                                            .bg(accent.opacity(0.15))
+                                            .border_1()
+                                            .border_color(accent.opacity(0.3))
+                                            .text_xs()
+                                            .text_color(accent)
+                                            .hover(move |s| {
+                                                s.bg(accent.opacity(0.25))
+                                                    .border_color(accent.opacity(0.5))
+                                            })
+                                            .on_click(cx.listener(|_this, _, _window, cx| {
+                                                cx.emit(HistorySidebarEvent::SendSkillCommand(
+                                                    "/apex".to_string(),
+                                                ));
+                                            }))
+                                            .child("⚡ /apex"),
+                                    )
+                                    // Explore skill
+                                    .child(
+                                        div()
+                                            .id("history-empty-explore")
+                                            .px_2()
+                                            .py_1()
+                                            .rounded_md()
+                                            .cursor_pointer()
+                                            .bg(info.opacity(0.15))
+                                            .border_1()
+                                            .border_color(info.opacity(0.3))
+                                            .text_xs()
+                                            .text_color(info)
+                                            .hover(move |s| {
+                                                s.bg(info.opacity(0.25))
+                                                    .border_color(info.opacity(0.5))
+                                            })
+                                            .on_click(cx.listener(|_this, _, _window, cx| {
+                                                cx.emit(HistorySidebarEvent::SendSkillCommand(
+                                                    "/explore".to_string(),
+                                                ));
+                                            }))
+                                            .child("🔍 /explore"),
+                                    ),
+                            ),
                     )
                 })
                 .children(conversation_children)
@@ -70,7 +146,7 @@ impl HistorySidebar {
                             .px_3()
                             .py_4()
                             .text_sm()
-                            .text_color(theme.colors.text_muted)
+                            .text_color(text_muted)
                             .text_center()
                             .child("No results found"),
                     )

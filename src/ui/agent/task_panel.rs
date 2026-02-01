@@ -18,6 +18,8 @@ pub enum TaskPanelEvent {
     TaskToggled(String),
     /// Task action requested (retry, cancel, etc.)
     TaskAction(String, TaskAction),
+    /// Send a Claude Code skill command
+    SendSkillCommand(String),
 }
 
 /// Actions that can be performed on a task
@@ -222,6 +224,7 @@ impl TaskPanel {
 impl Render for TaskPanel {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let roots = self.task_tree.roots();
+        let is_empty = roots.is_empty();
 
         div()
             .flex()
@@ -237,10 +240,109 @@ impl Render for TaskPanel {
                     .id("task-scroll-container")
                     .overflow_y_scroll()
                     .p_2()
+                    .when(is_empty, |d| d.child(self.render_empty_state(cx)))
                     .children(roots.iter().filter_map(|task| {
                         let node = self.task_tree.get_node(&task.id)?;
                         Some(self.render_task_node(task, node, 0, cx))
                     })),
+            )
+    }
+}
+
+impl TaskPanel {
+    /// Render empty state with skill suggestions
+    fn render_empty_state(&self, cx: &mut Context<Self>) -> impl IntoElement {
+        let text_muted = self.theme.colors.text_muted;
+        let text = self.theme.colors.text;
+        let accent = self.theme.colors.accent;
+        let info = self.theme.colors.info;
+
+        div()
+            .flex()
+            .flex_col()
+            .items_center()
+            .justify_center()
+            .py_8()
+            .gap_3()
+            .child(
+                div()
+                    .size(px(48.0))
+                    .rounded_full()
+                    .bg(text_muted.opacity(0.1))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .child(div().text_xl().child("📋")),
+            )
+            .child(
+                div()
+                    .text_sm()
+                    .font_weight(FontWeight::MEDIUM)
+                    .text_color(text)
+                    .child("No tasks yet"),
+            )
+            .child(
+                div()
+                    .text_xs()
+                    .text_color(text_muted)
+                    .text_center()
+                    .max_w(px(220.0))
+                    .child("Start a structured workflow to track progress"),
+            )
+            // Quick skill suggestions
+            .child(
+                div()
+                    .pt_3()
+                    .flex()
+                    .flex_wrap()
+                    .justify_center()
+                    .gap_2()
+                    // APEX skill
+                    .child(
+                        div()
+                            .id("task-empty-apex")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(accent.opacity(0.15))
+                            .border_1()
+                            .border_color(accent.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(accent)
+                            .hover(move |s| {
+                                s.bg(accent.opacity(0.25))
+                                    .border_color(accent.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|_this, _, _window, cx| {
+                                cx.emit(TaskPanelEvent::SendSkillCommand("/apex".to_string()));
+                            }))
+                            .child("⚡ Start with APEX"),
+                    )
+                    // Oneshot skill
+                    .child(
+                        div()
+                            .id("task-empty-oneshot")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(info.opacity(0.15))
+                            .border_1()
+                            .border_color(info.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(info)
+                            .hover(move |s| {
+                                s.bg(info.opacity(0.25))
+                                    .border_color(info.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|_this, _, _window, cx| {
+                                cx.emit(TaskPanelEvent::SendSkillCommand("/oneshot".to_string()));
+                            }))
+                            .child("🚀 Quick /oneshot"),
+                    ),
             )
     }
 }

@@ -23,6 +23,8 @@ pub enum WatchViewEvent {
     Collapse(usize),
     /// Copy value to clipboard
     CopyValue(usize),
+    /// Send a Claude Code skill command
+    SendSkillCommand(String),
 }
 
 impl EventEmitter<WatchViewEvent> for WatchView {}

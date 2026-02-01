@@ -53,6 +53,8 @@ pub enum DiagnosticsPanelEvent {
     Closed,
     /// Quick fix requested
     QuickFix(Diagnostic),
+    /// Send a Claude Code skill command
+    SendSkillCommand(String),
 }
 
 /// Group of diagnostics for a file

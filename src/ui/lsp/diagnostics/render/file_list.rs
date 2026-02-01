@@ -100,6 +100,6 @@ pub fn render_file_list(
             )
         }))
         .when(panel.files.is_empty(), |this| {
-            this.child(render_empty_state(colors))
+            this.child(render_empty_state(colors, cx))
         })
 }

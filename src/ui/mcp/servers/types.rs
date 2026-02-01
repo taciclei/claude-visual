@@ -73,4 +73,6 @@ pub enum McpServersPanelEvent {
     RemoveServer(String),
     /// Request to refresh server list
     Refresh,
+    /// Send a Claude Code skill command
+    SendSkillCommand(String),
 }
