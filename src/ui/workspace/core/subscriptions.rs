@@ -313,6 +313,39 @@ impl Workspace {
                     });
                     this.update_status_bar(cx);
                 }
+                StatusBarEvent::OpenMcpPanel => {
+                    // Toggle MCP panel in active chat view
+                    if let Some(chat_view) = this.chat_views.get(this.active_chat_index) {
+                        chat_view.update(cx, |view, cx| {
+                            view.toggle_mcp_panel(cx);
+                        });
+                    }
+                }
+                StatusBarEvent::OpenContextPanel => {
+                    // Toggle context panel in active chat view
+                    if let Some(chat_view) = this.chat_views.get(this.active_chat_index) {
+                        chat_view.update(cx, |view, cx| {
+                            view.toggle_context_panel(cx);
+                        });
+                    }
+                }
+                StatusBarEvent::OpenMemoryPanel => {
+                    // Toggle memory/notes panel in active chat view
+                    if let Some(chat_view) = this.chat_views.get(this.active_chat_index) {
+                        chat_view.update(cx, |view, cx| {
+                            view.toggle_notes_panel(cx);
+                        });
+                    }
+                }
+                StatusBarEvent::SendSkillCommand(skill) => {
+                    // Send skill command to active chat view
+                    if let Some(chat_view) = this.chat_views.get(this.active_chat_index) {
+                        let skill = skill.clone();
+                        chat_view.update(cx, |view, cx| {
+                            view.set_input_text(&skill, cx);
+                        });
+                    }
+                }
                 StatusBarEvent::ItemClicked(_) => {}
             }
         })
