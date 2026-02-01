@@ -6,7 +6,10 @@ use gpui::*;
 use crate::ui::lsp::diagnostics::core::DiagnosticsPanel;
 use crate::ui::lsp::diagnostics::types::{DiagnosticsPanelEvent, SimpleColors};
 
-pub fn render_empty_state(colors: &SimpleColors, cx: &mut Context<DiagnosticsPanel>) -> impl IntoElement {
+pub fn render_empty_state(
+    colors: &SimpleColors,
+    cx: &mut Context<DiagnosticsPanel>,
+) -> impl IntoElement {
     let text_muted = colors.text_muted;
     let text = colors.text;
     let success = colors.success;
@@ -64,8 +67,7 @@ pub fn render_empty_state(colors: &SimpleColors, cx: &mut Context<DiagnosticsPan
                         .text_xs()
                         .text_color(accent)
                         .hover(move |s| {
-                            s.bg(accent.opacity(0.25))
-                                .border_color(accent.opacity(0.5))
+                            s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                         })
                         .on_click(cx.listener(|_this, _, _window, cx| {
                             cx.emit(DiagnosticsPanelEvent::SendSkillCommand(

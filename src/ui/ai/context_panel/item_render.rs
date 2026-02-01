@@ -198,11 +198,7 @@ impl ContextPanel {
     }
 
     /// Render empty state with skill suggestions
-    fn render_empty_state(
-        &self,
-        theme: &SimpleColors,
-        cx: &mut Context<Self>,
-    ) -> impl IntoElement {
+    fn render_empty_state(&self, theme: &SimpleColors, cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .flex_col()

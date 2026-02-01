@@ -167,10 +167,7 @@ fn render_skills_section(
                                     .child(format!("{} {}", skill_icon, skill))
                                     .when(has_info, |d| {
                                         d.child(
-                                            div()
-                                                .ml_1()
-                                                .text_color(accent.opacity(0.5))
-                                                .child("ⓘ"),
+                                            div().ml_1().text_color(accent.opacity(0.5)).child("ⓘ"),
                                         )
                                     })
                             }),
@@ -324,8 +321,7 @@ fn render_empty_state(
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(accent)
                         .hover(move |s| {
-                            s.bg(accent.opacity(0.25))
-                                .border_color(accent.opacity(0.5))
+                            s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                         })
                         .on_click(cx.listener(|this, _, _window, cx| {
                             this.panels.commands_panel = false;
@@ -348,10 +344,7 @@ fn render_empty_state(
                         .text_xs()
                         .font_weight(FontWeight::MEDIUM)
                         .text_color(info)
-                        .hover(move |s| {
-                            s.bg(info.opacity(0.25))
-                                .border_color(info.opacity(0.5))
-                        })
+                        .hover(move |s| s.bg(info.opacity(0.25)).border_color(info.opacity(0.5)))
                         .on_click(cx.listener(|this, _, _window, cx| {
                             this.panels.commands_panel = false;
                             cx.emit(ChatViewEvent::Submit("/help".to_string()));

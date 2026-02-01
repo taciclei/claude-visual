@@ -85,8 +85,7 @@ impl WatchView {
                             .text_xs()
                             .text_color(info)
                             .hover(move |s| {
-                                s.bg(info.opacity(0.25))
-                                    .border_color(info.opacity(0.5))
+                                s.bg(info.opacity(0.25)).border_color(info.opacity(0.5))
                             })
                             .on_click(cx.listener(|_this, _, _window, cx| {
                                 cx.emit(WatchViewEvent::SendSkillCommand("/debug".to_string()));
@@ -107,8 +106,7 @@ impl WatchView {
                             .text_xs()
                             .text_color(accent)
                             .hover(move |s| {
-                                s.bg(accent.opacity(0.25))
-                                    .border_color(accent.opacity(0.5))
+                                s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                             })
                             .on_click(cx.listener(|_this, _, _window, cx| {
                                 cx.emit(WatchViewEvent::SendSkillCommand("/explore".to_string()));

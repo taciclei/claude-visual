@@ -311,8 +311,7 @@ impl TaskPanel {
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(accent)
                             .hover(move |s| {
-                                s.bg(accent.opacity(0.25))
-                                    .border_color(accent.opacity(0.5))
+                                s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                             })
                             .on_click(cx.listener(|_this, _, _window, cx| {
                                 cx.emit(TaskPanelEvent::SendSkillCommand("/apex".to_string()));
@@ -334,8 +333,7 @@ impl TaskPanel {
                             .font_weight(FontWeight::MEDIUM)
                             .text_color(info)
                             .hover(move |s| {
-                                s.bg(info.opacity(0.25))
-                                    .border_color(info.opacity(0.5))
+                                s.bg(info.opacity(0.25)).border_color(info.opacity(0.5))
                             })
                             .on_click(cx.listener(|_this, _, _window, cx| {
                                 cx.emit(TaskPanelEvent::SendSkillCommand("/oneshot".to_string()));

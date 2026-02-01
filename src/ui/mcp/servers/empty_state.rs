@@ -42,7 +42,9 @@ impl McpServersPanel {
                     .text_color(theme.colors.text_muted)
                     .text_center()
                     .max_w(px(280.0))
-                    .child("MCP servers extend Claude's capabilities with custom tools and resources."),
+                    .child(
+                        "MCP servers extend Claude's capabilities with custom tools and resources.",
+                    ),
             )
             .child(
                 div()
@@ -77,8 +79,7 @@ impl McpServersPanel {
                             .text_xs()
                             .text_color(accent)
                             .hover(move |s| {
-                                s.bg(accent.opacity(0.25))
-                                    .border_color(accent.opacity(0.5))
+                                s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                             })
                             .on_click(cx.listener(|_this, _, _window, cx| {
                                 cx.emit(McpServersPanelEvent::SendSkillCommand(
@@ -101,11 +102,12 @@ impl McpServersPanel {
                             .text_xs()
                             .text_color(info)
                             .hover(move |s| {
-                                s.bg(info.opacity(0.25))
-                                    .border_color(info.opacity(0.5))
+                                s.bg(info.opacity(0.25)).border_color(info.opacity(0.5))
                             })
                             .on_click(cx.listener(|_this, _, _window, cx| {
-                                cx.emit(McpServersPanelEvent::SendSkillCommand("/docs mcp".to_string()));
+                                cx.emit(McpServersPanelEvent::SendSkillCommand(
+                                    "/docs mcp".to_string(),
+                                ));
                             }))
                             .child("🔍 MCP Docs"),
                     ),

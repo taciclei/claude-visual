@@ -65,13 +65,10 @@ pub(crate) fn render_no_changes(
                         .text_xs()
                         .text_color(accent)
                         .hover(move |s| {
-                            s.bg(accent.opacity(0.25))
-                                .border_color(accent.opacity(0.5))
+                            s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                         })
                         .on_click(cx.listener(|_this, _, _window, cx| {
-                            cx.emit(WorktreePanelEvent::SendSkillCommand(
-                                "/explore".to_string(),
-                            ));
+                            cx.emit(WorktreePanelEvent::SendSkillCommand("/explore".to_string()));
                         }))
                         .child("🔍 Explore"),
                 )
@@ -154,13 +151,10 @@ pub(crate) fn render_no_git_repo(
                         .text_xs()
                         .text_color(accent)
                         .hover(move |s| {
-                            s.bg(accent.opacity(0.25))
-                                .border_color(accent.opacity(0.5))
+                            s.bg(accent.opacity(0.25)).border_color(accent.opacity(0.5))
                         })
                         .on_click(cx.listener(|_this, _, _window, cx| {
-                            cx.emit(WorktreePanelEvent::SendSkillCommand(
-                                "/explore".to_string(),
-                            ));
+                            cx.emit(WorktreePanelEvent::SendSkillCommand("/explore".to_string()));
                         }))
                         .child("🔍 Explore"),
                 )

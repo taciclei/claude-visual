@@ -45,7 +45,8 @@ pub fn get_skill_info(skill: &str) -> Option<SkillInfo> {
     }
     if sl == "explain" {
         return Some(SkillInfo {
-            description: "Deep explanation of code features with tracing, analysis, and visual diagrams",
+            description:
+                "Deep explanation of code features with tracing, analysis, and visual diagrams",
             usage_example: "/explain How does the payment flow work?",
         });
     }
@@ -65,7 +66,8 @@ pub fn get_skill_info(skill: &str) -> Option<SkillInfo> {
     }
     if sl == "refactor" {
         return Some(SkillInfo {
-            description: "Refactor code by finding files, grouping them, and launching parallel agents",
+            description:
+                "Refactor code by finding files, grouping them, and launching parallel agents",
             usage_example: "/refactor Extract common validation logic into a shared module",
         });
     }
@@ -77,7 +79,8 @@ pub fn get_skill_info(skill: &str) -> Option<SkillInfo> {
     }
     if sl == "debug" || sl.contains("debug-skills") {
         return Some(SkillInfo {
-            description: "Systematic error debugging with analysis, solution discovery, and verification",
+            description:
+                "Systematic error debugging with analysis, solution discovery, and verification",
             usage_example: "/debug Fix the TypeError in the login component",
         });
     }
@@ -119,13 +122,15 @@ pub fn get_skill_info(skill: &str) -> Option<SkillInfo> {
     // Documentation skills
     if sl == "claude-memory" {
         return Some(SkillInfo {
-            description: "Create and optimize CLAUDE.md memory files or .claude/rules/ modular rules",
+            description:
+                "Create and optimize CLAUDE.md memory files or .claude/rules/ modular rules",
             usage_example: "/claude-memory Set up memory for this project",
         });
     }
     if sl == "add-llm-comments" {
         return Some(SkillInfo {
-            description: "Add minimal, intelligent JSDoc comments to help LLMs understand how to use a file",
+            description:
+                "Add minimal, intelligent JSDoc comments to help LLMs understand how to use a file",
             usage_example: "/add-llm-comments src/utils/auth.ts",
         });
     }
@@ -151,7 +156,8 @@ pub fn get_skill_info(skill: &str) -> Option<SkillInfo> {
     }
     if sl == "create-prompt" {
         return Some(SkillInfo {
-            description: "Expert prompt engineering for creating effective prompts for Claude and other LLMs",
+            description:
+                "Expert prompt engineering for creating effective prompts for Claude and other LLMs",
             usage_example: "/create-prompt Write a prompt for code review",
         });
     }
