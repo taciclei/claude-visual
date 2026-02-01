@@ -99,27 +99,7 @@ impl ChatView {
                             .flex_1()
                             .overflow_y_scroll()
                             .when(!has_pinned, |d| {
-                                d.child(
-                                    div()
-                                        .p_8()
-                                        .flex()
-                                        .flex_col()
-                                        .items_center()
-                                        .gap_2()
-                                        .child(div().text_3xl().child("📌"))
-                                        .child(
-                                            div()
-                                                .text_sm()
-                                                .text_color(theme.colors.text_muted)
-                                                .child("No pinned messages"),
-                                        )
-                                        .child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(theme.colors.text_muted)
-                                                .child("Use ⌥P to pin messages for quick access"),
-                                        ),
-                                )
+                                d.child(self.render_pinned_empty_state(theme, cx))
                             })
                             .when(has_pinned, |d| {
                                 d.children(pinned.iter().map(|(idx, msg)| {
@@ -209,6 +189,107 @@ impl ChatView {
                                         )
                                 }))
                             }),
+                    ),
+            )
+    }
+
+    /// Render empty pinned state with skill suggestions
+    fn render_pinned_empty_state(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
+        use super::super::types::ChatViewEvent;
+
+        let accent = theme.colors.accent;
+        let info = theme.colors.info;
+
+        div()
+            .p_8()
+            .flex()
+            .flex_col()
+            .items_center()
+            .gap_3()
+            .child(
+                div()
+                    .size(px(48.0))
+                    .rounded_full()
+                    .bg(theme.colors.text_muted.opacity(0.1))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .text_xl()
+                    .child("📌"),
+            )
+            .child(
+                div()
+                    .text_sm()
+                    .font_weight(FontWeight::MEDIUM)
+                    .text_color(theme.colors.text)
+                    .child("No pinned messages"),
+            )
+            .child(
+                div()
+                    .text_xs()
+                    .text_color(theme.colors.text_muted)
+                    .text_center()
+                    .child("Use ⌥P to pin messages for quick access"),
+            )
+            // Suggested actions
+            .child(
+                div()
+                    .pt_4()
+                    .flex()
+                    .flex_wrap()
+                    .justify_center()
+                    .gap_2()
+                    // Start a conversation
+                    .child(
+                        div()
+                            .id("pinned-empty-apex")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(accent.opacity(0.15))
+                            .border_1()
+                            .border_color(accent.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(accent)
+                            .hover(move |s| {
+                                s.bg(accent.opacity(0.25))
+                                    .border_color(accent.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_pinned_panel(cx);
+                                cx.emit(ChatViewEvent::Submit("/apex".to_string()));
+                            }))
+                            .child("⚡ Start with /apex"),
+                    )
+                    // Search history
+                    .child(
+                        div()
+                            .id("pinned-empty-history")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(info.opacity(0.15))
+                            .border_1()
+                            .border_color(info.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(info)
+                            .hover(move |s| {
+                                s.bg(info.opacity(0.25))
+                                    .border_color(info.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_pinned_panel(cx);
+                                this.toggle_search(cx);
+                            }))
+                            .child("🔍 Search Messages"),
                     ),
             )
     }

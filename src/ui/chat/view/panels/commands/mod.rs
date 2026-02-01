@@ -14,7 +14,7 @@ use super::super::types::CommandCategory;
 
 mod content;
 mod footer;
-mod grouping;
+pub mod grouping;
 mod header;
 
 impl ChatView {

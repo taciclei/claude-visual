@@ -85,21 +85,17 @@ impl ChatView {
                             .flex_1()
                             .p_4()
                             .overflow_y_scroll()
-                            .child(
-                                div()
-                                    .text_sm()
-                                    .text_color(if has_notes {
-                                        theme.colors.text
-                                    } else {
-                                        theme.colors.text_muted
-                                    })
-                                    .child(if has_notes {
-                                        self.session_notes.clone()
-                                    } else {
-                                        "No notes yet. Notes are saved with your session."
-                                            .to_string()
-                                    }),
-                            ),
+                            .when(has_notes, |d| {
+                                d.child(
+                                    div()
+                                        .text_sm()
+                                        .text_color(theme.colors.text)
+                                        .child(self.session_notes.clone()),
+                                )
+                            })
+                            .when(!has_notes, |d| {
+                                d.child(self.render_notes_empty_state(theme, cx))
+                            }),
                     )
                     // Tags section
                     .when(self.has_tags(), |d| {
@@ -176,6 +172,108 @@ impl ChatView {
                                 )
                             })
                     }),
+            )
+    }
+
+    /// Render empty notes state with memory skill suggestion
+    fn render_notes_empty_state(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
+        use super::super::types::ChatViewEvent;
+
+        let accent = theme.colors.accent;
+        let info = theme.colors.info;
+
+        div()
+            .flex()
+            .flex_col()
+            .items_center()
+            .gap_3()
+            .py_4()
+            .child(
+                div()
+                    .size(px(40.0))
+                    .rounded_full()
+                    .bg(theme.colors.text_muted.opacity(0.1))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .text_lg()
+                    .child("📝"),
+            )
+            .child(
+                div()
+                    .text_sm()
+                    .text_color(theme.colors.text_muted)
+                    .text_center()
+                    .child("No notes yet"),
+            )
+            .child(
+                div()
+                    .text_xs()
+                    .text_color(theme.colors.text_muted.opacity(0.7))
+                    .text_center()
+                    .max_w(px(250.0))
+                    .child("Notes are saved with your session. Use /memory to persist important context."),
+            )
+            // Quick actions
+            .child(
+                div()
+                    .pt_3()
+                    .flex()
+                    .flex_wrap()
+                    .justify_center()
+                    .gap_2()
+                    // Memory skill
+                    .child(
+                        div()
+                            .id("notes-empty-memory")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(accent.opacity(0.15))
+                            .border_1()
+                            .border_color(accent.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(accent)
+                            .hover(move |s| {
+                                s.bg(accent.opacity(0.25))
+                                    .border_color(accent.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_notes_panel(cx);
+                                cx.emit(ChatViewEvent::Submit("/memory".to_string()));
+                            }))
+                            .child("💾 /memory"),
+                    )
+                    // Claude-memory skill
+                    .child(
+                        div()
+                            .id("notes-empty-claude-memory")
+                            .px_3()
+                            .py_2()
+                            .rounded_md()
+                            .cursor_pointer()
+                            .bg(info.opacity(0.15))
+                            .border_1()
+                            .border_color(info.opacity(0.3))
+                            .text_xs()
+                            .font_weight(FontWeight::MEDIUM)
+                            .text_color(info)
+                            .hover(move |s| {
+                                s.bg(info.opacity(0.25))
+                                    .border_color(info.opacity(0.5))
+                            })
+                            .on_click(cx.listener(|this, _, _window, cx| {
+                                this.toggle_notes_panel(cx);
+                                cx.emit(ChatViewEvent::Submit("/claude-memory".to_string()));
+                            }))
+                            .child("🧠 /claude-memory"),
+                    ),
             )
     }
 }

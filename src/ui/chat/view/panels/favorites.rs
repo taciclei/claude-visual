@@ -98,29 +98,7 @@ impl ChatView {
                             .flex_1()
                             .overflow_y_scroll()
                             .when(!has_favorites, |d| {
-                                d.child(
-                                    div()
-                                        .p_8()
-                                        .flex()
-                                        .flex_col()
-                                        .items_center()
-                                        .gap_2()
-                                        .child(div().text_3xl().child("⭐"))
-                                        .child(
-                                            div()
-                                                .text_sm()
-                                                .text_color(theme.colors.text_muted)
-                                                .child("No favorites yet"),
-                                        )
-                                        .child(
-                                            div()
-                                                .text_xs()
-                                                .text_color(theme.colors.text_muted)
-                                                .child(
-                                                    "Use ⌘K → 'Save to Favorites' to save prompts",
-                                                ),
-                                        ),
-                                )
+                                d.child(self.render_favorites_empty_state(theme, cx))
                             })
                             .when(has_favorites, |d| {
                                 d.children(favorites.iter().map(|fav| {
@@ -212,6 +190,146 @@ impl ChatView {
                                         )
                                 }))
                             }),
+                    ),
+            )
+    }
+
+    /// Render empty state with skill suggestions
+    fn render_favorites_empty_state(
+        &self,
+        theme: &crate::app::theme::Theme,
+        cx: &mut Context<Self>,
+    ) -> impl IntoElement {
+        use super::super::types::ChatViewEvent;
+
+        let accent = theme.colors.accent;
+        let info = theme.colors.info;
+        let success = theme.colors.success;
+
+        div()
+            .p_8()
+            .flex()
+            .flex_col()
+            .items_center()
+            .gap_3()
+            .child(
+                div()
+                    .size(px(48.0))
+                    .rounded_full()
+                    .bg(theme.colors.accent.opacity(0.1))
+                    .flex()
+                    .items_center()
+                    .justify_center()
+                    .text_xl()
+                    .child("⭐"),
+            )
+            .child(
+                div()
+                    .text_sm()
+                    .font_weight(FontWeight::MEDIUM)
+                    .text_color(theme.colors.text)
+                    .child("No favorites yet"),
+            )
+            .child(
+                div()
+                    .text_xs()
+                    .text_color(theme.colors.text_muted)
+                    .text_center()
+                    .child("Save useful prompts with ⌘K → 'Save to Favorites'"),
+            )
+            // Suggested prompts to save
+            .child(
+                div()
+                    .pt_4()
+                    .flex()
+                    .flex_col()
+                    .gap_2()
+                    .w_full()
+                    .max_w(px(350.0))
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted)
+                            .child("Try these common skills:"),
+                    )
+                    .child(
+                        div()
+                            .flex()
+                            .flex_wrap()
+                            .gap_2()
+                            .justify_center()
+                            // APEX
+                            .child(
+                                div()
+                                    .id("fav-empty-apex")
+                                    .px_3()
+                                    .py_2()
+                                    .rounded_md()
+                                    .cursor_pointer()
+                                    .bg(accent.opacity(0.15))
+                                    .border_1()
+                                    .border_color(accent.opacity(0.3))
+                                    .text_xs()
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .text_color(accent)
+                                    .hover(move |s| {
+                                        s.bg(accent.opacity(0.25))
+                                            .border_color(accent.opacity(0.5))
+                                    })
+                                    .on_click(cx.listener(|this, _, _window, cx| {
+                                        this.toggle_favorites_panel(cx);
+                                        cx.emit(ChatViewEvent::Submit("/apex".to_string()));
+                                    }))
+                                    .child("⚡ /apex"),
+                            )
+                            // Explore
+                            .child(
+                                div()
+                                    .id("fav-empty-explore")
+                                    .px_3()
+                                    .py_2()
+                                    .rounded_md()
+                                    .cursor_pointer()
+                                    .bg(info.opacity(0.15))
+                                    .border_1()
+                                    .border_color(info.opacity(0.3))
+                                    .text_xs()
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .text_color(info)
+                                    .hover(move |s| {
+                                        s.bg(info.opacity(0.25))
+                                            .border_color(info.opacity(0.5))
+                                    })
+                                    .on_click(cx.listener(|this, _, _window, cx| {
+                                        this.toggle_favorites_panel(cx);
+                                        cx.emit(ChatViewEvent::Submit("/explore".to_string()));
+                                    }))
+                                    .child("🔍 /explore"),
+                            )
+                            // Commit
+                            .child(
+                                div()
+                                    .id("fav-empty-commit")
+                                    .px_3()
+                                    .py_2()
+                                    .rounded_md()
+                                    .cursor_pointer()
+                                    .bg(success.opacity(0.15))
+                                    .border_1()
+                                    .border_color(success.opacity(0.3))
+                                    .text_xs()
+                                    .font_weight(FontWeight::MEDIUM)
+                                    .text_color(success)
+                                    .hover(move |s| {
+                                        s.bg(success.opacity(0.25))
+                                            .border_color(success.opacity(0.5))
+                                    })
+                                    .on_click(cx.listener(|this, _, _window, cx| {
+                                        this.toggle_favorites_panel(cx);
+                                        cx.emit(ChatViewEvent::Submit("/commit".to_string()));
+                                    }))
+                                    .child("📦 /commit"),
+                            ),
                     ),
             )
     }

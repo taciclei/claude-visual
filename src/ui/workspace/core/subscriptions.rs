@@ -342,7 +342,7 @@ impl Workspace {
                     if let Some(chat_view) = this.chat_views.get(this.active_chat_index) {
                         let skill = skill.clone();
                         chat_view.update(cx, |view, cx| {
-                            view.set_input_text(&skill, cx);
+                            view.use_skill(&skill, cx);
                         });
                     }
                 }
