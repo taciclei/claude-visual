@@ -23,6 +23,8 @@ impl ChatView {
                     .iter()
                     .enumerate()
                     .map(|(i, notification)| {
+                        // Capture timestamp for stable identification (avoids race condition with index)
+                        let notification_timestamp = notification.created_at;
                         let (bg_color, border_color, icon) = match notification.notification_type {
                             NotificationType::Success => {
                                 (theme.colors.success.opacity(0.1), theme.colors.success, "✓")
@@ -99,10 +101,8 @@ impl ChatView {
                                             .border_color(action_btn_hover_border)
                                     })
                                     .on_click(cx.listener(move |this, _, _window, cx| {
-                                        // Dismiss notification
-                                        if i < this.notifications.len() {
-                                            this.notifications.remove(i);
-                                        }
+                                        // Dismiss notification using timestamp (stable identifier)
+                                        this.notifications.retain(|n| n.created_at != notification_timestamp);
                                         // Execute action
                                         if cmd.starts_with('/') {
                                             cx.emit(ChatViewEvent::Submit(cmd.clone()));

@@ -25,19 +25,17 @@ impl ChatView {
             created_at: chrono::Utc::now(),
             quick_action,
         };
+        let notification_time = notification.created_at;
         self.notifications.push(notification);
-        // Auto-dismiss after 4 seconds (longer if has action)
+        // Auto-dismiss after specified duration (longer if has action)
         let duration = if quick_action.is_some() { 5 } else { 3 };
         cx.spawn(async move |this, cx| {
             cx.background_executor()
                 .timer(std::time::Duration::from_secs(duration))
                 .await;
             let _ = this.update(cx, |view, cx| {
-                // Remove oldest notification
-                if !view.notifications.is_empty() {
-                    view.notifications.remove(0);
-                    cx.notify();
-                }
+                // Remove the specific notification by timestamp (race-condition safe)
+                view.dismiss_notification_by_time(notification_time, cx);
             });
         })
         .detach();
@@ -58,6 +56,7 @@ impl ChatView {
             created_at: chrono::Utc::now(),
             quick_action: Some(action),
         };
+        let notification_time = notification.created_at;
         self.notifications.push(notification);
         // Longer display time for actionable notifications
         cx.spawn(async move |this, cx| {
@@ -65,20 +64,31 @@ impl ChatView {
                 .timer(std::time::Duration::from_secs(6))
                 .await;
             let _ = this.update(cx, |view, cx| {
-                if !view.notifications.is_empty() {
-                    view.notifications.remove(0);
-                    cx.notify();
-                }
+                // Remove the specific notification by timestamp (race-condition safe)
+                view.dismiss_notification_by_time(notification_time, cx);
             });
         })
         .detach();
         cx.notify();
     }
 
-    /// Dismiss a specific notification by index
+    /// Dismiss a specific notification by index (legacy, prefer dismiss_notification_by_time)
     pub fn dismiss_notification(&mut self, index: usize, cx: &mut Context<Self>) {
         if index < self.notifications.len() {
             self.notifications.remove(index);
+            cx.notify();
+        }
+    }
+
+    /// Dismiss a notification by its creation timestamp (race-condition safe)
+    pub fn dismiss_notification_by_time(
+        &mut self,
+        timestamp: chrono::DateTime<chrono::Utc>,
+        cx: &mut Context<Self>,
+    ) {
+        let initial_len = self.notifications.len();
+        self.notifications.retain(|n| n.created_at != timestamp);
+        if self.notifications.len() != initial_len {
             cx.notify();
         }
     }
