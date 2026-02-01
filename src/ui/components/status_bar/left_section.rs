@@ -122,7 +122,7 @@ pub(crate) fn render_left_section(
                         d.child(
                             div()
                                 .text_color(theme.colors.text_muted)
-                                .child(format!("({})", mcp_tool_count)),
+                                .child(format!("({}t)", mcp_tool_count)),
                         )
                     }),
             )
@@ -146,7 +146,11 @@ pub(crate) fn render_left_section(
                         cx.emit(StatusBarEvent::OpenContextPanel);
                     }))
                     .child("📎")
-                    .child(format!("{}", context_files_count)),
+                    .child(format!(
+                        "{} file{}",
+                        context_files_count,
+                        if context_files_count == 1 { "" } else { "s" }
+                    )),
             )
         })
         // Memory items indicator (clickable to manage memory)
@@ -168,7 +172,7 @@ pub(crate) fn render_left_section(
                         cx.emit(StatusBarEvent::OpenMemoryPanel);
                     }))
                     .child("🧠")
-                    .child(format!("{}", memory_items_count)),
+                    .child(format!("{} mem", memory_items_count)),
             )
         })
 }

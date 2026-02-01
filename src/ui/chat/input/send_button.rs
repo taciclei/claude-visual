@@ -8,7 +8,7 @@ use crate::app::theme::Theme;
 use super::ChatInput;
 
 impl ChatInput {
-    /// Render send button with keyboard hint
+    /// Render send button with keyboard hints
     pub(super) fn render_send_button(
         &self,
         theme: &Theme,
@@ -49,13 +49,27 @@ impl ChatInput {
                             .child("↑"),
                     ),
             )
-            // Keyboard hint below button
+            // Keyboard hints below button
             .child(
                 div()
-                    .text_xs()
-                    .text_color(theme.colors.text_muted)
-                    .font_family("monospace")
-                    .child("⏎"),
+                    .flex()
+                    .flex_col()
+                    .items_center()
+                    .gap_0p5()
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted)
+                            .font_family("monospace")
+                            .child("⏎ send"),
+                    )
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.colors.text_muted.opacity(0.6))
+                            .font_family("monospace")
+                            .child("⇧⏎ newline"),
+                    ),
             )
     }
 }
