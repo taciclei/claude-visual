@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316"/>
+      <stop offset="100%" style="stop-color:#fb923c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded rectangle -->
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="url(#bgGradient)"/>
+
+  <!-- Claude visual indicator lines -->
+  <g stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.3">
+    <line x1="48" y1="80" x2="208" y2="80"/>
+    <line x1="48" y1="128" x2="180" y2="128"/>
+    <line x1="48" y1="176" x2="160" y2="176"/>
+  </g>
+
+  <!-- Main Claude symbol - stylized C -->
+  <path d="M160 72 C120 72, 80 96, 80 128 C80 160, 120 184, 160 184"
+        stroke="#ffffff" stroke-width="16" stroke-linecap="round" fill="none"/>
+
+  <!-- Eye/visual indicator -->
+  <circle cx="176" cy="128" r="24" fill="url(#accentGradient)"/>
+  <circle cx="176" cy="128" r="10" fill="#ffffff"/>
+
+  <!-- Sparkle accent -->
+  <g fill="#ffffff" opacity="0.9">
+    <path d="M200 60 L204 72 L216 76 L204 80 L200 92 L196 80 L184 76 L196 72 Z"/>
+  </g>
+</svg>

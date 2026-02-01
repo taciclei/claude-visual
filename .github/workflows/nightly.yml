@@ -5,6 +5,12 @@ on:
     # Run at 2 AM UTC every day
     - cron: '0 2 * * *'
   workflow_dispatch:  # Allow manual trigger
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
 
 env:
   CARGO_TERM_COLOR: always
@@ -14,33 +20,8 @@ permissions:
   contents: write
 
 jobs:
-  check-changes:
-    name: Check for changes
-    runs-on: ubuntu-latest
-    outputs:
-      should_build: ${{ steps.check.outputs.should_build }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Check for changes in last 24h
-        id: check
-        run: |
-          LAST_COMMIT=$(git log -1 --format=%ct)
-          NOW=$(date +%s)
-          DIFF=$((NOW - LAST_COMMIT))
-          # 86400 seconds = 24 hours
-          if [ $DIFF -lt 86400 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "should_build=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_build=false" >> $GITHUB_OUTPUT
-          fi
-
   build-nightly:
     name: Build Nightly
-    needs: check-changes
-    if: needs.check-changes.outputs.should_build == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -49,12 +30,15 @@ jobs:
           - os: macos-latest
             target: x86_64-apple-darwin
             artifact: claude-visual-nightly-macos-x64
+            bundle_ext: dmg
           - os: macos-14
             target: aarch64-apple-darwin
             artifact: claude-visual-nightly-macos-arm64
+            bundle_ext: dmg
           - os: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
             artifact: claude-visual-nightly-linux-x64
+            bundle_ext: AppImage
 
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +54,8 @@ jobs:
             libwayland-dev \
             libxcb-render0-dev \
             libxcb-shape0-dev \
-            libxcb-xfixes0-dev
+            libxcb-xfixes0-dev \
+            libfuse2
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -91,26 +76,86 @@ jobs:
       - name: Build release
         run: cargo build --release --target ${{ matrix.target }}
 
-      - name: Prepare artifact (macOS)
+      - name: Create macOS app bundle and DMG
         if: runner.os == 'macOS'
         run: |
-          mkdir -p dist
-          cp target/${{ matrix.target }}/release/claude-visual dist/
-          cd dist
-          tar -czvf ../${{ matrix.artifact }}.tar.gz claude-visual
+          APP_NAME="Claude Visual"
+          APP_DIR="${APP_NAME}.app"
 
-      - name: Prepare artifact (Linux)
+          # Create app bundle
+          mkdir -p "${APP_DIR}/Contents/MacOS"
+          mkdir -p "${APP_DIR}/Contents/Resources"
+
+          cp target/${{ matrix.target }}/release/claude-visual "${APP_DIR}/Contents/MacOS/"
+          cp assets/Info.plist "${APP_DIR}/Contents/"
+          cp assets/icon.icns "${APP_DIR}/Contents/Resources/" 2>/dev/null || true
+
+          # Sign the app (ad-hoc signing for testing)
+          codesign --force --deep --sign - "${APP_DIR}" || true
+
+          # Create DMG
+          hdiutil create -volname "${APP_NAME}" -srcfolder "${APP_DIR}" -ov -format UDZO "${{ matrix.artifact }}.dmg"
+
+          # Also create tar.gz for those who prefer it
+          tar -czvf "${{ matrix.artifact }}.tar.gz" "${APP_DIR}"
+
+      - name: Create Linux AppImage
         if: runner.os == 'Linux'
         run: |
+          # Create AppDir structure
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+
+          cp target/${{ matrix.target }}/release/claude-visual AppDir/usr/bin/
+          cp packaging/appimage/claude-visual.desktop AppDir/usr/share/applications/
+          cp packaging/appimage/claude-visual.desktop AppDir/
+          [ -f assets/icon.png ] && cp assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/claude-visual.png
+          [ -f assets/icon.png ] && cp assets/icon.png AppDir/claude-visual.png
+
+          # Create AppRun
+          cat > AppDir/AppRun << 'APPRUN'
+          #!/bin/bash
+          SELF=$(readlink -f "$0")
+          HERE=${SELF%/*}
+          export PATH="${HERE}/usr/bin:${PATH}"
+          export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
+          exec "${HERE}/usr/bin/claude-visual" "$@"
+          APPRUN
+          chmod +x AppDir/AppRun
+
+          # Download and run appimagetool
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          ./appimagetool-x86_64.AppImage AppDir "${{ matrix.artifact }}.AppImage"
+
+          # Also create tar.gz
           mkdir -p dist
           cp target/${{ matrix.target }}/release/claude-visual dist/
+          cp assets/icon.png dist/ 2>/dev/null || true
           cd dist
-          tar -czvf ../${{ matrix.artifact }}.tar.gz claude-visual
+          tar -czvf "../${{ matrix.artifact }}.tar.gz" *
 
-      - name: Upload artifact
+      - name: Upload DMG (macOS)
+        if: runner.os == 'macOS'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact }}
+          name: ${{ matrix.artifact }}-dmg
+          path: ${{ matrix.artifact }}.dmg
+          retention-days: 7
+
+      - name: Upload AppImage (Linux)
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-appimage
+          path: ${{ matrix.artifact }}.AppImage
+          retention-days: 7
+
+      - name: Upload tar.gz
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-tar
           path: ${{ matrix.artifact }}.tar.gz
           retention-days: 7
 
@@ -118,6 +163,7 @@ jobs:
     name: Update Nightly Release
     needs: build-nightly
     runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
 
@@ -126,10 +172,10 @@ jobs:
         with:
           path: artifacts
 
-      - name: Prepare files
+      - name: Prepare release files
         run: |
           mkdir -p release
-          find artifacts -name "*.tar.gz" -exec mv {} release/ \;
+          find artifacts -type f \( -name "*.dmg" -o -name "*.AppImage" -o -name "*.tar.gz" \) -exec cp {} release/ \;
           ls -la release/
 
       - name: Get current date
@@ -157,9 +203,25 @@ jobs:
 
             ### Downloads
 
-            - `claude-visual-nightly-macos-arm64.tar.gz` - macOS Apple Silicon
-            - `claude-visual-nightly-macos-x64.tar.gz` - macOS Intel
-            - `claude-visual-nightly-linux-x64.tar.gz` - Linux x86_64
+            **macOS:**
+            - `claude-visual-nightly-macos-arm64.dmg` - Apple Silicon (M1/M2/M3) - **Recommended**
+            - `claude-visual-nightly-macos-x64.dmg` - Intel Macs
+
+            **Linux:**
+            - `claude-visual-nightly-linux-x64.AppImage` - Universal Linux (AppImage)
+            - `claude-visual-nightly-linux-x64.tar.gz` - Linux binary
+
+            ### Installation
+
+            **macOS:**
+            1. Download the `.dmg` file for your Mac
+            2. Open the DMG and drag Claude Visual to Applications
+            3. On first launch, right-click and select "Open" to bypass Gatekeeper
+
+            **Linux:**
+            1. Download the `.AppImage` file
+            2. Make it executable: `chmod +x claude-visual-*.AppImage`
+            3. Run it: `./claude-visual-*.AppImage`
           prerelease: true
           files: release/*
         env:
