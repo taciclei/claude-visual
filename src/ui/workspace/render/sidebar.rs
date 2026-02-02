@@ -43,11 +43,15 @@ fn render_tab_bar(
         .id("navigation")
         .track_focus(&workspace.navigation_focus)
         .flex_shrink_0()
-        .h(px(36.0))
+        // Add top padding for macOS traffic lights (window buttons)
+        .pt(px(8.0))
+        .h(px(44.0))
         .border_b_1()
         .border_color(theme.colors.border)
         .flex()
-        .items_center();
+        .items_center()
+        // Left padding for traffic lights
+        .pl(px(76.0));
 
     for (id, label, tab) in tabs {
         let is_active = workspace.sidebar_tab == tab;
