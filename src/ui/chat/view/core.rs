@@ -1770,22 +1770,22 @@ impl Render for ChatView {
             .when(show_stats, |d| {
                 d.child(self.render_stats_bar(&theme))
             })
-            // Quick actions bar (between stats and input when not streaming)
-            .when(!is_streaming && !self.messages.is_empty(), |d| {
-                d.child(self.render_quick_actions_bar(&theme, cx))
-            })
+            // Quick actions bar (DISABLED - too intrusive, simplify interface)
+            // .when(!is_streaming && !self.messages.is_empty(), |d| {
+            //     d.child(self.render_quick_actions_bar(&theme, cx))
+            // })
             // Error retry bar (when there's an error that can be retried)
             .when(self.last_error.is_some(), |d| {
                 d.child(self.render_error_retry_bar(&theme, cx))
             })
-            // Suggestions bar (above input when enabled and has suggestions)
-            .when(self.show_suggestions && !self.contextual_suggestions.is_empty(), |d| {
-                d.child(self.render_suggestions_bar(&theme, cx))
-            })
-            // Quick templates bar (when messages exist and not streaming)
-            .when(!is_streaming && self.messages.is_empty(), |d| {
-                d.child(self.render_quick_templates_bar(&theme, cx))
-            })
+            // Suggestions bar (DISABLED - simplify interface)
+            // .when(self.show_suggestions && !self.contextual_suggestions.is_empty(), |d| {
+            //     d.child(self.render_suggestions_bar(&theme, cx))
+            // })
+            // Quick templates bar (DISABLED - simplify interface)
+            // .when(!is_streaming && self.messages.is_empty(), |d| {
+            //     d.child(self.render_quick_templates_bar(&theme, cx))
+            // })
             // Input toolbar (above input area)
             .child(
                 div()
@@ -2319,8 +2319,9 @@ impl Render for ChatView {
                         )
                 )
             })
-            // Pro tip (shown occasionally, every 5 messages when not streaming and show tips enabled)
-            .when(self.show_onboarding_tips && !is_streaming && self.messages.len() > 0 && self.messages.len() % 5 == 0, |d| {
+            // Pro tip (DISABLED - too intrusive, takes too much space)
+            // Uncomment to re-enable: self.show_onboarding_tips && !is_streaming && self.messages.len() > 0 && self.messages.len() % 5 == 0
+            .when(false, |d| {
                 if let Some((icon, title, desc)) = self.get_contextual_pro_tip() {
                     d.child(
                         div()
@@ -2364,22 +2365,22 @@ impl Render for ChatView {
                     d
                 }
             })
-            // Streaming suggestions (contextual skill suggestions during streaming)
-            .when(is_streaming, |d| {
-                d.child(self.render_streaming_suggestions(&theme, cx))
-            })
-            // Post-response suggestions (after response completes)
-            .when(!is_streaming && !self.messages.is_empty(), |d| {
-                d.child(self.render_post_response_suggestions(&theme, cx))
-            })
-            // Quick reply suggestions (when available and not streaming)
-            .when(!self.quick_reply_suggestions.is_empty() && !is_streaming, |d| {
-                d.child(self.render_quick_reply_suggestions(&theme, cx))
-            })
-            // Git quick actions bar (when there are uncommitted changes)
-            .child(self.render_git_quick_actions(&theme, cx))
-            // Contextual keyboard hints bar
-            .child(self.render_contextual_hints(&theme))
+            // Streaming suggestions (DISABLED - simplify interface)
+            // .when(is_streaming, |d| {
+            //     d.child(self.render_streaming_suggestions(&theme, cx))
+            // })
+            // Post-response suggestions (DISABLED - too intrusive)
+            // .when(!is_streaming && !self.messages.is_empty(), |d| {
+            //     d.child(self.render_post_response_suggestions(&theme, cx))
+            // })
+            // Quick reply suggestions (DISABLED - too intrusive)
+            // .when(!self.quick_reply_suggestions.is_empty() && !is_streaming, |d| {
+            //     d.child(self.render_quick_reply_suggestions(&theme, cx))
+            // })
+            // Git quick actions bar (DISABLED - too intrusive)
+            // .child(self.render_git_quick_actions(&theme, cx))
+            // Contextual keyboard hints bar (DISABLED - simplify)
+            // .child(self.render_contextual_hints(&theme))
             // Context files preview bar (when files are attached)
             .when(!self.context_files.is_empty(), |d| {
                 d.child(self.render_context_files_bar(&theme, cx))
